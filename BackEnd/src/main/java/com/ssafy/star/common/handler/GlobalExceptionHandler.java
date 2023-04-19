@@ -3,7 +3,7 @@ package com.ssafy.star.common.handler;
 import com.ssafy.star.common.auth.exception.CustomAuthException;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
 import com.ssafy.star.common.exception.CommonApiException;
-import com.ssafy.star.common.util.Dto.ErrorResponseDto;
+import com.ssafy.star.common.util.dto.ErrorResponseDto;
 import com.ssafy.star.common.util.constant.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

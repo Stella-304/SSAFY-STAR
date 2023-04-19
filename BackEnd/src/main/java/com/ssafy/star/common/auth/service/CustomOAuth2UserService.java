@@ -56,18 +56,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new CustomOAuth2Exception(CommonErrorCode.NO_EMAIL_PROVIDED);
         }
 
+
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
 
         User user;
 
         if (userOptional.isPresent()) {
-            // 참조 자체로도 에러발생 코드
-//            log.info(!userOptional.get().getSocialAuth().getSocialType().equals(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId())));
-            user = updateUser(userOptional.get(), oAuth2UserInfo);
+            if (!userOptional.get().getSocialAuth().getSocialType().equals(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+                throw new CustomOAuth2Exception(CommonErrorCode.EMAIL_ALREADY_EXITS);
             }
-         else {
+            user = updateUser(userOptional.get(), oAuth2UserInfo);
+        } else {
             user = registerUser(oAuth2UserRequest, oAuth2UserInfo);
         }
+
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
@@ -93,9 +95,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .socialAuth(SocialAuth.builder()
                         .providerId(oAuth2UserInfo.getId())
                         .socialType(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
-                        .email(oAuth2UserInfo.getEmail())
-                        .name(oAuth2UserInfo.getName())
-                        .imageUrl(oAuth2UserInfo.getImageUrl())
                         .build())
                 .build());
     }
@@ -103,7 +102,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
 
     // protected된 User 객체에 각 속성을 set하여 exception 발생하였었음
-        user.getSocialAuth().update(oAuth2UserInfo.getName(), oAuth2UserInfo.getImageUrl());
+//        user.getSocialAuth().update(oAuth2UserInfo.getName(), oAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 

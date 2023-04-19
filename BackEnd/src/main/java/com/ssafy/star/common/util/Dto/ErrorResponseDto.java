@@ -1,4 +1,4 @@
-package com.ssafy.star.common.util.Dto;
+package com.ssafy.star.common.util.dto;
 
 import lombok.*;
 
