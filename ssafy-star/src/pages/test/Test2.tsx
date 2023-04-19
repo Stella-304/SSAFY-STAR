@@ -5,6 +5,7 @@ import {
   MapControls,
   OrbitControls,
   PointerLockControls,
+  OrthographicCamera,
 } from "@react-three/drei";
 
 interface Star {
@@ -1070,6 +1071,23 @@ function Point(props: propsType) {
   );
 }
 
+function CameraHelper() {
+  const camera = new THREE.PerspectiveCamera(60, 1, 1, 3);
+  return (
+    <group position={[0, 0, 2]}>
+      <cameraHelper args={[camera]} />
+    </group>
+  );
+}
+function Rig() {
+  useFrame((state) => {
+    state.camera.position.lerp(
+      new THREE.Vector3(0, -state.pointer.y / 4, state.pointer.x / 2),
+      0.1
+    );
+    state.camera.lookAt(-1, 0, 0);
+  });
+}
 export default function Test2() {
   let stars: Star[] = [];
 
@@ -1092,18 +1110,18 @@ export default function Test2() {
     };
     stars.push(star);
   });
-
-  /* {Pos.map((ele, i) => (
-    <Box position={new THREE.Vector3(...ele)} key={i} />
-  ))} */
-
   return (
     <div className="w-full h-screen">
-      <Canvas>
-        <OrbitControls />
+      <Canvas camera={{ position: [5, 0, 0], fov: 80 }}>
         {stars.map((ele) => (
           <Point position={ele.v} size={ele.size} />
         ))}
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          minPolarAngle={Math.PI / 2.2}
+          maxPolarAngle={Math.PI}
+        />
       </Canvas>
     </div>
   );
