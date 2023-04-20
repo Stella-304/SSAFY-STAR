@@ -24,14 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomAuthException(CommonErrorCode.USER_ID_NOT_FOUND));
-        return UserPrincipal.create(user);
+        return UserPrincipal.createExistingUserPrincipal(user);
     }
 
     @Transactional
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomAuthException(CommonErrorCode.USER_EMAIL_NOT_FOUND));
-        return UserPrincipal.create(user);
+        return UserPrincipal.createExistingUserPrincipal(user);
     }
 
 }
