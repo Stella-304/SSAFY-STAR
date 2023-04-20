@@ -1,0 +1,39 @@
+# 1.1.0
+
+## Build 30 (Jun 13, 2022)
+
+**Changes**
+
+- Unity downgraded to 2020.3.35f1 Fusion upgraded to 1.1.0
+
+# 1.0.0
+
+## Build 29 (Apr 21, 2022)
+
+**Changes**
+
+- Upgraded to v1.0.0F 439
+
+**Bug Fixes**
+
+- Fixed: Use release version of Fusion
+- Fixed: Replace deprecated NCC with NCCP
+
+# 0.9.0
+
+## Build 19 (Dec 17, 2021)
+
+- Changed the package format from `unitypackage` to `zipfile` to provide dependencies in the package manifest
+
+# 0.8.0
+
+## Build 12 (Oct 16, 2021)
+
+**What's New**
+
+- .gitignore file
+
+**Changes**
+
+- RPC sample will not use the input struct to sync the "rpc key". Instead the RPC is called directly in Player.Update()
+
