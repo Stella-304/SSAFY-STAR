@@ -29,7 +29,7 @@ oauth2:
     secret: zFpNuVO8og
   kakao:
     id: cf2b28e65350426d2a63e8c5ff602bf1
-    secret: TYOC8nfxKUwIQC9aW8nTv61V8Cs5Ushx
+    secret: SQN107LsmEwYtfKy38Fii0zVOysPacdw
 
 cors:
   allowedOrigins: http://localhost:3000, http://localhost:8080

@@ -1,6 +1,7 @@
 package com.ssafy.star.common.auth.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import com.ssafy.star.common.auth.enumeration.RoleEnum;
 import com.ssafy.star.common.auth.enumeration.SocialEnum;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
 import com.ssafy.star.common.auth.info.*;
@@ -18,8 +19,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Log4j2
 @Service
@@ -66,11 +66,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new CustomOAuth2Exception(CommonErrorCode.EMAIL_ALREADY_EXITS);
             }
             user = updateUser(userOptional.get(), oAuth2UserInfo);
+            return UserPrincipal.createExistingUserPrincipal(user);
         } else {
             user = registerUser(oAuth2UserRequest, oAuth2UserInfo);
+            return UserPrincipal.createNewUserPrincipal(user);
         }
-
-        return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
@@ -96,13 +96,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         .providerId(oAuth2UserInfo.getId())
                         .socialType(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
                         .build())
+                .authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
                 .build());
+
     }
 
+    /*
+    * 기존 유저가 로그인 할 시, 소셜사이트 정보를 바탕으로 update 하고 싶다면 메소드 본문에 추가할 수 있음
+    * 현재는 처음에만 소셜 정보를 받아오고, 이후 사이트에서만 변경하므로 해당 코드 생략
+    * 필요하다면, constructor access level이 PROTECTED이므로 setter 사용시 오류 발생하므로 빌더를 사용해야 함
+    * @Author 이상학
+    */
     private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
 
-    // protected된 User 객체에 각 속성을 set하여 exception 발생하였었음
-//        user.getSocialAuth().update(oAuth2UserInfo.getName(), oAuth2UserInfo.getImageUrl());
         return userRepository.save(user);
     }
 

@@ -26,8 +26,8 @@ public class Card {
     @Column(length = 10, nullable = false)
     private String campus;
 
-    @Column(length = 2, name = "`group`")
-    private int group;
+    @Column(length = 2)
+    private int ban;
 
     @Column(length = 20)
     private String githubId;
