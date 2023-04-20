@@ -7,7 +7,7 @@ import {
   extend,
   ReactThreeFiber,
 } from "@react-three/fiber";
-import { Html, OrbitControls } from "@react-three/drei";
+import { Center, Html, OrbitControls } from "@react-three/drei";
 //id, name , gLon,gLat,mag, spectralClass, x, y, z
 const data = [
   "8112,,112.4,20.19,5.91,B,86.77357071525597,34.51343958076323,-35.7654849488928",
@@ -1112,6 +1112,9 @@ const col = [
 extend({ Line_: THREE.Line });
 const style: CSSProperties = {
   backgroundImage: `url(./Samsung_Orig_Wordmark_BLUE_RGB.png)`,
+  backgroundRepeat:"no-repeat",
+  backgroundPosition: "center",
+  opacity:0.5
 };
 declare global {
   namespace JSX {
@@ -1197,8 +1200,7 @@ export default function Test2() {
 
   return (
     <div
-      className="w-full h-screen bg-black  bg-[length:200px_100px]"
-      style={style}
+      className="w-full h-screen bg-black before:opacity-50 before:absolute before:bg-no-repeat before:bg-center before:bg-[length:300px_100px] before:h-screen before:w-full before:bg-[url('./Samsung_Orig_Wordmark_BLUE_RGB.png')]"
     >
       <Canvas>
         {/* 카메라 설정 */}
