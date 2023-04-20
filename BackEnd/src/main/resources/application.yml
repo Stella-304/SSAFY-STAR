@@ -32,7 +32,7 @@ spring:
             scope:
               - email
               - name
-              - profile_image
+#              - profile_image
           kakao:
             client-name: kakao
             client-id: ${oauth2.kakao.id}
@@ -42,7 +42,7 @@ spring:
             scope:
               - account_email
               - profile_nickname
-              - profile_image
+#              - profile_image
             client-authentication-method: POST
         provider:
           google:
