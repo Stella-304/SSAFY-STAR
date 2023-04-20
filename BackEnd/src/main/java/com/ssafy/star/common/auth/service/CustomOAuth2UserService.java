@@ -2,7 +2,7 @@ package com.ssafy.star.common.auth.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.ssafy.star.common.auth.enumeration.RoleEnum;
-import com.ssafy.star.common.auth.enumeration.SocialEnum;
+import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
 import com.ssafy.star.common.auth.info.*;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
@@ -62,7 +62,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user;
 
         if (userOptional.isPresent()) {
-            if (!userOptional.get().getSocialAuth().getSocialType().equals(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+            if (!userOptional.get().getLoginType().equals(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
                 throw new CustomOAuth2Exception(CommonErrorCode.EMAIL_ALREADY_EXITS);
             }
             user = updateUser(userOptional.get(), oAuth2UserInfo);
@@ -75,11 +75,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
 
-        if (registrationId.equals(SocialEnum.google.toString())) {
+        if (registrationId.equals(LoginTypeEnum.google.toString())) {
             return new GoogleOAuth2UserInfo(attributes);
-        } else if (registrationId.equals(SocialEnum.naver.toString())) {
+        } else if (registrationId.equals(LoginTypeEnum.naver.toString())) {
             return new NaverOAuth2UserInfo(attributes);
-        } else if (registrationId.equals(SocialEnum.kakao.toString())) {
+        } else if (registrationId.equals(LoginTypeEnum.kakao.toString())) {
             return new KakaoOAuth2UserInfo(attributes);
         } else {
             log.error("지원하지 않는 소셜타입입니다. : {}", registrationId);
@@ -92,9 +92,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userRepository.save(User.builder()
                 .email(oAuth2UserInfo.getEmail())
                 .nickname(oAuth2UserInfo.getName())
+                .loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
                 .socialAuth(SocialAuth.builder()
                         .providerId(oAuth2UserInfo.getId())
-                        .socialType(SocialEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
                         .build())
                 .authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
                 .build());

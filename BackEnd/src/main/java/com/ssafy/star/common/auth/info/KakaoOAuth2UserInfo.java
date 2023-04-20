@@ -26,9 +26,9 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
         return String.valueOf(attributes.get("email"));
     }
 
-    @Override
-    public String getImageUrl() {
-        return String.valueOf(((Map<String, Object>) attributes.get("profile")).get("thumbnail_image_url"));
-    }
+//    @Override
+//    public String getImageUrl() {
+//        return String.valueOf(((Map<String, Object>) attributes.get("profile")).get("thumbnail_image_url"));
+//    }
 
 }

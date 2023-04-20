@@ -22,14 +22,14 @@ redis:
 
 oauth2:
   google:
-    id: 210492167110-lfiuso34ko9chdv1qvkh39hefeh8gugv.apps.googleusercontent.com
-    secret: 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
+    id: 529211202441-1f39a5fgiova7jmrcb7b4navbq073d9d.apps.googleusercontent.com
+    secret: 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
   naver:
     id: oIcX6isYx1rMy8rixb74
     secret: zFpNuVO8og
   kakao:
-    id: cf2b28e65350426d2a63e8c5ff602bf1
-    secret: SQN107LsmEwYtfKy38Fii0zVOysPacdw
+    id: 3a570baeedb12a335a449a82dce8e63f
+    secret: U6fa71M7r5CBhABoON51y4eBz8fUk3IN
 
 cors:
   allowedOrigins: http://localhost:3000, http://localhost:8080

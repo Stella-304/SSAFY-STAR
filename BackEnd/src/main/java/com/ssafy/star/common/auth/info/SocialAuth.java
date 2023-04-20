@@ -1,6 +1,6 @@
 package com.ssafy.star.common.auth.info;
 
-import com.ssafy.star.common.auth.enumeration.SocialEnum;
+import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import lombok.*;
 
 import javax.persistence.Embeddable;
@@ -14,6 +14,4 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class SocialAuth {
     private String providerId;
-    @Enumerated(value = EnumType.STRING)
-    private SocialEnum socialType;
 }

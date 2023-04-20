@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
 import com.ssafy.star.common.util.entity.BaseTime;
 import lombok.*;
@@ -39,7 +40,10 @@ public class User extends BaseTime {
     @ColumnDefault("false")
     private boolean isAutorized;
 
-    @Column(name = "user_social_auth")
+    @Column(length = 10)
+    @Enumerated(EnumType.STRING)
+    private LoginTypeEnum loginType;
+
     @ToString.Exclude
     @Embedded
     @AttributeOverrides({
