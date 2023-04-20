@@ -1,0 +1,42 @@
+package com.ssafy.star.api.service;
+
+import java.util.Optional;
+
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ssafy.star.common.db.entity.Card;
+import com.ssafy.star.common.db.entity.User;
+import com.ssafy.star.common.db.repository.UserRepository;
+import com.ssafy.star.common.exception.CommonApiException;
+import com.ssafy.star.common.provider.AuthProvider;
+import com.ssafy.star.common.util.CallAPIUtil;
+import com.ssafy.star.common.util.constant.CommonErrorCode;
+import com.ssafy.star.common.util.constant.ErrorCode;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CardServiceImpl implements CardService {
+
+	final UserRepository userRepository;
+
+	@Override
+	@Transactional
+	public void updateBojTier(long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+
+		Card card = Optional.ofNullable(user.getCard())
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_EMAIL_PROVIDED));
+
+		String bojId = Optional.ofNullable(card.getBojId())
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_EMAIL_PROVIDED));
+
+		String tier = CallAPIUtil.getUserTier(bojId);
+		card.updateBojTier(tier);
+
+	}
+}
