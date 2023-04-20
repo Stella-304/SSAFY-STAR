@@ -1,24 +1,13 @@
 import * as THREE from "three";
 import { useRef, useState } from "react";
-import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
 import {
-  MapControls,
-  OrbitControls,
-  PointerLockControls,
-  OrthographicCamera,
-} from "@react-three/drei";
-
-interface Star {
-  id: number;
-  name: string;
-  gLon: number;
-  gLat: number;
-  mag: number;
-  spectralClass: string;
-  v: THREE.Vector3;
-  size: number;
-}
-
+  Canvas,
+  useFrame,
+  ThreeElements,
+  extend,
+  ReactThreeFiber,
+} from "@react-three/fiber";
+import { Html, OrbitControls } from "@react-three/drei";
 //id, name , gLon,gLat,mag, spectralClass, x, y, z
 const data = [
   "8112,,112.4,20.19,5.91,B,86.77357071525597,34.51343958076323,-35.7654849488928",
@@ -1022,34 +1011,66 @@ const data = [
   "9110,,117.4,-1.06,5.8,B,88.76634540128043,-1.84994347345016,-46.012103116958464",
 ];
 
-const Pos = [
-  [-1.2, 0, 0],
-  [-1.2, 2, 0],
-  [1.2, 0, 0],
-  [3.2, 0, 0],
+const orion = [
+  [-42.687504870680925, -28.55211042123341, -85.80532569956998],
+  [-53.72728289264446, -31.7304656405092, -78.1444599649279],
+  [-44.17982595412022, -42.6568739901458, -78.92106233479417],
+  [-38.52686834637505, -30.46980699606463, -87.10494404477654],
+  [-27.99923634688238, -27.47983918901805, -91.98315716552204],
+  [-25.398764076151394, -20.791169081775912, -94.45967431458256],
+  [-33.44421910987766, -15.574489043303611, -92.9457879581991],
+  [-31.834199405066713, -10.99077883319052, -94.15830568185868],
+  [-27.22721071761146, -3.5946037002175095, -96.15486373957984],
+  [-25.532651381626383, -4.745512617633098, -96.568958902021],
+  [-14.695194263655578, -4.76294617439818, -98.79962352809453],
+  [-16.8298379114617, -1.5009267966723572, -98.56218227405965],
+  [-27.22721071761146, -3.5946037002175095, -96.15486373957984],
+  [-31.834199405066713, -10.99077883319052, -94.15830568185868],
+  [-33.44421910987766, -15.574489043303611, -92.9457879581991],
+  [-42.687504870680925, -28.55211042123341, -85.80532569956998],
+  [-40.68005666790878, -29.637488803530072, -86.41037117682322],
+  [-38.52686834637505, -30.46980699606463, -87.10494404477654],
+  [-27.99923634688238, -27.47983918901805, -91.98315716552204],
+  [-18.26370157821163, -39.18554454350783, -90.17167129143606],
+  [-20.454668445738537, -39.906915898029496, -89.38145558382068],
+  [-25.48166910570663, -41.564592431562794, -87.31018952897394],
+  [-27.557779960230487, -40.70555058115613, -87.08402215991438],
+  [-25.48166910570663, -41.564592431562794, -87.31018952897394],
+  [-20.454668445738537, -39.906915898029496, -89.38145558382068],
+  [-18.26370157821163, -39.18554454350783, -90.17167129143606],
+  [-15.832328585544737, -37.18539386638372, -91.46903221616185],
+  [-10.977520582431088, -30.984682998375956, -94.44280523868642],
+  [-10.381201975134452, -26.47146845219646, -95.87226921031875],
+  [-11.377302777127547, -24.547658227443662, -96.2702937414558],
 ];
 
-function Box(props: ThreeElements["mesh"]) {
-  const ref = useRef<THREE.Mesh>(null!);
-  const [hovered, hover] = useState(false);
-  const [clicked, click] = useState(false);
-  // useFrame((state, delta) => (ref.current.rotation.x += delta)); //자동회전
-  return (
-    <mesh
-      {...props}
-      ref={ref}
-      scale={clicked ? 1.5 : 1}
-      onClick={(event) => click(!clicked)}
-      onPointerOver={(event) => hover(true)}
-      onPointerOut={(event) => hover(false)}
-    >
-      {/* <boxGeometry args={[1, 1, 0.1]} /> */}
-    </mesh>
-  );
+extend({ Line_: THREE.Line });
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      line_: ReactThreeFiber.Object3DNode<THREE.Line, typeof THREE.Line>;
+    }
+  }
 }
+
+interface Star {
+  id: number;
+  name: string;
+  gLon: number;
+  gLat: number;
+  mag: number;
+  spectralClass: string;
+  v: THREE.Vector3;
+  size: number;
+}
+
+//별을 만들어줍니다.
 interface propsType {
   position: THREE.Vector3;
   size: number;
+  setOpen: (params: any) => void; // 카드 오픈
+  setData: (params: any) => void; // 카드 정보 입력
 }
 function Point(props: propsType) {
   const ref = useRef<THREE.Mesh>(null!);
@@ -1061,67 +1082,78 @@ function Point(props: propsType) {
       position={props.position}
       ref={ref}
       scale={clicked ? 1.5 : 1}
-      onClick={(event) => click(!clicked)}
-      onPointerOver={(event) => hover(true)}
-      onPointerOut={(event) => hover(false)}
+      onClick={(event) => {
+        props.setOpen(!clicked);
+        props.setData({ content: "카드 정보입니다." });
+        click(!clicked);
+      }} //클릭이벤트
+      onPointerOver={(event) => hover(true)} //호버 이벤트
+      onPointerOut={(event) => hover(false)} //호버 나온 이벤트
     >
-      <boxGeometry args={[1, 1, 1]} />
-      {/* <pointsMaterial size={props.size} /> */}
+      <boxGeometry args={[props.size, props.size, props.size]} />
+      {/* <Html> <div>각 별마다 html추가 가능</div></Html> */}
     </mesh>
   );
 }
 
-function CameraHelper() {
-  const camera = new THREE.PerspectiveCamera(60, 1, 1, 3);
+//vertices에 xyz좌표들이 주어지면 해당 점들을 이어서 별자리를 만들어줍니다.
+type lineprops = {
+  vertices: any[];
+};
+function LinePath(props: lineprops) {
+  const ref = useRef<THREE.Line>(null);
+
+  useFrame(() => {
+    if (ref.current) {
+      ref.current.geometry.setFromPoints(
+        props.vertices.map((point) => new THREE.Vector3(...point))
+      );
+    }
+  });
+
   return (
-    <group position={[0, 0, 2]}>
-      <cameraHelper args={[camera]} />
-    </group>
+    <line_ ref={ref}>
+      <bufferGeometry />
+      <lineBasicMaterial color="hotpink" />
+    </line_>
   );
 }
-function Rig() {
-  useFrame((state) => {
-    state.camera.position.lerp(
-      new THREE.Vector3(0, -state.pointer.y / 4, state.pointer.x / 2),
-      0.1
-    );
-    state.camera.lookAt(-1, 0, 0);
-  });
-}
+
 export default function Test2() {
-  let stars: Star[] = [];
-
-  data.forEach((ele) => {
-    let datas = ele.split(",");
-
-    let star: Star = {
-      id: Number(datas[0]),
-      name: datas[1],
-      gLon: Number(datas[2]),
-      gLat: Number(datas[3]),
-      mag: Number(datas[4]),
-      spectralClass: datas[5],
-      v: new THREE.Vector3(
-        Number(datas[6]),
-        Number(datas[7]),
-        Number(datas[8])
-      ),
-      size: (Number(datas[4]) * 26) / 255 + 0.18,
-    };
-    stars.push(star);
-  });
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({ content: "" });
+  //size는 0.1과 1.0사이정도로 표현
   return (
     <div className="w-full h-screen">
-      <Canvas camera={{ position: [5, 0, 0], fov: 80 }}>
-        {stars.map((ele) => (
-          <Point position={ele.v} size={ele.size} />
-        ))}
+      {open && (
+        <div className="w-full h-screen fixed top-0 left-0">
+          <div className="fixed top-0 left-0 m-auto w-100 h-100">
+            {data.content}
+          </div>
+        </div>
+      )}
+      <Canvas>
+        {/* 카메라 설정 */}
         <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          minPolarAngle={Math.PI / 2.2}
-          maxPolarAngle={Math.PI}
+          enablePan={false} //우클릭잠금
+          enableZoom={false} //확대축소 잠금
+          minPolarAngle={Math.PI / 2.2} //아래로 이동하는 범위
+          maxPolarAngle={Math.PI} //위로 이동 범위
         />
+        {/* 별그리기 */}
+        {orion.map((ele, i) => (
+          <Point
+            position={
+              new THREE.Vector3(Number(ele[0]), Number(ele[1]), Number(ele[2]))
+            }
+            size={1}
+            setOpen={setOpen}
+            setData={setData}
+            key={i}
+          />
+        ))}
+        {/* 별자리그리기 */}
+        <LinePath vertices={orion} />
       </Canvas>
     </div>
   );
