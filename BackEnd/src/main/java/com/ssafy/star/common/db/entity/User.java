@@ -4,25 +4,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
 import com.ssafy.star.common.util.entity.BaseTime;
+
 import lombok.*;
+
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @ToString
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "nickname")
+	@UniqueConstraint(columnNames = "email"),
+	@UniqueConstraint(columnNames = "nickname")
 })
 @SecondaryTables({
-        @SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
+	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
 })
 public class User extends BaseTime {
 
