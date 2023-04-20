@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useRef, useState } from "react";
+import { CSSProperties, useRef, useState } from "react";
 import {
   Canvas,
   useFrame,
@@ -1110,7 +1110,9 @@ const col = [
   [-71.11627120521993, -55.179143637450835, -43.56303567593949],
 ];
 extend({ Line_: THREE.Line });
-
+const style: CSSProperties = {
+  backgroundImage: `url(./Samsung_Orig_Wordmark_BLUE_RGB.png)`,
+};
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -1192,8 +1194,12 @@ export default function Test2() {
   function close() {
     setOpen(false);
   }
+
   return (
-    <div className="w-full h-screen	bg-black">
+    <div
+      className="w-full h-screen bg-black  bg-[length:200px_100px]"
+      style={style}
+    >
       <Canvas>
         {/* 카메라 설정 */}
         <OrbitControls
