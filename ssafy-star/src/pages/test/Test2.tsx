@@ -8,6 +8,7 @@ import {
   ReactThreeFiber,
 } from "@react-three/fiber";
 import { Center, Html, OrbitControls } from "@react-three/drei";
+import Card from "./Card";
 //id, name , gLon,gLat,mag, spectralClass, x, y, z
 const data = [
   "8112,,112.4,20.19,5.91,B,86.77357071525597,34.51343958076323,-35.7654849488928",
@@ -1112,9 +1113,9 @@ const col = [
 extend({ Line_: THREE.Line });
 const style: CSSProperties = {
   backgroundImage: `url(./Samsung_Orig_Wordmark_BLUE_RGB.png)`,
-  backgroundRepeat:"no-repeat",
+  backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
-  opacity:0.5
+  opacity: 0.5,
 };
 declare global {
   namespace JSX {
@@ -1194,14 +1195,8 @@ export default function Test2() {
   const [data, setData] = useState({ content: "" });
   //size는 0.1과 1.0사이정도로 표현
 
-  function close() {
-    setOpen(false);
-  }
-
   return (
-    <div
-      className="w-full h-screen bg-black before:opacity-50 before:absolute before:bg-no-repeat before:bg-center before:bg-[length:300px_100px] before:h-screen before:w-full before:bg-[url('./Samsung_Orig_Wordmark_BLUE_RGB.png')]"
-    >
+    <div className="w-full h-screen bg-black before:opacity-50 before:absolute before:bg-no-repeat before:bg-center before:bg-[length:300px_100px] before:h-screen before:w-full before:bg-[url('./Samsung_Orig_Wordmark_BLUE_RGB.png')]">
       <Canvas>
         {/* 카메라 설정 */}
         <OrbitControls
@@ -1271,12 +1266,13 @@ export default function Test2() {
         <LinePath vertices={col} />
       </Canvas>
       {open && (
-        <div className="w-full h-screen fixed top-0 left-0 flex items-center">
-          <div className="m-auto w-100 h-100 text-white">
-            <div onClick={close}>X</div>
-            {data.content}
-          </div>
-        </div>
+        // <div className="w-full h-screen fixed top-0 left-0 flex items-center">
+        //   <div className="m-auto w-100 h-100 text-white">
+        //     <div onClick={close}>X</div>
+        //     {data.content}
+        //   </div>
+        // </div>
+        <Card content={data.content} setOpen={setOpen} />
       )}
     </div>
   );
