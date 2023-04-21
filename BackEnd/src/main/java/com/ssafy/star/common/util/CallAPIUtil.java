@@ -8,15 +8,15 @@ import org.springframework.web.client.RestTemplate;
 public class CallAPIUtil {
 	static String solvedACRoot = "https://solved.ac/api/v3/";
 
-	static Map<String, Object> getBOJProfile(String handle) {
+	static Map<String, Object> getBOJProfile(String bojId) {
 		RestTemplate restTemplate = new RestTemplate();
-		Map<String, Object> BOJProfile = restTemplate.getForObject(solvedACRoot + "user/show?handle=" + handle,
+		Map<String, Object> BOJProfile = restTemplate.getForObject(solvedACRoot + "user/show?handle=" + bojId,
 			Map.class);
 		return BOJProfile;
 	}
 
-	public static String getUserTier(String handle) {
-		Map<String, Object> BOJProfile = getBOJProfile(handle);
+	public static String getUserTier(String bojId) {
+		Map<String, Object> BOJProfile = getBOJProfile(bojId);
 		return ParsingUtil.getTier4Level((int)BOJProfile.get("level"));
 
 	}
