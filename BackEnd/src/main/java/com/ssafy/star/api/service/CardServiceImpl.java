@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
@@ -30,13 +31,18 @@ public class CardServiceImpl implements CardService {
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
 		Card card = Optional.ofNullable(user.getCard())
-			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_EMAIL_PROVIDED));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 
 		String bojId = Optional.ofNullable(card.getBojId())
-			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_EMAIL_PROVIDED));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_BOJ_ID_PROVIDED));
 
 		String tier = CallAPIUtil.getUserTier(bojId);
 		card.updateBojTier(tier);
+	}
 
+	@Override
+	public ConstellationListDto getCardList() {
+
+		return new ConstellationListDto(null, null);
 	}
 }
