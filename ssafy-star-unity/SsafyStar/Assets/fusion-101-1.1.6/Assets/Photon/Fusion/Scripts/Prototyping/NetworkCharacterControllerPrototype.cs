@@ -84,6 +84,7 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   /// <param name="direction">Intended movement direction, subject to movement query, acceleration and max speed values.</param>
   /// </summary>
   public virtual void Move(Vector3 direction) {
+        Debug.Log("Move:"+direction);
     var deltaTime    = Runner.DeltaTime;
     var previousPos  = transform.position;
     var moveVelocity = Velocity;

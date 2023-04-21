@@ -10,6 +10,15 @@ namespace Fusion102
 	public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks 
 	{
 		private NetworkRunner _runner;
+		private bool _mouseButton0;
+        
+		private void Update()
+        {
+			_mouseButton0 = _mouseButton0 | Input.GetMouseButton(0);
+        }
+
+        [SerializeField] private NetworkPrefabRef _playerPrefab; // Character to spawn for a joining player
+		private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
 		private void OnGUI()
 		{
@@ -41,13 +50,10 @@ namespace Fusion102
 				GameMode = mode, 
 				SessionName = "TestRoom", 
 				Scene = SceneManager.GetActiveScene().buildIndex,
-				//씬에 직접 배치된 NetworkObject의 인스턴스화 처
+				//씬에 직접 배치된 NetworkObject의 인스턴스화 처리
 				SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
 			});
 		}
-
-		[SerializeField] private NetworkPrefabRef _playerPrefab; // Character to spawn for a joining player
-		private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
 		//플레이어가 연결할 때, OnPlayerJoined 메소드가 호출
 		public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -87,8 +93,12 @@ namespace Fusion102
 
 			if (Input.GetKey(KeyCode.D))
 				data.direction += Vector3.right;
-			
-			input.Set(data);
+
+            if (_mouseButton0)
+                data.buttons |= NetworkInputData.MOUSEBUTTON1;
+            _mouseButton0 = false;
+
+            input.Set(data);
 		}
 		
 		public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
