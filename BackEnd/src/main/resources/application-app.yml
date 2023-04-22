@@ -9,14 +9,12 @@ app:
     tokenExpirationMsec: 86400000
 
 mysql:
-  port: localhost:3306
-  user: root
-  pwd: ssafy
-#  user: STAR
-#  pwd: "!star@ssafy-start#304"
+  port: k8b304.p.ssafy.io:3306
+  user: star
+  pwd: "!star@ssafy-start#304"
 
 redis:
-  host: localhost
+  host: k8b304.p.ssafy.io
   port: 6379
   pwd: ssafystar304
 

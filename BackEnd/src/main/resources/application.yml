@@ -1,5 +1,3 @@
-
-
 server:
   servlet:
     context-path: /app
@@ -60,7 +58,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${mysql.port}/STAR?allowPublicKeyRetrieval=true&useSSL=false&useUniCode=yes&characterEncoding=utf8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://${mysql.port}/star?allowPublicKeyRetrieval=true&useSSL=false&useUniCode=yes&characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: ${mysql.user}
     password: ${mysql.pwd}
 
