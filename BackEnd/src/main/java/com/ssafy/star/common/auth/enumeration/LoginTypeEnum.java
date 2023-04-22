@@ -1,7 +1,8 @@
 package com.ssafy.star.common.auth.enumeration;
 
-public enum SocialEnum {
+public enum LoginTypeEnum {
     google,
     kakao,
-    naver
+    naver,
+    custom
 }

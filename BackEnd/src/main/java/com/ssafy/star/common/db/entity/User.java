@@ -1,27 +1,30 @@
 package com.ssafy.star.common.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
 import com.ssafy.star.common.util.entity.BaseTime;
+
 import lombok.*;
+
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @ToString
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "nickname")
+	@UniqueConstraint(columnNames = "email"),
+	@UniqueConstraint(columnNames = "nickname")
 })
 @SecondaryTables({
-        @SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
+	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
 })
 public class User extends BaseTime {
 
@@ -39,6 +42,10 @@ public class User extends BaseTime {
     @ColumnDefault("false")
     private boolean isAutorized;
 
+    @Column(length = 10)
+    @Enumerated(EnumType.STRING)
+    private LoginTypeEnum loginType;
+
     @ToString.Exclude
     @Embedded
     @AttributeOverrides({
@@ -46,6 +53,15 @@ public class User extends BaseTime {
             @AttributeOverride(name = "socialType", column = @Column(table = "social_auth", name = "social_type")),
     })
     private SocialAuth socialAuth;
+
+    @Column(length = 15)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    @ToString.Exclude
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
+//    @CollectionTable() -> 테이블명 지정 가능
+    Set<String> authoritySet = new LinkedHashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id")
