@@ -10,7 +10,7 @@ export default function EarthLayout(props: props) {
         {/* 왼쪽 배경 */}
         <div className="w-600 h-500  bg-[url('/public/background/earth_back1.png')] bg-cover	bg-center"></div>
         {/* 오른쪽 영역 */}
-        <div className="w-600 h-500 bg-blue-600">{props.children}</div>
+        <div className="w-600 h-500 ">{props.children}</div>
       </div>
     </div>
   );

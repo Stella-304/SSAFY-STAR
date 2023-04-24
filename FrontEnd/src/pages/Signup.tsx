@@ -1,3 +1,4 @@
+import BigButton from "../components/Button/BigButton";
 import Input from "../components/Input/Input";
 import EarthLayout from "../components/Layout/EarthLayout";
 
@@ -15,7 +16,7 @@ export default function Signup() {
         <Input id="password2" type="password" label="비밀번호 확인" />
       </div>
       <div>
-        <div>회원가입</div>
+        <BigButton value="회원가입" />
       </div>
     </EarthLayout>
   );
