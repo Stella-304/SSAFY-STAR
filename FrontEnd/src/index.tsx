@@ -8,6 +8,7 @@ import Test1 from "./pages/test/Test1";
 import Test2 from "./pages/test/Test2";
 import Test3 from "./pages/test/Test3";
 
+import Login from "./pages/Login";
 const container = document.getElementById("root") as HTMLElement;
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/test3",
     element: <Test3 />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 createRoot(container).render(
