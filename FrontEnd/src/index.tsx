@@ -9,6 +9,8 @@ import Test2 from "./pages/test/Test2";
 import Test3 from "./pages/test/Test3";
 
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import CardSubmit from "./pages/CardSubmit";
 const container = document.getElementById("root") as HTMLElement;
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/cardsubmit",
+    element: <CardSubmit />,
   },
 ]);
 createRoot(container).render(
