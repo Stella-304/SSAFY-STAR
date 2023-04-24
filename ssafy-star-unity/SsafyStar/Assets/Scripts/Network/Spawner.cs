@@ -10,9 +10,12 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPlayer playerPrefab;
 
+    //로컬 플레이어 입력
+    CharacterInputHandler characterInputHandler;
+
     private void Start()
     {
-
+        
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -37,7 +40,15 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        //Debug.Log("OnInput");
+        if(characterInputHandler == null && NetworkPlayer.Local != null)
+        {
+            characterInputHandler = NetworkPlayer.Local.GetComponent<CharacterInputHandler>();
+        }
+
+        if(characterInputHandler != null)
+        {
+            input.Set(characterInputHandler.GetNetworkInput());
+        }
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
