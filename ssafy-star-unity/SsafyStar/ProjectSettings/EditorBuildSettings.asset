@@ -4,23 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Fusion101.unity
-    guid: ea6ced8bfa7f84b5cb45e3352a7abe54
-  - enabled: 1
-    path: Assets/Fusion102/Scene102.unity
-    guid: 3f6a5bfea2591403388270520954df33
-  - enabled: 1
-    path: Assets/Fusion103/Scene103.unity
-    guid: d4cfb64f04ca8d742a231e750e37f8f4
-  - enabled: 1
-    path: Assets/Fusion104/Scene104.unity
-    guid: f1ccfce7e875944dba17486328777a5d
-  - enabled: 1
-    path: Assets/Fusion105/Scene105.unity
-    guid: 55301f7e41c314cb180c84fc43255cb8
-  - enabled: 1
-    path: Assets/Fusion106/Scene106.unity
-    guid: 03fffca5e7bed4ca7af9fbb089b3720b
+  m_Scenes: []
   m_configObjects: {}
