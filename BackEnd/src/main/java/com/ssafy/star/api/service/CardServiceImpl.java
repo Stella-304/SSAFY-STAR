@@ -42,7 +42,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public ConstellationListDto getCardList() {
-
+		//여기다가 구현을 해보자고~
 		return new ConstellationListDto(null, null);
 	}
 }
