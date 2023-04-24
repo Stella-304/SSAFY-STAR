@@ -25,8 +25,8 @@ export default function Login() {
         <div className="flex flex-col gap-4">
           {/* oauth */}
           <div className="flex justify-center gap-16">
-            <MidButton value="구글 로그인" />
-            <MidButton value="kakao 로그인" />
+            <MidButton type="outline" value="구글 로그인" />
+            <MidButton type="outline" value="kakao 로그인" />
           </div>
           <div className="flex justify-center">
             <BigButton value="로그인" />

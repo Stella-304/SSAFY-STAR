@@ -1,10 +1,19 @@
 interface props {
+  type?: string;
   value: string;
 }
-export default function MidButton({ value }: props) {
+export default function MidButton({ type, value }: props) {
   return (
-    <div className="rounded-5 border-solid	border-2 border-blue-400 text-blue-400 text-center w-172 h-32 leading-32">
-      {value}
-    </div>
+    <>
+      {type === "outline" ? (
+        <div className="rounded-5 border-solid	border-2 border-blue-400 text-blue-400 text-center w-172 h-32 leading-32">
+          {value}
+        </div>
+      ) : (
+        <div className="rounded-5 border-solid bg-blue-400 text-white text-center w-172 h-32 leading-32">
+          {value}
+        </div>
+      )}
+    </>
   );
 }

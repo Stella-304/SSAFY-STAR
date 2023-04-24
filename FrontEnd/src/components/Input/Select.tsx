@@ -2,14 +2,20 @@ interface props {
   id: string;
   type: string;
   label: string;
-  selectors: [string];
+  options: [string];
 }
 
-export default function Select({ id, type, label }: props) {
+export default function Select({ options }: props) {
   return (
-    <div>
-      <label htmlFor={id}>{label}</label>
-      <input id={id} type={type}></input>
-    </div>
+    <select>
+      <option value="">선택</option>
+      {options.map((ele) => {
+        return (
+          <option key={ele} value={ele}>
+            {ele}
+          </option>
+        );
+      })}
+    </select>
   );
 }
