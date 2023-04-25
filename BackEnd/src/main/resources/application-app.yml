@@ -24,11 +24,11 @@ oauth2:
     id: 529211202441-1f39a5fgiova7jmrcb7b4navbq073d9d.apps.googleusercontent.com
     secret: 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
   naver:
-    id: oIcX6isYx1rMy8rixb74
-    secret: zFpNuVO8og
+    id: K1szP4JW7JKznwjyNfJG
+    secret: JrCnwne0J3
   kakao:
-    id: 3a570baeedb12a335a449a82dce8e63f
-    secret: U6fa71M7r5CBhABoON51y4eBz8fUk3IN
+    id: de9754b07aad201c6fb6a23ffd482469
+    secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
 
 cors:
   allowedOrigins: https://localhost:3000, http://j8b301.p.ssafy.io:3000, http://localhost:8080, https://k8b304.p.ssafy.io
