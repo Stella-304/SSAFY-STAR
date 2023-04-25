@@ -16,11 +16,28 @@ import Test3 from "./pages/test/Test3";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import CardSubmit from "./pages/CardSubmit";
+import Oauth from "./pages/Oauth";
 const container = document.getElementById("root") as HTMLElement;
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/oauth2/token",
+    element: <Oauth />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/cardsubmit",
+    element: <CardSubmit />,
   },
   // 테스트 페이지
   {
@@ -34,18 +51,6 @@ const router = createBrowserRouter([
   {
     path: "/test3",
     element: <Test3 />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/cardsubmit",
-    element: <CardSubmit />,
   },
 ]);
 createRoot(container).render(

@@ -1112,7 +1112,7 @@ const col = [
 ];
 extend({ Line_: THREE.Line });
 const style: CSSProperties = {
-  backgroundImage: `url(./Samsung_Orig_Wordmark_BLUE_RGB.png)`,
+  backgroundImage: `url(/public/Samsung_Orig_Wordmark_BLUE_RGB.png)`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
   opacity: 0.5,
@@ -1197,7 +1197,7 @@ export default function Test2() {
   //size는 0.1과 1.0사이정도로 표현
 
   return (
-    <div className="w-full h-screen bg-black before:opacity-50 before:absolute before:bg-no-repeat before:bg-center before:bg-[length:300px_100px] before:h-screen before:w-full before:bg-[url('./Samsung_Orig_Wordmark_BLUE_RGB.png')]">
+    <div className="w-full h-screen bg-black before:opacity-50 before:absolute before:bg-no-repeat before:bg-center before:bg-[length:300px_100px] before:h-screen before:w-full before:bg-[url('/public/Samsung_Orig_Wordmark_BLUE_RGB.png')]">
       <Canvas>
         {/* 카메라 설정 */}
         <OrbitControls
