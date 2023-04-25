@@ -2,12 +2,6 @@ pipeline {
   agent any
 
   stages {
-    stage('connect test') {
-      steps {
-        sh "echo init"
-      }
-    }
-      
     stage('Build Backend') {
       steps {
         sh "echo build"
@@ -17,10 +11,11 @@ pipeline {
 
     stage('Remove Containers') {
       steps {
-        sh 'docker ps -aq --filter "name=springboot" | xargs docker stop'
-        sh 'docker ps -aq --filter "name=springboot" | xargs docker rm'
-        sh 'docker ps -aq --filter "name=react" | xargs docker stop'
-        sh 'docker ps -aq --filter "name=react" | xargs docker rm'
+        sh 'docker ps -f name=springboot -q | xargs --no-run-if-empty docker container stop'
+        sh 'docker ps -f name=react -q | xargs --no-run-if-empty docker container stop'
+        sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
+        sh 'docker container ls -a -f name=react -q | xargs -r --no-run-if-empty docker container rm'
+
       }
     }
 
