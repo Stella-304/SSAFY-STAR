@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5444312496178677768}
   - component: {fileID: 5444312496178677773}
   - component: {fileID: 5444312496178677771}
-  - component: {fileID: 4768165131253221398}
   - component: {fileID: 701808477957409369}
   - component: {fileID: 6117864983342436307}
   - component: {fileID: 2599733482406170336}
@@ -77,23 +76,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  characterAnimator: {fileID: 870161279387792381}
   _MovementDirection: {x: 0, y: 1, z: 0}
   TransformLocal: 0
   Speed: 6
---- !u!136 &4768165131253221398
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5444312496178677762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &701808477957409369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 6553656401615956359}
+  InterpolationTarget: {fileID: 5418098339336093872}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -159,7 +145,7 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 2
+  maxSpeed: 4
   rotationSpeed: 15
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
@@ -192,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1523154059900248266, guid: 098e1317379a525438c7793546599162, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1523154059900248266, guid: 098e1317379a525438c7793546599162, type: 3}
       propertyPath: m_LocalPosition.z
@@ -236,6 +222,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 098e1317379a525438c7793546599162, type: 3}
+--- !u!95 &870161279387792381 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4882878743102732976, guid: 098e1317379a525438c7793546599162, type: 3}
+  m_PrefabInstance: {fileID: 5751122332370651469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5418098339336093872 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 351532498339482109, guid: 098e1317379a525438c7793546599162, type: 3}
+  m_PrefabInstance: {fileID: 5751122332370651469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6553656401615956359 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1523154059900248266, guid: 098e1317379a525438c7793546599162, type: 3}
