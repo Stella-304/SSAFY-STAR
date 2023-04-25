@@ -19,16 +19,16 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setEmail(state, action) {
-      state.email = action.payload.email;
+      state.email = action.payload;
     },
     setName(state, action) {
-      state.name = action.payload.name;
+      state.name = action.payload;
     },
     setPassword(state, action) {
-      state.password = action.payload.password;
+      state.password = action.payload;
     },
     setPassword2(state, action) {
-      state.password2 = action.payload.password2;
+      state.password2 = action.payload;
     },
     deleteMemberInfo(state) {
       state.email = "";

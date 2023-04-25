@@ -2,9 +2,11 @@ interface props {
   id: string;
   type: string;
   label: string;
+  onChange: (params: string) => void;
+  value?: string;
 }
 
-export default function Input({ id, type, label }: props) {
+export default function Input({ id, type, label, onChange, value }: props) {
   return (
     <div className="flex flex-col">
       <label htmlFor={id}>{label}</label>
@@ -18,6 +20,8 @@ export default function Input({ id, type, label }: props) {
           className="border-b-2 border-black text-gray-500"
           id={id}
           type={type}
+          onChange={(e) => onChange(e.target.value)}
+          value={value}
         ></input>
       )}
     </div>

@@ -15,10 +15,10 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setEmail(state, action) {
-      state.email = action.payload.email;
+      state.email = action.payload;
     },
     setPassword(state, action) {
-      state.password = action.payload.password;
+      state.password = action.payload;
     },
   },
 });

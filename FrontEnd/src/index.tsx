@@ -3,6 +3,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import store from "../src/stores/store";
+import { persistStore } from "redux-persist";
 import App from "./pages/App";
 import Test1 from "./pages/test/Test1";
 import Test2 from "./pages/test/Test2";
@@ -45,7 +50,11 @@ const router = createBrowserRouter([
 ]);
 createRoot(container).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 
