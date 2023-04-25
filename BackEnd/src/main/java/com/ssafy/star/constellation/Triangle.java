@@ -1,4 +1,4 @@
-package Constellation;
+package com.ssafy.star.constellation;
 
 public class Triangle {
 	int v1,v2,v3;

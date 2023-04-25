@@ -1,7 +1,7 @@
-package Constellation;
+package com.ssafy.star.constellation;
 
 public class Point3D {
-	private double x, y, z;
+	public double x, y, z;
 
     public Point3D(double x, double y, double z) {
         this.x = x;
@@ -28,5 +28,12 @@ public class Point3D {
 		return z;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Point3D{" +
+				"x=" + x +
+				", y=" + y +
+				", z=" + z +
+				'}';
+	}
 }
