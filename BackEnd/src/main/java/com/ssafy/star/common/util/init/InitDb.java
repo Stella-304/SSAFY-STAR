@@ -29,16 +29,14 @@ public class InitDb {
 
 	@PostConstruct
 	public void init() {
-		exampleInit();
+		// exampleInit();
+
 	}
 
-	/*
-	 * 메소드 생성 후, 더미데이터를 넣을 Repository를 불러와서 save 실행
-	 * @Author 이상학
-	 */
 	@Transactional
 	void exampleInit() {
 
+		// ID 지정해도 어처피 무시되고 hibernate_sequence 값으로 넘어가요~ㅅㄱ
 		companyRepository.save(Company.builder().id(1L).name("삼성전자").assetSize("대기업").build());
 		companyRepository.save(Company.builder().id(2L).name("삼성SDS").assetSize("대기업").build());
 		companyRepository.save(Company.builder().id(3L).name("삼성전기").assetSize("대기업").build());
@@ -54,7 +52,7 @@ public class InitDb {
 		samsung.add("삼성전자");
 		samsung.add("삼성SDS");
 		samsung.add("삼성전기");
-		companyGroupRepository.save(CompanyGroup.builder().id(11111L).name("삼성(전계열사)").compnayList(samsung).build());
+		companyGroupRepository.save(CompanyGroup.builder().name("삼성(전계열사)").compnayList(samsung).build());
 
 		Set<String> neCaraCuBae = new HashSet<>();
 		neCaraCuBae.add("네이버");
@@ -62,7 +60,7 @@ public class InitDb {
 		neCaraCuBae.add("라인");
 		neCaraCuBae.add("쿠팡");
 		neCaraCuBae.add("배달의민족");
-		companyGroupRepository.save(CompanyGroup.builder().id(22222L).name("네카라쿠배").compnayList(neCaraCuBae).build());
+		companyGroupRepository.save(CompanyGroup.builder().name("네카라쿠배").compnayList(neCaraCuBae).build());
 
 	}
 }

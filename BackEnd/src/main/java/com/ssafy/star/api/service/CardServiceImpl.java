@@ -1,5 +1,6 @@
 package com.ssafy.star.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.User;
+import com.ssafy.star.common.db.repository.CompanyRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.AuthProvider;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CardServiceImpl implements CardService {
 
 	final UserRepository userRepository;
+	final CompanyRepository companyRepository;
 
 	@Override
 	@Transactional
@@ -44,5 +47,11 @@ public class CardServiceImpl implements CardService {
 	public ConstellationListDto getCardList() {
 		//여기다가 구현을 해보자고~
 		return new ConstellationListDto(null, null);
+	}
+
+	@Override
+	public List<String> searchCompany(String query) {
+		companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
+		return companyRepository.searchCompanyList(query);
 	}
 }

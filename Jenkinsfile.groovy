@@ -2,7 +2,6 @@ pipeline {
   agent any
 
   stages {
-      
     stage('connect test') {
       steps {
         sh "echo init"
