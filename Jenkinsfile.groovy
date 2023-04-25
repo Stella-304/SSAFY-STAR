@@ -11,10 +11,10 @@ pipeline {
 
     stage('Remove Containers') {
       steps {
-        sh 'docker ps -f name=springboot -q | xargs --no-run-if-empty docker container stop'
-        sh 'docker ps -f name=react -q | xargs --no-run-if-empty docker container stop'
+        sh 'docker ps -f name=springboot -q | xargs --no-run-if-empty -r docker container stop'
+        sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
         sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=react -q | xargs -r --no-run-if-empty docker container rm'
+        sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
 
       }
     }
@@ -44,8 +44,6 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.networks.create('ssafystar-network')
-
           docker.image('springboot-image').run("-d --network ssafystar-network --name springboot -p 8080:8080")
           docker.image('react-image').run("-d --network ssafystar-network --name react -p 3000:3000")
         }
