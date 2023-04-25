@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e361bfb0186044286ddbd94f2546dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 8815895893571785555, guid: e4df49d0bf125a740a2c14ab6e887572, type: 3}
+  PlayerPrefab: {fileID: 5444312496178677773, guid: 2d6c92dc29365654387bebcca67b78a1, type: 3}
   SpawnMethod: 0
   StateAuthority: 0
 --- !u!114 &527598320
@@ -484,7 +484,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 002db72054162e04b917e86a395e0a0f, type: 2}
+  - {fileID: 2100000, guid: adb7ef9394ea4e746ae2b3cc3d94a449, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
