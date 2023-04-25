@@ -1,11 +1,16 @@
 package com.ssafy.star.api.controller;
 
+import javax.websocket.server.PathParam;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.star.api.service.CardService;
@@ -37,6 +42,14 @@ public class CardController {
 
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+
+	@GetMapping("/company")
+	@ApiOperation(value = "기업명 입력하면, 관련된 기업명 보여주기")
+	public ResponseEntity<?> companySearch(@RequestParam("query") String query) {
+		System.out.println("hihi " + query);
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.searchCompany(query)));
 	}
 
 	@GetMapping("/list")
