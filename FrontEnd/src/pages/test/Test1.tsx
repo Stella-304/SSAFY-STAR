@@ -48,37 +48,37 @@ export default function Test1() {
   const [isShow, showCard] = useState<boolean>(false);
 
   return (
-    <div className="w-full h-screen overflow-hidden perspective-9 bg-black">
+    <div className="h-screen w-full overflow-hidden bg-black perspective-9">
       <div
         className={
           (isShow
-            ? "w-461 h-712 animate-shine overflow-hidden"
-            : "w-40 h-40 top-10 left-10 overflow-hidden") +
-          " absolute top-[calc(50%-356px)] left-[calc(50%-230px)] z-10 transform-style-3d duration-[3000ms] transition"
+            ? "h-712 w-461 animate-shine overflow-hidden"
+            : "left-10 top-10 h-40 w-40 overflow-hidden") +
+          " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-10 transition duration-[3000ms] transform-style-3d"
         }
       >
         <div
           className={
             (isCardFront ? "" : "rotate-y-180") +
-            " w-full h-full absolute transform-style-3d duration-1000 transition-transform"
+            " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
           }
           onClick={() => setCardFront(!isCardFront)}
         >
-          <div className="absolute w-full h-full backface-hidden">
+          <div className="absolute h-full w-full backface-hidden">
             <CardFront
               generation={7}
               name="이아현"
               text={`얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`}
             />
           </div>
-          <div className="absolute w-full h-full rotate-y-180 backface-hidden">
+          <div className="absolute h-full w-full backface-hidden rotate-y-180">
             <CardBack user={userInfo} />
           </div>
         </div>
       </div>
 
       <Suspense fallback={null}>
-        <Canvas >
+        <Canvas>
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
           <PerspectiveCamera makeDefault position={[0, 0, 10]} />

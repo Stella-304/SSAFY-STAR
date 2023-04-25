@@ -70,10 +70,10 @@ module.exports = {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
-        shine:{
-          "0%": { filter: "brightness(0)", },
-          "50%": {filter: "brightness(2)", },
-          "100%": {filter: "brightness(1)",  }
+        shine: {
+          "0%": { filter: "brightness(0)" },
+          "50%": { filter: "brightness(2)" },
+          "100%": { filter: "brightness(1)" },
         },
       },
       animation: {
@@ -81,7 +81,7 @@ module.exports = {
         blob: "blob 15s ease-in-out infinite",
         typing: "typing 3s steps(25) infinite",
         wiggle: "wiggle 1s ease-in-out infinite",
-        shine: "shine 3s ease-in-out"
+        shine: "shine 3s ease-in-out",
       },
     },
   },
