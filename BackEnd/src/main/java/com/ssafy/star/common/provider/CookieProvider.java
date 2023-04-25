@@ -12,4 +12,5 @@ public interface CookieProvider {
     void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name);
     String serialize(Object object);
     <T> T deserialize(Cookie cookie, Class<T> cls);
+    //muyaho
 }
