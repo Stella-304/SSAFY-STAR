@@ -20,14 +20,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompanyKind {
+public class CompanyGroup {
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	@Column
-	private String kind;
+	private String name;
 
 	@ElementCollection
+	@Column(name = "name")
 	private Set<String> compnayList = new HashSet<String>();
+
 }
