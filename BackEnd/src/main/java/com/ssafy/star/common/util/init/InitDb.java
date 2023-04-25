@@ -29,7 +29,8 @@ public class InitDb {
 
 	@PostConstruct
 	public void init() {
-		exampleInit();
+		// exampleInit();
+
 	}
 
 	@Transactional
