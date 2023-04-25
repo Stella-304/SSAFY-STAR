@@ -31,6 +31,9 @@ public class CharacterMovementHandler : NetworkBehaviour
         {
             //Vector3 moveDirection = transform.forward * networkInputData.movementInput.y + transform.right * networkInputData.movementInput.x;
             Vector3 moveDirection = new Vector3(networkInputData.movementInput.y, 0f, networkInputData.movementInput.x).normalized;
+            
+
+
             moveDirection.Normalize();
 
             networkCharacterControllerPrototypeCustom.Move(moveDirection);

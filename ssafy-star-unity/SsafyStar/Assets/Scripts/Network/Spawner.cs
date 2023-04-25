@@ -1,14 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
-using System;
-using UnityEngine.Diagnostics;
 
+[RequireComponent(typeof(NetworkRunner))]
+[RequireComponent(typeof(NetworkEvents))]
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public NetworkPlayer playerPrefab;
+    public NetworkObject playerPrefab;
 
     //로컬 플레이어 입력
     CharacterInputHandler characterInputHandler;
@@ -18,6 +19,20 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         
     }
 
+    private void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef)
+    {
+        // Random spawnpoint lookup and spawn
+        Vector3 spawnPoint = Utils.GetRandomSpawnPoint();
+
+        NetworkObject player = runner.Spawn(playerPrefab, spawnPoint, Quaternion.identity, playerRef);
+
+        // Set player instance as PlayerObject so we can easily get it from other locations
+        runner.SetPlayerObject(playerRef, player);
+
+        // Player must be always interested to his NetworkObject to prevent getting out of AoI (typically teleporting after setting AoI position)
+        runner.SetPlayerAlwaysInterested(playerRef, player, true);
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("OnPlayerJoined");
@@ -25,7 +40,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         if(runner.IsServer)
         {
             Debug.Log("서버가 존재합니다. 플레이어를 스폰합니다.");
-            runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
+            SpawnPlayer(runner, player);
         }
         else
         {
@@ -35,6 +50,9 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        if (runner.IsServer == false && runner.IsSharedModeMasterClient == false)
+            return;
+
         Debug.Log("OnPlayerLeft");
     }
 
