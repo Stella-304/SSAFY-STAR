@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.dto.response;
 
 import com.ssafy.star.common.db.entity.Card;
+import com.ssafy.star.common.db.entity.Coordinate;
 
 public class CardDetailDto {
 

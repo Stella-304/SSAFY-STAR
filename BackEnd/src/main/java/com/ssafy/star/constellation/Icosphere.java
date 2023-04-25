@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class Icosphere {
 	private static List<Point3D> vertices = new ArrayList<>();
 	private static List<Triangle>[] faces = new ArrayList[6];
@@ -20,7 +21,6 @@ public class Icosphere {
         objectMapper.writeValue(new File(fileName), list);
         System.out.println("List saved " + fileName + " in here");
     }
-
 	public static void main(String[] args) throws IOException {
 		for (int i = 0; i < 6; i++) {
 			faces[i] = new ArrayList<>();
@@ -30,10 +30,9 @@ public class Icosphere {
 		for (int i = 1; i < 6; i++) {
 			subdivise(i);
 		}
-
-//		for (Point3D p : vertices) {
-//			System.out.println(p.toString());
-//		}
+		for (Point3D p : vertices) {
+			System.out.println(p.toString());
+		}
 		convert(vertices,"coords");
 	}
 
