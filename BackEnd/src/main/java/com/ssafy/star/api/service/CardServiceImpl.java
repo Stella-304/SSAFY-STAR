@@ -44,6 +44,11 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
+	public String getBojTier(String bojId) {
+		return CallAPIUtil.getUserTier(bojId);
+	}
+
+	@Override
 	public ConstellationListDto getCardList() {
 
 		return new ConstellationListDto(null, null);
@@ -51,7 +56,11 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public List<String> searchCompany(String query) {
+
+		// companyRepository.searchCompanyList(query).stream().forEach(x->System.out.println(x));
+
 		companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
+
 		return companyRepository.searchCompanyList(query);
 	}
 }
