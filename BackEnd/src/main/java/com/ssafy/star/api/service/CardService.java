@@ -6,7 +6,7 @@ import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 
 public interface CardService {
     void updateBojTier(long userId);
-    ConstellationListDto getCardList();
+    ConstellationListDto getCardList(String filter);
 
 	List<String> searchCompany(String query);
 }
