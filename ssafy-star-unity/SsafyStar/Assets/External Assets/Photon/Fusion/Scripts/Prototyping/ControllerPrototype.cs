@@ -114,6 +114,11 @@ public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
 
     public void PlayerLeft(PlayerRef player)
     {
-        Debug.Log(player.PlayerId+"나갔다");
+        //로컬 플레이어라면
+        if (player == Object.InputAuthority)
+        {
+            //스폰해제 하기
+            Runner.Despawn(Object);
+        }
     }
 }

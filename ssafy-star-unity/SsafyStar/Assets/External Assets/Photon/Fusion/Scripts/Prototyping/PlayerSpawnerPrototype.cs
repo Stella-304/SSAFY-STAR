@@ -1,4 +1,5 @@
 
+using UnityEngine;
 using Fusion;
 
 /// <summary>
@@ -12,6 +13,7 @@ public class PlayerSpawnerPrototype : SpawnerPrototype<PlayerSpawnPointPrototype
 
     protected virtual void Reset()
     {
+        Debug.Log("reset");
         var protoPlayer = FusionPrototypingPrefabs.BasicPlayer;
         if (protoPlayer)
             PlayerPrefab = protoPlayer.GetComponent<NetworkObject>();
@@ -28,6 +30,8 @@ public class PlayerSpawnerPrototype : SpawnerPrototype<PlayerSpawnPointPrototype
 
     protected override void RegisterPlayerAndObject(PlayerRef player, NetworkObject playerObject)
     {
+        Debug.Log("register");
+
         base.RegisterPlayerAndObject(player, playerObject);
 
         Runner.SetPlayerObject(player, playerObject);

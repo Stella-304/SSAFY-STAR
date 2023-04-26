@@ -7,15 +7,11 @@ public class NetworkStartBridge : MonoBehaviour
 {
     public void Shutdown()
     {
-        Debug.Log("Shutdown");
-        //foreach (var runner in NetworkRunner.Instances)
-        //{
-        //    Debug.Log(runner);
-        //    runner.Shutdown();
-        //}
-        for(int i = NetworkRunner.Instances.Count - 1; i >= 0; i--)
+        for (int i = NetworkRunner.Instances.Count - 1; i >= 0; i--)
         {
-            Debug.Log(i);
+
+            //Debug.Log(i);
+            //Debug.Log(NetworkRunner.Instances[i].GetPlayerUserId());
             NetworkRunner.Instances[i].Shutdown();
         }
     }
