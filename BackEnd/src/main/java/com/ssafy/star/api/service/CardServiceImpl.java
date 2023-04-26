@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
+import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.response.CardDetailDto;
 import com.ssafy.star.common.db.dto.response.EdgeDto;
 import com.ssafy.star.common.db.entity.Coordinate;
 import com.ssafy.star.common.db.repository.CardRepository;
 import com.ssafy.star.common.db.repository.CoordinateRepository;
 import com.ssafy.star.common.util.GeometryUtil;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
+import com.ssafy.star.common.util.JSONParsingUtil;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,8 +59,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public ConstellationListDto getCardList(String filter) {
-        List<Card> cardList = cardRepository.findAll();
-
+        List<Card> cardList = cardRepository.test();
         boolean isCelestial=true;
         if(!filter.equals("")) isCelestial=false;
         List<EdgeDto> edgeDtoList = hi(cardList);
@@ -72,7 +70,7 @@ public class CardServiceImpl implements CardService {
     public List<CardDetailDto> setCoordinates(List<Card> cardList, boolean isCelestial) {
         int cardCnt = cardList.size();
         //기본 천구
-        int level = 4;
+        int level = 6;
         int r= 20;
         if(!isCelestial){
             GeometryUtil.getLevelFromCardCnt(cardCnt);
@@ -82,9 +80,10 @@ public class CardServiceImpl implements CardService {
         boolean[] isSeleceted = new boolean[vertices];
         Stack<Integer> selectedCoordinatesStk = new Stack<>();
         int pick;
+        //나중에 최적화 합시다 .랜덤하게 뿌리는거.
         for(int i=0;i<cardCnt;i++){
             while(true) {
-                pick = (int) Math.random() * cardCnt;
+                pick = (int) (Math.random() * vertices);
                 if (!isSeleceted[pick]) {
                     isSeleceted[pick] = true;
                     selectedCoordinatesStk.add(pick);
@@ -92,7 +91,7 @@ public class CardServiceImpl implements CardService {
                 }
             }
         }
-        Pageable pageable = PageRequest.of(0, vertices);
+
         //level별 coordinate limit 걸기
         List<Coordinate> coordinateList= new ArrayList<>();
         if(level==1){
@@ -108,7 +107,6 @@ public class CardServiceImpl implements CardService {
         }else{
             coordinateList=coordinateRepository.findAll();
         }
-
         List<CardDetailDto> detailDtoList = new ArrayList<>();
         for(int i=0;i<cardCnt;i++){
             int selected=selectedCoordinatesStk.pop();
@@ -118,7 +116,6 @@ public class CardServiceImpl implements CardService {
                             ,r*coordinateList.get(selected).getY()
                             ,r*coordinateList.get(selected).getZ()));
         }
-        
         return detailDtoList;
     }
 
@@ -130,6 +127,11 @@ public class CardServiceImpl implements CardService {
     public List<String> searchCompany(String query) {
         companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
         return companyRepository.searchCompanyList(query);
+    }
+
+    @Override
+    public void registCard(CardRegistReqDto cardRegistReqDto) {
+        cardRepository.save(cardRegistReqDto.of());
     }
 
 }
