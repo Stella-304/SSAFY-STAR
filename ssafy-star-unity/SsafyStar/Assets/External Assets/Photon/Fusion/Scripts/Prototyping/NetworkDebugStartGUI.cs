@@ -143,7 +143,7 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
                     if (GUILayout.Button("메타버스 들어가기", GUILayout.Height(height)))
                     {
-                        nds.StartAutoClient();
+                        nds.StartSharedClient();
                     }
                 }
                 else
