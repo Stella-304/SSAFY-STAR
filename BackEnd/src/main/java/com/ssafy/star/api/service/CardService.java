@@ -2,6 +2,7 @@ package com.ssafy.star.api.service;
 
 import java.util.List;
 
+import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 
 public interface CardService {
@@ -9,4 +10,6 @@ public interface CardService {
     ConstellationListDto getCardList(String filter);
 
 	List<String> searchCompany(String query);
+
+    void registCard(CardRegistReqDto cardRegistReqDto);
 }

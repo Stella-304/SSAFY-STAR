@@ -9,12 +9,14 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Builder
+@ToString
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Coordinate {
 
 	@Id
 	@GeneratedValue
+
 	private Long id;
 
 	double x;

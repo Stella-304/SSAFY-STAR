@@ -1,5 +1,8 @@
 package com.ssafy.star.common.db.dto.response;
 
+import lombok.Getter;
+
+@Getter
 public class EdgeDto {
 	long cardId1;
 	long cardId2;
