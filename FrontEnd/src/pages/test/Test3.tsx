@@ -1,13 +1,19 @@
 import * as THREE from "three";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Canvas, useFrame, ThreeElements, Vector3 } from "@react-three/fiber";
-import { Box, OrbitControls, Sphere } from "@react-three/drei";
-import { motion } from "framer-motion-3d";
-import { MotionConfig, useMotionValue, useTransform } from "framer-motion";
+import { useLayoutEffect, useRef, useState } from "react";
+import { Canvas, Vector3 } from "@react-three/fiber";
+import {
+  OrbitControls,
+  Plane,
+  QuadraticBezierLine,
+  Sphere,
+  Stars,
+} from "@react-three/drei";
 import { gsap } from "gsap";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
+import { KernelSize } from "postprocessing";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 const userInfo: User = {
   name: "이아현",
@@ -26,38 +32,49 @@ const userInfo: User = {
 };
 
 export default function Test3() {
-  const [starPos, setStarPos] = useState<Vector3>();
+  const [starPos, setStarPos] = useState<THREE.Vector3>(
+    new THREE.Vector3(0, 0, 0),
+  );
   const [endAnim, setEndAnim] = useState<boolean>(false);
   const [isCardFront, setCardFront] = useState<boolean>(true);
 
-  const position: Vector3[] = [
+  const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
     new THREE.Vector3(25, -25, 0),
     new THREE.Vector3(-25, 25, 0),
     new THREE.Vector3(25, 0, 25),
     new THREE.Vector3(-25, 0, -25),
+    new THREE.Vector3(-25, 10, 0),
+    new THREE.Vector3(-10, 30, 0),
+    new THREE.Vector3(-10, 15, 10),
+    new THREE.Vector3(-15, 30, 20),
   ];
 
   const starRef = useRef<any>(null);
+  const planeRef = useRef<any>(null);
+  const app = useRef<any>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (starPos && starRef.current) {
       let ctx = gsap.context(() => {
-        let tween = gsap.timeline().to(starRef.current.position, {
+        setEndAnim(false);
+        let tl = gsap.timeline();
+        tl.to(starRef.current.position, {
           x: 0,
           y: 0,
           z: 0,
           duration: 3,
-          ease: "power3.inOut",
-        });
-        if (tween.progress()) {
-          console.log("?");
-          setEndAnim(false);
-        } else {
-          console.log("?!");
-          setEndAnim(true);
-        }
-      }, starRef);
+          ease: "power4.inOut",
+        })
+          .to(starRef.current.scale, {
+            x: 0,
+            y: 0,
+            z: 0,
+          })
+          .to(planeRef.current.scale, { x: 1, y: 1, z: 1 })
+          .then(() => setEndAnim(true));
+      }, app);
+
       return () => ctx.revert();
     }
   }, [starPos]);
@@ -67,7 +84,26 @@ export default function Test3() {
       <Canvas>
         <OrbitControls />
         <ambientLight />
-        <pointLight position={[10, 10, 10]} />
+        <EffectComposer multisampling={8}>
+          <Bloom
+            kernelSize={3}
+            luminanceThreshold={0}
+            luminanceSmoothing={0.4}
+            intensity={0.6}
+          />
+          <Bloom
+            kernelSize={KernelSize.HUGE}
+            luminanceThreshold={0}
+            luminanceSmoothing={0}
+            intensity={0.5}
+          />
+        </EffectComposer>
+        <pointLight
+          position={[10, 10, 10]}
+          distance={40}
+          intensity={8}
+          color="lightblue"
+        />
         {position.map((item, index) => (
           <Sphere
             position={item}
@@ -77,7 +113,15 @@ export default function Test3() {
             key={index}
           />
         ))}
-
+        <Stars
+          radius={100}
+          depth={50}
+          count={5000}
+          factor={4}
+          saturation={0}
+          fade
+          speed={1}
+        />
         <Sphere
           position={starPos}
           ref={starRef}
@@ -85,6 +129,24 @@ export default function Test3() {
         >
           <meshStandardMaterial color="hotpink" />
         </Sphere>
+
+        {starPos && (
+          <QuadraticBezierLine
+            start={starPos} // Starting point, can be an array or a vec3
+            end={[0, 0, 0]} // Ending point, can be an array or a vec3
+            mid={[5, 0, 5]} // Optional control point, can be an array or a vec3
+            lineWidth={3}
+            color="#ff2060" // Default
+            visible={starPos ? true : false}
+          />
+        )}
+        <Plane
+          position={[0, 0, 0]}
+          ref={planeRef}
+          args={[5, 10]}
+          scale={[0, 0, 0]}
+          visible={!endAnim}
+        />
       </Canvas>
 
       <div
@@ -92,6 +154,7 @@ export default function Test3() {
           (endAnim ? " " : "invisible") +
           " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-10 h-712 w-461"
         }
+        ref={app}
       >
         <div
           className={
