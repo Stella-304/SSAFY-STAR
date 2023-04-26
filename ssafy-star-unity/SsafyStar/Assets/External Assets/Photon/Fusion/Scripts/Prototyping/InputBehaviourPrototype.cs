@@ -12,6 +12,7 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
 {
 
     public NetworkRunner runnerPrefab;
+    public GameObject test;
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -92,8 +93,9 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        Debug.Log("플레이어 퇴장 id:" + runner.UserId);
+        runner.Spawn(test, runner.transform.position, runner.transform.rotation);
 
+        Debug.Log("플레이어 퇴장 id:" + runner.UserId);
     }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
