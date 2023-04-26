@@ -55,6 +55,12 @@ public class CardController {
 	@GetMapping("/list")
 	public ResponseEntity<ResponseDto> getCardList() {
 		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList()));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList("")));
+	}
+
+	@GetMapping("/test")
+	public ResponseEntity<ResponseDto> getFilteredCardList(@RequestParam("filter") String filter) {
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(filter)));
 	}
 }
