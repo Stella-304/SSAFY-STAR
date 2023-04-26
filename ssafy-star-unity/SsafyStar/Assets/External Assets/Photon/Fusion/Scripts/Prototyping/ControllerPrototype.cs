@@ -3,7 +3,7 @@ using UnityEngine;
 using Fusion;
 
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
-public class ControllerPrototype : Fusion.NetworkBehaviour
+public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
 {
     public static ControllerPrototype Local { get; protected set; }
 
@@ -110,5 +110,10 @@ public class ControllerPrototype : Fusion.NetworkBehaviour
         {
             _ncc.Move(direction);
         }
+    }
+
+    public void PlayerLeft(PlayerRef player)
+    {
+        Debug.Log(player.PlayerId+"³ª°¬´Ù");
     }
 }
