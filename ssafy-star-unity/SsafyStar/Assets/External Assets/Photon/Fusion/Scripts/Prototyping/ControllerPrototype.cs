@@ -5,6 +5,8 @@ using Fusion;
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
 public class ControllerPrototype : Fusion.NetworkBehaviour
 {
+    public static ControllerPrototype Local { get; protected set; }
+
     protected NetworkCharacterControllerPrototype _ncc;
     protected NetworkRigidbody _nrb;
     protected NetworkRigidbody2D _nrb2d;
@@ -30,6 +32,11 @@ public class ControllerPrototype : Fusion.NetworkBehaviour
 
     public override void Spawned()
     {
+        if (Object.HasInputAuthority)
+        {
+            Local = this;
+        }
+
         CacheComponents();
     }
 
