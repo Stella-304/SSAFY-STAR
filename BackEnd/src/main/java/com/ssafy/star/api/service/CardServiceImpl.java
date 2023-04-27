@@ -168,6 +168,7 @@ public class CardServiceImpl implements CardService {
 		Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
 		//이부분에서 cardUpdateReqDto 값중 하나라도 null이 들어오면 500에러가 뜬다. 어떻게 해결?
 
+		Optional.of(cardUpdateReqDto.getContent()).ifPresent(x -> card.setContent(x));
 		Optional.of(cardUpdateReqDto.getGeneration()).ifPresent(x -> card.setGeneration(x));
 		Optional.of(cardUpdateReqDto.getCampus()).ifPresent(x -> card.setCampus(x));
 		Optional.of(cardUpdateReqDto.getBan()).ifPresent(x -> card.setBan(x));

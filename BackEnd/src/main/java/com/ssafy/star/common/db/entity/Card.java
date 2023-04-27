@@ -22,9 +22,10 @@ public class Card {
 	@Column(columnDefinition = "INT(11) UNSIGNED")
 	private Long id;
 
-	//여기에 한마디도 추가되어야함.
-	//@Column(length = 1000)
-	//private String content;
+//	여기에 한마디도 추가되어야함.
+	@Column(length = 140)
+	private String content;
+
 	@Column(length = 2, nullable = false)
 	private int generation;
 
