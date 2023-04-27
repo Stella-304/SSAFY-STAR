@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 	public void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException {
 		String imageUrl = s3Service.upload(file, "ssafy-star");
 		long userId = authProvider.getUserIdFromPrincipal();
+		System.out.println("!@#!#@"+userId);
 		authStatusRepository.save(AuthStatus.builder()
 			.user(User.builder().id(userId).build())
 			.badgeType(dto.getBadgeType())
