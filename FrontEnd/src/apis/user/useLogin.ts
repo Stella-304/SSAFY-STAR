@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import axios from "axios";
-import { LOGIN_URL } from "../utils/urls";
+import { LOGIN_URL } from "../../utils/urls";
 
 interface Payload {
   email: string;

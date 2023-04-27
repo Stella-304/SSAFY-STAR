@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import MidButton from "../components/Button/MidButton";
-import Input from "../components/Input/Input";
-import Select from "../components/Input/Select";
-import EarthLayout from "../components/Layout/EarthLayout";
-import { campusList, gradeList, fieldList } from "../constants/categories";
-import { RootState } from "../stores/store";
-import { setCard } from "../stores/card/cardsubmit";
+import MidButton from "../../components/Button/MidButton";
+import Input from "../../components/Input/Input";
+import Select from "../../components/Input/Select";
+import EarthLayout from "../../components/Layout/EarthLayout";
+import { campusList, gradeList, fieldList } from "../../constants/categories";
+import { RootState } from "../../stores/store";
+import { setCard } from "../../stores/card/cardsubmit";
+
+import useCompanySearch from "../../apis/useCompanySearch";
+import { useEffect, useState } from "react";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
+  const [search, setSearch] = useState("");
+  const res = useCompanySearch(search);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log(res.data);
+  }, [res.status]);
   //input
   function onName(input: string) {
     dispatch(setCard({ ...card, name: input }));
@@ -18,12 +26,14 @@ export default function CardSubmit() {
   function onEmail(input: string) {
     dispatch(setCard({ ...card, onEmail: input }));
   }
+
   function onCardinal(input: string) {
     dispatch(setCard({ ...card, cardinal: input }));
   }
-  function onJob(input: string) {
-    //직업 선택 api호출
 
+  function onJob(input: string) {
+    console.log(input);
+    setSearch(input);
     dispatch(setCard({ ...card, job: input }));
   }
   function onGithub(input: string) {

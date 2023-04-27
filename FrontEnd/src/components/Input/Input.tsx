@@ -26,14 +26,14 @@ export default function Input({
       {type === "textarea" ? (
         <textarea
           id={id}
-          className="border-2 border-black text-gray-500 resize-none"
+          className="border-1 border-gray-500 text-gray-500 resize-none"
           onChange={(e) => onChange(e.target.value)}
           value={value}
         ></textarea>
       ) : (
         <input
           ref={inputRef}
-          className="border-b-2 border-black text-gray-500"
+          className="border-b-1 border-gray-500 text-gray-500"
           id={id}
           type={type}
           onChange={(e) => onChange(e.target.value)}

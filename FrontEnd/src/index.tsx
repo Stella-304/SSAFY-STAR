@@ -15,9 +15,12 @@ import Test3 from "./pages/test/Test3";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import CardSubmit from "./pages/CardSubmit";
+import CardSubmit from "./pages/Card/CardSubmit";
+import CardModify from "./pages/Card/CardModify";
 import Oauth from "./pages/Oauth";
+import { QueryClientProvider, QueryClient } from "react-query";
 const container = document.getElementById("root") as HTMLElement;
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +42,10 @@ const router = createBrowserRouter([
     path: "/cardsubmit",
     element: <CardSubmit />,
   },
+  {
+    path: "/cardmodify",
+    element: <CardModify />,
+  },
   // 테스트 페이지
   {
     path: "/test1",
@@ -55,11 +62,13 @@ const router = createBrowserRouter([
 ]);
 createRoot(container).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistStore(store)}>
-        <RouterProvider router={router} />
-      </PersistGate>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistStore(store)}>
+          <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
