@@ -1,0 +1,61 @@
+.button {
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(238, 238, 238);
+    border-right-color: rgb(238, 238, 238);
+    border-top-color: rgb(238, 238, 238);
+    border-bottom-color: rgb(238, 238, 238);
+    color: rgb(32, 32, 32);
+    -unity-font-style: bold;
+}
+
+.button:active {
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border-left-color: rgba(255, 0, 0, 255);
+    border-right-color: rgba(255, 0, 0, 255);
+    border-top-color: rgba(255, 0, 0, 255);
+    border-bottom-color: rgba(255, 0, 0, 255);
+}
+
+.button:hover {
+    background-color: rgba(255, 229, 0, 255);
+}
+
+.screen {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.screen_background {
+    background-image: url('project://database/Assets/Sprites/UI/abstract-7226066_1280.png?fileID=2800000&guid=39d6ca7b9b6f4634394319d20c173a4b&type=3#abstract-7226066_1280');
+    -unity-background-scale-mode: scale-and-crop;
+    width: 1021px;
+    height: 701px;
+}
+
+.menu_center_panel {
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+
+.menu_background_color {
+    background-color: rgba(255, 255, 255, 0.39);
+}

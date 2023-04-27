@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="project://database/Assets/UI/BtnMenu.uss?fileID=7433441132597879392&amp;guid=b5ddf6a7fc52f404b8cbfcb83e688853&amp;type=3#BtnMenu" />
+    <ui:VisualElement name="main_menu_screen" class="screen screen_background" style="width: 100%; height: 100%;">
+        <ui:VisualElement name="menu_center_panel" class="menu_center_panel menu_background_color" style="height: 100%;">
+            <ui:VisualElement name="menu_start_title" style="width: 100%; height: 35%; min-height: 150px; background-image: url(&apos;project://database/Packages/com.unity.textmeshpro/Editor%20Resources/Textures/btn_AlignJustified_Light.psd?fileID=2800000&amp;guid=fa6bd40a216346b783a4cce741d277a5&amp;type=3#btn_AlignJustified_Light&apos;); -unity-background-scale-mode: scale-to-fit;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
