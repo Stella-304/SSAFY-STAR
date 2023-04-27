@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MenuStyles.uss?fileID=7433441132597879392&amp;guid=4a8c249daf3c4ed4f958ede91f8a52c4&amp;type=3#MenuStyles" />
+    <ui:VisualElement name="Menu" style="flex-grow: 1; flex-direction: row; align-items: stretch; justify-content: flex-start;">
+        <ui:VisualElement name="LeftSection" style="background-color: rgba(0, 0, 0, 0.7); width: 45%; height: 100%; margin-left: 50px;">
+            <ui:VisualElement style="background-image: resource(&apos;FusionHubIcons/fusion-logo&apos;); width: 100%; height: 363px; -unity-background-scale-mode: scale-to-fit; align-items: center;" />
+            <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: center; padding-bottom: 20%; width: 100%; align-items: center;">
+                <ui:Button text="Play" display-tooltip-when-elided="true" name="ButtonPlay" class="menu-button button" />
+                <ui:Button text="Setting" display-tooltip-when-elided="true" name="ButtonSetting" class="menu-button button" style="-unity-text-align: lower-center;" />
+                <ui:Button text="Exit" display-tooltip-when-elided="true" name="ButtonExit" class="menu-button button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="RightSection" style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;">
+            <ui:Button display-tooltip-when-elided="true" name="ButtonMute" class="menu-button button" style="background-image: url(&apos;project://database/Assets/Sprites/UI/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); -unity-background-scale-mode: scale-to-fit; width: 10%; justify-content: space-between; align-items: flex-end;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

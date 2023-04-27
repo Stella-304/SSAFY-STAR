@@ -1,5 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/Menu.uss?fileID=7433441132597879392&amp;guid=cbbdc0a6de57927499340d04327f21fd&amp;type=3#Menu" />
-    <ui:Button text="Button" display-tooltip-when-elided="true" class="button" style="margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px; border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; background-color: rgba(255, 255, 255, 255); border-left-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-top-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); color: rgb(32, 32, 32); -unity-font-style: bold;" />
-    <ui:Button text="Button" display-tooltip-when-elided="true" class="button" />
-</ui:UXML>
