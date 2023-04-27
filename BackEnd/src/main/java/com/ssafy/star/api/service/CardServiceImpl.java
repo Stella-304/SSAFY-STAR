@@ -22,6 +22,7 @@ import com.ssafy.star.common.db.repository.CompanyRepository;
 import com.ssafy.star.common.db.repository.CoordinateRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.exception.CommonApiException;
+import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
@@ -36,10 +37,13 @@ public class CardServiceImpl implements CardService {
 	final CompanyRepository companyRepository;
 	final CardRepository cardRepository;
 	final CoordinateRepository coordinateRepository;
+	final AuthProvider authProvider;
 
 	@Override
 	@Transactional
-	public void updateBojTier(long userId) {
+	public void updateBojTier() {
+		long userId = authProvider.getUserIdFromPrincipal();
+
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
