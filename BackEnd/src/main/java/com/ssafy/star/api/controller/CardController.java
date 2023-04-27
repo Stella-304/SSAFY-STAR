@@ -3,6 +3,8 @@ package com.ssafy.star.api.controller;
 import javax.websocket.server.PathParam;
 
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
+import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
+import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.db.entity.Card;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
@@ -50,22 +52,28 @@ public class CardController {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<ResponseDto> cardListGet() {
+	public ResponseEntity<ResponseDto> cardListGet(@RequestBody SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList("")));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
 	}
 
-	@GetMapping("/test")
-	public ResponseEntity<ResponseDto> filteredCardListGet(@RequestParam("filter") String filter) {
-		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(filter)));
-	}
 
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {
-		//regist 구현
 		cardService.registCard(cardRegistReqDto);
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
+
+	@PutMapping
+	public ResponseEntity<ResponseDto> cardUpdate(@RequestBody CardUpdateReqDto cardUpdateReqDto) throws Exception {
+		cardService.updateCard(cardUpdateReqDto);
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+//	@DeleteMapping
+//	public ResponseEntity<ResponseDto> cardDelete() {
+//		return ResponseEntity.ok()
+//				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, ));
+//	}
 }
