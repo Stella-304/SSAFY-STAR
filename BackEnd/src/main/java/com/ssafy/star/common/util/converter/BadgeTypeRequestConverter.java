@@ -1,4 +1,4 @@
-package com.ssafy.star.common;
+package com.ssafy.star.common.util.converter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
