@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CardUpdateReqDto {
+    @Schema(description = "카드아이디", example = "13163")
     private long id;
 
     @Schema(description = "기수", example = "8")
@@ -18,15 +19,15 @@ public class CardUpdateReqDto {
     private String campus;
     @Schema(description = "1학기 반", example = "4")
     private int ban;
-    @Schema(description = "github 아이디")
+    @Schema(description = "github 아이디", example = "graywhales")
     private String githubId;
-    @Schema(description = "백준 아이디")
+    @Schema(description = "백준 아이디", example = "graywhale")
     private String bojId;
-    @Schema(description = "개인 블로그 주소")
+    @Schema(description = "개인 블로그 주소", example = "https://blog.naver.com/PostList.naver?blogId=gy57927")
     private String blogAddr;
     @Schema(description = "직장", example = "삼성전자")
     private String company;
-    @Schema(description = "커리큘럼 트랙", example = "전공 자바반")
+    @Schema(description = "커리큘럼 트랙", example = "비전공 자바반")
     private String track;
 
     public Card of(){
