@@ -12,5 +12,8 @@ import java.util.List;
 public interface CardRepository extends JpaRepository<Card, Long> {
 
     @Query("select cd From Card cd join fetch cd.user")
-    List<Card> test();
+    List<Card> getAllCardListWithUser();
+
+
+
 }
