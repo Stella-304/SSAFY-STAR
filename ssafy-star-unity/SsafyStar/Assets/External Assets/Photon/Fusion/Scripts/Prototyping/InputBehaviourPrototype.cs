@@ -93,13 +93,23 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        runner.Spawn(test, runner.transform.position, runner.transform.rotation);
+        Debug.Log("runner transform : " + runner.transform.position);
+
+        runner.Spawn(test);
 
         Debug.Log("플레이어 퇴장 id:" + runner.UserId);
     }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        //유형의 조립식 NetworkObject.
+        //위치
+        //회전
+        //PlayerRef개체에 대한 입력 권한이 있는 클라이언트를 식별합니다.
+        //NetworkRunner.OnBeforeSpawned다른 인스턴스에서 개체를 복제하기 전에 실행할 유형의 대리자
+        //NetworkObjectPredictionKey이것이 예측된 스폰인 경우 유형의 예측 키 입니다.
+        runner.Spawn(test);
+
         // 호스트 마이크레이션으로 셧다운 되었는지 확인
         if (shutdownReason == ShutdownReason.HostMigration)
         {
