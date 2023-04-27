@@ -9,6 +9,7 @@ import {
   Sphere,
   Stars,
   TrackballControls,
+  useTexture,
 } from "@react-three/drei";
 import { gsap } from "gsap";
 import CardFront from "../../components/Card/CardFront";
@@ -16,6 +17,7 @@ import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
 import { KernelSize } from "postprocessing";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import ground from "../../assets/ground.jpg";
 
 import { motion } from "framer-motion-3d";
 import { Scene } from "three";
@@ -42,6 +44,7 @@ interface Iprops {
   planeRef: any;
   endAnim: boolean;
 }
+
 function StarLine({ starPos }: Iprops) {
   const [hovered, setHovered] = useState<boolean>(false);
   const color = new THREE.Color();
@@ -81,6 +84,21 @@ function StarLine({ starPos }: Iprops) {
       color="#ff2060" // Default
       visible={starPos ? true : false}
     />
+  );
+}
+
+function Ground() {
+  const texture = useTexture(ground);
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  return (
+    <mesh receiveShadow position={[0, 0, 0]} rotation-x={-Math.PI / 2}>
+      <planeGeometry args={[1000, 1000]} />
+      <meshStandardMaterial
+        map={texture}
+        map-repeat={[240, 240]}
+        color="green"
+      />
+    </mesh>
   );
 }
 
@@ -132,8 +150,8 @@ export default function Test3() {
 
   return (
     <div className="h-screen w-full overflow-hidden bg-black perspective-9">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 90 }}>
-        <OrbitControls enableZoom={false} autoRotate position={[0, 0, 10]} />
+      <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 90 }}>
+        <OrbitControls enableZoom={false} autoRotate position={[0, -10, 0]} />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
@@ -195,6 +213,7 @@ export default function Test3() {
           color="white" // Default
           visible={starPos ? true : false}
         /> */}
+        <Ground />
       </Canvas>
 
       <div
@@ -205,6 +224,12 @@ export default function Test3() {
           " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-10 h-712 w-461"
         }
       >
+        <div
+          className="absolute right-10 top-10 z-20 cursor-pointer text-15"
+          onClick={() => setEndAnim(false)}
+        >
+          X
+        </div>
         <div
           className={
             (isCardFront ? "" : "rotate-y-180") +
