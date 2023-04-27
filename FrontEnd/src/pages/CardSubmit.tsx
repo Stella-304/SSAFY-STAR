@@ -2,9 +2,7 @@ import MidButton from "../components/Button/MidButton";
 import Input from "../components/Input/Input";
 import Select from "../components/Input/Select";
 import EarthLayout from "../components/Layout/EarthLayout";
-const campus = ["서울", "대전", "광주", "구미", "부울경"];
-const grade = ["미공개", "C", "B", "A+", "A", "IM"];
-const field = ["FE", "BE"];
+import { campus, grade, field } from "../constants/categories";
 
 export default function CardSubmit() {
   return (
