@@ -1,5 +1,7 @@
 	package com.ssafy.star.api.controller;
 
+	import java.io.IOException;
+
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.security.access.annotation.Secured;
@@ -38,9 +40,10 @@
 		@ApiOperation(value = "뱃지 인증 요청")
 		public ResponseEntity<ResponseDto> badgeRegist(
 			@RequestPart BadgeRegistReqDto dto,
-			@RequestPart MultipartFile file) {
+			@RequestPart MultipartFile file) throws IOException {
 			System.out.println(dto);
 			System.out.println(file.getOriginalFilename());
+			userService.registBadge(dto, file);
 			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 		}
 	}

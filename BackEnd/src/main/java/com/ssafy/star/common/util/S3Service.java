@@ -46,11 +46,11 @@ public class S3Service {
             .build();
     }
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file,String baseUrl) throws IOException {
         if (file != null && !file.isEmpty()) {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename()
                 .replaceAll("[~!@#$%^&*()_+ ]", "_");
-            s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+            s3Client.putObject(new PutObjectRequest(bucket, baseUrl + "/" + fileName, file.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
             return s3Client.getUrl(bucket, fileName).toString();
         } else {
