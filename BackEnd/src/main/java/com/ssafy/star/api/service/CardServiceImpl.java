@@ -29,7 +29,6 @@ import com.ssafy.star.common.util.constant.CommonErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {

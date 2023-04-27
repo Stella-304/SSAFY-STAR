@@ -32,8 +32,7 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
-	@Secured({"ROLE_CLIENT"})
-	@PostMapping
+	@PostMapping("/badge")
 	@ApiOperation(value = "뱃지 인증 요청")
 	public ResponseEntity<ResponseDto> badgeRegist(@RequestBody BadgeRegistReqDto dto) {
 		System.out.println(dto);

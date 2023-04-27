@@ -32,3 +32,15 @@ oauth2:
 
 cors:
   allowedOrigins: https://localhost:3000, http://j8b301.p.ssafy.io:3000, http://localhost:8080, https://k8b304.p.ssafy.io
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    credentials:
+      access-key: AKIAXOKFGBIDWBDEY6IA
+      secret-key: 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
+    s3:
+      bucket: persona-test-bucket
+    region:
+      static: ap-northeast-2
