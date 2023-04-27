@@ -3,14 +3,7 @@ package com.ssafy.star.api.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.star.api.service.CardService;
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
@@ -56,6 +49,7 @@ public class CardController {
 	}
 
 	@GetMapping("/list")
+	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
 	public ResponseEntity<ResponseDto> cardListGet(@RequestBody SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
@@ -63,6 +57,7 @@ public class CardController {
 
 
 	@PostMapping
+	@ApiOperation(value = "카드 등록하기")
 	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {
 		cardService.registCard(cardRegistReqDto);
 		return ResponseEntity.ok()
@@ -70,14 +65,17 @@ public class CardController {
 	}
 
 	@PutMapping
+	@ApiOperation(value = "카드 수정하기")
 	public ResponseEntity<ResponseDto> cardUpdate(@RequestBody CardUpdateReqDto cardUpdateReqDto) throws Exception {
 		cardService.updateCard(cardUpdateReqDto);
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
-//	@DeleteMapping
-//	public ResponseEntity<ResponseDto> cardDelete() {
-//		return ResponseEntity.ok()
-//				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, ));
-//	}
+	@DeleteMapping
+	@ApiOperation(value = "카드 지우기")
+	public ResponseEntity<ResponseDto> cardDelete(@RequestParam Long cardId) {
+		cardService.deleteCard(cardId);
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
+	}
 }

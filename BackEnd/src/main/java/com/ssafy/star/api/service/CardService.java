@@ -20,5 +20,5 @@ public interface CardService {
 
 	void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception;
 
-	boolean deleteCard(Long cardId);
+	void deleteCard(Long cardId);
 }
