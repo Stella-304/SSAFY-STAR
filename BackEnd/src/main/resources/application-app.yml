@@ -38,8 +38,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: AKIAXOKFGBIDWBDEY6IA
-      secret-key: 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
+      accessKey: AKIAXOKFGBIDWBDEY6IA
+      secretKey: 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
     s3:
       bucket: persona-test-bucket
     region:

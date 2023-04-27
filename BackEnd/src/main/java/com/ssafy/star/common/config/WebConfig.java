@@ -4,7 +4,7 @@
 // import org.springframework.format.FormatterRegistry;
 // import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //
-// import com.ssafy.star.common.BadgeTypeRequestConverter;
+// import com.ssafy.star.common.util.converter.BadgeTypeRequestConverter;
 //
 // @Configuration
 // public class WebConfig implements WebMvcConfigurer {
