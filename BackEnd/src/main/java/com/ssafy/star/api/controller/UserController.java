@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
 public class UserController {
-
     private final UserService userService;
 
     @Secured({"ROLE_CLIENT"})
@@ -29,6 +28,5 @@ public class UserController {
         userService.registUser();
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
-
 
 }
