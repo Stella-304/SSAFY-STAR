@@ -66,7 +66,7 @@ public class InitDataServiceImpl implements InitDataService {
 				.githubId((String)row.get("github_id"))
 				.track((String)row.get("track"))
 				.company((String)row.get("company"))
-				.companyAssetSize((String)row.get("asset_size"))
+				// .companyAssetSize((String)row.get("asset_size"))
 				.user(user)
 				.build();
 			cardRepository.save(card);

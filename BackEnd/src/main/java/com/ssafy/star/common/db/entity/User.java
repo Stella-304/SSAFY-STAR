@@ -43,6 +43,10 @@ public class User extends BaseTime {
 	@ColumnDefault("false")
 	private boolean isAutorized;
 
+	@Column(nullable = false)
+	@ColumnDefault("false")
+	private boolean companyIsAutorized;
+
 	@Column(length = 10)
 	@Enumerated(EnumType.STRING)
 	private LoginTypeEnum loginType;

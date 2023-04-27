@@ -46,8 +46,8 @@ public class Card {
 	@Column(length = 40)
 	private String company;
 
-	@Column(length = 40, name = "company_asset_size")
-	private String companyAssetSize;
+	// @Column(length = 40, name = "company_asset_size")
+	// private String companyAssetSize;
 
 	@Column(length = 20)
 	private String track;
