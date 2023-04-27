@@ -1,62 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface memberState {
-  walletAddress: string;
-  memberId: string;
-  nickname: string;
-  characterImgUrl: string;
-  organizationId: string;
-  organName: string;
-  isHospital: boolean;
+interface cardState {
+  name: string;
+  card: {
+    name: string;
+    cardinal: string;
+    campus: string;
+    email: string;
+    content: string;
+    job: string;
+    grade: string;
+    field: string;
+    github: string;
+    blog: string;
+    content2: string;
+    etc: string;
+  };
 }
 
-const initialState: memberState = {
-  walletAddress: "",
-  memberId: "",
-  nickname: "",
-  characterImgUrl: "",
-  organizationId: "",
-  organName: "",
-  isHospital: false,
+const initialState: cardState = {
+  name: "",
+  card: {
+    name: "",
+    cardinal: "",
+    campus: "",
+    email: "",
+    content: "",
+    job: "",
+    grade: "",
+    field: "",
+    github: "",
+    blog: "",
+    content2: "",
+    etc: "",
+  },
 };
 
-const memberSlice = createSlice({
-  name: "member",
+const cardSlice = createSlice({
+  name: "card",
   initialState,
   reducers: {
-    getWalletAddress(state, action) {
-      state.walletAddress = action.payload;
+    setName(state, action) {
+      state.name = action.payload;
     },
-    getMemberInfo(state, action) {
-      state.memberId = action.payload.memberId;
-      state.nickname = action.payload.nickname;
-      state.characterImgUrl = action.payload.characterImgUrl;
-      state.isHospital = false;
-    },
-    deleteMemberInfo(state) {
-      state.memberId = "";
-      state.nickname = "";
-      state.characterImgUrl = "";
-    },
-    getAgencyId(state, action) {
-      state.organizationId = action.payload.memberId;
-      state.organName = action.payload.nickname;
-      state.isHospital = false;
-    },
-    getHospitalId(state, action) {
-      state.organizationId = action.payload.memberId;
-      state.organName = action.payload.nickname;
-      state.isHospital = true;
+    setCard(state, action) {
+      state.card = action.payload;
     },
   },
 });
 
-export const {
-  getWalletAddress,
-  getMemberInfo,
-  deleteMemberInfo,
-  getAgencyId,
-  getHospitalId,
-} = memberSlice.actions;
+export const { setCard, setName } = cardSlice.actions;
 
-export default memberSlice.reducer;
+export default cardSlice.reducer;

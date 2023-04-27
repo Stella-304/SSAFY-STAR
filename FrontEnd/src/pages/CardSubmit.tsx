@@ -1,10 +1,22 @@
+import { useDispatch, useSelector } from "react-redux";
 import MidButton from "../components/Button/MidButton";
 import Input from "../components/Input/Input";
 import Select from "../components/Input/Select";
 import EarthLayout from "../components/Layout/EarthLayout";
-import { campus, grade, field } from "../constants/categories";
+import { campusList, gradeList, fieldList } from "../constants/categories";
+import { RootState } from "../stores/store";
+import { setCard, setName } from "../stores/card/cardsubmit";
+import { useEffect } from "react";
 
 export default function CardSubmit() {
+  const { card } = useSelector((state: RootState) => state.card);
+  const dispatch = useDispatch();
+
+  function onName(input: string) {
+    dispatch(setName("tesat"));
+  }
+  function onPassword(input: string) {}
+
   return (
     <EarthLayout>
       <div className="flex justify-center">
@@ -12,7 +24,13 @@ export default function CardSubmit() {
       </div>
       <div className="mb-8 h-350 overflow-y-auto pr-8">
         <div className="flex flex-col gap-4">
-          <Input id="name" type="text" label="이름*" onChange={() => {}} />
+          <Input
+            id="name"
+            type="text"
+            label="이름*"
+            onChange={onName}
+            value={card.name}
+          />
           <div className="flex justify-between">
             <Input
               id="cardinal"
@@ -20,7 +38,7 @@ export default function CardSubmit() {
               label="기수*"
               onChange={() => {}}
             />
-            <Select id="campus" label="캠퍼스" options={campus} />
+            <Select id="campus" label="캠퍼스" options={campusList} />
           </div>
           <Input id="email" type="text" label="이메일*" onChange={() => {}} />
           <Input
@@ -31,8 +49,8 @@ export default function CardSubmit() {
           />
           <Input id="job" type="text" label="회사" onChange={() => {}} />
           <div className="flex justify-between">
-            <Select id="grade" label="역량테스트등급" options={grade} />
-            <Select id="field" label="분야" options={field} />
+            <Select id="grade" label="역량테스트등급" options={gradeList} />
+            <Select id="field" label="분야" options={fieldList} />
           </div>
           <Input
             id="github"
