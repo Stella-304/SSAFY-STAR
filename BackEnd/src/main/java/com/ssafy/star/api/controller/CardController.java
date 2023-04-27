@@ -29,15 +29,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping(value = "/card")
 public class CardController {
-	private final AuthProvider authProvider;
 	private final CardService cardService;
 
 	@PostMapping("/boj")
 	@Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
-		long id = authProvider.getUserIdFromPrincipal();
-		cardService.updateBojTier(id);
+		cardService.updateBojTier();
 
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
@@ -46,7 +44,6 @@ public class CardController {
 	@GetMapping("/boj/{bojId}")
 	@ApiOperation(value = "BOJ 티어 가져오기")
 	public ResponseEntity<?> bojTierGet(@PathVariable("bojId") String bojId) {
-		System.out.println("bojID" + bojId);
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
 	}
