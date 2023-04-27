@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface cardState {
-  name: string;
   card: {
     name: string;
     cardinal: string;
@@ -19,7 +18,6 @@ interface cardState {
 }
 
 const initialState: cardState = {
-  name: "",
   card: {
     name: "",
     cardinal: "",
@@ -40,15 +38,12 @@ const cardSlice = createSlice({
   name: "card",
   initialState,
   reducers: {
-    setName(state, action) {
-      state.name = action.payload;
-    },
     setCard(state, action) {
       state.card = action.payload;
     },
   },
 });
 
-export const { setCard, setName } = cardSlice.actions;
+export const { setCard } = cardSlice.actions;
 
 export default cardSlice.reducer;

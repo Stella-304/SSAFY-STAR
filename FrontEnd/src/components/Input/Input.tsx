@@ -27,6 +27,8 @@ export default function Input({
         <textarea
           id={id}
           className="border-2 border-black text-gray-500 resize-none"
+          onChange={(e) => onChange(e.target.value)}
+          value={value}
         ></textarea>
       ) : (
         <input
