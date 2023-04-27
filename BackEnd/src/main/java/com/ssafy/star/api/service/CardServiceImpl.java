@@ -140,7 +140,11 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public void registCard(CardRegistReqDto cardRegistReqDto) {
-		cardRepository.save(cardRegistReqDto.of());
+		Card card=cardRegistReqDto.of();
+		cardRepository.save(card);
+		long userId=authProvider.getUserIdFromPrincipal();
+		User user=userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		user.setCard(card);
 	}
 
 	@Override
@@ -158,8 +162,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public boolean deleteCard(Long cardId) {
+	public void deleteCard(Long cardId) {
 		cardRepository.deleteById(cardId);
-		return true;
 	}
 }
