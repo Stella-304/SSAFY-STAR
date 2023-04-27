@@ -6,9 +6,13 @@ import EarthLayout from "../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { setEmail, setPassword } from "../stores/user/login";
+import { useState } from "react";
 
 export default function Login() {
   const { email, password } = useSelector((state: RootState) => state.login);
+  const [emailWarning, setEmailWarning] = useState("");
+  const [passwordWarning, setPasswordWarning] = useState("");
+
   const dispatch = useDispatch();
 
   function onEmail(input: string) {
@@ -20,6 +24,19 @@ export default function Login() {
 
   function submit() {
     // 로그인 진행
+    if (email === "") {
+      setEmailWarning("이메일을 입력해주세요");
+      return;
+    } else {
+      setEmailWarning("");
+    }
+
+    if (password === "") {
+      setPasswordWarning("비밀번호를 입력해주세요");
+      return;
+    } else {
+      setPasswordWarning("");
+    }
   }
   return (
     <EarthLayout>
@@ -37,6 +54,7 @@ export default function Login() {
             label="이메일"
             onChange={onEmail}
             value={email}
+            warning={emailWarning}
           />
           <Input
             id="password"
@@ -44,6 +62,7 @@ export default function Login() {
             label="비밀번호"
             onChange={onPassword}
             value={password}
+            warning={passwordWarning}
           />
           <div className="text-right">
             <LinkButton>비밀번호를 잊으셨나요?</LinkButton>

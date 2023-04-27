@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/oauth2/token",
+    path: "/oauth2",
     element: <Oauth />,
   },
   {

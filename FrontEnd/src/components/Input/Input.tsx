@@ -3,13 +3,24 @@ interface props {
   type: string;
   label: string;
   onChange: (params: string) => void;
+  warning?: string;
   value?: string;
 }
 
-export default function Input({ id, type, label, onChange, value }: props) {
+export default function Input({
+  id,
+  type,
+  label,
+  onChange,
+  value,
+  warning, //경고 문구
+}: props) {
   return (
     <div className="flex flex-col">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>
+        {label}
+        {warning && <span className="text-red-500 text-12"> *{warning}</span>}
+      </label>
       {type === "textarea" ? (
         <textarea
           id={id}

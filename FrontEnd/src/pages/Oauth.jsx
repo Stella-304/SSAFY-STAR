@@ -7,8 +7,8 @@ export default function Oauth() {
     //쿼리스트링에 param에 있다.
     //세션 스토리지에 저장
     const params = new URLSearchParams(window.location.search);
-    let token = params.get("param");
-    //    sessionStorage.setItem("accessToken", token);
+    let token = params.get("token");
+    sessionStorage.setItem("accessToken", token);
     navigate("/");
   }, []);
 
