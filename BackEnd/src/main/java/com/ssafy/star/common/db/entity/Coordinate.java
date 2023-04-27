@@ -16,7 +16,6 @@ public class Coordinate {
 
 	@Id
 	@GeneratedValue
-
 	private Long id;
 
 	double x;
