@@ -1,5 +1,6 @@
 package com.ssafy.star.api.service;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.Company;
+import com.ssafy.star.common.db.entity.Coordinate;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.CardRepository;
 import com.ssafy.star.common.db.repository.CompanyRepository;
+import com.ssafy.star.common.db.repository.CoordinateRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.util.JSONParsingUtil;
 
@@ -25,6 +28,7 @@ public class InitDataServiceImpl implements InitDataService {
 	final CompanyRepository companyRepository;
 	final UserRepository userRepository;
 	final CardRepository cardRepository;
+	final CoordinateRepository coordinateRepository;
 
 	@Override
 	public void initCompany() {
@@ -67,6 +71,23 @@ public class InitDataServiceImpl implements InitDataService {
 				.build();
 			cardRepository.save(card);
 			user.setCard(card);
+		}
+	}
+
+	@Override
+	public void initCoordinate() {
+		try {
+			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/coordinate-data.json");
+			for (LinkedHashMap row : json) {
+				coordinateRepository.save(
+					Coordinate
+						.builder()
+						.x(((BigDecimal)row.get("x")).doubleValue())
+						.y(((BigDecimal)row.get("y")).doubleValue())
+						.z(((BigDecimal)row.get("z")).doubleValue()).build());
+			}
+		} catch (Exception e) {
+
 		}
 	}
 }

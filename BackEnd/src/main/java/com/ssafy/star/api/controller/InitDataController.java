@@ -37,4 +37,11 @@ public class InitDataController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
+
+	@GetMapping("/coordinate")
+	@ApiOperation(value="coordinate data init")
+	public ResponseEntity<?> coordinate(){
+		initDataService.initCoordinate();
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK,Msg.SUCCESS_REGIST));
+	}
 }
