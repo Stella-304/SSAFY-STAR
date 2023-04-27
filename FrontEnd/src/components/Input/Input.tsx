@@ -5,6 +5,7 @@ interface props {
   onChange: (params: string) => void;
   warning?: string;
   value?: string;
+  inputRef?: React.ForwardedRef<HTMLInputElement>;
 }
 
 export default function Input({
@@ -14,6 +15,7 @@ export default function Input({
   onChange,
   value,
   warning, //경고 문구
+  inputRef,
 }: props) {
   return (
     <div className="flex flex-col">
@@ -28,6 +30,7 @@ export default function Input({
         ></textarea>
       ) : (
         <input
+          ref={inputRef}
           className="border-b-2 border-black text-gray-500"
           id={id}
           type={type}

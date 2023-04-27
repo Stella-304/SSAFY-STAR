@@ -10,7 +10,7 @@ import {
   setName,
 } from "../stores/user/signup";
 import { emailReg, passwordReg } from "../utils/regex";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Signup() {
   const { email, name, password, password2 } = useSelector(
@@ -20,6 +20,11 @@ export default function Signup() {
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
+
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const password2Ref = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   function onEmail(input: string) {
     if (!input.match(emailReg)) {
@@ -57,17 +62,21 @@ export default function Signup() {
   }
 
   function submit() {
+    //이름 확인
+    if (name === "") {
+      return nameRef?.current?.focus();
+    }
     //이메일 확인
     if (!email.match(emailReg)) {
-      return;
+      return emailRef?.current?.focus();
     }
     //비밀번호 규칙 확인
     if (!password.match(passwordReg)) {
-      return;
+      return passwordRef?.current?.focus();
     }
     //비밀번호 동일 확인
     if (password !== password2) {
-      return;
+      return password2Ref?.current?.focus();
     }
     //회원가입 진행
     alert("가입완료");
@@ -83,6 +92,7 @@ export default function Signup() {
         </div>
         <div>
           <Input
+            inputRef={nameRef}
             id="name"
             type="input"
             label="이름"
@@ -90,6 +100,7 @@ export default function Signup() {
             value={name}
           />
           <Input
+            inputRef={emailRef}
             id="email"
             type="input"
             label="이메일"
@@ -98,6 +109,7 @@ export default function Signup() {
             warning={emailWarning}
           />
           <Input
+            inputRef={passwordRef}
             id="password1"
             type="password"
             label="비밀번호"
@@ -106,6 +118,7 @@ export default function Signup() {
             warning={passwordWarning}
           />
           <Input
+            inputRef={password2Ref}
             id="password2"
             type="password"
             label="비밀번호 확인"
