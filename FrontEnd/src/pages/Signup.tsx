@@ -9,21 +9,47 @@ import {
   setPassword2,
   setName,
 } from "../stores/user/signup";
-import { seededRandom } from "three/src/math/MathUtils";
+import { emailReg, passwordReg } from "../utils/regex";
+import { useState } from "react";
 
 export default function Signup() {
   const { email, name, password, password2 } = useSelector(
     (state: RootState) => state.signup
   );
   const dispatch = useDispatch();
+  const [emailWarning, setEmailWarning] = useState("");
+  const [passwordWarning, setPasswordWarning] = useState("");
+  const [password2Warning, setPassword2Warning] = useState("");
 
   function onEmail(input: string) {
+    if (!input.match(emailReg)) {
+      setEmailWarning("이메일을 알맞게 작성해주세요.");
+    } else {
+      setEmailWarning("");
+    }
     dispatch(setEmail(input));
   }
   function onPassword(input: string) {
+    if (!input.match(passwordReg)) {
+      setPasswordWarning(
+        "알파벳 대소문자, 숫자, !@#$%^&* 포함 8글자 16글자 사이"
+      );
+    } else {
+      setPasswordWarning("");
+    }
+    if (input !== password2) {
+      setPassword2Warning("비밀번호가 일치하지 않습니다.");
+    } else {
+      setPassword2Warning("");
+    }
     dispatch(setPassword(input));
   }
   function onPassword2(input: string) {
+    if (input !== password) {
+      setPassword2Warning("비밀번호가 일치하지 않습니다.");
+    } else {
+      setPassword2Warning("");
+    }
     dispatch(setPassword2(input));
   }
   function onName(input: string) {
@@ -31,7 +57,20 @@ export default function Signup() {
   }
 
   function submit() {
-    // 회원가입 진행
+    //이메일 확인
+    if (!email.match(emailReg)) {
+      return;
+    }
+    //비밀번호 규칙 확인
+    if (!password.match(passwordReg)) {
+      return;
+    }
+    //비밀번호 동일 확인
+    if (password !== password2) {
+      return;
+    }
+    //회원가입 진행
+    alert("가입완료");
   }
   return (
     <EarthLayout>
@@ -56,6 +95,7 @@ export default function Signup() {
             label="이메일"
             onChange={onEmail}
             value={email}
+            warning={emailWarning}
           />
           <Input
             id="password1"
@@ -63,6 +103,7 @@ export default function Signup() {
             label="비밀번호"
             onChange={onPassword}
             value={password}
+            warning={passwordWarning}
           />
           <Input
             id="password2"
@@ -70,6 +111,7 @@ export default function Signup() {
             label="비밀번호 확인"
             onChange={onPassword2}
             value={password2}
+            warning={password2Warning}
           />
         </div>
         <div className="flex justify-center">
