@@ -43,6 +43,14 @@ public class CardController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
 
+	@GetMapping("/boj/{bojId}")
+	@ApiOperation(value = "BOJ 티어 가져오기")
+	public ResponseEntity<?> bojTierGet(@PathVariable("bojId") String bojId) {
+		System.out.println("bojID" + bojId);
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
+	}
+
 	@GetMapping("/company")
 	@ApiOperation(value = "기업명 입력하면, 관련된 기업명 보여주기")
 	public ResponseEntity<?> companySearch(@RequestParam("query") String query) {

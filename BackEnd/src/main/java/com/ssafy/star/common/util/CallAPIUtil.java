@@ -17,7 +17,8 @@ public class CallAPIUtil {
 
 	public static String getUserTier(String bojId) {
 		Map<String, Object> BOJProfile = getBOJProfile(bojId);
-		return ParsingUtil.getTier4Level((int)BOJProfile.get("level"));
+		System.out.println(BOJProfile);
+		return ParsingUtil.getTier4Level((int)BOJProfile.get("tier"));
 
 	}
 
