@@ -3,6 +3,8 @@ package com.ssafy.star.api.service;
 import java.io.IOException;
 
 import com.ssafy.star.common.db.dto.request.BadgeRegistReqDto;
+import com.ssafy.star.common.db.entity.AuthStatus;
+import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.AuthStatusRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.provider.AuthProvider;
@@ -33,5 +35,11 @@ public class UserServiceImpl implements UserService {
 	public void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException {
 		String imageUrl = s3Service.upload(file, "ssafy-star");
 		long userId = authProvider.getUserIdFromPrincipal();
+		authStatusRepository.save(AuthStatus.builder()
+			.user(User.builder().id(userId).build())
+			.badgeType(dto.getBadgeType())
+			.processStatus(false)
+			.imageUrl(imageUrl)
+			.build());
 	}
 }
