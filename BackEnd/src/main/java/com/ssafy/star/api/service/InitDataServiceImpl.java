@@ -54,6 +54,7 @@ public class InitDataServiceImpl implements InitDataService {
 				.nickname(((String)row.get("nickname")))
 				.email((String)row.get("email"))
 				.isAutorized(false)
+				.companyIsAutorized(false)
 				.loginType(LoginTypeEnum.custom)
 				.build();
 			userRepository.save(user);
@@ -66,6 +67,7 @@ public class InitDataServiceImpl implements InitDataService {
 				.githubId((String)row.get("github_id"))
 				.track((String)row.get("track"))
 				.company((String)row.get("company"))
+				.content((String)row.get("content"))
 				.user(user)
 				.build();
 			cardRepository.save(card);
