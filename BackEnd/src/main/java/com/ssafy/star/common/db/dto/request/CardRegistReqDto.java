@@ -12,6 +12,8 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @ToString
 public class CardRegistReqDto {
+    @Schema(description = "한마디", example = "여러분 힘내서 취업해봅시다!!!")
+    private String content;
     @Schema(description = "기수", example = "8")
     private int generation;
     @Schema(description = "캠퍼스", example = "대전")
@@ -31,6 +33,7 @@ public class CardRegistReqDto {
 
     public Card of(){
         return Card.builder()
+                .content(this.content)
                 .generation(this.generation)
                 .campus(this.campus)
                 .ban(this.ban)

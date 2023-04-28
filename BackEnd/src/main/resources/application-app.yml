@@ -31,7 +31,7 @@ oauth2:
     secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
 
 cors:
-  allowedOrigins: https://localhost:3000, http://j8b301.p.ssafy.io:3000, http://localhost:8080, https://k8b304.p.ssafy.io
+  allowedOrigins: https://localhost:3000, http://localhost:8080, https://k8b304.p.ssafy.io
 
 cloud:
   aws:
