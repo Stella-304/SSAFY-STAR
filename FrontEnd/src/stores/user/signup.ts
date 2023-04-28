@@ -27,7 +27,7 @@ const signupSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
-    deleteMemberInfo(state) {
+    resetUser(state) {
       state.user.loginid = "";
       state.user.email = "";
       state.user.name = "";
@@ -37,6 +37,6 @@ const signupSlice = createSlice({
   },
 });
 
-export const { setUser } = signupSlice.actions;
+export const { setUser, resetUser } = signupSlice.actions;
 
 export default signupSlice.reducer;

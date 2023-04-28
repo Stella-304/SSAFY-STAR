@@ -20,9 +20,13 @@ const loginSlice = createSlice({
     setPassword(state, action) {
       state.password = action.payload;
     },
+    resetLogin(state) {
+      state.email = "";
+      state.password = "";
+    },
   },
 });
 
-export const { setPassword, setEmail } = loginSlice.actions;
+export const { setPassword, setEmail, resetLogin } = loginSlice.actions;
 
 export default loginSlice.reducer;
