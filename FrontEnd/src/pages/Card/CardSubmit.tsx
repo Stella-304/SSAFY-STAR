@@ -5,13 +5,19 @@ import Select from "../../components/Input/Select";
 import EarthLayout from "../../components/Layout/EarthLayout";
 import { campusList, gradeList, fieldList } from "../../constants/categories";
 import { RootState } from "../../stores/store";
-import { setCard } from "../../stores/card/cardsubmit";
+import { resetCard, setCard } from "../../stores/card/cardsubmit";
+import { useEffect, useState } from "react";
+import SmallButton from "../../components/Button/SmallButton";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
-
+  const [bojTier, setBojTier] = useState("");
   const dispatch = useDispatch();
 
+  //리셋
+  useEffect(() => {
+    dispatch(resetCard());
+  }, []);
   //input
   function onName(input: string) {
     dispatch(setCard({ ...card, name: input }));
@@ -32,6 +38,18 @@ export default function CardSubmit() {
   }
   function onBlog(input: string) {
     dispatch(setCard({ ...card, blog: input }));
+  }
+
+  //백준
+  function onBoj(input: string) {
+    dispatch(setCard({ ...card, boj: input }));
+  }
+
+  //백준인증하기
+  function checkBoj() {
+    //백준 인증 진행
+    //없으면 unranked
+    setBojTier("platinum");
   }
 
   //select
@@ -58,7 +76,8 @@ export default function CardSubmit() {
 
   //등록 진행
   function submit() {
-    console.log(card);
+    console.log(card); //카드 정보들
+    console.log(bojTier); //백준 티어
   }
 
   return (
@@ -132,6 +151,21 @@ export default function CardSubmit() {
             onChange={onGithub}
             value={card.github}
           />
+          <div className="flex">
+            <div className="flex-grow">
+              <Input
+                id="boj"
+                type="input"
+                label="백준아이디"
+                onChange={onBoj}
+                value={card?.boj}
+                confirm={bojTier}
+              />
+            </div>
+            <div className="flex items-end">
+              <SmallButton value="확인" onClick={checkBoj}></SmallButton>
+            </div>
+          </div>
           <Input
             id="blog"
             type="text"

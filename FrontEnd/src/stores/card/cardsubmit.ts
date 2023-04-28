@@ -14,6 +14,7 @@ interface cardState {
     blog: string;
     content2: string;
     etc: string;
+    boj: string;
   };
 }
 
@@ -31,6 +32,7 @@ const initialState: cardState = {
     blog: "",
     content2: "",
     etc: "",
+    boj: "",
   },
 };
 
@@ -41,9 +43,26 @@ const cardSlice = createSlice({
     setCard(state, action) {
       state.card = action.payload;
     },
+    resetCard(state) {
+      state.card = {
+        name: "",
+        cardinal: "",
+        campus: "",
+        email: "",
+        content: "",
+        job: "",
+        grade: "",
+        field: "",
+        github: "",
+        blog: "",
+        content2: "",
+        etc: "",
+        boj: "",
+      };
+    },
   },
 });
 
-export const { setCard } = cardSlice.actions;
+export const { setCard, resetCard } = cardSlice.actions;
 
 export default cardSlice.reducer;

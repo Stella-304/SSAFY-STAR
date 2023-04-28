@@ -19,6 +19,7 @@ import CardSubmit from "./pages/Card/CardSubmit";
 import CardModify from "./pages/Card/CardModify";
 import Oauth from "./pages/User/Oauth";
 import Find from "./pages/User/Find";
+import Admin from "./pages/Admin";
 import { QueryClientProvider, QueryClient } from "react-query";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
     path: "/idpwfind",
     element: <Find />,
   },
+  { path: "/admin", element: <Admin /> },
   // 테스트 페이지
   {
     path: "/test1",
