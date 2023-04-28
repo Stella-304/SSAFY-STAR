@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GeometryUtil {
-    class Edge implements Comparable<Edge> {
+    static class Edge implements Comparable<Edge> {
         long a;
         long b;
         double distance;
@@ -53,7 +53,7 @@ public class GeometryUtil {
             return 642;
         if (level==5)
             return 2562;
-        return 10242;
+        return 5057;
     }
     public static int getRadiusFromLevel(int level){
         if (level==1)
@@ -69,7 +69,7 @@ public class GeometryUtil {
         return 4;
     }
     private static int[] parents=new int[5057];
-    public List<EdgeDto> getEdgeList(List<CardDetailDto> cards){
+    public static List<EdgeDto> getEdgeList(List<CardDetailDto> cards){
         long first=cards.get(0).getCardId();
         for(int i=0;i<parents.length;i++){
             parents[i]=i;
