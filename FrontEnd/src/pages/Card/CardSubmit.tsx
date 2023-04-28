@@ -96,7 +96,7 @@ export default function CardSubmit() {
       <div className="flex justify-center">
         <span className="text-4xl block font-bold">별 등록</span>
       </div>
-      <div className="mb-8 h-350 overflow-y-auto pr-8">
+      <div className="mb-8 h-500 overflow-y-auto pr-8">
         <div className="flex flex-col gap-4">
           <Input
             id="name"

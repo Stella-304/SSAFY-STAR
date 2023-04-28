@@ -22,7 +22,7 @@ export default function Find() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(resetFind());
+    dispatch(resetFind());
   }, []);
 
   //아이디 입력
