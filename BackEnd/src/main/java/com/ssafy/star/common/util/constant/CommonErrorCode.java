@@ -28,6 +28,7 @@ public enum CommonErrorCode implements ErrorCode {
 	// 카드
 	NO_CARD_PROVIDED(HttpStatus.FORBIDDEN, "카드를 제공받지 못했습니다."),
 	NO_BOJ_ID_PROVIDED(HttpStatus.FORBIDDEN, "백준 아이디를 제공받지 못했습니다."),
+	ALEADY_EXIST_CARD(HttpStatus.FORBIDDEN,"이미 등록된 카드가 존재합니다."),
 
 	//파일
 	FILE_NOT_VAILD(HttpStatus.FORBIDDEN, "유효하지 않은 파일입니다")
