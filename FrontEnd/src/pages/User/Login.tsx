@@ -5,21 +5,24 @@ import Input from "../../components/Input/Input";
 import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
-import { setEmail, setPassword } from "../../stores/user/login";
-import { useState } from "react";
+import { setLoginid, setPassword, resetLogin } from "../../stores/user/login";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
 
 export default function Login() {
-  const { email, password } = useSelector((state: RootState) => state.login);
-  const [emailWarning, setEmailWarning] = useState("");
+  const { loginid, password } = useSelector((state: RootState) => state.login);
+  const [idWarning, setIdWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
+  useEffect(() => {
+    dispatch(resetLogin());
+  }, []);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  function onEmail(input: string) {
-    dispatch(setEmail(input));
+  function onLoginid(input: string) {
+    dispatch(setLoginid(input));
   }
   function onPassword(input: string) {
     dispatch(setPassword(input));
@@ -27,11 +30,11 @@ export default function Login() {
 
   function submit() {
     // 로그인 진행
-    if (email === "") {
-      setEmailWarning("이메일을 입력해주세요");
+    if (loginid === "") {
+      setIdWarning("아이디를 입력해주세요");
       return;
     } else {
-      setEmailWarning("");
+      setIdWarning("");
     }
 
     if (password === "") {
@@ -52,12 +55,12 @@ export default function Login() {
         </div>
         <div className="mb-80">
           <Input
-            id="email"
+            id="loginId"
             type="input"
-            label="이메일"
-            onChange={onEmail}
-            value={email}
-            warning={emailWarning}
+            label="아이디"
+            onChange={onLoginid}
+            value={loginid}
+            warning={idWarning}
           />
           <Input
             id="password"

@@ -3,9 +3,10 @@ import Input from "../../components/Input/Input";
 import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
-import { setUser } from "../../stores/user/signup";
+import { setUser, resetUser } from "../../stores/user/signup";
 import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import SmallButton from "../../components/Button/SmallButton";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -15,12 +16,24 @@ export default function Signup() {
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
 
+  const [codeWarning, setCodeWarning] = useState("");
+  const [codeConfirm, setCodeConfirm] = useState("");
+
+  const [emailCheckCode, setEmailCheckCode] = useState(""); //이메일 체크코드
+  const [openCheck, setOpenCheck] = useState(false); //이메일 인증칸 오픈
+  const [emailCheck, setEmailCheck] = useState(false); //이메일 체크유무
+
   const idRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    dispatch(resetUser());
+  }, []);
+
+  //아이디 입력
   function onId(input: string) {
     if (!input.match(loginidReg)) {
       setIdWarning("아이디는 10글자이내 영문+숫자로 해주세요.");
@@ -29,6 +42,8 @@ export default function Signup() {
     }
     dispatch(setUser({ ...user, loginid: input }));
   }
+
+  //이메일 입력
   function onEmail(input: string) {
     if (!input.match(emailReg)) {
       setEmailWarning("이메일을 알맞게 작성해주세요.");
@@ -37,6 +52,8 @@ export default function Signup() {
     }
     dispatch(setUser({ ...user, email: input }));
   }
+
+  //비밀번호 입력
   function onPassword(input: string) {
     if (!input.match(passwordReg)) {
       setPasswordWarning(
@@ -52,6 +69,8 @@ export default function Signup() {
     }
     dispatch(setUser({ ...user, password: input }));
   }
+
+  //비밀번호 확인
   function onPassword2(input: string) {
     if (input !== user.password) {
       setPassword2Warning("비밀번호가 일치하지 않습니다.");
@@ -60,10 +79,34 @@ export default function Signup() {
     }
     dispatch(setUser({ ...user, password2: input }));
   }
+
+  //이름 입력
   function onName(input: string) {
     dispatch(setUser({ ...user, name: input }));
   }
 
+  //이메일 인증
+  function sendEmail() {
+    //이메일 인증 날리기
+    setOpenCheck(true);
+  }
+
+  //이메일 인증 번호확인
+  function checkEmail() {
+    //인증번호 일치 확인
+    //일치 setEmailCheck(true);
+    //불일치 setEmailCheck(false);
+
+    if (emailCheckCode === "test") {
+      setCodeWarning("");
+      setCodeConfirm("인증완료");
+      setEmailCheck(true);
+    } else {
+      setCodeWarning("인증번호를 확인해주세요.");
+    }
+  }
+
+  //회원가입 진행
   function submit() {
     //이름 확인
     if (user.name === "") {
@@ -115,15 +158,42 @@ export default function Signup() {
             onChange={onName}
             value={user?.name}
           />
-          <Input
-            inputRef={emailRef}
-            id="email"
-            type="input"
-            label="이메일"
-            onChange={onEmail}
-            value={user?.email}
-            warning={emailWarning}
-          />
+          <div className="flex">
+            <div className="flex-grow">
+              <Input
+                inputRef={emailRef}
+                id="email"
+                type="input"
+                label="이메일"
+                onChange={onEmail}
+                value={user?.email}
+                warning={emailWarning}
+                disable={emailCheck}
+              />
+            </div>
+            <div className="flex items-end">
+              <SmallButton value="인증" onClick={sendEmail}></SmallButton>
+            </div>
+          </div>
+          {openCheck && (
+            <div className="flex">
+              <div className="flex-grow">
+                <Input
+                  id="email_check"
+                  type="input"
+                  label="인증코드 입력"
+                  onChange={(code) => setEmailCheckCode(code)}
+                  warning={codeWarning}
+                  confirm={codeConfirm}
+                  disable={emailCheck}
+                />
+              </div>
+              <div className="flex items-end">
+                <SmallButton value="인증" onClick={checkEmail}></SmallButton>
+              </div>
+            </div>
+          )}
+
           <Input
             inputRef={passwordRef}
             id="password1"
