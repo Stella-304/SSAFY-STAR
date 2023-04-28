@@ -28,6 +28,7 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void Reset()
     {
+        Debug.Log("reset");
         _networkDebugStart = EnsureNetworkDebugStartExists();
         _clientCount = _networkDebugStart.AutoClients.ToString();
         BaseSkin = GetAsset<GUISkin>("e59b35dfeb4b6f54e9b2791b2a40a510");
@@ -37,11 +38,13 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void OnValidate()
     {
+        Debug.Log("1. OnValidate");
         ValidateClientCount();
     }
 
     protected void ValidateClientCount()
     {
+        Debug.Log("2/5. ValidateClientCount");
         if (_clientCount == null)
         {
             _clientCount = "1";
@@ -65,7 +68,7 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void Awake()
     {
-
+        Debug.Log("3. awake");
         _nicifiedStageNames = ConvertEnumToNicifiedNameLookup<NetworkDebugStart.Stage>("Fusion Status: ");
         _networkDebugStart = EnsureNetworkDebugStartExists();
         _clientCount = _networkDebugStart.AutoClients.ToString();
@@ -73,7 +76,9 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
     }
     protected virtual void Start()
     {
+        Debug.Log("6. start");
         _isMultiplePeerMode = NetworkProjectConfig.Global.PeerMode == NetworkProjectConfig.PeerModes.Multiple;
+        //GameStart();
     }
 
     protected NetworkDebugStart EnsureNetworkDebugStartExists()
@@ -86,6 +91,7 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
         if (TryGetBehaviour<NetworkDebugStart>(out var found))
         {
+            Debug.Log("4. TryGetBehaviour");
             _networkDebugStart = found;
             return found;
         }
@@ -109,9 +115,8 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
         }
     }
 
-    protected virtual void OnGUI()
+    private void GameStart()
     {
-
         var nds = EnsureNetworkDebugStartExists();
         if (nds.StartMode != NetworkDebugStart.StartModes.UserInterface)
         {
@@ -124,43 +129,61 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
             return;
         }
 
-        var holdskin = GUI.skin;
-
-        GUI.skin = FusionScalableIMGUI.GetScaledSkin(BaseSkin, out var height, out var width, out var padding, out var margin, out var leftBoxMargin);
-
-        GUILayout.BeginArea(new Rect(leftBoxMargin, margin, width, Screen.height));
-        {
-            GUILayout.BeginVertical(GUI.skin.window);
-            {
-                if (currentstage == NetworkDebugStart.Stage.Disconnected)
-                {
-                    //GUILayout.BeginHorizontal();
-                    //{
-                    //  GUILayout.Label("Room:", GUILayout.Height(height), GUILayout.Width(width * .33f));
-                    //  nds.DefaultRoomName = GUILayout.TextField(nds.DefaultRoomName, 25, GUILayout.Height(height));
-                    //}
-                    //GUILayout.EndHorizontal();
-
-                    if (GUILayout.Button("메타버스 들어가기", GUILayout.Height(height)))
-                    {
-                        nds.StartSharedClient();
-                    }
-                }
-                else
-                {
-                    if (GUILayout.Button("닫기", GUILayout.Height(height)))
-                    {
-                        _networkDebugStart.ShutdownAll();
-                    }
-                }
-
-                GUILayout.EndVertical();
-            }
-        }
-        GUILayout.EndArea();
-
-        GUI.skin = holdskin;
+        nds.StartSharedClient();
     }
+
+    //protected virtual void OnGUI()
+    //{
+
+    //    var nds = EnsureNetworkDebugStartExists();
+    //    if (nds.StartMode != NetworkDebugStart.StartModes.UserInterface)
+    //    {
+    //        return;
+    //    }
+
+    //    var currentstage = nds.CurrentStage;
+    //    if (nds.AutoHideGUI && currentstage == NetworkDebugStart.Stage.AllConnected)
+    //    {
+    //        return;
+    //    }
+
+    //    var holdskin = GUI.skin;
+
+    //    GUI.skin = FusionScalableIMGUI.GetScaledSkin(BaseSkin, out var height, out var width, out var padding, out var margin, out var leftBoxMargin);
+
+    //    GUILayout.BeginArea(new Rect(leftBoxMargin, margin, width, Screen.height));
+    //    {
+    //        GUILayout.BeginVertical(GUI.skin.window);
+    //        {
+    //            if (currentstage == NetworkDebugStart.Stage.Disconnected)
+    //            {
+    //                GUILayout.BeginHorizontal();
+    //                {
+    //                  GUILayout.Label("Room:", GUILayout.Height(height), GUILayout.Width(width * .33f));
+    //                  nds.DefaultRoomName = GUILayout.TextField(nds.DefaultRoomName, 25, GUILayout.Height(height));
+    //                }
+    //                GUILayout.EndHorizontal();
+
+    //                if (GUILayout.Button("메타버스 들어가기", GUILayout.Height(height)))
+    //                {
+    //                    nds.StartSharedClient();
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (GUILayout.Button("닫기", GUILayout.Height(height)))
+    //                {
+    //                    _networkDebugStart.ShutdownAll();
+    //                }
+    //            }
+
+    //            GUILayout.EndVertical();
+    //        }
+    //    }
+    //    GUILayout.EndArea();
+
+    //    GUI.skin = holdskin;
+    //}
 
     // TODO Move to a utility
     public static Dictionary<T, string> ConvertEnumToNicifiedNameLookup<T>(string prefix = null, Dictionary<T, string> nonalloc = null) where T : System.Enum

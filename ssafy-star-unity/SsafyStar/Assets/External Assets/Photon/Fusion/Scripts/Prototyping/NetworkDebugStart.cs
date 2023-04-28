@@ -463,7 +463,7 @@ public class NetworkDebugStart : Fusion.Behaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(_initialScenePath);
+        SceneManager.LoadSceneAsync("Menu");
         // Destroy our DontDestroyOnLoad objects to finish the reset
         Destroy(RunnerPrefab.gameObject);
         Destroy(gameObject);
