@@ -24,6 +24,8 @@ public class MenuController : MonoBehaviour
     private Button btnExit;
     private Button btnSetting;
     private Button btnMute;
+    private VisualElement cardPlay;
+    private VisualElement cardOther;
 
 
     private void Awake()
@@ -34,6 +36,8 @@ public class MenuController : MonoBehaviour
         btnExit = doc.rootVisualElement.Q<Button>("ButtonExit");
         btnSetting = doc.rootVisualElement.Q<Button>("ButtonSetting");
         btnMute = doc.rootVisualElement.Q<Button>("ButtonMute");
+        cardPlay = doc.rootVisualElement.Q<VisualElement>("CardPlay");
+        cardOther = doc.rootVisualElement.Q<VisualElement>("CardOther");
 
         btnWrapper = doc.rootVisualElement.Q<VisualElement>("Buttons");
 
@@ -76,8 +80,12 @@ public class MenuController : MonoBehaviour
     private void BtnBackOnClickec()
     {
         btnWrapper.Clear();
-        btnWrapper.Add(btnPlay);
-        btnWrapper.Add(btnSetting);
-        btnWrapper.Add(btnExit);
+
+        btnWrapper.Add(cardPlay);
+        btnWrapper.Add(cardOther);
+
+        //btnWrapper.Add(btnPlay);
+        //btnWrapper.Add(btnSetting);
+        //btnWrapper.Add(btnExit);
     }
 }
