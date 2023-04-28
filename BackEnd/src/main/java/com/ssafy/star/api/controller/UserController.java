@@ -19,8 +19,9 @@ import com.ssafy.star.common.util.dto.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
@@ -37,16 +38,15 @@ public class UserController {
 	}
 
 	@PostMapping("/badge")
-	@Secured({"ROLE_CLIENT"})
+	// @Secured("CLIENT")
 	@ApiOperation(value = "뱃지 인증 요청")
 	public ResponseEntity<ResponseDto> badgeRegist(
 		@RequestPart BadgeRegistReqDto dto,
 		@RequestPart MultipartFile file) throws IOException {
-		System.out.println(dto);
-		System.out.println(file.getOriginalFilename());
+		log.info(dto);
+		log.info(file.getOriginalFilename());
 		userService.registBadge(dto, file);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
-	
 }
