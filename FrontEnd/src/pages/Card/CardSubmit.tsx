@@ -7,18 +7,11 @@ import { campusList, gradeList, fieldList } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { setCard } from "../../stores/card/cardsubmit";
 
-import useCompanySearch from "../../apis/useCompanySearch";
-import { useEffect, useState } from "react";
-
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
-  const [search, setSearch] = useState("");
-  const res = useCompanySearch(search);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(res.data);
-  }, [res.status]);
   //input
   function onName(input: string) {
     dispatch(setCard({ ...card, name: input }));
@@ -32,8 +25,6 @@ export default function CardSubmit() {
   }
 
   function onJob(input: string) {
-    console.log(input);
-    setSearch(input);
     dispatch(setCard({ ...card, job: input }));
   }
   function onGithub(input: string) {
@@ -69,6 +60,7 @@ export default function CardSubmit() {
   function submit() {
     console.log(card);
   }
+
   return (
     <EarthLayout>
       <div className="flex justify-center">
