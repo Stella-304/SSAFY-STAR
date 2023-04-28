@@ -3,6 +3,11 @@ interface props {
   value: string;
   onClick?: () => void;
 }
+/**
+ *
+ * @param param0 type:{outline}
+ * @returns
+ */
 export default function MidButton({ type, value, onClick }: props) {
   return (
     <>

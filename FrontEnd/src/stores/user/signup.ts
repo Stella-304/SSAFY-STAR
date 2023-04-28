@@ -1,45 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface signupState {
-  email: string;
-  name: string;
-  password: string;
-  password2: string;
+  user: {
+    email: string;
+    loginid: string;
+    name: string;
+    password: string;
+    password2: string;
+  };
 }
 
 const initialState: signupState = {
-  email: "",
-  name: "",
-  password: "",
-  password2: "",
+  user: {
+    email: "",
+    loginid: "",
+    name: "",
+    password: "",
+    password2: "",
+  },
 };
 
-const loginSlice = createSlice({
+const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
-    setEmail(state, action) {
-      state.email = action.payload;
-    },
-    setName(state, action) {
-      state.name = action.payload;
-    },
-    setPassword(state, action) {
-      state.password = action.payload;
-    },
-    setPassword2(state, action) {
-      state.password2 = action.payload;
+    setUser(state, action) {
+      state.user = action.payload;
     },
     deleteMemberInfo(state) {
-      state.email = "";
-      state.name = "";
-      state.password = "";
-      state.password2 = "";
+      state.user.loginid = "";
+      state.user.email = "";
+      state.user.name = "";
+      state.user.password = "";
+      state.user.password2 = "";
     },
   },
 });
 
-export const { setName, setPassword2, setPassword, setEmail } =
-  loginSlice.actions;
+export const { setUser } = signupSlice.actions;
 
-export default loginSlice.reducer;
+export default signupSlice.reducer;

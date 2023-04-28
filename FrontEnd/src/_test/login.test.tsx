@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
-import Login from "../pages/Login";
+import Login from "../pages/User/Login";
 import { renderWithProviders } from "../utils/redux_test";
 
 //로그인에서 테스트는?

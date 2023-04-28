@@ -13,11 +13,12 @@ import Test1 from "./pages/test/Test1";
 import Test2 from "./pages/test/Test2";
 import Test3 from "./pages/test/Test3";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/User/Login";
+import Signup from "./pages/User/Signup";
 import CardSubmit from "./pages/Card/CardSubmit";
 import CardModify from "./pages/Card/CardModify";
-import Oauth from "./pages/Oauth";
+import Oauth from "./pages/User/Oauth";
+import Find from "./pages/User/Find";
 import { QueryClientProvider, QueryClient } from "react-query";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/cardmodify",
     element: <CardModify />,
+  },
+  {
+    path: "/idpwfind",
+    element: <Find />,
   },
   // 테스트 페이지
   {

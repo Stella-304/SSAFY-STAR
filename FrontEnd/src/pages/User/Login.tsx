@@ -1,17 +1,19 @@
-import BigButton from "../components/Button/BigButton";
-import LinkButton from "../components/Button/LinkButton";
-import MidButton from "../components/Button/MidButton";
-import Input from "../components/Input/Input";
-import EarthLayout from "../components/Layout/EarthLayout";
+import BigButton from "../../components/Button/BigButton";
+import LinkButton from "../../components/Button/LinkButton";
+import MidButton from "../../components/Button/MidButton";
+import Input from "../../components/Input/Input";
+import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../stores/store";
-import { setEmail, setPassword } from "../stores/user/login";
+import { RootState } from "../../stores/store";
+import { setEmail, setPassword } from "../../stores/user/login";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { email, password } = useSelector((state: RootState) => state.login);
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -64,8 +66,10 @@ export default function Login() {
             value={password}
             warning={passwordWarning}
           />
-          <div className="text-right">
-            <LinkButton>비밀번호를 잊으셨나요?</LinkButton>
+          <div className="flex flex-col text-right">
+            <LinkButton onClick={() => navigate("/idpwfind")}>
+              아이디/비밀번호 찾기
+            </LinkButton>
           </div>
         </div>
 
@@ -79,7 +83,9 @@ export default function Login() {
             <BigButton value="로그인" onClick={submit} />
           </div>
           <div className="text-right">
-            <LinkButton>회원정보가 없으신가요? Register Herer</LinkButton>
+            <LinkButton onClick={() => navigate("/signup")}>
+              회원정보가 없으신가요? Register Herer
+            </LinkButton>
           </div>
         </div>
       </div>
