@@ -69,7 +69,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -80,3 +80,16 @@ spring:
     port: ${redis.port}
     password: ${redis.pwd}
 
+  mail:
+    host: smtp.naver.com
+    port: 465
+    protocol: smtps
+    username: ${smtp.user}
+    password: ${smtp.pwd}
+    properties:
+      mail:
+        smtp:
+          starttles:
+            enable: true
+            required: true
+          auth: true

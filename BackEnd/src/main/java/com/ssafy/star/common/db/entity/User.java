@@ -3,15 +3,16 @@ package com.ssafy.star.common.db.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
+import com.ssafy.star.common.auth.info.UserAccount;
 import com.ssafy.star.common.util.entity.BaseTime;
-
 import lombok.*;
-
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,7 +25,8 @@ import java.util.*;
 	@UniqueConstraint(columnNames = "nickname")
 })
 @SecondaryTables({
-	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
+	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id")),
+        @SecondaryTable(name = "user_account", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
 })
 public class User extends BaseTime {
 
@@ -50,9 +52,16 @@ public class User extends BaseTime {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "providerId", column = @Column(table = "social_auth", name = "provider_id")),
-            @AttributeOverride(name = "socialType", column = @Column(table = "social_auth", name = "social_type")),
     })
     private SocialAuth socialAuth;
+
+    @ToString.Exclude
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "userId", column = @Column(table = "user_account", name = "user_id")),
+            @AttributeOverride(name = "userPwd", column = @Column(table = "user_account", name = "user_id")),
+    })
+    private UserAccount userAccount;
 
     @Column(length = 15)
     @Setter(AccessLevel.NONE)

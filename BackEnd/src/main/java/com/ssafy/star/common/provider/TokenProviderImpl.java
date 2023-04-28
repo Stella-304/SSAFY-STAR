@@ -21,8 +21,9 @@ public class TokenProviderImpl implements TokenProvider {
     private RedisProvider redisProvider;
     @Autowired
     private AppProperties appProperties;
-    public String createToken(Authentication authentication) {
 
+    @Override
+    public String createTokenByAuthentication(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
@@ -35,6 +36,21 @@ public class TokenProviderImpl implements TokenProvider {
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
     }
+
+    @Override
+    public String createTokenById(long id) {
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
+
+        return Jwts.builder()
+                .setSubject(Long.toString(id))
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
+                .compact();
+    }
+
 
     @Override
     public Long getUserIdFromToken(String token) {
