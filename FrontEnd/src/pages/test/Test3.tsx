@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Canvas, Vector3, useFrame } from "@react-three/fiber";
 import {
+  CameraControls,
   OrbitControls,
   Plane,
   QuadraticBezierLine,
@@ -21,6 +22,8 @@ import ground from "../../assets/ground.jpg";
 
 import { motion } from "framer-motion-3d";
 import { Scene } from "three";
+import useStarInfoQuery from "../../apis/useStarInfoQuery";
+import axios from "axios";
 
 const userInfo: User = {
   name: "이아현",
@@ -91,14 +94,52 @@ function Ground() {
   const texture = useTexture(ground);
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   return (
-    <mesh receiveShadow position={[0, 0, 0]} rotation-x={-Math.PI / 2}>
+    <mesh receiveShadow position={[0, -10, 0]} rotation-x={-Math.PI / 2}>
       <planeGeometry args={[1000, 1000]} />
       <meshStandardMaterial
         map={texture}
         map-repeat={[240, 240]}
         color="green"
+        side={THREE.DoubleSide}
       />
     </mesh>
+  );
+}
+
+function Star({ item, onClick }: any) {
+  const [hovered, setHovered] = useState<boolean>(false);
+  const color = new THREE.Color();
+  const starRef = useRef<any>(null);
+
+  useFrame(() => {
+    // Animate font color
+    starRef.current.material.color.lerp(
+      color.set(hovered ? "#fa2720" : "white"),
+      0.1,
+    );
+    if (hovered) {
+      starRef.current.scale.x = 0.7;
+      starRef.current.scale.y = 0.7;
+      starRef.current.scale.z = 0.7;
+    } else {
+      starRef.current.scale.x = 0.12;
+      starRef.current.scale.y = 0.12;
+      starRef.current.scale.z = 0.12;
+    }
+  });
+
+  return (
+    <Sphere
+      position={[item.x * 3, item.y * 3, item.z * 3]}
+      onClick={() => onClick()}
+      ref={starRef}
+      key={item.cardId}
+      scale={0.12}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <meshStandardMaterial color="white" />
+    </Sphere>
   );
 }
 
@@ -120,8 +161,9 @@ export default function Test3() {
   ];
 
   const starRef = useRef<any>(null);
-  const planeRef = useRef<any>(null);
   const lineRef = useRef<any>(null);
+
+  const starInfo = useStarInfoQuery();
 
   let tl = gsap.timeline();
 
@@ -129,13 +171,13 @@ export default function Test3() {
     if (starPos && starRef.current) {
       let ctx = gsap.context(() => {
         tl.to(starRef.current.scale, {
-          x: 3,
-          y: 3,
-          z: 3,
-          duration: 1.5,
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 2,
           ease: "elastic",
         }).then(() => setEndAnim(true));
-      }, lineRef);
+      }, starRef);
 
       return () => {
         ctx.revert();
@@ -144,14 +186,10 @@ export default function Test3() {
     }
   }, [starPos]);
 
-  useEffect(() => {
-    console.log(tl.isActive());
-  }, [starPos]);
-
   return (
     <div className="h-screen w-full overflow-hidden bg-black perspective-9">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 90 }}>
-        <OrbitControls enableZoom={false} autoRotate position={[0, -10, 0]} />
+      <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
+        <OrbitControls autoRotate autoRotateSpeed={0.4} enableZoom={false} />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
@@ -168,14 +206,31 @@ export default function Test3() {
           />
         </EffectComposer>
 
-        {position.map((item, index) => (
-          <Sphere
-            position={item}
-            onClick={() => {
-              setStarPos(item);
-            }}
-            key={index}
-            scale={0.8}
+        {/* {starInfo?.data?.cardList?.map((item: any) => (
+          // <Sphere
+          //   position={[item.x * 3, item.y * 3, item.z * 3]}
+          //   onClick={() => {
+          //     setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3));
+          //     console.log(item);
+          //   }}
+          //   ref={starRef}
+          //   key={item.cardId}
+          //   scale={0.12}
+          //   onPointerOver={}
+          // />
+          <Star
+            item={item}
+            onClick={() =>
+              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3))
+            }
+          />
+        ))} */}
+        {position.map((item) => (
+          <Star
+            item={item}
+            onClick={() =>
+              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3))
+            }
           />
         ))}
         <Stars
@@ -200,11 +255,11 @@ export default function Test3() {
           planeRef={planeRef}
           endAnim={endAnim}
         /> */}
-        <Sphere
+        {/* <Sphere
           position={starPos}
           ref={starRef}
           visible={starPos ? true : false}
-        />
+        /> */}
         {/* <QuadraticBezierLine
           ref={lineRef}
           start={starPos ? starPos : [0, 0, 0]} // Starting point, can be an array or a vec3
