@@ -48,9 +48,10 @@ public class CardController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.searchCompany(query)));
 	}
 
+	//Post로 바꾸던가... requestbody 대신에 modelattribute를 이용하던가 해야되나? 어떻게 해결하지.
 	@GetMapping("/list")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
-	public ResponseEntity<ResponseDto> cardListGet(@RequestBody SearchConditionReqDto searchConditionReqDto) {
+	public ResponseEntity<ResponseDto> cardListGet(@RequestBody(required = false) SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
 	}
