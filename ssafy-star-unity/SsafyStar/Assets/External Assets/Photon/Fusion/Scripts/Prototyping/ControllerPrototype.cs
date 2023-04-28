@@ -3,7 +3,7 @@ using UnityEngine;
 using Fusion;
 
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
-public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
+public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft, Fusion.IPlayerJoined
 {
     public static ControllerPrototype Local { get; protected set; }
 
@@ -36,6 +36,8 @@ public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
         {
             Local = this;
         }
+
+        Debug.Log("Spawned 캐릭터 생성됨");
 
         CacheComponents();
     }
@@ -119,6 +121,16 @@ public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
         {
             //스폰해제 하기
             Runner.Despawn(Object);
+        }
+    }
+
+    public void PlayerJoined(PlayerRef player)
+    {
+        if (player == Object.InputAuthority)
+        {
+            MapController mapController = GameObject.Find("UIMenu").GetComponent<MapController>();
+            mapController.player = this.gameObject;
+            Debug.Log("맵에 플레이어 추가");
         }
     }
 }

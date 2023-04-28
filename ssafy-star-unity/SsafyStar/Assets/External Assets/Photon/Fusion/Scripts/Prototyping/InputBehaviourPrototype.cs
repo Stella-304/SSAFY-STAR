@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
+using static UnityEngine.Advertisements.Advertisement;
 
 /// <summary>
 /// A simple example of Fusion input collection. This component should be on the same GameObject as the <see cref="NetworkRunner"/>.
 /// </summary>
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
-public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
+public class InputBehaviourPrototype : Fusion.NetworkBehaviour, INetworkRunnerCallbacks
 {
 
     public NetworkRunner runnerPrefab;
@@ -90,6 +91,11 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("플레이어 입장 id:" + runner.UserId);
+
+        if (player == Object.InputAuthority)
+        {
+            Debug.Log("나 등장");
+        }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
@@ -98,6 +104,13 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
         runner.Spawn(test);
 
         Debug.Log("플레이어 퇴장 id:" + runner.UserId);
+
+        //로컬 플레이어라면
+        if (player == Object.InputAuthority)
+        {
+            //스폰해제 하기
+            runner.Despawn(Object);
+        }
     }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

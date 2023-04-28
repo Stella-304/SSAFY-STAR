@@ -402,7 +402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -430.33545, y: -346.0008}
+  m_AnchoredPosition: {x: 494.59265, y: -496.1277}
   m_SizeDelta: {x: 206.1429, y: 26.5196}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &281914813
@@ -578,7 +578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -149, y: -344}
+  m_AnchoredPosition: {x: 775.9281, y: -494.1269}
   m_SizeDelta: {x: 103.4044, y: 20.8391}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &357941797
@@ -754,7 +754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -292.92102, y: -346}
+  m_AnchoredPosition: {x: 632.0071, y: -496.1269}
   m_SizeDelta: {x: 68.6828, y: 26.5212}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &462884595
@@ -1151,7 +1151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -47.50171, y: -344}
+  m_AnchoredPosition: {x: 877.4264, y: -494.1269}
   m_SizeDelta: {x: 96.2617, y: 20.8391}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &676750362
@@ -1338,8 +1338,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572.1068, y: 346.4901}
-  m_SizeDelta: {x: 34.2766, y: 20.8391}
+  m_AnchoredPosition: {x: 342.54272, y: -496.55}
+  m_SizeDelta: {x: 53.1913, y: 25.677}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822907980
 MonoBehaviour:
@@ -2031,7 +2031,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -427.9281, y: -181.87311}
+  m_AnchoredPosition: {x: 497, y: -332}
   m_SizeDelta: {x: 201.3313, y: 301.7326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1303880685
@@ -2864,6 +2864,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1716995259}
   - component: {fileID: 1716995258}
+  - component: {fileID: 1716995260}
   m_Layer: 5
   m_Name: UIMenu
   m_TagString: Untagged
@@ -2902,6 +2903,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1716995260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716995257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a089abcdeceba439806a870b8f2ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1748490288
 GameObject:
   m_ObjectHideFlags: 0

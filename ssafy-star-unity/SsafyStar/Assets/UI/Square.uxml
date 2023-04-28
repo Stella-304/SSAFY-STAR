@@ -14,11 +14,17 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement style="width: 70%;" />
-        <ui:VisualElement name="MapContainer" class="root-container-mini" style="width: auto; height: auto;">
-            <ui:VisualElement name="Container" class="root-container-full">
+        <ui:VisualElement style="width: 80%;" />
+        <ui:VisualElement name="MapContainer" style="width: auto; height: auto;">
+            <ui:VisualElement name="Container" class="root-container-mini">
                 <ui:VisualElement name="Map" class="map-container" style="border-top-left-radius: 100px; border-bottom-left-radius: 100px; border-top-right-radius: 100px; border-bottom-right-radius: 100px; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px;">
-                    <ui:VisualElement name="Image" class="map-img" />
+                    <ui:VisualElement name="Image" class="map-img">
+                        <ui:VisualElement name="Player" class="player-container">
+                            <ui:VisualElement name="Cone" class="player-cone">
+                                <ui:VisualElement name="Arrow" class="player-arrow" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
