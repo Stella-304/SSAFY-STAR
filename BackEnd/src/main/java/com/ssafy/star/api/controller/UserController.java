@@ -47,4 +47,6 @@ public class UserController {
 		userService.registBadge(dto, file);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
+
+	
 }

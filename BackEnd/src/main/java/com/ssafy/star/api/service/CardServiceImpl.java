@@ -66,12 +66,12 @@ public class CardServiceImpl implements CardService {
 	public ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto) {
 		List<Card> cardList = new ArrayList<>();
 		boolean isCelestial = false;
-//		if (searchConditionReqDto == null) {
-//			cardList = cardRepository.getAllCardListWithUser();
-//			isCelestial = true;
-//		} else {
-//			//Query DSL 써서 구현 후순위
-//		}
+		//		if (searchConditionReqDto == null) {
+		//			cardList = cardRepository.getAllCardListWithUser();
+		//			isCelestial = true;
+		//		} else {
+		//			//Query DSL 써서 구현 후순위
+		//		}
 		//일단은 이걸로 하자
 		cardList = cardRepository.getAllCardListWithUser();
 		isCelestial = true;
@@ -143,10 +143,11 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public void registCard(CardRegistReqDto cardRegistReqDto) {
-		Card card=cardRegistReqDto.of();
+		Card card = cardRegistReqDto.of();
 		cardRepository.save(card);
-		long userId=authProvider.getUserIdFromPrincipal();
-		User user=userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		long userId = authProvider.getUserIdFromPrincipal();
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 		user.setCard(card);
 	}
 
