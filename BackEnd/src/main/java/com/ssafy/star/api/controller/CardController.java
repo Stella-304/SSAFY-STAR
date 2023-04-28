@@ -24,11 +24,10 @@ public class CardController {
 	private final CardService cardService;
 
 	@PostMapping("/boj")
-	@Secured({"ROLE_CLIENT"})
+	// @Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
 		cardService.updateBojTier();
-
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
@@ -51,18 +50,18 @@ public class CardController {
 	//Post로 바꾸던가... requestbody 대신에 modelattribute를 이용하던가 해야되나? 어떻게 해결하지.
 	@GetMapping("/list")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
-	public ResponseEntity<ResponseDto> cardListGet(@RequestBody(required = false) SearchConditionReqDto searchConditionReqDto) {
+	public ResponseEntity<ResponseDto> cardListGet(
+		@RequestBody(required = false) SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
 	}
-
 
 	@PostMapping
 	@ApiOperation(value = "카드 등록하기")
 	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {
 		cardService.registCard(cardRegistReqDto);
 		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@PutMapping
@@ -70,13 +69,14 @@ public class CardController {
 	public ResponseEntity<ResponseDto> cardUpdate(@RequestBody CardUpdateReqDto cardUpdateReqDto) throws Exception {
 		cardService.updateCard(cardUpdateReqDto);
 		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
+
 	@DeleteMapping
 	@ApiOperation(value = "카드 지우기")
 	public ResponseEntity<ResponseDto> cardDelete(@RequestParam Long cardId) {
 		cardService.deleteCard(cardId);
 		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
 	}
 }
