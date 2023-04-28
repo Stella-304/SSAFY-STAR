@@ -11,6 +11,7 @@ import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.S3Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 	final UserRepository userRepository;
@@ -33,9 +35,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException {
+		// 이미지 S3에 저장하고, url 얻어옴
 		String imageUrl = s3Service.upload(file, "ssafy-star");
+		// 유저 정보 얻어옴.
+		log.debug("!!!!!!!!!!!!!!!{}",imageUrl);
 		long userId = authProvider.getUserIdFromPrincipal();
-		System.out.println("!@#!#@"+userId);
 		authStatusRepository.save(AuthStatus.builder()
 			.user(User.builder().id(userId).build())
 			.badgeType(dto.getBadgeType())
