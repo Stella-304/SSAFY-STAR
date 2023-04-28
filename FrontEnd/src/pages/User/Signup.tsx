@@ -7,6 +7,7 @@ import { setUser, resetUser } from "../../stores/user/signup";
 import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
 import { useEffect, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
+import { sec2time } from "../../utils/util";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -22,6 +23,7 @@ export default function Signup() {
   const [emailCheckCode, setEmailCheckCode] = useState(""); //이메일 체크코드
   const [openCheck, setOpenCheck] = useState(false); //이메일 인증칸 오픈
   const [emailCheck, setEmailCheck] = useState(false); //이메일 체크유무
+  const [timer, setTimer] = useState(-1); //3분 타이머
 
   const idRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -32,6 +34,23 @@ export default function Signup() {
   useEffect(() => {
     dispatch(resetUser());
   }, []);
+
+  useEffect(() => {
+    const timeId = setInterval(() => {
+      if (timer === -1) {
+        clearInterval(timeId);
+        return;
+      }
+      if (timer === 0) {
+        setCodeWarning("다시 인증 해주세요");
+        clearInterval(timeId);
+        return;
+      }
+      setCodeWarning(sec2time(timer));
+      setTimer(timer - 1);
+    }, 1000);
+    return () => clearInterval(timeId);
+  }, [timer]);
 
   //아이디 입력
   function onId(input: string) {
@@ -89,6 +108,15 @@ export default function Signup() {
   //이메일 인증
   function sendEmail() {
     //이메일 인증 날리기
+    if (!user.email.match(emailReg)) {
+      setEmailWarning("이메일을 알맞게 작성해주세요.");
+      return;
+    } else {
+      setEmailWarning("");
+    }
+
+    setTimer(60 * 3); //3분 타이머 시작
+
     setOpenCheck(true);
   }
 
@@ -97,13 +125,15 @@ export default function Signup() {
     //인증번호 일치 확인
     //일치 setEmailCheck(true);
     //불일치 setEmailCheck(false);
-
+    if (timer === 0) {
+      setCodeWarning("다시 인증 해주세요");
+      return;
+    }
     if (emailCheckCode === "test") {
+      setTimer(0);
       setCodeWarning("");
       setCodeConfirm("인증완료");
       setEmailCheck(true);
-    } else {
-      setCodeWarning("인증번호를 확인해주세요.");
     }
   }
 
