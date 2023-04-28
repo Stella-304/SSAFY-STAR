@@ -1,6 +1,8 @@
 // 8글자 16글자 사이, 알파벳 대소문자, 숫자
 //!', '@', '?', '#'
-export const passwordReg = /^[A-Za-z0-9!@#?]{8,16}$/g;
+//무조건 하나씩 포함
+export const passwordReg =
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#?])(?=\S{8,16}$).*/g;
 
 //이메일 형식,문자@문자.문자
 export const emailReg = /[\w\-\.]+@[\w]+\.[\w]+/g;
