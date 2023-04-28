@@ -29,7 +29,7 @@
 
 .menu-button:hover {
     background-color: rgba(255, 255, 255, 0);
-    font-size: 50px;
+    font-size: 55px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -38,11 +38,12 @@
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
     transition-duration: 0.3s;
+    scale: 1.1 1.1;
 }
 
 .menu-card {
     width: 100%;
-    background-color: rgba(169, 210, 254, 255);
+    background-color: rgb(169, 210, 254);
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 30px;
@@ -83,10 +84,10 @@
     border-right-width: 10px;
     border-top-width: 10px;
     border-bottom-width: 10px;
-    border-left-color: rgba(255, 255, 255, 255);
-    border-right-color: rgba(255, 255, 255, 255);
-    border-top-color: rgba(255, 255, 255, 255);
-    border-bottom-color: rgba(255, 255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
     scale: 1.1 1.1;
     transition-duration: 0.5s;
 }

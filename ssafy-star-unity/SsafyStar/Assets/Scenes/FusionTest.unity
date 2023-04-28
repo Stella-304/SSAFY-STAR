@@ -402,7 +402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 494.59265, y: -496.1277}
+  m_AnchoredPosition: {x: -164.83374, y: -270.0008}
   m_SizeDelta: {x: 206.1429, y: 26.5196}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &281914813
@@ -578,7 +578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 775.9281, y: -494.1269}
+  m_AnchoredPosition: {x: 116.50171, y: -268}
   m_SizeDelta: {x: 103.4044, y: 20.8391}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &357941797
@@ -754,7 +754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 632.0071, y: -496.1269}
+  m_AnchoredPosition: {x: -27.419312, y: -270}
   m_SizeDelta: {x: 68.6828, y: 26.5212}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &462884595
@@ -977,7 +977,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runnerPrefab: {fileID: 6105207635001209364, guid: ecd238aeabdeb854a9a0b65542ab125e, type: 3}
-  test: {fileID: 483796207284115588, guid: ecd238aeabdeb854a9a0b65542ab125e, type: 3}
 --- !u!114 &527598321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,7 +1150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 877.4264, y: -494.1269}
+  m_AnchoredPosition: {x: 218, y: -268}
   m_SizeDelta: {x: 96.2617, y: 20.8391}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &676750362
@@ -1338,7 +1337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 342.54272, y: -496.55}
+  m_AnchoredPosition: {x: -316.88367, y: -270.4231}
   m_SizeDelta: {x: 53.1913, y: 25.677}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &822907980
@@ -2865,6 +2864,7 @@ GameObject:
   - component: {fileID: 1716995259}
   - component: {fileID: 1716995258}
   - component: {fileID: 1716995260}
+  - component: {fileID: 1716995261}
   m_Layer: 5
   m_Name: UIMenu
   m_TagString: Untagged
@@ -2915,6 +2915,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a089abcdeceba439806a870b8f2ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  miniMultiplyer: 5.3
+  fullMultiplyer: 7
+--- !u!114 &1716995261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716995257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90f04a4b1ad7ab47ba3fc5506baff05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  option: {fileID: 9197481963319205126, guid: 390f30f33c59bd1418f73e20443e3ea8, type: 3}
+  squareUI: {fileID: 9197481963319205126, guid: 6baa03e49b3e27a47ac1209b89497447, type: 3}
 --- !u!1 &1748490288
 GameObject:
   m_ObjectHideFlags: 0

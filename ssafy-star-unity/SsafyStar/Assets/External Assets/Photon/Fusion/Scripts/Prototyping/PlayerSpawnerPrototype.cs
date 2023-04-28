@@ -30,6 +30,11 @@ public class PlayerSpawnerPrototype : SpawnerPrototype<PlayerSpawnPointPrototype
 
     protected override void RegisterPlayerAndObject(PlayerRef player, NetworkObject playerObject)
     {
+        
+        if(Runner.LocalPlayer==player)
+        {
+            Debug.Log("³ª µîÀå");
+        }
         Debug.Log("register");
 
         base.RegisterPlayerAndObject(player, playerObject);

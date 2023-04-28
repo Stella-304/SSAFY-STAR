@@ -9,11 +9,10 @@ using static UnityEngine.Advertisements.Advertisement;
 /// A simple example of Fusion input collection. This component should be on the same GameObject as the <see cref="NetworkRunner"/>.
 /// </summary>
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
-public class InputBehaviourPrototype : Fusion.NetworkBehaviour, INetworkRunnerCallbacks
+public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
 {
 
     public NetworkRunner runnerPrefab;
-    public GameObject test;
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
@@ -92,36 +91,20 @@ public class InputBehaviourPrototype : Fusion.NetworkBehaviour, INetworkRunnerCa
     {
         Debug.Log("플레이어 입장 id:" + runner.UserId);
 
-        if (player == Object.InputAuthority)
-        {
-            Debug.Log("나 등장");
-        }
+        //if (player == Object.InputAuthority)
+        //{
+        //    Debug.Log("나 등장");
+        //}
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("runner transform : " + runner.transform.position);
 
-        runner.Spawn(test);
-
         Debug.Log("플레이어 퇴장 id:" + runner.UserId);
-
-        //로컬 플레이어라면
-        if (player == Object.InputAuthority)
-        {
-            //스폰해제 하기
-            runner.Despawn(Object);
-        }
     }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        //유형의 조립식 NetworkObject.
-        //위치
-        //회전
-        //PlayerRef개체에 대한 입력 권한이 있는 클라이언트를 식별합니다.
-        //NetworkRunner.OnBeforeSpawned다른 인스턴스에서 개체를 복제하기 전에 실행할 유형의 대리자
-        //NetworkObjectPredictionKey이것이 예측된 스폰인 경우 유형의 예측 키 입니다.
-        runner.Spawn(test);
 
         // 호스트 마이크레이션으로 셧다운 되었는지 확인
         if (shutdownReason == ShutdownReason.HostMigration)
@@ -138,6 +121,7 @@ public class InputBehaviourPrototype : Fusion.NetworkBehaviour, INetworkRunnerCa
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)
     {
+
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)

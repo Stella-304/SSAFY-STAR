@@ -28,7 +28,6 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void Reset()
     {
-        Debug.Log("reset");
         _networkDebugStart = EnsureNetworkDebugStartExists();
         _clientCount = _networkDebugStart.AutoClients.ToString();
         BaseSkin = GetAsset<GUISkin>("e59b35dfeb4b6f54e9b2791b2a40a510");
@@ -38,13 +37,11 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void OnValidate()
     {
-        Debug.Log("1. OnValidate");
         ValidateClientCount();
     }
 
     protected void ValidateClientCount()
     {
-        Debug.Log("2/5. ValidateClientCount");
         if (_clientCount == null)
         {
             _clientCount = "1";
@@ -68,7 +65,6 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
     protected virtual void Awake()
     {
-        Debug.Log("3. awake");
         _nicifiedStageNames = ConvertEnumToNicifiedNameLookup<NetworkDebugStart.Stage>("Fusion Status: ");
         _networkDebugStart = EnsureNetworkDebugStartExists();
         _clientCount = _networkDebugStart.AutoClients.ToString();
@@ -76,7 +72,6 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
     }
     protected virtual void Start()
     {
-        Debug.Log("6. start");
         _isMultiplePeerMode = NetworkProjectConfig.Global.PeerMode == NetworkProjectConfig.PeerModes.Multiple;
         //GameStart();
     }
@@ -91,7 +86,6 @@ public class NetworkDebugStartGUI : Fusion.Behaviour
 
         if (TryGetBehaviour<NetworkDebugStart>(out var found))
         {
-            Debug.Log("4. TryGetBehaviour");
             _networkDebugStart = found;
             return found;
         }

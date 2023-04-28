@@ -45,7 +45,6 @@ public class NetworkRunnerCustom : Fusion.Behaviour
 
         if (TryGetBehaviour<NetworkDebugStart>(out var found))
         {
-            Debug.Log("4. TryGetBehaviour");
             _networkDebugStart = found;
             return found;
         }
