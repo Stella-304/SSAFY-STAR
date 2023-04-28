@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.dto.request;
 
 import com.ssafy.star.common.db.entity.Card;
+import com.ssafy.star.common.db.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class CardRegistReqDto {
     @Schema(description = "커리큘럼 트랙", example = "전공 자바반")
     private String track;
 
-    public Card of(){
+    public Card of(User user){
         return Card.builder()
                 .content(this.content)
                 .generation(this.generation)
@@ -42,6 +43,7 @@ public class CardRegistReqDto {
                 .blogAddr(this.blogAddr)
                 .company(this.company)
                 .track(this.track)
+                .user(user)
                 .build();
     }
 }
