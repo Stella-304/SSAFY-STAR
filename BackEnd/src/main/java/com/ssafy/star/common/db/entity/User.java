@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
 import com.ssafy.star.common.util.entity.BaseTime;
@@ -85,6 +86,15 @@ public class User extends BaseTime {
 
 	public void setCard(Card card) {
 		this.card = card;
+	}
 
+	public void equipBadge(BadgeEnum badgeEnum) {
+
+		if (badgeEnum == BadgeEnum.COMPANY) {
+			this.companyIsAutorized = true;
+		}
+		if (badgeEnum == BadgeEnum.SSAFY) {
+			this.isAutorized = true;
+		}
 	}
 }

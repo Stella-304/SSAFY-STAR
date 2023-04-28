@@ -10,4 +10,6 @@ import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 
 public interface AdminService {
 	BadgeListDto getBadgeList(String type);
+
+	void registBadge(long auth_id, String type);
 }
