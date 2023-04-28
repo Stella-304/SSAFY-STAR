@@ -1,6 +1,6 @@
 package com.ssafy.star.constellation;
 
-public class Point3D {
+public class Point3D implements Comparable<Point3D>{
 	public double x, y, z;
 
     public Point3D(double x, double y, double z) {
@@ -26,6 +26,11 @@ public class Point3D {
 
 	public double getZ() {
 		return z;
+	}
+
+	@Override
+	public int compareTo(Point3D o) {
+		return Double.compare(o.z,this.z);
 	}
 
 	@Override

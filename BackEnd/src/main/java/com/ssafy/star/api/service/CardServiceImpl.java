@@ -1,10 +1,5 @@
 package com.ssafy.star.api.service;
 
-import java.util.*;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
@@ -23,9 +18,17 @@ import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
-
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
@@ -66,12 +69,19 @@ public class CardServiceImpl implements CardService {
 //		} else {
 //			//Query DSL 써서 구현 후순위
 //		}
-        //일단은 이걸로 하자
         cardList = cardRepository.getAllCardListWithUser();
         isCelestial = true;
-        List<EdgeDto> edgeDtoList = hi(cardList);
         List<CardDetailDto> detailDtoList = setCoordinates(cardList, isCelestial);
+//        List<EdgeDto> edgeDtoList = hi(cardList);
+        List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
         return new ConstellationListDto(detailDtoList, edgeDtoList);
+    }
+
+    private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
+        List<EdgeDto> edgeList=new ArrayList<>();
+        int cnt=detailDtoList.size();
+
+        return edgeList;
     }
 
     public List<CardDetailDto> setCoordinates(List<Card> cardList, boolean isCelestial) {
@@ -86,21 +96,6 @@ public class CardServiceImpl implements CardService {
             r = 20;
         }
         int vertices = GeometryUtil.getVerticesFromLevel(level);
-        //나중에 최적화 합시다 .랜덤하게 뿌리는거.
-        // 일단 지금은 while문을 도는데 이것보다는 for문을 확실하게 돌게끔. n번 뽑게끔하자. 그리고 list에서 삭제시키는 방법으로 수정을 합시다.
-//		boolean[] isSeleceted = new boolean[vertices];
-//		Stack<Integer> selectedCoordinatesStk = new Stack<>();
-//		int pick;
-//		for (int i = 0; i < cardCnt; i++) {
-//			while (true) {
-//				pick = (int)(Math.random() * vertices);
-//				if (!isSeleceted[pick]) {
-//					isSeleceted[pick] = true;
-//					selectedCoordinatesStk.add(pick);
-//					break;
-//				}
-//			}
-//		}
         List<Integer> numbers = new ArrayList<>();
         for (int i = 0; i < vertices; i++) {
             numbers.add(i);
@@ -152,8 +147,10 @@ public class CardServiceImpl implements CardService {
     @Transactional
     public void registCard(CardRegistReqDto cardRegistReqDto) {
         long userId = authProvider.getUserIdFromPrincipal();
-//        User.builder().id(userId).build();
         User user = userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+        if(user.getCard()!=null){
+            throw new CommonApiException(CommonErrorCode.ALEADY_EXIST_CARD);
+        }
         Card card = cardRegistReqDto.of(user);
         cardRepository.save(card);
         user.setCard(card);
