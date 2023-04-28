@@ -15,6 +15,7 @@ import com.ssafy.star.common.db.dto.response.BadgeListDto;
 import com.ssafy.star.common.db.dto.response.CardDetailDto;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 import com.ssafy.star.common.db.dto.response.EdgeDto;
+import com.ssafy.star.common.db.entity.AuthStatus;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.Coordinate;
 import com.ssafy.star.common.db.entity.User;
@@ -47,5 +48,19 @@ public class AdminServiceImpl implements AdminService {
 				return new BadgeListDto(authStatusRepository.findByProcessStatus(false));
 		}
 		return null;
+	}
+
+	@Override
+	@Transactional
+	public void registBadge(long auth_id, String type) {
+		AuthStatus authStatus = authStatusRepository.findById(auth_id)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.BAD_AUTH_ID));
+		// authStatus -> 진행상태 True로 바꾸기
+		authStatus.jobFinish();
+		// type = ok이면, user 가져와서 equipBadge 해주기
+		if (type.equals("ok")) {
+			User user = authStatus.getUser();
+			user.equipBadge(authStatus.getBadgeType());
+		}
 	}
 }

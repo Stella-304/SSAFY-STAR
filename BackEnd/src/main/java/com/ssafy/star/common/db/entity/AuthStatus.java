@@ -41,4 +41,8 @@ public class AuthStatus {
 	@Enumerated(EnumType.STRING)
 	private BadgeEnum badgeType;
 
+	public void jobFinish(){
+		this.processStatus = true;
+	}
+
 }
