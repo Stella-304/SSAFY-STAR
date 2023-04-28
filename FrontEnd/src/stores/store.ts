@@ -5,10 +5,12 @@ import storage from "redux-persist/lib/storage";
 import loginSlice from "./user/login";
 import signupSlice from "./user/signup";
 import cardSlice from "./card/cardsubmit";
+import findSlice from "./user/find";
 const reducers = combineReducers({
   login: loginSlice,
   signup: signupSlice,
   card: cardSlice,
+  find: findSlice,
 });
 
 const persistConfig = {

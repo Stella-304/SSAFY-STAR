@@ -9,6 +9,7 @@ import { setLoginid, setPassword, resetLogin } from "../../stores/user/login";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
+import { loginidReg } from "../../utils/regex";
 
 export default function Login() {
   const { loginid, password } = useSelector((state: RootState) => state.login);
@@ -34,6 +35,11 @@ export default function Login() {
       setIdWarning("아이디를 입력해주세요");
       return;
     } else {
+      //아이디 확인
+      if (!loginid.match(loginidReg)) {
+        setIdWarning("아이디 형식을 맞춰주세요");
+        return;
+      }
       setIdWarning("");
     }
 
