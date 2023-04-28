@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { COMPANY_SEARCH_URL } from "../utils/urls";
+import { COMPANY_SEARCH_URL } from "../../utils/urls";
 
 const fetcher = (input: string) =>
   axios

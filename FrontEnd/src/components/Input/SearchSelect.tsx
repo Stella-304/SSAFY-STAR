@@ -1,4 +1,4 @@
-import useCompanySearch from "../../apis/useCompanySearch";
+import useCompanySearch from "../../apis/company/useCompanySearch";
 import { useEffect, useState } from "react";
 interface props {
   id: string;

@@ -6,11 +6,14 @@ import EarthLayout from "../../components/Layout/EarthLayout";
 import { campusList, gradeList, fieldList } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
+import useBojcheck from "../../apis/user/useBoj";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
+  const [checkBojid, setCheckBojid] = useState("");
+  const { data, isLoading, error } = useBojcheck(checkBojid);
   const [bojTier, setBojTier] = useState("");
   const dispatch = useDispatch();
 
@@ -18,6 +21,12 @@ export default function CardSubmit() {
   useEffect(() => {
     dispatch(resetCard());
   }, []);
+
+  useMemo(() => {
+    if (isLoading || error) return null;
+
+    setBojTier(data.value);
+  }, [isLoading, error, data]);
   //input
   function onName(input: string) {
     dispatch(setCard({ ...card, name: input }));
@@ -45,13 +54,6 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, boj: input }));
   }
 
-  //백준인증하기
-  function checkBoj() {
-    //백준 인증 진행
-    //없으면 unranked
-    setBojTier("platinum");
-  }
-
   //select
   function onCampus(input: string) {
     dispatch(setCard({ ...card, campus: input }));
@@ -72,6 +74,15 @@ export default function CardSubmit() {
   }
   function onEtc(input: string) {
     dispatch(setCard({ ...card, etc: input }));
+  }
+
+  //백준인증하기
+  function checkBoj() {
+    //백준 인증 진행
+    //없으면 unranked
+    if (card.boj === "Unrated") {
+    }
+    setCheckBojid(card.boj);
   }
 
   //등록 진행
@@ -159,7 +170,11 @@ export default function CardSubmit() {
                 label="백준아이디"
                 onChange={onBoj}
                 value={card?.boj}
-                confirm={bojTier}
+                confirm={
+                  bojTier === "Unrated"
+                    ? bojTier + " *solved.ac에 등록해주세요"
+                    : bojTier
+                }
               />
             </div>
             <div className="flex items-end">
