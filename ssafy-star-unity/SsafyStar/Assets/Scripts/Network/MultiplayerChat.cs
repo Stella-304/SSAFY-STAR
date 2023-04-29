@@ -11,7 +11,6 @@ public class MultiplayerChat : NetworkBehaviour
     public TMP_Text input;
     public TMP_Text usernameInput;
     public string username = "Default";
-    // Start is called before the first frame update
 
     public void SetUserName()
     {
