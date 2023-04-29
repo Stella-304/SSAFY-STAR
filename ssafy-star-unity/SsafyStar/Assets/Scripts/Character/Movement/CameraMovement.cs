@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using Fusion;
 
 public class CameraMovement : MonoBehaviour
 {
+    [Header("¿Ãµø")]
     public Transform Target;
     public float MouseSensitivity = 10f;
     public Transform listenerTf;
     public Vector3 posOffset;
     public Vector3 lookOffset;
 
-    private float vertialRotation;
-    private float horizontalRotation;
+    [Header("¡‹¿Œæ∆øÙ")]
+    public float scrollSpeed = 10f;
+    public float minZoomDistance = 1f;
+    public float maxZoomDistance = 10f;
+
 
     void LateUpdate()
     {
@@ -20,18 +25,16 @@ public class CameraMovement : MonoBehaviour
             return;
         }
 
+        float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
+        if(scroollWheel != 0)
+        {
+            posOffset.y += scroollWheel * scrollSpeed *Time.deltaTime;
+        }
+
+
         transform.position = Target.position + posOffset;
         transform.LookAt(Target.transform.position + lookOffset);
         listenerTf.position = Target.transform.position + lookOffset;
 
-        //float mouseX = Input.GetAxis("Mouse X");
-        //float mouseY = Input.GetAxis("Mouse Y");
-
-        //vertialRotation -= mouseY * MouseSensitivity;
-        //vertialRotation = Mathf.Clamp(vertialRotation, -70f, 70f);
-
-        //horizontalRotation += mouseX * MouseSensitivity;
-
-        //transform.rotation = Quaternion.Euler(vertialRotation, horizontalRotation, 0);
     }
 }

@@ -872,5 +872,8 @@ MonoBehaviour:
   Target: {fileID: 0}
   MouseSensitivity: 10
   listenerTf: {fileID: 492711530}
-  posOffset: {x: 0, y: 3, z: -5}
-  lookOffset: {x: 0, y: 2, z: 0}
+  posOffset: {x: 0, y: 4.5, z: -5.5}
+  lookOffset: {x: 0, y: 1.7, z: 0}
+  scrollSpeed: 500
+  minZoomDistance: 0.5
+  maxZoomDistance: 20
