@@ -25,7 +25,8 @@ export default function CardSubmit() {
   useMemo(() => {
     if (isLoading || error) return null;
 
-    setBojTier(data.value);
+    if(data!==undefined)
+      setBojTier(data.value);
   }, [isLoading, error, data]);
   //input
   function onName(input: string) {
