@@ -28,7 +28,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            Debug.Log("jump");
             _jumpPressed = true;
         }
     }
@@ -46,23 +45,18 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (HasStateAuthority == false)
         {
-            Debug.Log("false");
             return;
         }
 
-        if (controller.IsGrounded)
-        {
-            Debug.Log("grounded");
-            //velocity = new Vector3(0, -1, 0);
-        }
+        //if (controller.IsGrounded)
+        //{
+        //}
 
-        InputSystem.Update();
+        //InputSystem.Update();
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        //var cameraRotationY = Quaternion.Euler(0, Camera.transform.rotation.eulerAngles.y, 0);
-        //Vector3 move = cameraRotationY * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * playerSpeed;
         Vector3 move = new Vector3(horizontal, 0, vertical) * Runner.DeltaTime * playerSpeed;
 
         if(_jumpPressed)
@@ -77,7 +71,5 @@ public class PlayerMovement : NetworkBehaviour
         {
             gameObject.transform.forward = move;
         }
-
-        //_jumpPressed = false;
     }
 }
