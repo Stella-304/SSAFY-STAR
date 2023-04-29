@@ -3,7 +3,7 @@ using UnityEngine;
 using Fusion;
 
 [ScriptHelp(BackColor = EditorHeaderBackColor.Steel)]
-public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft, Fusion.IPlayerJoined
+public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft
 {
     public static ControllerPrototype Local { get; protected set; }
 
@@ -35,6 +35,10 @@ public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft, 
         if (Object.HasInputAuthority)
         {
             Local = this;
+
+            MapController mapController = GameObject.Find("UIMenu").GetComponent<MapController>();
+            mapController.player = this.gameObject;
+            Debug.Log("맵에 플레이어 추가");
         }
 
         Debug.Log("Spawned 캐릭터 생성됨");
@@ -124,13 +128,4 @@ public class ControllerPrototype : Fusion.NetworkBehaviour, Fusion.IPlayerLeft, 
         }
     }
 
-    public void PlayerJoined(PlayerRef player)
-    {
-        if (player == Object.InputAuthority)
-        {
-            MapController mapController = GameObject.Find("UIMenu").GetComponent<MapController>();
-            mapController.player = this.gameObject;
-            Debug.Log("맵에 플레이어 추가");
-        }
-    }
 }
