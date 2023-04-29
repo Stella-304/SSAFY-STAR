@@ -154,9 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  message: {fileID: 0}
-  input: {fileID: 0}
-  usernameInput: {fileID: 0}
   username: Default
 --- !u!114 &361100821
 MonoBehaviour:
@@ -189,13 +186,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361100819}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 505.2536, y: 200.28557, z: -4.8053164}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 369924664}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &369924660
 GameObject:
@@ -209,6 +206,7 @@ GameObject:
   - component: {fileID: 369924663}
   - component: {fileID: 369924662}
   - component: {fileID: 369924661}
+  - component: {fileID: 369924665}
   m_Layer: 5
   m_Name: UIMenu
   m_TagString: Untagged
@@ -272,10 +270,23 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 361100822}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &369924665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369924660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6adb9cae1aafd4190aa328ed4a68d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &384667390
 GameObject:
   m_ObjectHideFlags: 0

@@ -143,3 +143,22 @@
     -unity-background-image-tint-color: rgb(255, 117, 0);
     top: 4px;
 }
+
+.chatbox {
+    height: 200px;
+    width: 100%;
+    flex-direction: column-reverse;
+    background-color: rgba(255, 255, 255, 0.46);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 34px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

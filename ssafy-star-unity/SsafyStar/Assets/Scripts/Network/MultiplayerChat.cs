@@ -1,31 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using Fusion;
+using UnityEngine.UIElements;
 
 public class MultiplayerChat : NetworkBehaviour
 {
-    public TMP_Text message;
-    public TMP_Text input;
-    public TMP_Text usernameInput;
+    //public TMP_Text message;
+    //public TMP_Text input;
+    //public TMP_Text usernameInput;
     public string username = "Default";
 
-    public void SetUserName()
+    private UIDocument doc;
+    private Label chatText;
+
+    private void Awake()
     {
-        username = usernameInput.text;
+        doc = GetComponentInParent<UIDocument>();
+        chatText = doc.rootVisualElement.Q<Label>("chattext");
     }
 
-    public void CallMessageRPC()
+    public void SetUserName(string text)
     {
-        string message = input.text;
-        RPCSendMessage(username, message);
+        username = text;
+    }
+
+    public void CallMessageRPC(string text)
+    {
+        Debug.Log("=="+ text);
+        RPCSendMessage(username, text);
     }
 
     [Rpc(RpcSources.All,RpcTargets.All)]
     public void RPCSendMessage(string username, string message, RpcInfo rpcInfo = default)
     {
-        this.message.text += $"{username}: {message}\n";
+        chatText.text += $"{username}: {message}\n";
     }
 }
