@@ -78,7 +78,7 @@ public class InitDataServiceImpl implements InitDataService {
 	@Override
 	public void initCoordinate() {
 		try {
-			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/hemishpere-coordinate-data.json");
+			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/hemisphere-coordinate-data.json");
 			for (LinkedHashMap row : json) {
 				coordinateRepository.save(
 					Coordinate

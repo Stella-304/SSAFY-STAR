@@ -79,8 +79,7 @@ public class CardServiceImpl implements CardService {
 
     private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
         List<EdgeDto> edgeList=new ArrayList<>();
-        int cnt=detailDtoList.size();
-
+        edgeList=GeometryUtil.getEdgeList(detailDtoList);
         return edgeList;
     }
 
@@ -132,10 +131,10 @@ public class CardServiceImpl implements CardService {
         return detailDtoList;
     }
 
-    //상학쓰 구현파트
-    public List<EdgeDto> hi(List<Card> cardList) {
-        return null;
-    }
+//    //상학쓰 구현파트
+//    public List<EdgeDto> hi(List<Card> cardList) {
+//        return null;
+//    }
 
     @Override
     public List<String> searchCompany(String query) {
