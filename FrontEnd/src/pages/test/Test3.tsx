@@ -1,5 +1,11 @@
 import * as THREE from "three";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Canvas, Vector3, useFrame } from "@react-three/fiber";
 import {
   CameraControls,
@@ -24,6 +30,7 @@ import { motion } from "framer-motion-3d";
 import { Scene } from "three";
 import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import axios from "axios";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 const userInfo: User = {
   name: "이아현",
@@ -106,40 +113,82 @@ function Ground() {
   );
 }
 
-function Star({ item, onClick }: any) {
+function Star(props: any) {
   const [hovered, setHovered] = useState<boolean>(false);
   const color = new THREE.Color();
   const starRef = useRef<any>(null);
 
   useFrame(() => {
-    // Animate font color
-    starRef.current.material.color.lerp(
-      color.set(hovered ? "#fa2720" : "white"),
-      0.1,
-    );
+    if (starRef.current) {
+      starRef.current.material.color.lerp(
+        color.set(hovered ? "yellow" : "white"),
+        0.1,
+      );
+    }
+  });
+
+  let tl = gsap.timeline();
+
+  useLayoutEffect(() => {
+    if (
+      props.starPos &&
+      props.starPos.x === starRef.current.position.x &&
+      props.starPos.y === starRef.current.position.y &&
+      props.starPos.z === starRef.current.position.z
+    ) {
+      let ctx = gsap.context(() => {
+        tl.to(starRef.current.scale, {
+          x: 2,
+          y: 2,
+          z: 2,
+          duration: 2,
+          ease: "elastic",
+        }).then(() => {
+          props.setEndAnim(true);
+        });
+      }, starRef);
+
+      return () => {
+        ctx.revert();
+        props.setEndAnim(false);
+      };
+    }
+  }, [props.starPos]);
+
+  useLayoutEffect(() => {
     if (hovered) {
       starRef.current.scale.x = 0.7;
       starRef.current.scale.y = 0.7;
       starRef.current.scale.z = 0.7;
     } else {
-      starRef.current.scale.x = 0.12;
-      starRef.current.scale.y = 0.12;
-      starRef.current.scale.z = 0.12;
+      starRef.current.scale.x = 0.3;
+      starRef.current.scale.y = 0.3;
+      starRef.current.scale.z = 0.3;
     }
-  });
+  }, [hovered]);
 
   return (
-    <Sphere
-      position={[item.x * 3, item.y * 3, item.z * 3]}
-      onClick={() => onClick()}
-      ref={starRef}
-      key={item.cardId}
-      scale={0.12}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      <meshStandardMaterial color="white" />
-    </Sphere>
+    <>
+      <Sphere
+        position={[props.item.x * 3, props.item.y * 3, props.item.z * 3]}
+        onClick={() => {
+          props.onClick();
+        }}
+        key={props.item.cardId}
+        scale={2}
+        onPointerOver={() => {
+          setHovered(true);
+        }}
+        onPointerOut={() => {
+          setHovered(false);
+        }}
+        visible={false}
+      />
+      <Sphere
+        position={[props.item.x * 3, props.item.y * 3, props.item.z * 3]}
+        ref={starRef}
+      />
+    </>
   );
 }
 
@@ -160,36 +209,13 @@ export default function Test3() {
     new THREE.Vector3(-15, 30, 20),
   ];
 
-  const starRef = useRef<any>(null);
   const lineRef = useRef<any>(null);
-
   const starInfo = useStarInfoQuery();
-
-  let tl = gsap.timeline();
-
-  useLayoutEffect(() => {
-    if (starPos && starRef.current) {
-      let ctx = gsap.context(() => {
-        tl.to(starRef.current.scale, {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 2,
-          ease: "elastic",
-        }).then(() => setEndAnim(true));
-      }, starRef);
-
-      return () => {
-        ctx.revert();
-        setEndAnim(false);
-      };
-    }
-  }, [starPos]);
 
   return (
     <div className="h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
-        <OrbitControls autoRotate autoRotateSpeed={0.4} enableZoom={false} />
+        <OrbitControls enableZoom={false} />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
@@ -225,12 +251,15 @@ export default function Test3() {
             }
           />
         ))} */}
-        {position.map((item) => (
+        {position.map((item, index) => (
           <Star
             item={item}
-            onClick={() =>
-              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3))
-            }
+            starPos={starPos}
+            setEndAnim={setEndAnim}
+            onClick={() => {
+              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3));
+            }}
+            key={index}
           />
         ))}
         <Stars
