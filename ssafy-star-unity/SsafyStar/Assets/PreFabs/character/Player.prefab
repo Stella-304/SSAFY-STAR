@@ -1588,11 +1588,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6467038624446371106}
   - component: {fileID: 4414130147913388255}
-  - component: {fileID: 6467038624446371111}
   - component: {fileID: 5104436320831623929}
   - component: {fileID: 979491788336185845}
   - component: {fileID: 2617348771105761717}
   - component: {fileID: 52399015733377343}
+  - component: {fileID: 8715797041370392576}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1634,33 +1634,6 @@ MonoBehaviour:
   Camera: {fileID: 0}
   JumpForce: 5
   GravityValue: -3
---- !u!114 &6467038624446371111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6467038624446371112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectInterest: 0
-  DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
-  AllowStateAuthorityOverride: 0
-  AoiPositionSource: {fileID: 0}
-  Flags: 2305
-  NetworkGuid:
-    RawGuidValue: f2ab18cd715dcc545b1d9a23e58a2fce
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 4414130147913388255}
-  - {fileID: 979491788336185845}
-  - {fileID: 2617348771105761717}
-  - {fileID: 52399015733377343}
-  SimulationBehaviours: []
 --- !u!143 &5104436320831623929
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1744,6 +1717,33 @@ MonoBehaviour:
   _interpolationDataSource: 0
   Damage: 50
   PlayerMovement: {fileID: 4414130147913388255}
+--- !u!114 &8715797041370392576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6467038624446371112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 1
+  AllowStateAuthorityOverride: 0
+  AoiPositionSource: {fileID: 0}
+  Flags: 2305
+  NetworkGuid:
+    RawGuidValue: f2ab18cd715dcc545b1d9a23e58a2fce
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 4414130147913388255}
+  - {fileID: 979491788336185845}
+  - {fileID: 2617348771105761717}
+  - {fileID: 52399015733377343}
+  SimulationBehaviours: []
 --- !u!1 &6530874019712062360
 GameObject:
   m_ObjectHideFlags: 0

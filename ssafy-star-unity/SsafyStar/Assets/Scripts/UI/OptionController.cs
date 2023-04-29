@@ -14,12 +14,12 @@ public class OptionController : MonoBehaviour
     private bool isOptionOpen = false;
     private Button btnExit;
 
-    private NetworkRunnerCustom networkRunner;
+    [SerializeField]
+    private GameData gameData;
 
     private void Awake()
     {
         doc = GetComponent<UIDocument>();
-        networkRunner = GameObject.Find("Network Start").GetComponent<NetworkRunnerCustom>();
     }
 
     void Update()
@@ -52,7 +52,7 @@ public class OptionController : MonoBehaviour
 
     private void BtnExitClicked()
     {
-        networkRunner.GameExit();
+        gameData.GameExit();
     }
 
 }

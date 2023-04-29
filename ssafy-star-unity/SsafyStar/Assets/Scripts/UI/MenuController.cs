@@ -53,7 +53,7 @@ public class MenuController : MonoBehaviour
 
     private void BtnPlayOnClicked()
     {
-        SceneManager.LoadScene("FusionTest");
+        SceneManager.LoadScene("Lobby");
     }
 
     private void BtnExitOnClicked()

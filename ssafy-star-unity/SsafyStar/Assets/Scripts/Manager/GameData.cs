@@ -15,4 +15,9 @@ public class GameData : MonoBehaviour
     {
         networkDebugStart.StartSharedClient();
     }
+
+    public void GameExit()
+    {
+        networkDebugStart.Shutdown();
+    }
 }
