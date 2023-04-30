@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean registUser(UserRegistDto userRegistDto) {
 
-        if(userRepository.existsByUserId(userRegistDto.getUserId())) {
+        if(userRepository.existsByUserAccountAccountId(userRegistDto.getUserId())) {
             return false;
         }
 
@@ -71,8 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String loginUser(UserLoginDto userLoginDto) {
 
-//        Optional<User> userOptional = userRepository.findByAccountId(userLoginDto.getAccountId());
-        Optional<User> userOptional = null;
+        Optional<User> userOptional = userRepository.findByUserAccountAccountId(userLoginDto.getAccountId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             UserAccount userAccount = user.getUserAccount();

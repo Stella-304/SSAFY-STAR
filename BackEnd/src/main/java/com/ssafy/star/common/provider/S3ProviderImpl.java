@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @NoArgsConstructor
 @Slf4j
-public class S3ProviderImpl {
+public class S3ProviderImpl implements S3Provider{
 
 	private AmazonS3 s3Client;
 

@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
     }
 
-    @PostMapping
+    @PostMapping("/login")
     @ApiOperation(value="로그인")
     public ResponseEntity<ResponseDto> userLogin(@RequestBody UserLoginDto userLoginDto) {
 
@@ -45,7 +45,7 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseDto.of(HttpStatus.UNAUTHORIZED, Msg.FAULURE_LOGIN)));
     }
 
-    @GetMapping("/check-email-duplicate")
+    @GetMapping("/email/check-duplicate")
     @ApiOperation(value="이메일 중복 여부 확인")
     public ResponseEntity<ResponseDto> checkDuplicateEmail(@RequestParam String email) {
         if (userService.duplicateEmailCheck(email)) {
@@ -54,14 +54,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_EMAIL));
     }
 
-    @PostMapping
-    @ApiOperation(value = "회원가입")
-    public ResponseEntity<ResponseDto> userRegist() {
-
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
-    }
-
-    @PostMapping("/send-verification-email")
+    @PostMapping("/email/send-verification")
     @ApiOperation(value="인증메일 전송")
     public ResponseEntity<ResponseDto> sendEmailVerificationCode(@RequestBody String email) {
         userService.emailVerificationCodeSend(email);
@@ -85,6 +78,5 @@ public class UserController {
     public ResponseEntity<ResponseDto> badgeStatusSearch(@PathVariable("type") String type){
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchBadgeStatus(type)));
     }
-
-
+    
 }
