@@ -13,6 +13,7 @@ public class ChatController : MonoBehaviour
     private bool inputfieldClicked = false;
 
     private MultiplayerChat multiChat;
+    public PlayerMovement player;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class ChatController : MonoBehaviour
         chatbox.style.visibility = chatboxVisibility ? Visibility.Hidden : Visibility.Visible;
 
         chatboxVisibility = !chatboxVisibility;
+        player.stop = !player.stop;
     }
 
     //private void InputFieldClicked()

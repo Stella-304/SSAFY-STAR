@@ -26,7 +26,6 @@ public class MultiplayerChat : NetworkBehaviour
 
     public void CallMessageRPC(string text)
     {
-        Debug.Log("=="+ text);
         RPCSendMessage(username, text);
     }
 

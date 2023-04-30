@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : NetworkBehaviour
 {
     [Header("Move")]
+    public bool stop = false;
     public float playerSpeed = 2f;
     public Vector3 velocity = Vector3.zero;
     public Camera Camera;
@@ -29,6 +30,12 @@ public class PlayerMovement : NetworkBehaviour
 
     void Update()
     {
+        if (stop)
+        {
+            anim.SetBool("Walk", false);
+            return;
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             _jumpPressed = true;
@@ -42,6 +49,7 @@ public class PlayerMovement : NetworkBehaviour
             Camera = Camera.main;
             Camera.GetComponent<CameraMovement>().Target = GetComponent<NetworkTransform>().InterpolationTarget;
             GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
+            GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
         }
     }
 
@@ -51,6 +59,8 @@ public class PlayerMovement : NetworkBehaviour
         {
             return;
         }
+
+        if (stop) return;
 
         //if (controller.IsGrounded)
         //{
