@@ -1,4 +1,5 @@
 import SmallButton from "../../../components/Button/SmallButton";
+import ImageInput from "../../../components/Input/ImageInput";
 import Input from "../../../components/Input/Input";
 
 export default function Certify() {
@@ -13,7 +14,7 @@ export default function Certify() {
             <div className="flex justify-center  gap-16">
                 <div>
                     <div className="w-150 h-150 bg-red-400">
-                        입력창
+                        <ImageInput/>
                     </div>
                 </div>
                 <div>
@@ -34,7 +35,7 @@ export default function Certify() {
             <div className="flex justify-center  gap-16">
                 <div>
                     <div className="w-150 h-150 bg-red-400">
-                        입력창
+                        <ImageInput/>
                     </div>
                 </div>
                 <div className="flex flex-col justify-around">
