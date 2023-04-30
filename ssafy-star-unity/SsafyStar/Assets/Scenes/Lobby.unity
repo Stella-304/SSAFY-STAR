@@ -207,6 +207,8 @@ GameObject:
   - component: {fileID: 369924662}
   - component: {fileID: 369924661}
   - component: {fileID: 369924665}
+  - component: {fileID: 369924667}
+  - component: {fileID: 369924666}
   m_Layer: 5
   m_Name: UIMenu
   m_TagString: Untagged
@@ -285,6 +287,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a6adb9cae1aafd4190aa328ed4a68d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+--- !u!114 &369924666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369924660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccff0faaffbc20a4eb7f7b3718fc261e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &369924667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369924660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccff0faaffbc20a4eb7f7b3718fc261e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &384667390
