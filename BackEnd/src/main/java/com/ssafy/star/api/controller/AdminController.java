@@ -39,9 +39,8 @@ public class AdminController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, adminService.getBadgeList("YET")));
 	}
 
-	@PostMapping("/badge//{auth_id}/{type}")
+	@PostMapping("/badge/{auth_id}/{type}")
 	@ApiOperation(value = "뱃지 달아줄지 말지 정하기 '/badge/ok' 만 뱃지 달아줄거임~")
-
 	public ResponseEntity<?> badgeRegist(@PathVariable("auth_id") long auth_id, @PathVariable("type") String type) {
 		adminService.registBadge(auth_id, type);
 		return ResponseEntity.ok()
