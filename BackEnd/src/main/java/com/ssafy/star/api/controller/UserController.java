@@ -2,8 +2,8 @@ package com.ssafy.star.api.controller;
 
 import com.ssafy.star.api.service.UserService;
 import com.ssafy.star.common.db.dto.request.BadgeRegistReqDto;
-import com.ssafy.star.common.db.dto.request.UserLoginDto;
-import com.ssafy.star.common.db.dto.request.UserRegistDto;
+import com.ssafy.star.common.db.dto.request.UserLoginReqDto;
+import com.ssafy.star.common.db.dto.request.UserRegistReqDto;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
 import io.swagger.annotations.Api;
@@ -28,8 +28,8 @@ public class UserController {
 
     @PostMapping("/regist")
     @ApiOperation(value="회원가입")
-    public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistDto userRegistDto) {
-        if(userService.registUser(userRegistDto)) {
+    public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
+        if(userService.registUser(userRegistReqDto)) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
@@ -37,12 +37,19 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation(value="로그인")
-    public ResponseEntity<ResponseDto> userLogin(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<ResponseDto> userLogin(@RequestBody UserLoginReqDto userLoginReqDto) {
 
-        Optional<String> tokenOptional = Optional.ofNullable(userService.loginUser(userLoginDto));
+        Optional<String> tokenOptional = Optional.ofNullable(userService.loginUser(userLoginReqDto));
 
         return tokenOptional.map(token -> ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_LOGIN, token)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseDto.of(HttpStatus.UNAUTHORIZED, Msg.FAULURE_LOGIN)));
+    }
+
+    @PostMapping("/logout")
+    @ApiOperation(value="로그아웃")
+    public ResponseEntity<ResponseDto> userLogout(@RequestHeader("Authorization") String token) {
+        userService.logoutUser(token);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_LOGOUT));
     }
 
     @GetMapping("/email/check-duplicate")
@@ -78,5 +85,5 @@ public class UserController {
     public ResponseEntity<ResponseDto> badgeStatusSearch(@PathVariable("type") String type){
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchBadgeStatus(type)));
     }
-    
+
 }

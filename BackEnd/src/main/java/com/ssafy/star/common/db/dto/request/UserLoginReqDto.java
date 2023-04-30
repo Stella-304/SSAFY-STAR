@@ -4,7 +4,7 @@ package com.ssafy.star.common.db.dto.request;
 import lombok.Getter;
 
 @Getter
-public class UserLoginDto {
+public class UserLoginReqDto {
 
     String accountId;
 
