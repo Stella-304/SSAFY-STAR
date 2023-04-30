@@ -31,7 +31,7 @@ public class TokenProviderImpl implements TokenProvider {
 
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
@@ -45,7 +45,7 @@ public class TokenProviderImpl implements TokenProvider {
 
         return Jwts.builder()
                 .setSubject(Long.toString(id))
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();

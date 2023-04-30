@@ -93,6 +93,8 @@ public class User extends BaseTime {
 		CascadeType.REFRESH})
 	List<CardComment> cardCommentList = new ArrayList<>();
 
+    public void setNickname(String nickname) {this.nickname = nickname; }
+    public void setName(String name) {this.name = name; }
 	public void setCard(Card card) {
 		this.card = card;
 	}

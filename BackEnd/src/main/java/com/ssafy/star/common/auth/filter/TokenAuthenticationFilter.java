@@ -27,6 +27,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+
+    /*
+    *  JWT 인증 방식은 Stateless 즉, HttpSession에서 인증된 Authentication을 포함한 SecurityContext를 관리하지 않습니다.
+    * SecurityContextPersistenceFilter는 SecurityContext를 저장, 로드, 삭제하는 등의 역할을 합니다.
+    * Spring Security에서는 적절한 시점에 SecurityContext를 사용할 수 없도록
+    * Authentication 객체가 저장되어 있는 SecurityContext 자체를 삭제합니다.
+    * https://itvillage.tistory.com/60
+    */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 

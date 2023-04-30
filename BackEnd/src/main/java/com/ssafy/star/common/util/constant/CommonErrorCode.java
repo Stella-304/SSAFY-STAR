@@ -19,6 +19,9 @@ public enum CommonErrorCode implements ErrorCode {
 	USER_NOT_FOUND(HttpStatus.FORBIDDEN, "존재하지 않는 유저입니다."),
 	UNLOGINED_USER(HttpStatus.FORBIDDEN, "로그인 되지 않은 유저입니다."),
 
+	//이메일 send
+	EMAIL_SMTP_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "이메일을 보내지 못했습니다."),
+
 	//소셜인증
 	UNAUTHORIZED_URI(HttpStatus.UNAUTHORIZED, "등록되지 않은 Uri입니다."),
 	NO_EMAIL_PROVIDED(HttpStatus.UNAUTHORIZED, "이메일을 제공받지 못했습니다."),

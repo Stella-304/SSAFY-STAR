@@ -13,4 +13,8 @@ public class UserAccount {
     private String accountId;
 
     private String accountPwd;
+
+    public void setAccountPwd(String accountPwd) {
+        this.accountPwd = accountPwd;
+    }
 }
