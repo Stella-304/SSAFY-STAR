@@ -41,6 +41,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             Camera = Camera.main;
             Camera.GetComponent<CameraMovement>().Target = GetComponent<NetworkTransform>().InterpolationTarget;
+            GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
         }
     }
 
