@@ -1,11 +1,9 @@
 package com.ssafy.star.constellation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
+
+import java.util.*;
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class Icosphere {
@@ -29,11 +27,32 @@ public class Icosphere {
 
 		for (int i = 1; i < 6; i++) {
 			subdivise(i);
+			int sum=0;
+			for(int j=0;j<vertices.size();j++){
+				if(vertices.get(j).getZ()>0){
+					sum++;
+				}
+			}
+//			System.out.println(vertices.size());
+//			System.out.println(sum);
+//			System.out.println();
 		}
+		int i=0;
+		Stack<Point3D> stk=new Stack<>();
 		for (Point3D p : vertices) {
-			System.out.println(p.toString());
+//			System.out.println(p.toString());
+			if(p.getZ()<=0){
+//				vertices.remove(p);
+				stk.add(p);
+				i++;
+			}
 		}
-		convert(vertices,"coords");
+		while(!stk.isEmpty()){
+			vertices.remove(stk.pop());
+		}
+		Collections.sort(vertices);
+		vertices.stream().forEach(System.out::println);
+		convert(vertices,"hemisphere-coordinate-data");
 	}
 
 	private static void subdivise(int level) {
