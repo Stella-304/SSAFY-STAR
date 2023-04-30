@@ -57,7 +57,7 @@ public class UserController {
     @PostMapping
     @ApiOperation(value = "회원가입")
     public ResponseEntity<ResponseDto> userRegist() {
-        userService.registUser();
+
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
 
@@ -76,8 +76,15 @@ public class UserController {
             @RequestPart MultipartFile file) throws IOException {
         log.info(dto);
         log.info(file.getOriginalFilename());
-        log.info(file.getContentType());
         userService.registBadge(dto, file);
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
+
+    @GetMapping("/badge/status/{type}")
+    @ApiOperation(value = "뱃지 인증 진행상태 확인")
+    public ResponseEntity<ResponseDto> badgeStatusSearch(@PathVariable("type") String type){
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchBadgeStatus(type)));
+    }
+
+
 }

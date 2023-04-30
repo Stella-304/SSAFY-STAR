@@ -1,14 +1,12 @@
 package com.ssafy.star.common.provider;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.ssafy.star.common.exception.CommonApiException;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface S3Provider {
-	String uploadMultipartFile(MultipartFile file, String uri);
-
-	String uploadFile(File file, String uri);
-
-	void delete(String uri);
-
+	String upload(MultipartFile file,String baseUrl) throws IOException;
+	void deleteFile(String imageSrc);
 }
