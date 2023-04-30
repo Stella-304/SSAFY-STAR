@@ -1,7 +1,7 @@
 package com.ssafy.star.api.controller;
 
-
 import com.ssafy.star.api.service.UserService;
+import com.ssafy.star.common.db.dto.request.BadgeRegistReqDto;
 import com.ssafy.star.common.db.dto.request.UserLoginDto;
 import com.ssafy.star.common.db.dto.request.UserRegistDto;
 import com.ssafy.star.common.util.constant.Msg;
@@ -9,12 +9,16 @@ import com.ssafy.star.common.util.dto.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
+@Log4j2
 @RestController
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
@@ -28,7 +32,7 @@ public class UserController {
         if(userService.registUser(userRegistDto)) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.OK, Msg.DUPLICATED_ID));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
     }
 
     @PostMapping
@@ -44,11 +48,17 @@ public class UserController {
     @GetMapping("/check-email-duplicate")
     @ApiOperation(value="이메일 중복 여부 확인")
     public ResponseEntity<ResponseDto> checkDuplicateEmail(@RequestParam String email) {
-
         if (userService.duplicateEmailCheck(email)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_EMAIL));
         }
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_EMAIL));
+    }
+
+    @PostMapping
+    @ApiOperation(value = "회원가입")
+    public ResponseEntity<ResponseDto> userRegist() {
+        userService.registUser();
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
 
     @PostMapping("/send-verification-email")
@@ -58,9 +68,16 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_MAIL));
     }
 
-    @PostMapping("/")
-    @ApiOperation(value="이메일 인증")
-    public ResponseEntity<ResponseDto> authEmail() {
-        userService.
+    @PostMapping("/badge")
+    // @Secured("CLIENT")
+    @ApiOperation(value = "뱃지 인증 요청")
+    public ResponseEntity<ResponseDto> badgeRegist(
+            @RequestPart BadgeRegistReqDto dto,
+            @RequestPart MultipartFile file) throws IOException {
+        log.info(dto);
+        log.info(file.getOriginalFilename());
+        log.info(file.getContentType());
+        userService.registBadge(dto, file);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
 }

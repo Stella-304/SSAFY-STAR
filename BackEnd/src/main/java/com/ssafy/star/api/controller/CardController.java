@@ -1,23 +1,14 @@
 package com.ssafy.star.api.controller;
 
-import javax.websocket.server.PathParam;
-
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.star.api.service.CardService;
-import com.ssafy.star.api.service.UserService;
-import com.ssafy.star.common.db.dto.response.ConstellationListDto;
-import com.ssafy.star.common.db.entity.User;
-import com.ssafy.star.common.provider.AuthProvider;
+import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
+import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
+import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
 
@@ -30,18 +21,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping(value = "/card")
 public class CardController {
-	private final AuthProvider authProvider;
 	private final CardService cardService;
 
 	@PostMapping("/boj")
-	@Secured({"ROLE_CLIENT"})
+	// @Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
-		long id = authProvider.getUserIdFromPrincipal();
-		cardService.updateBojTier(id);
-
+		cardService.updateBojTier();
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+
+	@GetMapping("/boj/{bojId}")
+	@ApiOperation(value = "BOJ 티어 가져오기")
+	public ResponseEntity<?> bojTierGet(@PathVariable("bojId") String bojId) {
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
 	}
 
 	@GetMapping("/company")
@@ -52,15 +47,36 @@ public class CardController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.searchCompany(query)));
 	}
 
+	//Post로 바꾸던가... requestbody 대신에 modelattribute를 이용하던가 해야되나? 어떻게 해결하지.
 	@GetMapping("/list")
-	public ResponseEntity<ResponseDto> getCardList() {
+	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
+	public ResponseEntity<ResponseDto> cardListGet(
+		@RequestBody(required = false) SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList("")));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
 	}
 
-	@GetMapping("/test")
-	public ResponseEntity<ResponseDto> getFilteredCardList(@RequestParam("filter") String filter) {
+	@PostMapping
+	@ApiOperation(value = "카드 등록하기")
+	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {
+		cardService.registCard(cardRegistReqDto);
 		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(filter)));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
+	@PutMapping
+	@ApiOperation(value = "카드 수정하기")
+	public ResponseEntity<ResponseDto> cardUpdate(@RequestBody CardUpdateReqDto cardUpdateReqDto) throws Exception {
+		cardService.updateCard(cardUpdateReqDto);
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+
+	@DeleteMapping
+	@ApiOperation(value = "카드 지우기")
+	public ResponseEntity<ResponseDto> cardDelete(@RequestParam Long cardId) {
+		cardService.deleteCard(cardId);
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
 	}
 }

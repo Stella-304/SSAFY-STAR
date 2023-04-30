@@ -56,6 +56,10 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 	//jackson
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
+	// AWS S3
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.387'
+
 }
 
 tasks.named('test') {

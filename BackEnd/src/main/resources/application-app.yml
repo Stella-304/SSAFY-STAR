@@ -38,3 +38,14 @@ oauth2:
 cors:
   allowedOrigins: https://localhost:3000, http://j8b301.p.ssafy.io:3000, http://localhost:8080, https://k8b304.p.ssafy.io
 
+cloud:
+  aws:
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIAXOKFGBIDWBDEY6IA
+      secretKey: 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
+    s3:
+      bucket: ssafy-star-s3-bucket
+    region:
+      static: ap-northeast-2

@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.SocialAuth;
 import com.ssafy.star.common.auth.info.UserAccount;
@@ -16,8 +17,8 @@ import java.util.Set;
 
 @Entity
 @Getter
-@Builder
 @ToString
+@Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
@@ -25,8 +26,8 @@ import java.util.Set;
 	@UniqueConstraint(columnNames = "nickname")
 })
 @SecondaryTables({
+        @SecondaryTable(name = "user_account", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id")),
 	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id")),
-        @SecondaryTable(name = "user_account", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id"))
 })
 public class User extends BaseTime {
 
@@ -37,12 +38,19 @@ public class User extends BaseTime {
     @Column(length = 60, nullable = false)
     private String email;
 
+    @Column(length = 5)
+    private String name;
+
     @Column(length = 10, nullable = false)
     private String nickname;
 
     @Column(nullable = false)
     @ColumnDefault("false")
     private boolean isAutorized;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean companyIsAutorized;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
@@ -58,8 +66,8 @@ public class User extends BaseTime {
     @ToString.Exclude
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "userId", column = @Column(table = "user_account", name = "user_id")),
-            @AttributeOverride(name = "userPwd", column = @Column(table = "user_account", name = "user_id")),
+            @AttributeOverride(name = "accountId", column = @Column(table = "user_account", name = "account_id")),
+            @AttributeOverride(name = "accountPwd", column = @Column(table = "user_account", name = "account_pwd"))
     })
     private UserAccount userAccount;
 
@@ -80,7 +88,22 @@ public class User extends BaseTime {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Follow> followList = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    List<CardComment> cardCommentList = new ArrayList<>();
+	@Builder.Default
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+		CascadeType.REFRESH})
+	List<CardComment> cardCommentList = new ArrayList<>();
+
+	public void setCard(Card card) {
+		this.card = card;
+	}
+
+	public void equipBadge(BadgeEnum badgeEnum) {
+
+		if (badgeEnum == BadgeEnum.COMPANY) {
+			this.companyIsAutorized = true;
+		}
+		if (badgeEnum == BadgeEnum.SSAFY) {
+			this.isAutorized = true;
+		}
+	}
 }

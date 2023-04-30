@@ -24,10 +24,15 @@ public enum CommonErrorCode implements ErrorCode {
 	NO_EMAIL_PROVIDED(HttpStatus.UNAUTHORIZED, "이메일을 제공받지 못했습니다."),
 	EMAIL_ALREADY_EXITS(HttpStatus.ALREADY_REPORTED, "이미 존재하는 이메일 입니다."),
 	BAD_SOCIAL_TYPE(HttpStatus.BAD_REQUEST, "지원하지 않는 소셜 타입입니다."),
+	BAD_AUTH_ID(HttpStatus.BAD_REQUEST, "auth_id가 올바르지 않습니다."),
 
 	// 카드
 	NO_CARD_PROVIDED(HttpStatus.FORBIDDEN, "카드를 제공받지 못했습니다."),
 	NO_BOJ_ID_PROVIDED(HttpStatus.FORBIDDEN, "백준 아이디를 제공받지 못했습니다."),
+
+	//파일
+	FILE_NOT_VAILD(HttpStatus.FORBIDDEN, "유효하지 않은 파일입니다")
+
 	;
 
 	private final HttpStatus httpStatus;

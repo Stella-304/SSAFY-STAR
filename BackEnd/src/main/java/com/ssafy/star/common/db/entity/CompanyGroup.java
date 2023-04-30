@@ -1,19 +1,10 @@
 package com.ssafy.star.common.db.entity;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -28,6 +19,7 @@ public class CompanyGroup {
 	@Column
 	private String name;
 
+	@Builder.Default
 	@ElementCollection
 	@Column(name = "name")
 	private Set<String> compnayList = new HashSet<String>();

@@ -1,9 +1,23 @@
+logging:
+  level:
+    root: info
+
 server:
   servlet:
     context-path: /app
     port: 8080
 
 spring:
+  servlet:
+    multipart:
+      # default 0
+      file-size-threshold: 0MB
+      #      location을 설정하지 않으면 System.getProperty("java.io.tmpdir"); 경로에 저장
+      location:
+      #      default 1MB
+      max-file-size: 5MB
+      #      default 10MB
+      max-request-size: 5MB
 
   profiles:
     include: app
@@ -69,7 +83,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:

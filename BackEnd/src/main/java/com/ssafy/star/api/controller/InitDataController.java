@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ssafy.star.api.service.InitDataService;
 import com.ssafy.star.common.util.constant.Msg;
@@ -22,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class InitDataController {
 
 	final InitDataService initDataService;
+
 	@GetMapping("/company")
 	@ApiOperation(value = "company data init")
 	public ResponseEntity<?> company() {
@@ -29,6 +29,15 @@ public class InitDataController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
+
+	@GetMapping("/user")
+	@ApiOperation(value = "user data init")
+	public ResponseEntity<?> user() throws Exception {
+		initDataService.initUser();
+		return ResponseEntity.ok()
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
 	@GetMapping("/coordinate")
 	@ApiOperation(value="coordinate data init")
 	public ResponseEntity<?> coordinate(){
