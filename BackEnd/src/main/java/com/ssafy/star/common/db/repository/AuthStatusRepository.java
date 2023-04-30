@@ -15,5 +15,5 @@ import com.ssafy.star.common.db.entity.CompanyGroup;
 public interface AuthStatusRepository extends JpaRepository<AuthStatus, Long> {
 	List<AuthStatus> findByProcessStatus(boolean status);
 
-	List<AuthStatus> findByUserAndBadge(User user, BadgeEnum type);
+	List<AuthStatus> findByUserAndBadgeType(User user, BadgeEnum type);
 }

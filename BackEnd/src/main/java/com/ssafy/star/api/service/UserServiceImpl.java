@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         BadgeEnum enumType = BadgeEnum.valueOf(type);
         long userId = authProvider.getUserIdFromPrincipal();
         User user = userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
-        List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadge(user, enumType);
+        List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadgeType(user, enumType);
 
         // 인증이 마쳐진 경우.
         if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAutorized())
