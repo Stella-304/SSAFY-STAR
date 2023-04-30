@@ -93,17 +93,3 @@ spring:
     host: ${redis.host}
     port: ${redis.port}
     password: ${redis.pwd}
-
-  mail:
-    host: smtp.naver.com
-    port: 465
-    protocol: smtps
-    username: ${smtp.user}
-    password: ${smtp.pwd}
-    properties:
-      mail:
-        smtp:
-          starttles:
-            enable: true
-            required: true
-          auth: true
