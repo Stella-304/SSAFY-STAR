@@ -7,7 +7,8 @@ import java.util.Date;
 
 public interface TokenProvider {
 
-    String createToken(Authentication authentication);
+    String createTokenByAuthentication(Authentication authentication);
+    String createTokenById(long id);
     Long getUserIdFromToken(String token);
     boolean validateToken(String authToken);
     String getTokenFromRequest(HttpServletRequest request);

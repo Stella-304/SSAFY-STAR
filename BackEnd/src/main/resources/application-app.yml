@@ -19,6 +19,11 @@ redis:
   port: 6379
   pwd: ssafystar304
 
+smtp:
+  user: ssafytest3542@naver.com
+  pwd: ssafytest3542!!
+  admin: ssafytest3542@naver.com
+
 oauth2:
   google:
     id: 529211202441-1f39a5fgiova7jmrcb7b4navbq073d9d.apps.googleusercontent.com
@@ -31,7 +36,7 @@ oauth2:
     secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
 
 cors:
-  allowedOrigins: https://localhost:3000, http://localhost:8080, https://k8b304.p.ssafy.io
+  allowedOrigins: https://localhost:3000, http://j8b301.p.ssafy.io:3000, http://localhost:8080, https://k8b304.p.ssafy.io
 
 cloud:
   aws:
@@ -41,6 +46,6 @@ cloud:
       accessKey: AKIAXOKFGBIDWBDEY6IA
       secretKey: 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
     s3:
-      bucket: persona-test-bucket
+      bucket: ssafy-star-s3-bucket
     region:
       static: ap-northeast-2

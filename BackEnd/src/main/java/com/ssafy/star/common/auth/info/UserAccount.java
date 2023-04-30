@@ -9,6 +9,8 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class SocialAuth {
-    private String providerId;
+public class UserAccount {
+    private String accountId;
+
+    private String accountPwd;
 }
