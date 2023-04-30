@@ -4,8 +4,8 @@ import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.auth.info.UserAccount;
 import com.ssafy.star.common.db.dto.request.BadgeRegistReqDto;
-import com.ssafy.star.common.db.dto.request.UserLoginDto;
-import com.ssafy.star.common.db.dto.request.UserRegistDto;
+import com.ssafy.star.common.db.dto.request.UserLoginReqDto;
+import com.ssafy.star.common.db.dto.request.UserRegistReqDto;
 import com.ssafy.star.common.db.dto.response.BadgeStatusDto;
 import com.ssafy.star.common.db.entity.AuthStatus;
 import com.ssafy.star.common.db.entity.User;
@@ -46,19 +46,19 @@ public class UserServiceImpl implements UserService {
     final AuthStatusRepository authStatusRepository;
 
     @Override
-    public boolean registUser(UserRegistDto userRegistDto) {
+    public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
-        if(userRepository.existsByUserAccountAccountId(userRegistDto.getUserId())) {
+        if(userRepository.existsByUserAccountAccountId(userRegistReqDto.getUserId())) {
             return false;
         }
 
         User user = User.builder()
-                .email(userRegistDto.getEmail())
-                .nickname(String.valueOf(userRegistDto.getNickname()))
+                .email(userRegistReqDto.getEmail())
+                .nickname(String.valueOf(userRegistReqDto.getNickname()))
                 .loginType(LoginTypeEnum.custom)
                 .userAccount(UserAccount.builder()
-                        .accountId(userRegistDto.getUserId())
-                        .accountPwd(passwordEncoder.encode(userRegistDto.getUserPwd()))
+                        .accountId(userRegistReqDto.getUserId())
+                        .accountPwd(passwordEncoder.encode(userRegistReqDto.getUserPwd()))
                         .build())
                 .build();
 
@@ -69,19 +69,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(UserLoginDto userLoginDto) {
+    public String loginUser(UserLoginReqDto userLoginReqDto) {
 
-        Optional<User> userOptional = userRepository.findByUserAccountAccountId(userLoginDto.getAccountId());
+        Optional<User> userOptional = userRepository.findByUserAccountAccountId(userLoginReqDto.getAccountId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             UserAccount userAccount = user.getUserAccount();
 
-            if (passwordEncoder.matches(userLoginDto.getAccountPwd(), userAccount.getAccountPwd()) &&
-                    userLoginDto.getAccountId().equals(userAccount.getAccountId())) {
+            if (passwordEncoder.matches(userLoginReqDto.getAccountPwd(), userAccount.getAccountPwd()) &&
+                    userLoginReqDto.getAccountId().equals(userAccount.getAccountId())) {
                 return tokenProvider.createTokenById(user.getId());
             }
         }
         return null;
+    }
+
+    @Override
+    public void logoutUser(String token) {
+        log.error("{}", tokenProvider.getExpireTime(token).getTime());
+        if(tokenProvider.validateToken(token)) {
+        redisProvider.setBlackList(token, tokenProvider.getUserIdFromToken(token),
+                tokenProvider.getExpireTime(token).getTime(), TimeUnit.MICROSECONDS);
+        }
     }
 
     @Override

@@ -38,7 +38,6 @@ public class RedisProviderImpl implements RedisProvider{
 
     @Override
     public void setBlackList(String key, Object value, long time, TimeUnit timeUnit) {
-
         redisBlackListTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(value.getClass()));
         redisBlackListTemplate.opsForValue().set(key, value, time, timeUnit);
     }
