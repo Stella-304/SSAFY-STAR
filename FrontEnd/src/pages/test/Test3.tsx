@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Canvas, Vector3, useFrame } from "@react-three/fiber";
+import { Canvas, Vector3, useFrame, useLoader } from "@react-three/fiber";
 import {
   CameraControls,
   OrbitControls,
@@ -16,6 +16,7 @@ import {
   Sphere,
   Stars,
   TrackballControls,
+  useFBX,
   useTexture,
 } from "@react-three/drei";
 import { gsap } from "gsap";
@@ -31,6 +32,7 @@ import { Scene } from "three";
 import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import axios from "axios";
 import { hover } from "@testing-library/user-event/dist/hover";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
 const userInfo: User = {
   name: "이아현",
@@ -141,7 +143,7 @@ function Star(props: any) {
           x: 2,
           y: 2,
           z: 2,
-          duration: 2,
+          duration: 1.3,
           ease: "elastic",
         }).then(() => {
           props.setEndAnim(true);
@@ -190,6 +192,16 @@ function Star(props: any) {
       />
     </>
   );
+}
+
+function Tree(props: any) {
+  const tree = useLoader(OBJLoader, "/obj/Lowpoly_tree_sample.obj");
+  const treeClone = tree.clone();
+  treeClone.position.x = props.x;
+  treeClone.position.y = props.y;
+  treeClone.position.z = props.z;
+
+  return <primitive object={treeClone} />;
 }
 
 export default function Test3() {
@@ -298,6 +310,12 @@ export default function Test3() {
           visible={starPos ? true : false}
         /> */}
         <Ground />
+        <Tree x={90} y={-10} z={60} />
+        <Tree x={100} y={-10} z={10} />
+        <Tree x={100} y={-10} z={5} />
+        <Tree x={40} y={-10} z={90} />
+        <Tree x={30} y={-10} z={100} />
+        <Tree x={20} y={-10} z={70} />
       </Canvas>
 
       <div
