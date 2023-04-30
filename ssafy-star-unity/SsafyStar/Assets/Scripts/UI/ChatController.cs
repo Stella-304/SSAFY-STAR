@@ -31,8 +31,6 @@ public class ChatController : MonoBehaviour
         {
             if(e.keyCode.ToString() == "Return")
             {
-                Debug.Log("나는엔터");
-                Debug.Log(inputfield.text);
                 multiChat.CallMessageRPC(inputfield.text);
                 inputfield.value = "";
                 //inputfield.SetEnabled(false);

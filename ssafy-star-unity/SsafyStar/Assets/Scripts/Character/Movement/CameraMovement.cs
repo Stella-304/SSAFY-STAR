@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Fusion;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -31,10 +30,8 @@ public class CameraMovement : MonoBehaviour
             posOffset.y += scroollWheel * scrollSpeed *Time.deltaTime;
         }
 
-
         transform.position = Target.position + posOffset;
         transform.LookAt(Target.transform.position + lookOffset);
         listenerTf.position = Target.transform.position + lookOffset;
-
     }
 }

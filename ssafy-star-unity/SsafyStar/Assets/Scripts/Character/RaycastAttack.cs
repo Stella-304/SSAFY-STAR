@@ -21,7 +21,7 @@ public class RaycastAttack : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            Debug.Log("°ø°Ý");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½");
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 1f);
 
             if (Runner.GetPhysicsScene().Raycast(ray.origin, ray.direction, out var hit))

@@ -1629,11 +1629,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  playerSpeed: 2
+  playerSpeed: 5
   velocity: {x: 0, y: 0, z: 0}
   Camera: {fileID: 0}
   JumpForce: 5
   GravityValue: -3
+  anim: {fileID: 2217049409586488868}
 --- !u!143 &5104436320831623929
 CharacterController:
   m_ObjectHideFlags: 0

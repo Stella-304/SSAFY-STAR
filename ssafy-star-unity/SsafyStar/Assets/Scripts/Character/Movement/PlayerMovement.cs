@@ -15,6 +15,9 @@ public class PlayerMovement : NetworkBehaviour
     public float JumpForce = 5f;
     public float GravityValue = -3f;
 
+    [Header("Anim")]
+    public Animator anim;
+
     private bool _jumpPressed = false;
 
     private NetworkCharacterControllerPrototype controller;
@@ -57,19 +60,24 @@ public class PlayerMovement : NetworkBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
+        if(horizontal !=0 || vertical !=0)
+        {
+            anim.SetBool("Walk", true);
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+        }
+
         Vector3 move = new Vector3(horizontal, 0, vertical) * Runner.DeltaTime * playerSpeed;
 
-        if(_jumpPressed)
+
+        if (_jumpPressed)
         {
             controller.Jump();
-            _jumpPressed=false;
+            _jumpPressed = false;
         }
 
         controller.Move(move + velocity * Runner.DeltaTime);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
     }
 }
