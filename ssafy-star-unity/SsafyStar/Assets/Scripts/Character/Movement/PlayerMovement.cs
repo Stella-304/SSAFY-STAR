@@ -71,7 +71,6 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector3 move = new Vector3(horizontal, 0, vertical) * Runner.DeltaTime * playerSpeed;
 
-
         if (_jumpPressed)
         {
             controller.Jump();

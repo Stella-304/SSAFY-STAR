@@ -127,8 +127,6 @@ public class NetworkCharacterControllerPrototype : NetworkTransform
 
         Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
 
-        Debug.Log(Velocity);
-
         IsGrounded = Controller.isGrounded;
     }
 }
