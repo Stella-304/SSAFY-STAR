@@ -5,6 +5,8 @@ import com.ssafy.star.common.db.entity.Coordinate;
 
 import lombok.Getter;
 
+import javax.persistence.Column;
+
 @Getter
 public class CardDetailDto {
 
@@ -25,7 +27,12 @@ public class CardDetailDto {
 	String email;
 	String nickname;
 	String name;
+	String major;
+	String swTier;
+	String etc;
+	String role;
 	boolean isAutorized;
+	boolean companyIsAuthorized;
 
 	public CardDetailDto(Card card, double x, double y, double z) {
 		this.cardId = card.getId();
@@ -41,9 +48,14 @@ public class CardDetailDto {
 		this.blogAddr = card.getBlogAddr();
 		this.company = card.getCompany();
 		this.track = card.getTrack();
+		this.major=card.getMajor();
+		this.swTier=card.getSwTier();
+		this.role=card.getRole();
+		this.etc=card.getEtc();
 		this.email = card.getUser().getEmail();
 		this.nickname = card.getUser().getNickname();
 		this.name = card.getUser().getName();
 		this.isAutorized = card.getUser().isAutorized();
+		this.companyIsAuthorized=card.getUser().isCompanyIsAutorized();
 	}
 }

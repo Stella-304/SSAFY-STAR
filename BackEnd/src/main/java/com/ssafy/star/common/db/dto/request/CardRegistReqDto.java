@@ -31,6 +31,14 @@ public class CardRegistReqDto {
     private String company;
     @Schema(description = "커리큘럼 트랙", example = "전공 자바반")
     private String track;
+    @Schema(description = "전공", example = "컴퓨터공학")
+    private String major;
+    @Schema(description = "삼성SW역량테스트 등급", example = "B")
+    private String swTier;
+    @Schema(description = "직무", example = "프론트엔드")
+    private String role;
+    @Schema(description = "기타",example = "수상내역 : 공통프로젝트 최우수")
+    private String etc;
 
     public Card of(User user){
         return Card.builder()
@@ -43,6 +51,10 @@ public class CardRegistReqDto {
                 .blogAddr(this.blogAddr)
                 .company(this.company)
                 .track(this.track)
+                .major(this.major)
+                .role(this.role)
+                .swTier(this.swTier)
+                .etc(this.etc)
                 .user(user)
                 .build();
     }

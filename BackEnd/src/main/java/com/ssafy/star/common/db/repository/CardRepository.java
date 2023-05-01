@@ -2,6 +2,7 @@ package com.ssafy.star.common.db.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.star.common.db.entity.Card;
@@ -13,6 +14,9 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     @Query("select cd From Card cd join fetch cd.user")
     List<Card> getAllCardListWithUser();
+
+    @Query("select cd From Card cd join fetch cd.user where cd.company = :searchValue")
+    List<Card> getAllFilteredByCompany(@Param("searchValue")String searchValue);
 
 
 
