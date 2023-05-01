@@ -18,6 +18,8 @@ public class SearchConditionReqDto {
     List<String> bojTier;
     List<String> track;
     List<String> companyAssetSize;
+    // 성운 플래그.
+    String starCloudFlag;
     //교집합인지 여부
     boolean isIntersection;
 }
