@@ -19,6 +19,7 @@ import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -98,17 +99,17 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
 			if(searchColumn.equals("generation")&&searchValue!=null) {
-				cardList = cardRepository.getAllFilteredByGeneration(searchValue);
+				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
 			if(searchColumn.equals("campus")&&searchValue!=null) {
-				String gen=searchValue.split("-")[0];
+				int gen=Integer.parseInt(searchValue.split("-")[0]);
 				String cam=searchValue.split("-")[1];
 				cardList = cardRepository.getAllFilteredByCampus(gen,cam);
 			}
 			if(searchColumn.equals("ban")&&searchValue!=null) {
-				String gen=searchValue.split("-")[0];
+				int gen=Integer.parseInt(searchValue.split("-")[0]);
 				String cam=searchValue.split("-")[1];
-				String ban=searchValue.split("-")[2];
+				int ban=Integer.parseInt(searchValue.split("-")[2]);
 				cardList = cardRepository.getAllFilteredByBan(gen,cam,ban);
 			}
 
@@ -132,7 +133,7 @@ public class CardServiceImpl implements CardService {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
-		int r = 100;
+		int r = 50;
 		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
 		int vertices = GeometryUtil.getVerticesFromLevel(level);
@@ -140,11 +141,13 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < vertices; i++) {
 			numbers.add(i);
 		}
+		List<Integer> rs =new ArrayList<>();
 		List<Integer> result = new ArrayList<>();
 		Random random = new Random();
 		for (int i = 0; i < cardCnt; i++) {
 			int index = random.nextInt(numbers.size());
 			result.add(numbers.remove(index));
+			rs.add(random.nextInt(50));
 		}
 
 		//level별 coordinate limit 걸기
@@ -193,8 +196,9 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
 			//y z 바꿔놓음 일시적으로
-			detailDtoList.add(new CardDetailDto(cardList.get(i), r * coordinateList.get(selected).getX()
-				, r * coordinateList.get(selected).getZ(),r * coordinateList.get(selected).getY()));
+			int rr=rs.get(i);
+			detailDtoList.add(new CardDetailDto(cardList.get(i), (r+rr) * coordinateList.get(selected).getX()
+				, (r+rr) * coordinateList.get(selected).getZ(),(r+rr) * coordinateList.get(selected).getY()));
 		}
 		return detailDtoList;
 	}
