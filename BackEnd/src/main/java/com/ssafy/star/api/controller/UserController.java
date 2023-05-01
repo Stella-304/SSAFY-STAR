@@ -50,6 +50,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_LOGOUT));
     }
 
+    @GetMapping("/detail")
     @ApiOperation(value="유저 정보 조회")
     public ResponseEntity<ResponseDto> userGetDetail() {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
@@ -61,7 +62,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getUser()));
     }
 
-    @PutMapping("/pwd")
+    @PutMapping
     @ApiOperation(value="유저정보 수정")
     public ResponseEntity<ResponseDto> userModify(@RequestBody UserModifyReqDto userModifyReqDto) {
         userService.modifyUser(userModifyReqDto);
