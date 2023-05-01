@@ -105,7 +105,7 @@ public class UserController {
         if (userService.compareVerificationCodeEmail(emailCompareReqDto)) {
             return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_EMAIL_AUTH));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE))
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE));
     }
 
     @GetMapping("/email/find-id")
