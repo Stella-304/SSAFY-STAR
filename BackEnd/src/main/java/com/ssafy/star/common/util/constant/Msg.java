@@ -20,10 +20,12 @@ public interface Msg {
     final String FAULURE_LOGIN = "로그인에 실패했습니다.";
     final String SUCCESS_LOGOUT = "로그아웃에 성공했습니다.";
 
+    final String SUCCESS_EMAIL_AUTH = "이메일 인증에 성공했습니다.";
+    final String DIFFERENT_AUTH_CODE = "인증코드가 다릅니다.";
     final String EMAIL_NOT_FOUND = "중복된 아이디입니다.";
     final String DUPLICATED_ID = "중복된 아이디입니다.";
     final String DUPLICATED_EMAIL = "중복된 이메일입니다.";
     final String VALID_EMAIL = "사용 가능한 이메일입니다.";
-    final String SUCCESS_SEND_EMAIL = "메일 전송에 성공했습니다.";
+    final String SUCCESS_SEND_EMAIL = "이메일 전송에 성공했습니다.";
 }
 

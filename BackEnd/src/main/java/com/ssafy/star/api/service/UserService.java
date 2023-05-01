@@ -18,7 +18,8 @@ public interface UserService {
     void modifyPwdUser(String newPwd);
     void deleteUser();
     boolean duplicateEmailCheck(String email);
-    void emailVerificationCodeSend(String email);
+    void sendVerificationCodeEmail(String email);
+    boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto);
     String findIdUser(String email);
     void findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
