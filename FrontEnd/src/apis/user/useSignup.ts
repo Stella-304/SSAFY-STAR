@@ -1,21 +1,25 @@
 import { useMutation } from "react-query";
 import axios from "axios";
-import { LOGIN_URL } from "../../utils/urls";
+import { SIGNUP_URL } from "../../utils/urls";
 
 interface Payload {
   email: string;
-  password: number;
+  nickname: string;
+  userId: string;
+  userPwd: string;
 }
 const fetcher = (payload: Payload) =>
   axios
-    .post(LOGIN_URL, {
-      memberId: payload.email,
-      notificationId: payload.password,
+    .post(SIGNUP_URL, {
+      email: payload.email,
+      nickname: payload.nickname,
+      userId: payload.userId,
+      userPwd: payload.userPwd,
     })
     .then(({ data }) => data);
 
-const useLogin = () => {
+const useSignup = () => {
   return useMutation(fetcher, {});
 };
 
-export default useLogin;
+export default useSignup;

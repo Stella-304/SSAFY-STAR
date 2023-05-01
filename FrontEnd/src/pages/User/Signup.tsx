@@ -185,7 +185,7 @@ export default function Signup() {
             inputRef={nameRef}
             id="name"
             type="input"
-            label="이름"
+            label="닉네임"
             onChange={onName}
             value={user?.name}
           />

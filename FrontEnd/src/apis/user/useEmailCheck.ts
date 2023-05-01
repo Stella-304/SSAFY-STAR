@@ -1,21 +1,19 @@
 import { useMutation } from "react-query";
 import axios from "axios";
-import { LOGIN_URL } from "../../utils/urls";
+import { EMAIL_CHECK_URL } from "../../utils/urls";
 
 interface Payload {
   email: string;
-  password: number;
 }
 const fetcher = (payload: Payload) =>
   axios
-    .post(LOGIN_URL, {
-      accountId: payload.email,
-      accountPwd: payload.password,
+    .get(EMAIL_CHECK_URL, {
+      params: { email: payload.email },
     })
     .then(({ data }) => data);
 
-const useLogin = () => {
+const useEmailCheck = () => {
   return useMutation(fetcher, {});
 };
 
-export default useLogin;
+export default useEmailCheck;
