@@ -182,11 +182,7 @@ public class CardServiceImpl implements CardService {
 				}
 				temp.get(key).add(card);
 			}
-			System.out.println(temp);
-			System.out.println(temp.keySet().size());
 			for (String key : temp.keySet()) {
-				System.out.println(key);
-				System.out.println(temp.get(key).size());
 			}
 		}
 
@@ -201,7 +197,6 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public List<String> searchCompany(String query) {
-		// companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
 		return companyRepository.searchCompanyList(query);
 	}
 
