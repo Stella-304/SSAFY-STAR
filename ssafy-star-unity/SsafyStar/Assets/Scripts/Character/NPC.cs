@@ -19,6 +19,7 @@ public class NPC : NetworkBehaviour
     [Header("Chat")]
     private GameObject chatUI;
     public bool doChat = false;
+    public GameObject player;
 
     private void Start()
     {
@@ -39,7 +40,9 @@ public class NPC : NetworkBehaviour
     {
         if (doChat)
         {
+            transform.LookAt(player.transform);
             navMeshAgent.isStopped = true;
+            doChat = false;
             return;
         }
 
@@ -76,5 +79,6 @@ public class NPC : NetworkBehaviour
         chatUI.SetActive(false);
         doChat = false;
         navMeshAgent.isStopped = false;
+        player.GetComponent<PlayerMovement>().SetCameraDefault();
     }
 }

@@ -15,6 +15,8 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Camera")]
     public Camera Camera;
     public CinemachineVirtualCamera cineCamera;
+    public CinemachineVirtualCamera rightCamera;
+    public CinemachineVirtualCamera leftCamera;
 
     [Header("Jump")]
     public float JumpForce = 5f;
@@ -56,9 +58,12 @@ public class PlayerMovement : NetworkBehaviour
             {
                 if (hit.collider.gameObject.name == "NPC")
                 {
+                    hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
                     cineCamera.Priority = -10;
-                    Debug.Log("NPC Å¬¸¯ÇÔ");
+                    rightCamera.LookAt = hit.collider.transform;
+                    leftCamera.LookAt = hit.collider.transform;
+                    stop = true;
                 }
             }
         }
@@ -88,10 +93,6 @@ public class PlayerMovement : NetworkBehaviour
 
         if (stop) return;
 
-        //if (controller.IsGrounded)
-        //{
-        //}
-
         //InputSystem.Update();
 
         float horizontal = Input.GetAxis("Horizontal");
@@ -115,5 +116,11 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         controller.Move(move + velocity * Runner.DeltaTime);
+    }
+
+    public void SetCameraDefault()
+    {
+        cineCamera.Priority = 20;
+        stop = false;
     }
 }
