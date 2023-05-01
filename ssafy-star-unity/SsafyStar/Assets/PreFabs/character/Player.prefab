@@ -1988,6 +1988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  stop: 0
   playerSpeed: 5
   velocity: {x: 0, y: 0, z: 0}
   Camera: {fileID: 0}
@@ -2011,7 +2012,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.6, z: 0}
+  m_Center: {x: 0, y: 0.77, z: 0}
 --- !u!114 &979491788336185845
 MonoBehaviour:
   m_ObjectHideFlags: 0
