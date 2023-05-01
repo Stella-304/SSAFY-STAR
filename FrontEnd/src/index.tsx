@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/oauth2",
+    path: "/oauth2/token",
     element: <Oauth />,
   },
   {
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     element: <Find />,
   },
   { path: "/admin", element: <Admin /> },
-  {path:"/mypage", element:<Mypage/>},
+  { path: "/mypage", element: <Mypage /> },
   // 테스트 페이지
   {
     path: "/test1",
