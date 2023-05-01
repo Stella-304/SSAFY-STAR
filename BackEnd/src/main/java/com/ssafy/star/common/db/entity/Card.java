@@ -44,14 +44,23 @@ public class Card {
 	@Column(length = 20)
 	private String bojTier;
 
+	@Column(length = 10)
+	private String major;
+
+	@Column(length = 10)
+	private String swTier;
+
+	@Column(length = 140)
+	private String etc;
+
+	@Column(length=10)
+	private String role;
+	
 	@Column
 	private String blogAddr;
 
 	@Column(length = 40)
 	private String company;
-
-	// @Column(length = 40, name = "company_asset_size")
-	// private String companyAssetSize;
 
 	@Column(length = 20)
 	private String track;

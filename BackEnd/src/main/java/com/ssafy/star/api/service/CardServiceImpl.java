@@ -77,6 +77,16 @@ public class CardServiceImpl implements CardService {
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
 	}
 
+	@Override
+	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
+		//이부분을 jpql써서 바꿔야할듯
+		List<Card> cardList = cardRepository.getFiltered(searchColumn,searchValue);
+		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+
+		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+		return new ConstellationListDto(detailDtoList, edgeDtoList);
+	}
+
 	private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
 		List<EdgeDto> edgeList = new ArrayList<>();
 		edgeList = GeometryUtil.getEdgeList(detailDtoList);
@@ -88,8 +98,7 @@ public class CardServiceImpl implements CardService {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
-		int r = 200;
-		// r = GeometryUtil.getRadiusFromLevel(level);
+		int r = 100;
 		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
 		int vertices = GeometryUtil.getVerticesFromLevel(level);
@@ -107,15 +116,15 @@ public class CardServiceImpl implements CardService {
 		//level별 coordinate limit 걸기
 		List<Coordinate> coordinateList = new ArrayList<>();
 		if (level == 1) {
-			coordinateList = coordinateRepository.findTop12ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop4ByOrderByIdDesc();
 		} else if (level == 2) {
-			coordinateList = coordinateRepository.findTop42ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop17ByOrderByIdDesc();
 		} else if (level == 3) {
-			coordinateList = coordinateRepository.findTop162ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop73ByOrderByIdDesc();
 		} else if (level == 4) {
-			coordinateList = coordinateRepository.findTop642ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop305ByOrderByIdDesc();
 		} else if (level == 5) {
-			coordinateList = coordinateRepository.findTop2562ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop1249ByOrderByIdDesc();
 		} else {
 			coordinateList = coordinateRepository.findAll();
 		}
@@ -147,8 +156,9 @@ public class CardServiceImpl implements CardService {
 
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
-			detailDtoList.add(new CardDetailDto(cardList.get(i), r * coordinateList.get(selected).getX(),
-				r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ()));
+			//y z 바꿔놓음 일시적으로
+			detailDtoList.add(new CardDetailDto(cardList.get(i), r * coordinateList.get(selected).getX()
+				, r * coordinateList.get(selected).getZ(),r * coordinateList.get(selected).getY()));
 		}
 		return detailDtoList;
 	}
@@ -190,6 +200,10 @@ public class CardServiceImpl implements CardService {
 		Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> card.setBojId(x));
 		Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> card.setBlogAddr(x));
 		Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> card.setCompany(x));
+		Optional.ofNullable(cardUpdateReqDto.getEtc()).ifPresent(x -> card.setEtc(x));
+		Optional.ofNullable(cardUpdateReqDto.getRole()).ifPresent(x -> card.setRole(x));
+		Optional.ofNullable(cardUpdateReqDto.getSwTier()).ifPresent(x -> card.setSwTier(x));
+		Optional.ofNullable(cardUpdateReqDto.getMajor()).ifPresent(x -> card.setMajor(x));
 		Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> card.setTrack(x));
 	}
 

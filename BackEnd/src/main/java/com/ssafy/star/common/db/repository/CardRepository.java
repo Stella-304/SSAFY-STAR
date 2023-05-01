@@ -14,6 +14,9 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     @Query("select cd From Card cd join fetch cd.user")
     List<Card> getAllCardListWithUser();
 
+    @Query("select cd From Card cd join fetch cd.user where :searchColumn=:searchValue")
+    List<Card> getFiltered(String searchColumn, String searchValue);
+
 
 
 }

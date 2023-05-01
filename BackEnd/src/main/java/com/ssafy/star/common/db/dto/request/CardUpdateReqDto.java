@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.dto.request;
 
 import com.ssafy.star.common.db.entity.Card;
+import com.ssafy.star.common.db.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,19 +21,28 @@ public class CardUpdateReqDto {
     private String campus;
     @Schema(description = "1학기 반", example = "4")
     private int ban;
-    @Schema(description = "github 아이디", example = "graywhales")
+    @Schema(description = "github 아이디")
     private String githubId;
-    @Schema(description = "백준 아이디", example = "graywhale")
+    @Schema(description = "백준 아이디")
     private String bojId;
-    @Schema(description = "개인 블로그 주소", example = "https://blog.naver.com/PostList.naver?blogId=gy57927")
+    @Schema(description = "개인 블로그 주소")
     private String blogAddr;
     @Schema(description = "직장", example = "삼성전자")
     private String company;
-    @Schema(description = "커리큘럼 트랙", example = "비전공 자바반")
+    @Schema(description = "커리큘럼 트랙", example = "전공 자바반")
     private String track;
+    @Schema(description = "전공", example = "컴퓨터공학")
+    private String major;
+    @Schema(description = "삼성SW역량테스트 등급", example = "B")
+    private String swTier;
+    @Schema(description = "직무", example = "프론트엔드")
+    private String role;
+    @Schema(description = "기타",example = "수상내역 : 공통프로젝트 최우수")
+    private String etc;
 
-    public Card of(){
+    public Card of(User user){
         return Card.builder()
+                .id(this.id)
                 .content(this.content)
                 .generation(this.generation)
                 .campus(this.campus)
@@ -42,6 +52,11 @@ public class CardUpdateReqDto {
                 .blogAddr(this.blogAddr)
                 .company(this.company)
                 .track(this.track)
+                .major(this.major)
+                .role(this.role)
+                .swTier(this.swTier)
+                .etc(this.etc)
+                .user(user)
                 .build();
     }
 }

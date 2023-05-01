@@ -16,6 +16,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+
 @RestController
 @Api(tags = {"카드 API"})
 @RequiredArgsConstructor
@@ -55,7 +57,13 @@ public class CardController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardList(searchConditionReqDto)));
 	}
-
+	@GetMapping("/list-v1")
+	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
+	public ResponseEntity<ResponseDto> cardListGetV1(
+			@RequestParam("searchColumn") String searchColumn,@RequestParam("searchValue") String searchValue) {
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue)));
+	}
 	@PostMapping
 	@ApiOperation(value = "카드 등록하기")
 	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {

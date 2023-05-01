@@ -29,20 +29,16 @@ public class Icosphere {
 			subdivise(i);
 			int sum=0;
 			for(int j=0;j<vertices.size();j++){
-				if(vertices.get(j).getZ()>0){
+				if(vertices.get(j).getY()>0){
 					sum++;
 				}
 			}
-//			System.out.println(vertices.size());
-//			System.out.println(sum);
-//			System.out.println();
 		}
+		//아래반구 지우기
 		int i=0;
 		Stack<Point3D> stk=new Stack<>();
 		for (Point3D p : vertices) {
-//			System.out.println(p.toString());
-			if(p.getZ()<=0){
-//				vertices.remove(p);
+			if(p.getY()<=0){
 				stk.add(p);
 				i++;
 			}
@@ -50,8 +46,7 @@ public class Icosphere {
 		while(!stk.isEmpty()){
 			vertices.remove(stk.pop());
 		}
-		Collections.sort(vertices);
-		vertices.stream().forEach(System.out::println);
+
 		convert(vertices,"hemisphere-coordinate-data");
 	}
 

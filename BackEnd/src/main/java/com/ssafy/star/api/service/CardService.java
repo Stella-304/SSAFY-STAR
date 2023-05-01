@@ -1,5 +1,6 @@
 package com.ssafy.star.api.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
@@ -15,6 +16,7 @@ public interface CardService {
 	List<String> searchCompany(String query);
 
 	ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
+	ConstellationListDto getCardListV1(String searchColumn, String searchValue);
 
 	void registCard(CardRegistReqDto cardRegistReqDto);
 
