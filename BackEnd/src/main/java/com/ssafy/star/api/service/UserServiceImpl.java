@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
-		if (userRepository.existsByUserAccountAccountId(userRegistReqDto.getUserId())) {
+		if (userRepository.existsByUserAccountAccountId(userRegistReqDto.getAccountId())) {
 			return false;
 		}
 
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
 			.nickname(String.valueOf(userRegistReqDto.getNickname()))
 			.loginType(LoginTypeEnum.custom)
 			.userAccount(UserAccount.builder()
-				.accountId(userRegistReqDto.getUserId())
-				.accountPwd(passwordEncoder.encode(userRegistReqDto.getUserPwd()))
+				.accountId(userRegistReqDto.getAccountId())
+				.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 				.build())
 			.build();
 
