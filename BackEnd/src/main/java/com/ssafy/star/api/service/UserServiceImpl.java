@@ -138,10 +138,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void emailVerificationCodeSend(String email) {
+	public void sendVerificationCodeEmail(String email) {
 		String authCode = randValueMaker.makeVerificationCode();
 		redisProvider.set(email, authCode, 3L, TimeUnit.MINUTES);
 		smtpProvider.emailAuth(email, authCode);
+	}
+
+	@Override
+	public boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto) {
+		return String.valueOf(redisProvider.get(emailCompareReqDto.getEmail())).equals(emailCompareReqDto.getUserCode());
 	}
 
 	@Override

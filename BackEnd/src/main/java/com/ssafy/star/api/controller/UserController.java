@@ -71,7 +71,7 @@ public class UserController {
 
     @PutMapping("/pwd")
     @ApiOperation(value="비밀번호 수정")
-    public ResponseEntity<ResponseDto> userModifyPwd(@RequestBody String newPwd) {
+    public ResponseEntity<ResponseDto> userModifyPwd(@RequestParam String newPwd) {
         userService.modifyPwdUser(newPwd);
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
     }
@@ -94,9 +94,18 @@ public class UserController {
 
     @PostMapping("/email/send-verification")
     @ApiOperation(value="인증메일 전송")
-    public ResponseEntity<ResponseDto> sendEmailVerificationCode(@RequestBody String email) {
-        userService.emailVerificationCodeSend(email);
+    public ResponseEntity<ResponseDto> emailSendVerificationCode(@RequestParam String email) {
+        userService.sendVerificationCodeEmail(email);
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
+    }
+
+    @PostMapping("/email/compare-verification")
+    @ApiOperation(value="인증코드 비교")
+    public ResponseEntity<ResponseDto> emailCompareVerificationCode(@RequestBody EmailCompareReqDto emailCompareReqDto) {
+        if (userService.compareVerificationCodeEmail(emailCompareReqDto)) {
+            return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_EMAIL_AUTH));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE))
     }
 
     @GetMapping("/email/find-id")
@@ -113,6 +122,13 @@ public class UserController {
     @ApiOperation(value="아이디와 이메일 체크 후 비밀번호 이메일 전송")
     public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
         userService.findPwdUser(userFindPwdReqDto);
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
+    }
+
+    @PostMapping("/email/compare")
+    @ApiOperation(value="레디스 인증번호와 유저 입력 이메일 비교")
+    public ResponseEntity<ResponseDto> userCompareVerificationCode(@RequestParam String code) {
+
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
     }
 
