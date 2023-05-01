@@ -80,7 +80,12 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
 		//이부분을 jpql써서 바꿔야할듯
-		List<Card> cardList = cardRepository.getFiltered(searchColumn,searchValue);
+		List<Card> cardList;
+		if(searchColumn.equals("company")&&searchValue!=null){
+			cardList = cardRepository.getAllFilteredByCompany(searchValue);
+		}else{
+			cardList = cardRepository.getAllCardListWithUser();
+		}
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);

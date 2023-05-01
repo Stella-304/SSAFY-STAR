@@ -48,8 +48,10 @@ public class GeometryUtil {
         if (level==2)
             return 17;
         if (level==3)
-            return 305;
+            return 73;
         if (level==4)
+            return 305;
+        if (level==5)
             return 1249;
         return 5057;
     }

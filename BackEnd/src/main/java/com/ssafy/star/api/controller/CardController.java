@@ -60,7 +60,7 @@ public class CardController {
 	@GetMapping("/list-v1")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
 	public ResponseEntity<ResponseDto> cardListGetV1(
-			@RequestParam("searchColumn") String searchColumn,@RequestParam("searchValue") String searchValue) {
+			@RequestParam(value = "searchColumn",required = false) String searchColumn,@RequestParam(value = "searchValue",required = false) String searchValue) {
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue)));
 	}
