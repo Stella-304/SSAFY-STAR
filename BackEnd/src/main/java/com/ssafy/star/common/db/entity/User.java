@@ -3,8 +3,6 @@ package com.ssafy.star.common.db.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
-import com.ssafy.star.common.auth.info.SocialAuth;
-import com.ssafy.star.common.auth.info.UserAccount;
 import com.ssafy.star.common.util.entity.BaseTime;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -23,11 +21,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = "email"),
-	@UniqueConstraint(columnNames = "nickname")
-})
-@SecondaryTables({
-        @SecondaryTable(name = "user_account", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id")),
-	@SecondaryTable(name = "social_auth", pkJoinColumns = @PrimaryKeyJoinColumn(name = "user_id")),
 })
 public class User extends BaseTime {
 
@@ -56,20 +49,14 @@ public class User extends BaseTime {
     @Enumerated(EnumType.STRING)
     private LoginTypeEnum loginType;
 
-    @ToString.Exclude
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "providerId", column = @Column(table = "social_auth", name = "provider_id")),
-    })
-    private SocialAuth socialAuth;
+    @Column
+    private String accountId;
 
-    @ToString.Exclude
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "accountId", column = @Column(table = "user_account", name = "account_id")),
-            @AttributeOverride(name = "accountPwd", column = @Column(table = "user_account", name = "account_pwd"))
-    })
-    private UserAccount userAccount;
+    @Column
+    private String accountPwd;
+
+    @Column
+    private String providerId;
 
     @Column(length = 15)
     @Setter(AccessLevel.NONE)
@@ -98,6 +85,8 @@ public class User extends BaseTime {
 	public void setCard(Card card) {
 		this.card = card;
 	}
+
+    public void setAccountPwd(String accountPwd) {this.accountPwd = accountPwd; }
 
 	public void equipBadge(BadgeEnum badgeEnum) {
 

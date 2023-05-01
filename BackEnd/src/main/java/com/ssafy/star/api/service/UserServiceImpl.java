@@ -2,7 +2,6 @@ package com.ssafy.star.api.service;
 
 import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
-import com.ssafy.star.common.auth.info.UserAccount;
 import com.ssafy.star.common.db.dto.request.*;
 import com.ssafy.star.common.db.dto.response.BadgeStatusDto;
 import com.ssafy.star.common.db.dto.response.UserDetailDto;
@@ -14,10 +13,8 @@ import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,19 +45,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
-		if (userRepository.existsByUserAccountAccountId(userRegistReqDto.getAccountId())) {
+		if (userRepository.existsByAccountId(userRegistReqDto.getAccountId())) {
 			return false;
 		}
 
 		User user = User.builder()
-			.email(userRegistReqDto.getEmail())
-			.nickname(String.valueOf(userRegistReqDto.getNickname()))
-			.loginType(LoginTypeEnum.custom)
-			.userAccount(UserAccount.builder()
+				.email(userRegistReqDto.getEmail())
+				.name(userRegistReqDto.getName())
+				.nickname(String.valueOf(userRegistReqDto.getNickname()))
+				.loginType(LoginTypeEnum.custom)
 				.accountId(userRegistReqDto.getAccountId())
 				.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
-				.build())
-			.build();
+				.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
 
@@ -71,13 +67,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
 
-		Optional<User> userOptional = userRepository.findByUserAccountAccountId(userLoginReqDto.getAccountId());
+		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
-			UserAccount userAccount = user.getUserAccount();
-
-			if (passwordEncoder.matches(userLoginReqDto.getAccountPwd(), userAccount.getAccountPwd()) &&
-				userLoginReqDto.getAccountId().equals(userAccount.getAccountId())) {
+			if (passwordEncoder.matches(userLoginReqDto.getAccountPwd(), user.getAccountPwd()) &&
+				userLoginReqDto.getAccountId().equals(user.getAccountId())) {
 				return tokenProvider.createTokenById(user.getId());
 			}
 		}
@@ -124,7 +118,7 @@ public class UserServiceImpl implements UserService {
 	public void modifyPwdUser(String newPwd) {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
-		user.getUserAccount().setAccountPwd(passwordEncoder.encode(newPwd));
+		user.setAccountPwd(passwordEncoder.encode(newPwd));
 	}
 
 	@Override
@@ -156,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
-			String accountId = user.getUserAccount().getAccountId();
+			String accountId = user.getAccountId();
 			// 아이디 길이는 보장되어있음
 			return accountId.substring(0, accountId.length() - 3) + "**";
 		}
@@ -170,14 +164,14 @@ public class UserServiceImpl implements UserService {
 		String accountId = userFindPwdReqDto.getAccountiId();
 		String email = userFindPwdReqDto.getEmail();
 
-		Optional<User> userOptional = userRepository.findByUserAccountAccountIdAndEmail(accountId, email);
+		Optional<User> userOptional = userRepository.findByAccountIdAndEmail(accountId, email);
 		if (userOptional.isPresent()) {
 
 			User user = userOptional.get();
 			String newPwd = randValueMaker.makeRandPwd();
 
 			smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
-			user.getUserAccount().setAccountPwd(passwordEncoder.encode(newPwd));
+			user.setAccountPwd(passwordEncoder.encode(newPwd));
 			userRepository.save(user);
 		}
 	}

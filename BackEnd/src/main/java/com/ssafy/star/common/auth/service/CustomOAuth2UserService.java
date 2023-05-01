@@ -95,15 +95,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private User registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
 
 		return userRepository.save(User.builder()
-			.email(oAuth2UserInfo.getEmail())
-			.name("n")
-			.nickname(oAuth2UserInfo.getName())
-			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
-			.socialAuth(SocialAuth.builder()
+				.email(oAuth2UserInfo.getEmail())
+				.name("익명")
+				.nickname(oAuth2UserInfo.getName())
+				.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 				.providerId(oAuth2UserInfo.getId())
-				.build())
-			.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
-			.build());
+				.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
+				.build());
 
 	}
 
