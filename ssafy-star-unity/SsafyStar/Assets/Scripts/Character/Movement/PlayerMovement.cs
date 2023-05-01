@@ -39,6 +39,7 @@ public class PlayerMovement : NetworkBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             _jumpPressed = true;
+            anim.SetBool("Jump", true);
         }
     }
 
