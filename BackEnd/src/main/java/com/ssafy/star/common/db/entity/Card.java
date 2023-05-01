@@ -44,16 +44,16 @@ public class Card {
 	@Column(length = 20)
 	private String bojTier;
 
-	@Column(length = 10)
+	@Column(length = 20)
 	private String major;
 
-	@Column(length = 10)
+	@Column(length = 20)
 	private String swTier;
 
 	@Column(length = 140)
 	private String etc;
 
-	@Column(length=10)
+	@Column(length=20)
 	private String role;
 	
 	@Column
