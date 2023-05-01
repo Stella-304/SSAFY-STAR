@@ -12,3 +12,9 @@ export const COMPANY_SEARCH_URL = SERVER_API + "/app/card/company";
 export const OAUTH_URL = SERVER_API + "/app/oauth2/authorization";
 //백준티어확인
 export const BOJ_CHECK_URL = SERVER_API + "/app/card/boj";
+
+// 별(유저)정보 확인
+export const STAR_INFO_URL = SERVER_API + "/app/card/list";
+
+// 별(유저)정보 필터링 확인
+export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";

@@ -11,6 +11,8 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import Ground from "../../components/Ground/Ground";
 import Star from "../../components/GroundObjects/Star";
+import Filter from "../../components/Filter/Filter";
+import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
 
 const userInfo: User = {
   name: "이아현",
@@ -105,16 +107,17 @@ export default function Test1() {
   ];
 
   const lineRef = useRef<any>(null);
-  const starInfo = useStarInfoQuery();
   const starRef = useRef<any>(null);
 
+  const starInfo = useStarInfoQuery();
+
   return (
-    <div className="h-screen w-full overflow-hidden bg-black perspective-9">
+    <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
         <OrbitControls
           enableZoom={false}
           autoRotate={true}
-          autoRotateSpeed={0.1}
+          autoRotateSpeed={0.15}
         />
         <ambientLight />
         <EffectComposer multisampling={8}>
@@ -167,6 +170,7 @@ export default function Test1() {
         />
         <Ground />
       </Canvas>
+      <Filter />
       {selectedUserInfo && (
         <div
           className={
