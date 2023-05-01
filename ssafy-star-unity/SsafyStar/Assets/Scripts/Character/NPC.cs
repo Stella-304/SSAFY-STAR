@@ -1,55 +1,60 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Services.Analytics.Internal;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class NPC : MonoBehaviour
+public class NPC : NetworkBehaviour
 {
     public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
     public Vector3 startPosition = Vector3.zero;
 
-    private Vector3 randomDirection;
-    private bool isMoving = false;
+    private NavMeshAgent navMeshAgent;
+    Vector3 targetPosition;
+    bool isMoving = false;
 
     private void Start()
     {
-        // Start with a random direction
-        randomDirection = Random.insideUnitSphere;
-        randomDirection.y = 0f;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        targetPosition = GetRandomPosition();
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
         if (!isMoving)
         {
-            // If not already moving, start moving in a new random direction
-            StartCoroutine(MoveInRandomDirection());
+            // Start moving towards the target position
+            navMeshAgent.SetDestination(targetPosition);
+            isMoving = true;
         }
         else
         {
-            // Move towards the random direction
-            transform.position += randomDirection * moveSpeed * Time.deltaTime;
-
-            // Rotate towards the movement direction
-            if (randomDirection != Vector3.zero)
+            // Check if the object has reached the target position
+            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(randomDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                // Stop moving and set a new target position
+                isMoving = false;
+                targetPosition = GetRandomPosition();
             }
         }
     }
 
-    private IEnumerator MoveInRandomDirection()
+    Vector3 GetRandomPosition()
     {
-        // Wait for a random time before changing direction again
-        float waitTime = Random.Range(1f, 5f);
-        yield return new WaitForSeconds(waitTime);
+        // Get a random point on the NavMesh
+        NavMeshHit hit;
+        Vector3 randomPosition = transform.position + Random.insideUnitSphere * 10f;
+        if (NavMesh.SamplePosition(randomPosition, out hit, 10f, NavMesh.AllAreas))
+        {
+            Debug.Log(hit.position);
+            return hit.position;
+        }
+        // If no point on NavMesh found, return current position
 
-        // Generate a new random direction
-        randomDirection = Random.insideUnitSphere;
-        randomDirection.y = 0f;
 
-        // Set moving flag to true
-        isMoving = true;
+        return transform.position;
     }
 }
