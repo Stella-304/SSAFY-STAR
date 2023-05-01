@@ -88,6 +88,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 1000
+          order_inserts: true
 
   redis:
     host: ${redis.host}

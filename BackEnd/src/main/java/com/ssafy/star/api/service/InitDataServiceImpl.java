@@ -34,7 +34,6 @@ public class InitDataServiceImpl implements InitDataService {
 	public void initCompany() {
 		try {
 			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/company-data.json");
-
 			for (LinkedHashMap row : json) {
 				companyRepository.save(
 					Company.builder().name((String)row.get("회사이름")).assetSize((String)row.get("기업분류")).build());
@@ -44,7 +43,7 @@ public class InitDataServiceImpl implements InitDataService {
 	}
 
 	@Override
-	@Transactional(rollbackFor = Exception.class)
+	// @Transactional(rollbackFor = Exception.class)
 	public void initUser() throws Exception {
 		List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/user-data.json");
 		for (LinkedHashMap row : json) {
@@ -66,6 +65,10 @@ public class InitDataServiceImpl implements InitDataService {
 				.bojId((String)row.get("boj_id"))
 				.githubId((String)row.get("github_id"))
 				.track((String)row.get("track"))
+				.swTier((String)row.get("swTier"))
+				.etc((String)row.get("etc"))
+				.major((String)row.get("major"))
+				.role((String)row.get("role"))
 				.company((String)row.get("company"))
 				.content((String)row.get("content"))
 				.user(user)

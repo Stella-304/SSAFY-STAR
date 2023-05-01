@@ -78,6 +78,7 @@ public class AdminServiceImpl implements AdminService {
 		} else {
 			sb.append(" 인증요청 거부되었습니다.");
 		}
+		// 메일 보내기
 		smtpProvider.sendContent(user.getEmail(), sb.toString());
 	}
 }
