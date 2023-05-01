@@ -4,7 +4,7 @@ import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
-import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
+import { emailReg, loginidReg, nameReg, passwordReg } from "../../utils/regex";
 import { useEffect, useMemo, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
@@ -18,6 +18,7 @@ export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
   const dispatch = useDispatch();
   const [idWarning, setIdWarning] = useState("");
+  const [nameWarning, setNameWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
@@ -94,7 +95,7 @@ export default function Signup() {
   //아이디 입력
   function onId(input: string) {
     if (!input.match(loginidReg)) {
-      setIdWarning("아이디는 10글자이내 영문+숫자로 해주세요.");
+      setIdWarning("아이디는 16글자이내 영문+숫자로 해주세요.");
     } else {
       setIdWarning("");
     }
@@ -141,6 +142,12 @@ export default function Signup() {
 
   //이름 입력
   function onName(input: string) {
+    if (!input.match(nameReg)) {
+      setNameWarning("이름은 5글자 이내로 해주세요");
+    } else {
+      //이메일 중복 확인요청
+      setNameWarning("");
+    }
     dispatch(setUser({ ...user, name: input }));
   }
 
@@ -173,8 +180,13 @@ export default function Signup() {
   function submit() {
     //이름 확인
     if (user.name === "") {
+      return;
+    }
+
+    if (!user.name.match(nameReg)) {
       return nameRef?.current?.focus();
     }
+
     //이메일 확인
     if (!user.email.match(emailReg)) {
       return emailRef?.current?.focus();
@@ -231,6 +243,7 @@ export default function Signup() {
             label="닉네임"
             onChange={onName}
             value={user?.name}
+            warning={nameWarning}
           />
           <div className="flex">
             <div className="flex-grow">

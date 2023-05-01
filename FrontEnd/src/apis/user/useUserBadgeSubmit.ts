@@ -1,12 +1,14 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 import { BADGE_SUBMIT_URL } from "../../utils/urls";
+import { BadgeSubmitType } from "../../types/BadgeSubmit";
 
 //이미지 파일을 입력하기
-const fetcher = (type: string) =>
+const fetcher = (payload: BadgeSubmitType) =>
   axios
-    .post(BADGE_SUBMIT_URL + "/" + type, {
+    .post(BADGE_SUBMIT_URL + "/" + payload.type, payload.formdata, {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: sessionStorage.getItem("accessToken"),
       },
     })
