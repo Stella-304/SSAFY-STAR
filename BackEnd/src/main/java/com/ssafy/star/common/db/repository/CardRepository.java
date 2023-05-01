@@ -28,10 +28,10 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     @Query("select cd From Card cd join fetch cd.user where cd.bojTier = :searchValue")
     List<Card> getAllFilteredByBojTier(@Param("searchValue")String searchValue);
     @Query("select cd From Card cd join fetch cd.user where cd.generation = :searchValue")
-    List<Card> getAllFilteredByGeneration(@Param("searchValue")String searchValue);
+    List<Card> getAllFilteredByGeneration(@Param("searchValue")int searchValue);
     @Query("select cd From Card cd join fetch cd.user where cd.generation = :gen and cd.campus = :cam")
-    List<Card> getAllFilteredByCampus(@Param("gen")String gen,@Param("cam")String cam);
+    List<Card> getAllFilteredByCampus(@Param("gen")int gen,@Param("cam")String cam);
     @Query("select cd From Card cd join fetch cd.user where cd.generation = :gen and cd.campus = :cam and cd.ban = :ban")
-    List<Card> getAllFilteredByBan(@Param("gen")String gen,@Param("cam")String cam,@Param("ban")String ban);
+    List<Card> getAllFilteredByBan(@Param("gen")int gen,@Param("cam")String cam,@Param("ban")int ban);
 
 }
