@@ -80,9 +80,38 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
 		//이부분을 jpql써서 바꿔야할듯
-		List<Card> cardList;
-		if(searchColumn.equals("company")&&searchValue!=null){
-			cardList = cardRepository.getAllFilteredByCompany(searchValue);
+		List<Card> cardList=new ArrayList<>();
+		if(searchColumn!=null){
+			if(searchColumn.equals("company")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredByCompany(searchValue);
+			}
+			if(searchColumn.equals("track")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredByTrack(searchValue);
+			}
+			if(searchColumn.equals("swTier")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredBySwTier(searchValue);
+			}
+			if(searchColumn.equals("major")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredByMajor(searchValue);
+			}
+			if(searchColumn.equals("bojTier")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
+			}
+			if(searchColumn.equals("generation")&&searchValue!=null) {
+				cardList = cardRepository.getAllFilteredByGeneration(searchValue);
+			}
+			if(searchColumn.equals("campus")&&searchValue!=null) {
+				String gen=searchValue.split("-")[0];
+				String cam=searchValue.split("-")[1];
+				cardList = cardRepository.getAllFilteredByCampus(gen,cam);
+			}
+			if(searchColumn.equals("ban")&&searchValue!=null) {
+				String gen=searchValue.split("-")[0];
+				String cam=searchValue.split("-")[1];
+				String ban=searchValue.split("-")[2];
+				cardList = cardRepository.getAllFilteredByBan(gen,cam,ban);
+			}
+
 		}else{
 			cardList = cardRepository.getAllCardListWithUser();
 		}

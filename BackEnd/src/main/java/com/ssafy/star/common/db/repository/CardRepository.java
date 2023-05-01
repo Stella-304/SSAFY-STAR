@@ -17,7 +17,21 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     @Query("select cd From Card cd join fetch cd.user where cd.company = :searchValue")
     List<Card> getAllFilteredByCompany(@Param("searchValue")String searchValue);
-
-
+    @Query("select cd From Card cd join fetch cd.user where cd.track = :searchValue")
+    List<Card> getAllFilteredByTrack(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.role = :searchValue")
+    List<Card> getAllFilteredByRole(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.swTier = :searchValue")
+    List<Card> getAllFilteredBySwTier(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.major = :searchValue")
+    List<Card> getAllFilteredByMajor(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.bojTier = :searchValue")
+    List<Card> getAllFilteredByBojTier(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.generation = :searchValue")
+    List<Card> getAllFilteredByGeneration(@Param("searchValue")String searchValue);
+    @Query("select cd From Card cd join fetch cd.user where cd.generation = :gen and cd.campus = :cam")
+    List<Card> getAllFilteredByCampus(@Param("gen")String gen,@Param("cam")String cam);
+    @Query("select cd From Card cd join fetch cd.user where cd.generation = :gen and cd.campus = :cam and cd.ban = :ban")
+    List<Card> getAllFilteredByBan(@Param("gen")String gen,@Param("cam")String cam,@Param("ban")String ban);
 
 }
