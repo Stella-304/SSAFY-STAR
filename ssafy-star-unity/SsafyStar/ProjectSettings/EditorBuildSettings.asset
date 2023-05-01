@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: e78075e9fd8227c43b1c2ccd4f6df25b
   - enabled: 1
-    path: Assets/Scenes/FusionTest.unity
-    guid: 18763361e9efe074497c06f34ba1dc01
-  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 88d20c8a616d6834691e08d8d54233db
   m_configObjects: {}
