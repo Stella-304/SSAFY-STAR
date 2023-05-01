@@ -22,7 +22,7 @@ public class Card {
 	@Column(columnDefinition = "INT(11) UNSIGNED")
 	private Long id;
 
-//	여기에 한마디도 추가되어야함.
+	//	여기에 한마디도 추가되어야함.
 	@Column(length = 140)
 	private String content;
 
@@ -68,4 +68,8 @@ public class Card {
 		this.bojTier = bojTier;
 	}
 
+	@Override
+	public String toString() {
+		return "CardInfo " + this.user.getName();
+	}
 }
