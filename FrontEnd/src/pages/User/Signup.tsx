@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
 import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
 import useSignup from "../../apis/user/useSignup";
 import { SignupType } from "../../types/SignupType";
+import useEmailCheck from "../../apis/user/useEmailCheck";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -35,6 +36,18 @@ export default function Signup() {
 
   //회원가입 요청
   const { mutate } = useSignup();
+
+  //이메일 부분
+  const emailCheckQeury = useEmailCheck(user.email);
+
+  useMemo(() => {
+    if (emailCheckQeury.isLoading || emailCheckQeury.error) return null;
+
+    if (emailCheckQeury.data !== undefined) {
+      if (emailCheckQeury.data.status === "fail")
+        setEmailWarning(emailCheckQeury.data.message);
+    }
+  }, [emailCheckQeury.isLoading, emailCheckQeury.error, emailCheckQeury.data]);
 
   useEffect(() => {
     dispatch(resetUser());
@@ -135,7 +148,7 @@ export default function Signup() {
       return;
     }
     if (emailCheckCode === "test") {
-      setTimer(0);
+      setTimer(-1);
       setCodeWarning("");
       setCodeConfirm("인증완료");
       setEmailCheck(true);

@@ -1,19 +1,16 @@
-import { useMutation } from "react-query";
+import { useQuery } from "react-query";
 import axios from "axios";
 import { EMAIL_CHECK_URL } from "../../utils/urls";
 
-interface Payload {
-  email: string;
-}
-const fetcher = (payload: Payload) =>
+const fetcher = (email: string) =>
   axios
     .get(EMAIL_CHECK_URL, {
-      params: { email: payload.email },
+      params: { email: email },
     })
     .then(({ data }) => data);
 
-const useEmailCheck = () => {
-  return useMutation(fetcher, {});
+const useEmailCheck = (email: string) => {
+  return useQuery(["/emailcheck", email], () => fetcher(email), {});
 };
 
 export default useEmailCheck;
