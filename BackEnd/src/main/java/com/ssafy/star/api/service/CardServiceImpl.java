@@ -18,13 +18,17 @@ import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -33,145 +37,164 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
-    final UserRepository userRepository;
-    final CompanyRepository companyRepository;
-    final CardRepository cardRepository;
-    final CoordinateRepository coordinateRepository;
-    final AuthProvider authProvider;
+	final UserRepository userRepository;
+	final CompanyRepository companyRepository;
+	final CardRepository cardRepository;
+	final CoordinateRepository coordinateRepository;
+	final AuthProvider authProvider;
 
-    @Override
-    @Transactional
-    public void updateBojTier() {
-        long userId = authProvider.getUserIdFromPrincipal();
+	@Override
+	@Transactional
+	public void updateBojTier() {
+		long userId = authProvider.getUserIdFromPrincipal();
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
-        Card card = Optional.ofNullable(user.getCard()).orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+		Card card = Optional.ofNullable(user.getCard())
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 
-        String bojId = Optional.ofNullable(card.getBojId()).orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_BOJ_ID_PROVIDED));
+		String bojId = Optional.ofNullable(card.getBojId())
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_BOJ_ID_PROVIDED));
 
-        String tier = CallAPIUtil.getUserTier(bojId);
-        card.updateBojTier(tier);
-    }
+		String tier = CallAPIUtil.getUserTier(bojId);
+		card.updateBojTier(tier);
+	}
 
-    @Override
-    public String getBojTier(String bojId) {
-        return CallAPIUtil.getUserTier(bojId);
-    }
+	@Override
+	public String getBojTier(String bojId) {
+		return CallAPIUtil.getUserTier(bojId);
+	}
 
-    @Override
-    public ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto) {
-        List<Card> cardList = new ArrayList<>();
-        boolean isCelestial = false;
-//		if (searchConditionReqDto == null) {
-//			cardList = cardRepository.getAllCardListWithUser();
-//			isCelestial = true;
-//		} else {
-//			//Query DSL 써서 구현 후순위
-//		}
-        cardList = cardRepository.getAllCardListWithUser();
-        isCelestial = true;
-        List<CardDetailDto> detailDtoList = setCoordinates(cardList, isCelestial);
-//        List<EdgeDto> edgeDtoList = hi(cardList);
-        List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
-        return new ConstellationListDto(detailDtoList, edgeDtoList);
-    }
+	@Override
+	public ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto) {
+		List<Card> cardList = cardRepository.getAllCardListWithUser();
+		// 바꿔야함
+		// List<CardDetailDto> detailDtoList = setCoordinates(cardList, searchConditionReqDto.getStarCloudFlag());
+		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
 
-    private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
-        List<EdgeDto> edgeList=new ArrayList<>();
-        edgeList=GeometryUtil.getEdgeList(detailDtoList);
-        return edgeList;
-    }
+		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+		return new ConstellationListDto(detailDtoList, edgeDtoList);
+	}
 
-    public List<CardDetailDto> setCoordinates(List<Card> cardList, boolean isCelestial) {
-        int cardCnt = cardList.size();
-        //기본 천구
-        int level;
-        int r;
-        level = GeometryUtil.getLevelFromCardCnt(cardCnt);
-        r = GeometryUtil.getRadiusFromLevel(level);
-        if (isCelestial) {
-            level = 6;
-            r = 20;
-        }
-        int vertices = GeometryUtil.getVerticesFromLevel(level);
-        List<Integer> numbers = new ArrayList<>();
-        for (int i = 0; i < vertices; i++) {
-            numbers.add(i);
-        }
-        List<Integer> result = new ArrayList<Integer>();
-        Random random = new Random();
-        for (int i = 0; i < cardCnt; i++) {
-            int index = random.nextInt(numbers.size());
-            result.add(numbers.remove(index));
-        }
+	private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
+		List<EdgeDto> edgeList = new ArrayList<>();
+		edgeList = GeometryUtil.getEdgeList(detailDtoList);
+		return edgeList;
+	}
 
+	// starCloudFlag -> ENUM으로 바꿔야함.
+	public List<CardDetailDto> setCoordinates(List<Card> cardList, String starCloudFlag) {
+		int cardCnt = cardList.size();
+		//기본 천구
+		int level;
+		int r = 200;
+		// r = GeometryUtil.getRadiusFromLevel(level);
+		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
-        //level별 coordinate limit 걸기
-        List<Coordinate> coordinateList = new ArrayList<>();
-        if (level == 1) {
-            coordinateList = coordinateRepository.findTop12ByOrderByIdDesc();
-        } else if (level == 2) {
-            coordinateList = coordinateRepository.findTop42ByOrderByIdDesc();
-        } else if (level == 3) {
-            coordinateList = coordinateRepository.findTop162ByOrderByIdDesc();
-        } else if (level == 4) {
-            coordinateList = coordinateRepository.findTop642ByOrderByIdDesc();
-        } else if (level == 5) {
-            coordinateList = coordinateRepository.findTop2562ByOrderByIdDesc();
-        } else {
-            coordinateList = coordinateRepository.findAll();
-        }
-        List<CardDetailDto> detailDtoList = new ArrayList<>();
-        for (int i = 0; i < cardCnt; i++) {
-//			int selected = selectedCoordinatesStk.pop();
-            int selected = result.get(i);
-            detailDtoList.add(new CardDetailDto(cardList.get(i), r * coordinateList.get(selected).getX(), r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ()));
-        }
-        return detailDtoList;
-    }
+		int vertices = GeometryUtil.getVerticesFromLevel(level);
+		List<Integer> numbers = new ArrayList<>();
+		for (int i = 0; i < vertices; i++) {
+			numbers.add(i);
+		}
+		List<Integer> result = new ArrayList<>();
+		Random random = new Random();
+		for (int i = 0; i < cardCnt; i++) {
+			int index = random.nextInt(numbers.size());
+			result.add(numbers.remove(index));
+		}
 
-//    //상학쓰 구현파트
-//    public List<EdgeDto> hi(List<Card> cardList) {
-//        return null;
-//    }
+		//level별 coordinate limit 걸기
+		List<Coordinate> coordinateList = new ArrayList<>();
+		if (level == 1) {
+			coordinateList = coordinateRepository.findTop12ByOrderByIdDesc();
+		} else if (level == 2) {
+			coordinateList = coordinateRepository.findTop42ByOrderByIdDesc();
+		} else if (level == 3) {
+			coordinateList = coordinateRepository.findTop162ByOrderByIdDesc();
+		} else if (level == 4) {
+			coordinateList = coordinateRepository.findTop642ByOrderByIdDesc();
+		} else if (level == 5) {
+			coordinateList = coordinateRepository.findTop2562ByOrderByIdDesc();
+		} else {
+			coordinateList = coordinateRepository.findAll();
+		}
 
-    @Override
-    public List<String> searchCompany(String query) {
-        companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
-        return companyRepository.searchCompanyList(query);
-    }
+		List<CardDetailDto> detailDtoList = new ArrayList<>();
+		if (starCloudFlag.equals("CGB")) {
+			Map<String, List<Card>> temp = new HashMap<>();
+			for (Card card : cardList) {
+				String key = card.getCampus() + String.valueOf(card.getGeneration()) + String.valueOf(card.getBan());
+				if (!temp.containsKey(key)) {
+					temp.put(key, new ArrayList<>());
+				}
+				temp.get(key).add(card);
+			}
+			System.out.println(temp);
+			System.out.println(temp.keySet().size());
+		} else if (starCloudFlag.equals("CAMPUS")) {
+			Map<String, List<Card>> temp = new HashMap<>();
+			for (Card card : cardList) {
+				String key = card.getCampus();
+				if (!temp.containsKey(key)) {
+					temp.put(key, new ArrayList<>());
+				}
+				temp.get(key).add(card);
+			}
+			System.out.println(temp);
+			System.out.println(temp.keySet().size());
+		}
 
-    @Override
-    @Transactional
-    public void registCard(CardRegistReqDto cardRegistReqDto) {
-        long userId = authProvider.getUserIdFromPrincipal();
-        User user = userRepository.findById(userId).orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
-        if(user.getCard()!=null){
-            throw new CommonApiException(CommonErrorCode.ALEADY_EXIST_CARD);
-        }
-        Card card = cardRegistReqDto.of(user);
-        cardRepository.save(card);
-        user.setCard(card);
-    }
+		for (int i = 0; i < cardCnt; i++) {
+			int selected = result.get(i);
+			detailDtoList.add(new CardDetailDto(cardList.get(i), r * coordinateList.get(selected).getX(),
+				r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ()));
+		}
+		return detailDtoList;
+	}
 
-    @Override
-    @Transactional
-    public void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception {
-        Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
-        Optional.ofNullable(cardUpdateReqDto.getContent()).ifPresent(x -> card.setContent(x));
-        Optional.ofNullable(cardUpdateReqDto.getGeneration()).ifPresent(x -> card.setGeneration(x));
-        Optional.ofNullable(cardUpdateReqDto.getCampus()).ifPresent(x -> card.setCampus(x));
-        Optional.ofNullable(cardUpdateReqDto.getBan()).ifPresent(x -> card.setBan(x));
-        Optional.ofNullable(cardUpdateReqDto.getGithubId()).ifPresent(x -> card.setGithubId(x));
-        Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> card.setBojId(x));
-        Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> card.setBlogAddr(x));
-        Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> card.setCompany(x));
-        Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> card.setTrack(x));
-    }
+	//    //상학쓰 구현파트
+	//    public List<EdgeDto> hi(List<Card> cardList) {
+	//        return null;
+	//    }
 
-    @Override
-    public void deleteCard(Long cardId) {
-        cardRepository.deleteById(cardId);
-    }
+	@Override
+	public List<String> searchCompany(String query) {
+		companyRepository.searchCompanyList(query).stream().forEach(System.out::println);
+		return companyRepository.searchCompanyList(query);
+	}
+
+	@Override
+	@Transactional
+	public void registCard(CardRegistReqDto cardRegistReqDto) {
+		long userId = authProvider.getUserIdFromPrincipal();
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		if (user.getCard() != null) {
+			throw new CommonApiException(CommonErrorCode.ALEADY_EXIST_CARD);
+		}
+		Card card = cardRegistReqDto.of(user);
+		cardRepository.save(card);
+		user.setCard(card);
+	}
+
+	@Override
+	@Transactional
+	public void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception {
+		Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
+		Optional.ofNullable(cardUpdateReqDto.getContent()).ifPresent(x -> card.setContent(x));
+		Optional.ofNullable(cardUpdateReqDto.getGeneration()).ifPresent(x -> card.setGeneration(x));
+		Optional.ofNullable(cardUpdateReqDto.getCampus()).ifPresent(x -> card.setCampus(x));
+		Optional.ofNullable(cardUpdateReqDto.getBan()).ifPresent(x -> card.setBan(x));
+		Optional.ofNullable(cardUpdateReqDto.getGithubId()).ifPresent(x -> card.setGithubId(x));
+		Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> card.setBojId(x));
+		Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> card.setBlogAddr(x));
+		Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> card.setCompany(x));
+		Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> card.setTrack(x));
+	}
+
+	@Override
+	public void deleteCard(Long cardId) {
+		cardRepository.deleteById(cardId);
+	}
 }
