@@ -1,15 +1,24 @@
 export interface User {
   name: string;
+  cardId: number;
+  x: number;
+  y: number;
+  z: number;
   generation: number;
-  region: string;
-  major: string;
+  campus: string;
+  ban: number;
+  githubId: string | null;
+  bojId: string | null;
+  bojTier: string | null;
+  blogAddr: string | null;
+  company: string | null;
   track: string;
-  company: string;
-  gitHub: string;
-  blog: string;
-  type: string;
-  baekjoonTier: string;
+  email: string | null;
+  nickname: string;
+  major: string;
+  role: string;
   algoTest: string;
+  authorized: boolean;
   prize: string;
   text: string;
 }

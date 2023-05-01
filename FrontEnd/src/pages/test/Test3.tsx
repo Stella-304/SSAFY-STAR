@@ -24,7 +24,11 @@ import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
 import { KernelSize } from "postprocessing";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import {
+  EffectComposer,
+  Bloom,
+  SelectiveBloom,
+} from "@react-three/postprocessing";
 import ground from "../../assets/ground.jpg";
 
 import { motion } from "framer-motion-3d";
@@ -33,19 +37,29 @@ import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import axios from "axios";
 import { hover } from "@testing-library/user-event/dist/hover";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 
 const userInfo: User = {
   name: "이아현",
   generation: 7,
-  region: "대전",
+  ban: 5,
+  x: 25,
+  y: 25,
+  z: 25,
+  cardId: 1,
+  campus: "대전",
   major: "전공",
   track: "자바",
   company: "삼성전자",
-  gitHub: "https://github.com/skylove308",
-  blog: "https://daily-programmers-diary.tistory.com",
-  type: "BackEnd",
-  baekjoonTier: "Platinum",
+  githubId: "skylove308",
+  bojId: "skylove650",
+  blogAddr: "https://daily-programmers-diary.tistory.com",
+  email: "skylove0911@naver.com",
+  nickname: "블루베리",
+  role: "BackEnd",
+  bojTier: "Platinum",
   algoTest: "B형",
+  authorized: false,
   prize: `자율 1등\n특화 2등\n공통 1등`,
   text: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
 };
@@ -194,12 +208,28 @@ function Star(props: any) {
   );
 }
 
-function Tree(props: any) {
-  const tree = useLoader(OBJLoader, "/obj/Lowpoly_tree_sample.obj");
+interface TreeProps {
+  x: number;
+  y: number;
+  z: number;
+  scale: number;
+  mtl: string;
+  obj: string;
+}
+function Tree({ x, y, z, scale, mtl, obj }: TreeProps) {
+  const treeMtl = useLoader(MTLLoader, mtl);
+  const tree = useLoader(OBJLoader, obj, (loader) => {
+    treeMtl.preload();
+    loader.setMaterials(treeMtl);
+  });
+
   const treeClone = tree.clone();
-  treeClone.position.x = props.x;
-  treeClone.position.y = props.y;
-  treeClone.position.z = props.z;
+  treeClone.position.x = x;
+  treeClone.position.y = y;
+  treeClone.position.z = z;
+  treeClone.scale.x = scale;
+  treeClone.scale.y = scale;
+  treeClone.scale.z = scale;
 
   return <primitive object={treeClone} />;
 }
@@ -223,6 +253,7 @@ export default function Test3() {
 
   const lineRef = useRef<any>(null);
   const starInfo = useStarInfoQuery();
+  const starRef = useRef<any>(null);
 
   return (
     <div className="h-screen w-full overflow-hidden bg-black perspective-9">
@@ -243,8 +274,7 @@ export default function Test3() {
             intensity={0.5}
           />
         </EffectComposer>
-
-        {/* {starInfo?.data?.cardList?.map((item: any) => (
+        {starInfo?.data?.cardList?.map((item: any) => (
           // <Sphere
           //   position={[item.x * 3, item.y * 3, item.z * 3]}
           //   onClick={() => {
@@ -258,12 +288,15 @@ export default function Test3() {
           // />
           <Star
             item={item}
-            onClick={() =>
-              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3))
-            }
+            starPos={starPos}
+            setEndAnim={setEndAnim}
+            onClick={() => {
+              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3));
+            }}
+            key={item.cardId}
           />
-        ))} */}
-        {position.map((item, index) => (
+        ))}
+        {/* {position.map((item, index) => (
           <Star
             item={item}
             starPos={starPos}
@@ -273,10 +306,10 @@ export default function Test3() {
             }}
             key={index}
           />
-        ))}
+        ))} */}
         <Stars
           radius={100}
-          depth={50}
+          depth={30}
           count={5000}
           factor={4}
           saturation={0}
@@ -310,12 +343,54 @@ export default function Test3() {
           visible={starPos ? true : false}
         /> */}
         <Ground />
-        <Tree x={90} y={-10} z={60} />
-        <Tree x={100} y={-10} z={10} />
-        <Tree x={100} y={-10} z={5} />
-        <Tree x={40} y={-10} z={90} />
-        <Tree x={30} y={-10} z={100} />
-        <Tree x={20} y={-10} z={70} />
+        <Tree
+          x={90}
+          y={-10}
+          z={60}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
+        <Tree
+          x={100}
+          y={-10}
+          z={10}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
+        <Tree
+          x={100}
+          y={-10}
+          z={5}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
+        <Tree
+          x={40}
+          y={-10}
+          z={90}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
+        <Tree
+          x={30}
+          y={-10}
+          z={100}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
+        <Tree
+          x={20}
+          y={-10}
+          z={70}
+          scale={0.5}
+          mtl={"/obj/Lowpoly_tree_sample.mtl"}
+          obj={"/obj/Lowpoly_tree_sample.obj"}
+        />
       </Canvas>
 
       <div
