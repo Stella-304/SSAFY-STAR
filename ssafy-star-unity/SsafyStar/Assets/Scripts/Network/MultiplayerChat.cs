@@ -13,7 +13,7 @@ public class MultiplayerChat : NetworkBehaviour
     private UIDocument doc;
     private Label chatText;
 
-    private void Awake()
+    private void Start()
     {
         doc = GetComponentInParent<UIDocument>();
         chatText = doc.rootVisualElement.Q<Label>("chattext");

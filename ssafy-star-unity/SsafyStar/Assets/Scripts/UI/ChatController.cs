@@ -15,7 +15,7 @@ public class ChatController : MonoBehaviour
     private MultiplayerChat multiChat;
     public PlayerMovement player;
 
-    private void Awake()
+    private void Start()
     {
         doc = GetComponent<UIDocument>();
         multiChat = GetComponentInChildren<MultiplayerChat>();
