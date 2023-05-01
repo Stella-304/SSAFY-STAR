@@ -8,9 +8,10 @@ const fetcher = (payload: SignupType) =>
   axios
     .post(SIGNUP_URL, {
       email: payload.email,
+      name:payload.name,
       nickname: payload.nickname,
-      userId: payload.userId,
-      userPwd: payload.userPwd,
+      accountId: payload.userId,
+      accountPwd: payload.userPwd,
     })
     .then(({ data }) => data);
 

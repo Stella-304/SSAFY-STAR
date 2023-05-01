@@ -19,6 +19,7 @@ export default function Signup() {
   const dispatch = useDispatch();
   const [idWarning, setIdWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
+  const [nicknameWarning, setNickameWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
@@ -36,6 +37,8 @@ export default function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const nicknameRef = useRef<HTMLInputElement>(null);
+
 
   //회원가입 요청
   const signupMutate = useSignup();
@@ -150,6 +153,15 @@ export default function Signup() {
     }
     dispatch(setUser({ ...user, name: input }));
   }
+  //닉네임 입력
+  function onNickname(input: string) {
+    if (!input.match(nameReg)) {
+      setNickameWarning("닉네임은 5글자 이내로 해주세요");
+    } else {
+      setNickameWarning("");
+    }
+    dispatch(setUser({ ...user, nickname: input }));
+  }
 
   //이메일 인증
   function sendEmail() {
@@ -173,7 +185,7 @@ export default function Signup() {
       return;
     }
 
-    sendEmailCheckMutate.mutate({ code: emailCheckCode });
+    sendEmailCheckMutate.mutate({email:user.email, code: emailCheckCode });
   }
 
   //회원가입 진행
@@ -182,9 +194,16 @@ export default function Signup() {
     if (user.name === "") {
       return;
     }
-
     if (!user.name.match(nameReg)) {
       return nameRef?.current?.focus();
+    }
+
+    //닉네임 확인
+    if (user.nickname === "") {
+      return;
+    }
+    if (!user.nickname.match(nameReg)) {
+      return nicknameRef?.current?.focus();
     }
 
     //이메일 확인
@@ -212,7 +231,8 @@ export default function Signup() {
     const payload: SignupType = {
       userId: user.loginid,
       userPwd: user.password,
-      nickname: user.name,
+      nickname: user.nickname,
+      name:user.name,
       email: user.email,
     };
     signupMutate.mutate(payload);
@@ -240,10 +260,19 @@ export default function Signup() {
             inputRef={nameRef}
             id="name"
             type="input"
-            label="닉네임"
+            label="이름"
             onChange={onName}
             value={user?.name}
             warning={nameWarning}
+          />
+          <Input
+            inputRef={nicknameRef}
+            id="nickname"
+            type="input"
+            label="닉네임"
+            onChange={onNickname}
+            value={user?.nickname}
+            warning={nicknameWarning}
           />
           <div className="flex">
             <div className="flex-grow">

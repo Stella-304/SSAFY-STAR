@@ -3,4 +3,5 @@ export interface SignupType {
   nickname: string;
   userId: string;
   userPwd: string;
+  name:string;
 }

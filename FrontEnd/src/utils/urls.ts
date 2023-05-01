@@ -11,7 +11,7 @@ export const SIGNUP_URL = SERVER_API + "/app/user/regist";
 //인증메일 전송
 export const EMAIL_SEND_URL = SERVER_API + "/app/user/email/send-verification";
 //인증메일 확인
-export const EMAIL_CODE_CHECK_URL = SERVER_API + "/app/user/email/받기";
+export const EMAIL_CODE_CHECK_URL = SERVER_API + "/app/user/email/compare-verification";
 //이메일 중복여부
 export const EMAIL_CHECK_URL = SERVER_API + "/app/user/email/check-duplicate";
 
