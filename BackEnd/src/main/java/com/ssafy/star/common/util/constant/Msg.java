@@ -14,7 +14,16 @@ public interface Msg {
     final String SUCCESS_DELETE = "삭제에 성공했습니다.";
     final String SUCCESS_UPDATE = "수정에 성공했습니다.";
 
+
     //ETC
+    final String SUCCESS_LOGIN = "로그인에 성공했습니다.";
+    final String FAULURE_LOGIN = "로그인에 실패했습니다.";
     final String SUCCESS_LOGOUT = "로그아웃에 성공했습니다.";
+
+    final String EMAIL_NOT_FOUND = "중복된 아이디입니다.";
+    final String DUPLICATED_ID = "중복된 아이디입니다.";
+    final String DUPLICATED_EMAIL = "중복된 이메일입니다.";
+    final String VALID_EMAIL = "사용 가능한 이메일입니다.";
+    final String SUCCESS_SEND_EMAIL = "메일 전송에 성공했습니다.";
 }
 

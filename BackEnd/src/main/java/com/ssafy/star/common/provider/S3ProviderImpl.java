@@ -1,14 +1,6 @@
 package com.ssafy.star.common.provider;
 
-import java.io.File;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -16,21 +8,26 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ssafy.star.common.exception.CommonApiException;
-import com.ssafy.star.common.util.constant.CommonErrorCode;
+import java.io.IOException;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Service
-public class S3ProviderImpl implements S3Provider {
+@NoArgsConstructor
+@Slf4j
+public class S3ProviderImpl implements S3Provider{
 
 	private AmazonS3 s3Client;
 
-	@Value("${cloud.aws.credentials.access-key}")
+	@Value("${cloud.aws.credentials.accessKey}")
 	private String accessKey;
 
-	@Value("${cloud.aws.credentials.secret-key}")
+	@Value("${cloud.aws.credentials.secretKey}")
 	private String secretKey;
 
 	@Value("${cloud.aws.s3.bucket}")
@@ -40,50 +37,42 @@ public class S3ProviderImpl implements S3Provider {
 	private String region;
 
 	@PostConstruct
-	public void init() {
-		AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+	public void setS3Client() {
+		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
 
 		s3Client = AmazonS3ClientBuilder.standard()
-			.withCredentials(new AWSStaticCredentialsProvider(credentials))
-			.withRegion(region)
-			.build();
+				.withCredentials(new AWSStaticCredentialsProvider(credentials))
+				.withRegion(this.region)
+				.build();
 	}
 
-	@Transactional
-	@Override
-	public String uploadMultipartFile(MultipartFile file, String uri) throws CommonApiException {
-
+	public String upload(MultipartFile file,String baseUrl) throws IOException {
 		if (file != null && !file.isEmpty()) {
-
-			try {
-				s3Client.putObject(new PutObjectRequest(bucket, uri, file.getInputStream(), null)
+			String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename()
+					.replaceAll("[~!@#$%^&*()_+ ]", "_");
+			s3Client.putObject(new PutObjectRequest(bucket, baseUrl + "/" + fileName, file.getInputStream(), null)
 					.withCannedAcl(CannedAccessControlList.PublicRead));
-			} catch (Exception e) {
-				e.printStackTrace();
+			return s3Client.getUrl(bucket, fileName).toString();
+		} else {
+			return null;
+		}
+	}
+
+	public void deleteFile(String imageSrc) {
+		try {
+			String key = imageSrc;
+			try {
+				if (imageSrc == null) {
+					return;
+				}
+				s3Client.deleteObject(bucket, (key).substring(54));
+			} catch (AmazonServiceException e) {
+				System.err.println(e.getErrorMessage());
+				System.exit(1);
 			}
-
-			return s3Client.getUrl(bucket, uri).toString();
-		} else {
-			throw new CommonApiException(CommonErrorCode.FILE_NOT_VAILD);
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-	}
-
-	@Transactional
-	@Override
-	public String uploadFile(File file, String uri) {
-
-		if (file != null) {
-			s3Client.putObject(new PutObjectRequest(bucket, uri, file)
-				.withCannedAcl(CannedAccessControlList.PublicRead));
-
-			return s3Client.getUrl(bucket, uri).toString();
-		} else {
-			throw new CommonApiException(CommonErrorCode.FILE_NOT_VAILD);
-		}
-	}
-
-	@Override
-	public void delete(String uri) {
-		s3Client.deleteObject(bucket, uri);
 	}
 }
+

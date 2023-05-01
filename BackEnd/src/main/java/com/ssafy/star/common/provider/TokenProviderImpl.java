@@ -21,8 +21,9 @@ public class TokenProviderImpl implements TokenProvider {
     private RedisProvider redisProvider;
     @Autowired
     private AppProperties appProperties;
-    public String createToken(Authentication authentication) {
 
+    @Override
+    public String createTokenByAuthentication(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
@@ -30,11 +31,26 @@ public class TokenProviderImpl implements TokenProvider {
 
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
     }
+
+    @Override
+    public String createTokenById(long id) {
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
+
+        return Jwts.builder()
+                .setSubject(Long.toString(id))
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
+                .compact();
+    }
+
 
     @Override
     public Long getUserIdFromToken(String token) {
@@ -74,12 +90,7 @@ public class TokenProviderImpl implements TokenProvider {
     @Override
     public String getTokenFromRequest(HttpServletRequest request) {
         // Authorization 헤더의 이름은 정해진 값이며, JWT 5토큰을 사용하는 경우 대개 이 헤더 이름을 사용함 => Bearer [JWT Token] 형태로 설정
-        String bearerToken = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
-        return null;
+        return request.getHeader("Authorization");
     }
 
     @Override
