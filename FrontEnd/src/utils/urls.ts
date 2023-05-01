@@ -9,7 +9,9 @@ export const LOGOUT_URL = SERVER_API + "/app/user/logout";
 //회원가입
 export const SIGNUP_URL = SERVER_API + "/app/user/regist";
 //인증메일 전송
-export const EMAIL_SEND_URL = SERVER_API + "/app/email/send-verification";
+export const EMAIL_SEND_URL = SERVER_API + "/app/user/email/send-verification";
+//인증메일 확인
+export const EMAIL_CODE_CHECK_URL = SERVER_API + "/app/user/email/받기";
 //이메일 중복여부
 export const EMAIL_CHECK_URL = SERVER_API + "/app/user/email/check-duplicate";
 

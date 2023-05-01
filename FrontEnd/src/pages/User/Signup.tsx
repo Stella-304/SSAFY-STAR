@@ -12,6 +12,7 @@ import useSignup from "../../apis/user/useSignup";
 import { SignupType } from "../../types/SignupType";
 import useEmailCheck from "../../apis/user/useEmailCheck";
 import useSendMail from "../../apis/user/useSendMail";
+import useSendMailCheck from "../../apis/user/useSendMailCheck";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -38,17 +39,34 @@ export default function Signup() {
   //회원가입 요청
   const signupMutate = useSignup();
 
-  //이메일 부분
-  const emailCheckQeury = useEmailCheck(user.email);
+  //이메일 중복 확인
+  const [emailCheckSave, setEmailCheckSave] = useState("");
+  const emailCheckQeury = useEmailCheck(emailCheckSave);
   //이메일 인증 전송
   const sendEmailMutate = useSendMail();
+  const sendEmailCheckMutate = useSendMailCheck({
+    setTimer,
+    setCodeConfirm,
+    setCodeWarning,
+    setEmailCheck,
+  });
 
   useMemo(() => {
+    if (emailCheckSave === "") return;
     if (emailCheckQeury.isLoading || emailCheckQeury.error) return null;
 
     if (emailCheckQeury.data !== undefined) {
-      if (emailCheckQeury.data.status === "fail")
+      if (emailCheckQeury.data.status === "CONFLICT") {
+        //중복
         setEmailWarning(emailCheckQeury.data.message);
+      } else {
+        //사용가능 이메일
+        setTimer(60 * 3); //3분 타이머 시작
+
+        //메일 전송
+        sendEmailMutate.mutate({ email: user.email });
+        setOpenCheck(true);
+      }
     }
   }, [emailCheckQeury.isLoading, emailCheckQeury.error, emailCheckQeury.data]);
 
@@ -133,14 +151,9 @@ export default function Signup() {
       setEmailWarning("이메일을 알맞게 작성해주세요.");
       return;
     } else {
-      setEmailWarning("");
+      //이메일 중복 확인요청
+      setEmailCheckSave(user.email);
     }
-
-    setTimer(60 * 3); //3분 타이머 시작
-
-    //메일 전송
-    sendEmailMutate.mutate({ email: user.email });
-    setOpenCheck(true);
   }
 
   //이메일 인증 번호확인
@@ -148,16 +161,12 @@ export default function Signup() {
     //인증번호 일치 확인
     //일치 setEmailCheck(true);
     //불일치 setEmailCheck(false);
-    if (timer === 0) {
+    if (timer <= 0) {
       setCodeWarning("다시 인증 해주세요");
       return;
     }
-    if (emailCheckCode === "test") {
-      setTimer(-1);
-      setCodeWarning("");
-      setCodeConfirm("인증완료");
-      setEmailCheck(true);
-    }
+
+    sendEmailCheckMutate.mutate({ code: emailCheckCode });
   }
 
   //회원가입 진행
@@ -169,6 +178,11 @@ export default function Signup() {
     //이메일 확인
     if (!user.email.match(emailReg)) {
       return emailRef?.current?.focus();
+    }
+    //이메일 인증 여부
+    if (!emailCheck) {
+      alert("인증을 완료해주세요");
+      return;
     }
     //아이디 확인
     if (!user.loginid.match(loginidReg)) {
@@ -232,7 +246,7 @@ export default function Signup() {
               />
             </div>
             <div className="flex items-end">
-              <SmallButton value="인증" onClick={sendEmail}></SmallButton>
+              <SmallButton value="중복확인" onClick={sendEmail}></SmallButton>
             </div>
           </div>
           {openCheck && (

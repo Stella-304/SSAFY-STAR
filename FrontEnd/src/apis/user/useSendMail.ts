@@ -6,7 +6,17 @@ interface Payload {
   email: string;
 }
 const fetcher = (payload: Payload) =>
-  axios.post(EMAIL_SEND_URL, payload.email).then(({ data }) => data);
+  axios
+    .post(
+      EMAIL_SEND_URL,
+      {},
+      {
+        params: {
+          email: payload.email,
+        },
+      }
+    )
+    .then(({ data }) => data);
 const useSendMail = () => {
   return useMutation(fetcher, {});
 };
