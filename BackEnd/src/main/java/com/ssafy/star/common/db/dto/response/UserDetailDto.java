@@ -10,7 +10,8 @@ public class UserDetailDto {
     boolean isAuthorized;
 
     public UserDetailDto(String name, String email, boolean isAuthorized) {
-        this.name = name;
+
+        this.name = name.equals("none") ? "이름을 입력하세요." : name;
         this.email = email;
         this.isAuthorized = isAuthorized;
     }
