@@ -6,7 +6,7 @@ public class FaceCamera : MonoBehaviour
 {
     Camera cam;
 
-    private void Awake()
+    private void Start()
     {
         cam = Camera.main;
     }

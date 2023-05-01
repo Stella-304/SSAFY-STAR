@@ -1,13 +1,13 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Services.Analytics.Internal;
 using UnityEngine;
 using UnityEngine.AI;
+using Cinemachine;
 
 public class NPC : NetworkBehaviour
 {
+    [Header("Move")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
     public Vector3 startPosition = Vector3.zero;
@@ -16,9 +16,9 @@ public class NPC : NetworkBehaviour
     private Vector3 targetPosition;
     private bool isMoving = false;
 
+    [Header("Chat")]
     private GameObject chatUI;
     public bool doChat = false;
-    
 
     private void Start()
     {
@@ -37,6 +37,12 @@ public class NPC : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (doChat)
+        {
+            navMeshAgent.isStopped = true;
+            return;
+        }
+
         if (!isMoving)
         {
             navMeshAgent.SetDestination(targetPosition);
@@ -63,5 +69,12 @@ public class NPC : NetworkBehaviour
         }
 
         return transform.position;
+    }
+
+    public void FinishChat()
+    {
+        chatUI.SetActive(false);
+        doChat = false;
+        navMeshAgent.isStopped = false;
     }
 }

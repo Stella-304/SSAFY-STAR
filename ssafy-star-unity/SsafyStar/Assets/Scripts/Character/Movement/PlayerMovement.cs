@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -10,7 +11,10 @@ public class PlayerMovement : NetworkBehaviour
     public bool stop = false;
     public float playerSpeed = 2f;
     public Vector3 velocity = Vector3.zero;
+
+    [Header("Camera")]
     public Camera Camera;
+    public CinemachineVirtualCamera cineCamera;
 
     [Header("Jump")]
     public float JumpForce = 5f;
@@ -53,6 +57,7 @@ public class PlayerMovement : NetworkBehaviour
                 if (hit.collider.gameObject.name == "NPC")
                 {
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
+                    cineCamera.Priority = -10;
                     Debug.Log("NPC Å¬¸¯ÇÔ");
                 }
             }
@@ -64,7 +69,11 @@ public class PlayerMovement : NetworkBehaviour
         if (HasStateAuthority)
         {
             Camera = Camera.main;
+            cineCamera = Camera.GetComponent<CinemachineVirtualCamera>();
             Camera.GetComponent<CameraMovement>().Target = GetComponent<NetworkTransform>().InterpolationTarget;
+            cineCamera.Follow = this.gameObject.transform;
+            cineCamera.LookAt = this.gameObject.transform;
+
             GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
             GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
         }
