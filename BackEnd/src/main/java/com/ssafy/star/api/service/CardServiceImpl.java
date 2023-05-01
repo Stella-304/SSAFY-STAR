@@ -98,17 +98,17 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
 			if(searchColumn.equals("generation")&&searchValue!=null) {
-				cardList = cardRepository.getAllFilteredByGeneration(searchValue);
+				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
 			if(searchColumn.equals("campus")&&searchValue!=null) {
-				String gen=searchValue.split("-")[0];
+				int gen=Integer.parseInt(searchValue.split("-")[0]);
 				String cam=searchValue.split("-")[1];
 				cardList = cardRepository.getAllFilteredByCampus(gen,cam);
 			}
 			if(searchColumn.equals("ban")&&searchValue!=null) {
-				String gen=searchValue.split("-")[0];
+				int gen=Integer.parseInt(searchValue.split("-")[0]);
 				String cam=searchValue.split("-")[1];
-				String ban=searchValue.split("-")[2];
+				int ban=Integer.parseInt(searchValue.split("-")[2]);
 				cardList = cardRepository.getAllFilteredByBan(gen,cam,ban);
 			}
 
