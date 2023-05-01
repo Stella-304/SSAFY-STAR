@@ -111,7 +111,11 @@ export default function Test1() {
   return (
     <div className="h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
-        <OrbitControls enableZoom={false} />
+        <OrbitControls
+          enableZoom={false}
+          autoRotate={true}
+          autoRotateSpeed={0.1}
+        />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
