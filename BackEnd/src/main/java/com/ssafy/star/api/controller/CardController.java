@@ -44,7 +44,6 @@ public class CardController {
 	@GetMapping("/company")
 	@ApiOperation(value = "기업명 입력하면, 관련된 기업명 보여주기")
 	public ResponseEntity<?> companySearch(@RequestParam("query") String query) {
-		System.out.println("hihi " + query);
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.searchCompany(query)));
 	}

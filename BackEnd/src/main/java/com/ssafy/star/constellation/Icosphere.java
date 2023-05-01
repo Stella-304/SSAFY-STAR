@@ -17,7 +17,6 @@ public class Icosphere {
 	public static void convert(List list, String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(new File(fileName), list);
-        System.out.println("List saved " + fileName + " in here");
     }
 	public static void main(String[] args) throws IOException {
 		for (int i = 0; i < 6; i++) {
