@@ -13,29 +13,39 @@ public class NPC : NetworkBehaviour
     public Vector3 startPosition = Vector3.zero;
 
     private NavMeshAgent navMeshAgent;
-    Vector3 targetPosition;
-    bool isMoving = false;
+    private Vector3 targetPosition;
+    private bool isMoving = false;
+
+    private GameObject chatUI;
+    public bool doChat = false;
+    
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         targetPosition = GetRandomPosition();
+        chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
+    }
+
+    private void Update()
+    {
+        if(doChat)
+        {
+            chatUI.SetActive(true);
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
         if (!isMoving)
         {
-            // Start moving towards the target position
             navMeshAgent.SetDestination(targetPosition);
             isMoving = true;
         }
         else
         {
-            // Check if the object has reached the target position
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
-                // Stop moving and set a new target position
                 isMoving = false;
                 targetPosition = GetRandomPosition();
             }
@@ -44,7 +54,6 @@ public class NPC : NetworkBehaviour
 
     Vector3 GetRandomPosition()
     {
-        // Get a random point on the NavMesh
         NavMeshHit hit;
         Vector3 randomPosition = transform.position + Random.insideUnitSphere * 10f;
         if (NavMesh.SamplePosition(randomPosition, out hit, 10f, NavMesh.AllAreas))
@@ -52,8 +61,6 @@ public class NPC : NetworkBehaviour
             Debug.Log(hit.position);
             return hit.position;
         }
-        // If no point on NavMesh found, return current position
-
 
         return transform.position;
     }

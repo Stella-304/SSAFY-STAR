@@ -42,6 +42,21 @@ public class PlayerMovement : NetworkBehaviour
             _jumpPressed = true;
             anim.SetBool("Jump", true);
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject.name == "NPC")
+                {
+                    hit.collider.gameObject.GetComponent<NPC>().doChat = true;
+                    Debug.Log("NPC Å¬¸¯ÇÔ");
+                }
+            }
+        }
     }
 
     public override void Spawned()
