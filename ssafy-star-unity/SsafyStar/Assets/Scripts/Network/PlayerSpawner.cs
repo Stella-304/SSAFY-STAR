@@ -10,7 +10,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 
     [SerializeField]
     private UIDocument doc;
-    public VisualTreeAsset squareUI;
     public GameObject loadingUI;
 
 
@@ -21,8 +20,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         if (player == Runner.LocalPlayer)
         {
             loadingUI.SetActive(false);
-
-            doc.visualTreeAsset = squareUI;
 
             Runner.Spawn(PlayerPrefab, SpawnPos.position, Quaternion.identity, player);
         }

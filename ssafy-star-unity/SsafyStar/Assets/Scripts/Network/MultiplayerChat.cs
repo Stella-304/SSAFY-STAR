@@ -5,9 +5,6 @@ using UnityEngine.UIElements;
 
 public class MultiplayerChat : NetworkBehaviour
 {
-    //public TMP_Text message;
-    //public TMP_Text input;
-    //public TMP_Text usernameInput;
     public string username = "Default";
 
     private UIDocument doc;

@@ -38,6 +38,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
+            if (!controller.IsGrounded) return;
             _jumpPressed = true;
             anim.SetBool("Jump", true);
         }
