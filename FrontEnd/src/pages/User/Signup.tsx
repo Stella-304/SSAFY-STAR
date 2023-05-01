@@ -11,6 +11,7 @@ import { sec2time } from "../../utils/util";
 import useSignup from "../../apis/user/useSignup";
 import { SignupType } from "../../types/SignupType";
 import useEmailCheck from "../../apis/user/useEmailCheck";
+import useSendMail from "../../apis/user/useSendMail";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -35,10 +36,12 @@ export default function Signup() {
   const nameRef = useRef<HTMLInputElement>(null);
 
   //회원가입 요청
-  const { mutate } = useSignup();
+  const signupMutate = useSignup();
 
   //이메일 부분
   const emailCheckQeury = useEmailCheck(user.email);
+  //이메일 인증 전송
+  const sendEmailMutate = useSendMail();
 
   useMemo(() => {
     if (emailCheckQeury.isLoading || emailCheckQeury.error) return null;
@@ -135,6 +138,8 @@ export default function Signup() {
 
     setTimer(60 * 3); //3분 타이머 시작
 
+    //메일 전송
+    sendEmailMutate.mutate({ email: user.email });
     setOpenCheck(true);
   }
 
@@ -184,7 +189,7 @@ export default function Signup() {
       nickname: user.name,
       email: user.email,
     };
-    mutate(payload);
+    signupMutate.mutate(payload);
   }
   return (
     <EarthLayout>

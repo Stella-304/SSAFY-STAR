@@ -7,7 +7,6 @@ interface Payload {
 }
 const fetcher = (payload: Payload) =>
   axios.post(EMAIL_SEND_URL, payload.email).then(({ data }) => data);
-
 const useSendMail = () => {
   return useMutation(fetcher, {});
 };
