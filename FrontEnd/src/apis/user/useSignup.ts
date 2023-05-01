@@ -1,14 +1,10 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 import { SIGNUP_URL } from "../../utils/urls";
+import { SignupType } from "../../types/SignupType";
+import { useNavigate } from "react-router-dom";
 
-interface Payload {
-  email: string;
-  nickname: string;
-  userId: string;
-  userPwd: string;
-}
-const fetcher = (payload: Payload) =>
+const fetcher = (payload: SignupType) =>
   axios
     .post(SIGNUP_URL, {
       email: payload.email,
@@ -19,7 +15,15 @@ const fetcher = (payload: Payload) =>
     .then(({ data }) => data);
 
 const useSignup = () => {
-  return useMutation(fetcher, {});
+  const navigate = useNavigate();
+  return useMutation(fetcher, {
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: () => {
+      alert("잠시후 시도해 주세요");
+    },
+  });
 };
 
 export default useSignup;

@@ -8,6 +8,8 @@ import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
 import { useEffect, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
+import useSignup from "../../apis/user/useSignup";
+import { SignupType } from "../../types/SignupType";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -30,6 +32,9 @@ export default function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+
+  //회원가입 요청
+  const { mutate } = useSignup();
 
   useEffect(() => {
     dispatch(resetUser());
@@ -160,7 +165,13 @@ export default function Signup() {
       return password2Ref?.current?.focus();
     }
     //회원가입 진행
-    alert("가입완료");
+    const payload: SignupType = {
+      userId: user.loginid,
+      userPwd: user.password,
+      nickname: user.name,
+      email: user.email,
+    };
+    mutate(payload);
   }
   return (
     <EarthLayout>
