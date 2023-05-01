@@ -26,6 +26,7 @@ import com.ssafy.star.common.db.repository.CoordinateRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.AuthProvider;
+import com.ssafy.star.common.provider.SmtpProvider;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
@@ -37,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminServiceImpl implements AdminService {
 
 	final AuthStatusRepository authStatusRepository;
+	final SmtpProvider smtpProvider;
 
 	@Override
 	@Transactional
@@ -55,12 +57,27 @@ public class AdminServiceImpl implements AdminService {
 	public void registBadge(long auth_id, String type) {
 		AuthStatus authStatus = authStatusRepository.findById(auth_id)
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.BAD_AUTH_ID));
+
+		if (authStatus.isProcessStatus())
+			throw new CommonApiException(CommonErrorCode.REQUEST_FINISHED);
+
+		User user = authStatus.getUser();
 		// authStatus -> 진행상태 True로 바꾸기
 		authStatus.jobFinish();
+
+		// 보낼 메일의 본문
+		StringBuilder sb = new StringBuilder()
+			.append('[')
+			.append(authStatus.getBadgeType())
+			.append(']');
+
 		// type = ok이면, user 가져와서 equipBadge 해주기
 		if (type.equals("ok")) {
-			User user = authStatus.getUser();
 			user.equipBadge(authStatus.getBadgeType());
+			sb.append(" 인증되었습니다.");
+		} else {
+			sb.append(" 인증요청 거부되었습니다.");
 		}
+		smtpProvider.sendContent(user.getEmail(), sb.toString());
 	}
 }

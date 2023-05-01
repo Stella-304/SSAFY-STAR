@@ -122,8 +122,6 @@ public class UserController {
     public ResponseEntity<ResponseDto> badgeRegist(
             @RequestPart BadgeRegistReqDto dto,
             @RequestPart MultipartFile file) throws IOException {
-        log.info(dto);
-        log.info(file.getOriginalFilename());
         userService.registBadge(dto, file);
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }

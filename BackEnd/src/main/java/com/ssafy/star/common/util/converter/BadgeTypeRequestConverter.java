@@ -10,6 +10,6 @@ public class BadgeTypeRequestConverter implements Converter<String, BadgeEnum> {
 
 	@Override
 	public BadgeEnum convert(String source) {
-		return BadgeEnum.valueOf(source);
+		return BadgeEnum.valueOf(source.toUpperCase());
 	}
 }
