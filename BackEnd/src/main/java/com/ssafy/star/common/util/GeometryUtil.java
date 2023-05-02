@@ -35,9 +35,9 @@ public class GeometryUtil {
         if (cardCnt <= 10)
             return 4;
         if (cardCnt <= 40)
-            return 4;
+            return 5;
         if (cardCnt <= 200)
-            return 4;
+            return 5;
         if (cardCnt <= 600)
             return 5;
         return 6;
@@ -68,14 +68,17 @@ public class GeometryUtil {
         for(int i=0;i<cardCnt-1;i++){
             double length = Math.sqrt(cards.get(i).getX() * cards.get(i).getX() + cards.get(i).getY() * cards.get(i).getY() + cards.get(i).getZ() * cards.get(i).getZ());
             double x1=cards.get(i).getX() / length;
+            double y1=cards.get(i).getY() / length;
             double z1=cards.get(i).getZ() / length;
+
             for(int j=i+1;j<cardCnt;j++){
                 length = Math.sqrt(cards.get(j).getX() * cards.get(j).getX() + cards.get(j).getY() * cards.get(j).getY() + cards.get(j).getZ() * cards.get(j).getZ());
                 double x2=cards.get(j).getX() / length;
+                double y2=cards.get(j).getY() / length;
                 double z2=cards.get(j).getZ() / length;
                 edges.add(new Edge(i,j
                         ,Math.sqrt(Math.pow(x1-x2,2)
-                        +Math.pow(z1-z2,2)
+                        +Math.pow(y1-y2,2)+Math.pow(z1-z2,2)
                 )));
             }
         }
