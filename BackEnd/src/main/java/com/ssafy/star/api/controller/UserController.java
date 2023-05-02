@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -21,10 +23,12 @@ import java.util.Optional;
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
+@RolesAllowed("ROLE_CLIENT")
 public class UserController {
     private final UserService userService;
 
     @PostMapping("/regist")
+    @PermitAll
     @ApiOperation(value="회원가입")
     public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
         if(userService.registUser(userRegistReqDto)) {
@@ -34,6 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @PermitAll
     @ApiOperation(value="로그인")
     public ResponseEntity<ResponseDto> userLogin(@RequestBody UserLoginReqDto userLoginReqDto) {
 
@@ -84,6 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/email/check-duplicate")
+    @PermitAll
     @ApiOperation(value="이메일 중복 여부 확인")
     public ResponseEntity<ResponseDto> checkDuplicateEmail(@RequestParam String email) {
         if (userService.duplicateEmailCheck(email)) {
@@ -93,6 +99,7 @@ public class UserController {
     }
 
     @PostMapping("/email/send-verification")
+    @PermitAll
     @ApiOperation(value="인증메일 전송")
     public ResponseEntity<ResponseDto> emailSendVerificationCode(@RequestParam String email) {
         userService.sendVerificationCodeEmail(email);
@@ -100,6 +107,7 @@ public class UserController {
     }
 
     @PostMapping("/email/compare-verification")
+    @PermitAll
     @ApiOperation(value="인증코드 비교")
     public ResponseEntity<ResponseDto> emailCompareVerificationCode(@RequestBody EmailCompareReqDto emailCompareReqDto) {
         if (userService.compareVerificationCodeEmail(emailCompareReqDto)) {
@@ -109,6 +117,7 @@ public class UserController {
     }
 
     @GetMapping("/email/find-id")
+    @PermitAll
     @ApiOperation(value="이메일로 아이디 찾기")
     public ResponseEntity<ResponseDto> userFindId(@RequestParam String email) {
 
@@ -119,21 +128,14 @@ public class UserController {
     }
 
     @PostMapping("/email/find-pwd")
+    @PermitAll
     @ApiOperation(value="아이디와 이메일 체크 후 비밀번호 이메일 전송")
     public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
         userService.findPwdUser(userFindPwdReqDto);
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
     }
 
-    @PostMapping("/email/compare")
-    @ApiOperation(value="레디스 인증번호와 유저 입력 이메일 비교")
-    public ResponseEntity<ResponseDto> userCompareVerificationCode(@RequestParam String code) {
-
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
-    }
-
     @PostMapping("/badge")
-    // @Secured("CLIENT")
     @ApiOperation(value = "뱃지 인증 요청")
     public ResponseEntity<ResponseDto> badgeRegist(
             @RequestPart BadgeRegistReqDto dto,
