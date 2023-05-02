@@ -9,6 +9,7 @@ interface props {
   inputRef?: React.ForwardedRef<HTMLInputElement>;
   disable?: boolean;
   queryResult?:string [];
+  querySelect?:(params:string)=>void;
 }
 
 export default function Input({
@@ -22,9 +23,10 @@ export default function Input({
   inputRef,
   disable,
   queryResult,
+  querySelect,
 }: props) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <label htmlFor={id}>
         {label}
         {warning && <span className="text-red-500 text-12"> *{warning}</span>}
@@ -48,10 +50,14 @@ export default function Input({
           disabled={disable}
         ></input>
       )}
-      {queryResult&&
-        <div className="flex flex-col">
-            {queryResult.map((ele)=><div>{ele}</div>)}
+      {querySelect!==undefined&&queryResult!==undefined && queryResult?.length!==0?
+        <div className="h-200 w-full flex flex-col absolute top-50 bg-white border-1 z-10 overflow-auto">
+            {queryResult?.map((ele)=>
+            <div key={ele} onClick={()=>querySelect(ele)} className="cursor-pointer">{ele}</div>
+            )}
         </div>
+        :
+        <></>
         }
     </div>
   );

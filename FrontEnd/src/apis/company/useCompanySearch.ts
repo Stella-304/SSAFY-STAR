@@ -15,13 +15,14 @@ const fetcher = (input: string) =>
  * @param setSearchList 
  * @returns 
  */
-const useCompanySearch = (searchName: string,setSearchList:(params:any)=>void) => {
+const useCompanySearch = (searchName: string) => {
   return useQuery(["/companyname", searchName], () => fetcher(searchName), {
     enabled:false, 
     onSuccess:(data)=>{
-      setSearchList(data.value);
     },
-    onError:()=>{}
+    onError:()=>{
+    },onSettled:()=>{
+    }
   });
 };
 

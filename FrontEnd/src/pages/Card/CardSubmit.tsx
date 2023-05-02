@@ -29,7 +29,7 @@ export default function CardSubmit() {
   const bojCheckquery = useBojcheck(card.boj);
   const cardSubmitMutate = useCardSubmit();
   const [searchList,setSearchList] = useState([]); //회사명 검색결과
-  const companySearchQuery = useCompanySearch(search,setSearchList);
+  const companySearchQuery = useCompanySearch(search);
   
   const dispatch = useDispatch();
 
@@ -51,6 +51,17 @@ export default function CardSubmit() {
   }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
   
   //회사 검색
+  useMemo(() => {
+    if (companySearchQuery.isLoading || companySearchQuery.error) return null;
+
+    if (companySearchQuery.data !== undefined){
+      if(search===""){
+        setSearchList([]);
+      }else{
+        setSearchList(companySearchQuery.data.value)
+      }
+    }
+  }, [companySearchQuery.isLoading, companySearchQuery.error, companySearchQuery.data]);
   
   
   //input
@@ -73,9 +84,21 @@ export default function CardSubmit() {
 
   function onCompany(input: string) {
     //입력값으로 회사를 검색한다.
+      
     setSearch(input);
-    companySearchQuery.refetch();
-    //dispatch(setCard({ ...card, company: input }));
+    if(input!==""){
+      companySearchQuery.refetch();
+    }else{
+      console.log("비었는데요")
+      setSearchList([]);
+    }
+    //
+  }
+
+  function selectCompany(input:string){
+    setSearch(input);
+    setSearchList([]);
+    dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
     dispatch(setCard({ ...card, github: input }));
@@ -226,6 +249,7 @@ export default function CardSubmit() {
             onChange={onCompany}
             value={search}
             queryResult = {searchList}
+            querySelect={selectCompany}
           />
           <div className="flex justify-between">
             <Select
