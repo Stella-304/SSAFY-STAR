@@ -86,5 +86,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@kamona/tailwindcss-perspective")],
+  plugins: [
+    require("@kamona/tailwindcss-perspective"),
+    require("tailwind-scrollbar"),
+  ],
 };

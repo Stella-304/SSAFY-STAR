@@ -1,4 +1,4 @@
-const SERVER_API = "https://k8b304.p.ssafy.io";
+const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/api";

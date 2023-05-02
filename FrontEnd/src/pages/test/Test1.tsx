@@ -1,7 +1,12 @@
 import * as THREE from "three";
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, QuadraticBezierLine, Stars } from "@react-three/drei";
+import {
+  Line,
+  OrbitControls,
+  QuadraticBezierLine,
+  Stars,
+} from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -13,6 +18,8 @@ import Ground from "../../components/Ground/Ground";
 import Star from "../../components/GroundObjects/Star";
 import Filter from "../../components/Filter/Filter";
 import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
 
 const userInfo: User = {
   name: "이아현",
@@ -40,13 +47,14 @@ const userInfo: User = {
 };
 
 interface Iprops {
-  starPos: THREE.Vector3 | undefined;
-  starRef: any;
-  planeRef: any;
-  endAnim: boolean;
+  // starPos: THREE.Vector3 | undefined;
+  // starRef: any;
+  // planeRef: any;
+  // endAnim: boolean;
+  starFilterInfo: any;
 }
 
-function StarLine({ starPos }: Iprops) {
+function StarLine({ starFilterInfo }: Iprops) {
   const [hovered, setHovered] = useState<boolean>(false);
   const color = new THREE.Color();
   const lineRef = useRef<any>(null);
@@ -62,29 +70,39 @@ function StarLine({ starPos }: Iprops) {
   // });
   let t = 0;
   useFrame(() => {
-    if (t > 1) return;
+    if (t > 10) return;
     t += 0.01;
-    if (starPos) {
-      //console.log(lineRef.current);
-      lineRef.current.setPoints(
-        starPos,
-        [0, 0, 0],
-        // [5, 0, 0] // Optional: mid-point
-      );
-    }
+
+    //console.log(lineRef.current);
+    // for (let i = 0; i < starFilterInfo?.length - 1; i++) {
+    //   lineRef.current.setPoints(
+    //     [starFilterInfo[i].x, starFilterInfo[i].y, starFilterInfo[i].z],
+    //     [
+    //       starFilterInfo[i + 1].x,
+    //       starFilterInfo[i + 1].y,
+    //       starFilterInfo[i + 1].z,
+    //     ],
+    //   );
+    // }
   });
 
-  console.log(starPos);
+  const points: any = [];
+  starFilterInfo?.map((item: any) =>
+    points.push([item.x * 2, item.y * 2, item.z * 2]),
+  );
 
   return (
-    <QuadraticBezierLine
-      ref={lineRef}
-      start={starPos ? starPos : [0, 0, 0]} // Starting point, can be an array or a vec3
-      end={[0, 0, 0]} // Ending point, can be an array or a vec3
-      lineWidth={3}
-      color="#ff2060" // Default
-      visible={starPos ? true : false}
-    />
+    <>
+      {points.length != 0 && (
+        <Line
+          ref={lineRef}
+          points={points}
+          lineWidth={1}
+          color="#fffff" // Default
+          visible={starFilterInfo ? true : false}
+        />
+      )}
+    </>
   );
 }
 
@@ -111,14 +129,14 @@ export default function Test1() {
 
   const starInfo = useStarInfoQuery();
 
+  const starFilterInfo = useSelector(
+    (state: RootState) => state.starInfo.userInfoList,
+  );
+
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
-        <OrbitControls
-          enableZoom={false}
-          autoRotate={true}
-          autoRotateSpeed={0.15}
-        />
+        <OrbitControls autoRotate={true} autoRotateSpeed={0.15} />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
@@ -134,7 +152,21 @@ export default function Test1() {
             intensity={0.5}
           />
         </EffectComposer>
-        {starInfo?.data?.cardList?.map((item: User) => (
+        {/* {starInfo?.data?.cardList?.map((item: User) => (
+          <Star
+            item={item}
+            starPos={starPos}
+            setEndAnim={setEndAnim}
+            onClick={() => {
+              setStarPos(new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2));
+              setSelectedUserInfo(item);
+              setCardFront(true);
+              setEndAnim(false);
+            }}
+            key={item.cardId}
+          />
+        ))} */}
+        {starFilterInfo?.map((item: User) => (
           <Star
             item={item}
             starPos={starPos}
@@ -169,6 +201,7 @@ export default function Test1() {
           speed={1}
         />
         <Ground />
+        <StarLine starFilterInfo={starFilterInfo} />
       </Canvas>
       <Filter />
       {selectedUserInfo && (
