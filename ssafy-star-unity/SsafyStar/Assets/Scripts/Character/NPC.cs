@@ -18,6 +18,7 @@ public class NPC : NetworkBehaviour
 
     [Header("Chat")]
     private GameObject chatUI;
+    private GameObject squareUI;
     public bool doChat = false;
     public GameObject player;
 
@@ -28,10 +29,16 @@ public class NPC : NetworkBehaviour
         chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
     }
 
+    public override void Spawned()
+    {
+        squareUI = GameObject.Find("UIMenu");
+    }
+
     private void Update()
     {
         if(doChat)
         {
+            squareUI.SetActive(false);
             chatUI.SetActive(true);
         }
     }
@@ -76,8 +83,11 @@ public class NPC : NetworkBehaviour
 
     public void FinishChat()
     {
-        chatUI.SetActive(false);
         doChat = false;
+
+        chatUI.SetActive(false);
+        squareUI.SetActive(true);
+
         navMeshAgent.isStopped = false;
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         player.GetComponent<PlayerMovement>().stop = false;
