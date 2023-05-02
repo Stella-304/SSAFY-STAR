@@ -133,6 +133,10 @@ export default function Test1() {
     (state: RootState) => state.starInfo.userInfoList,
   );
 
+  const starFilterEdgeList = useSelector(
+    (state: RootState) => state.starInfo.starEdgeList,
+  );
+
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>

@@ -76,6 +76,24 @@ module.exports = {
           "50%": { filter: "brightness(2)" },
           "100%": { filter: "brightness(1)" },
         },
+        dropdownSlideIn: {
+          "0%": {
+            transform: "translateY(-100%)",
+            height: "0",
+          },
+          "100%": {
+            transform: "translateY(0)",
+          },
+        },
+        dropdownSlideOut: {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "100%": {
+            transform: "translateY(-100%)",
+            height: "0",
+          },
+        },
       },
       animation: {
         wave: "wave 5s ease-in-out infinite",
@@ -83,6 +101,8 @@ module.exports = {
         typing: "typing 3s steps(25) infinite",
         wiggle: "wiggle 1s ease-in-out infinite",
         shine: "shine 3s ease-in-out",
+        dropdownSlideIn: "dropdownSlideIn 1s ease-in-out",
+        dropdownSlideOut: "dropdownSlideOut 1s ease-in-out",
       },
     },
   },
