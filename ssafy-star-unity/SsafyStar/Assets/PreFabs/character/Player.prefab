@@ -2206,11 +2206,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6467038624446371106}
+  - component: {fileID: 1744294348968876689}
   - component: {fileID: 4414130147913388255}
   - component: {fileID: 5104436320831623929}
   - component: {fileID: 979491788336185845}
-  - component: {fileID: 2617348771105761717}
-  - component: {fileID: 52399015733377343}
   - component: {fileID: 8715797041370392576}
   m_Layer: 6
   m_Name: Player
@@ -2238,6 +2237,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1744294348968876689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6467038624446371112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4891c9cf316e94948a8ebae6502e4069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
+  cineCamera: {fileID: 0}
+  rightCamera: {fileID: 5126455685980015835}
+  leftCamera: {fileID: 8777621908186182934}
 --- !u!114 &4414130147913388255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2315,35 +2330,6 @@ MonoBehaviour:
   rotationSpeed: 15
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
---- !u!114 &2617348771105761717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6467038624446371112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84893523c0e33e04296dc2cbcb899907, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  _NetworkedHealth: 100
---- !u!114 &52399015733377343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6467038624446371112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b06c795f811e6478ce423cc7bb98d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  Damage: 50
-  PlayerMovement: {fileID: 4414130147913388255}
 --- !u!114 &8715797041370392576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,8 +2354,6 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 4414130147913388255}
   - {fileID: 979491788336185845}
-  - {fileID: 2617348771105761717}
-  - {fileID: 52399015733377343}
   SimulationBehaviours: []
 --- !u!1 &6530874019712062360
 GameObject:

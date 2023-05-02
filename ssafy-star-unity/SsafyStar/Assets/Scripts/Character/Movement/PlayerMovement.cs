@@ -14,9 +14,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Camera")]
     public Camera Camera;
-    public CinemachineVirtualCamera cineCamera;
-    public CinemachineVirtualCamera rightCamera;
-    public CinemachineVirtualCamera leftCamera;
+    private CameraControl cameraControl;
 
     [Header("Jump")]
     public float JumpForce = 5f;
@@ -60,9 +58,9 @@ public class PlayerMovement : NetworkBehaviour
                 {
                     hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
-                    cineCamera.Priority = -10;
-                    rightCamera.LookAt = hit.collider.transform;
-                    leftCamera.LookAt = hit.collider.transform;
+
+                    cameraControl.NPCPriority(transform);
+
                     stop = true;
                 }
             }
@@ -74,10 +72,8 @@ public class PlayerMovement : NetworkBehaviour
         if (HasStateAuthority)
         {
             Camera = Camera.main;
-            cineCamera = Camera.GetComponent<CinemachineVirtualCamera>();
-            Camera.GetComponent<CameraMovement>().Target = GetComponent<NetworkTransform>().InterpolationTarget;
-            cineCamera.Follow = this.gameObject.transform;
-            cineCamera.LookAt = this.gameObject.transform;
+            cameraControl = GetComponent<CameraControl>();
+            cameraControl.InitiateCamera(transform);
 
             GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
             GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -116,11 +112,5 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         controller.Move(move + velocity * Runner.DeltaTime);
-    }
-
-    public void SetCameraDefault()
-    {
-        cineCamera.Priority = 20;
-        stop = false;
     }
 }

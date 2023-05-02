@@ -79,6 +79,7 @@ public class NPC : NetworkBehaviour
         chatUI.SetActive(false);
         doChat = false;
         navMeshAgent.isStopped = false;
-        player.GetComponent<PlayerMovement>().SetCameraDefault();
+        player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
+        player.GetComponent<PlayerMovement>().stop = false;
     }
 }
