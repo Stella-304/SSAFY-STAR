@@ -22,6 +22,7 @@ import Admin from "./pages/Admin";
 import Mypage from "./pages/User/Mypage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import AuthLayout from "./components/Layout/AuthLayout";
+import Notfound from "./pages/Error/Notfound";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -40,10 +41,6 @@ const router = createBrowserRouter([
         path: "/cardmodify",
         element: <CardModify />,
       },
-      {
-        path: "/idpwfind",
-        element: <Find />,
-      },
       { path: "/admin", element: <Admin /> },
       { path: "/mypage", element: <Mypage /> },
     ],
@@ -60,6 +57,11 @@ const router = createBrowserRouter([
     path: "/oauth2/token",
     element: <Oauth />,
   },
+  {
+    path: "/idpwfind",
+    element: <Find />,
+  },
+  { path: "*", element: <Notfound /> },
   // 테스트 페이지
   {
     path: "/test1",

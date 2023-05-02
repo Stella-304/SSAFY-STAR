@@ -12,7 +12,11 @@ const fetcher = (type: string) =>
     .then(({ data }) => data);
 
 const useUserBadgeStatus = (type: string) => {
-  return useQuery(["/userbadgestatus", type], () => fetcher(type), {});
+  return useQuery(["/userbadgestatus", type], () => fetcher(type), {
+    enabled: false,
+    onSuccess: () => {},
+    onError: () => {},
+  });
 };
 
 export default useUserBadgeStatus;
