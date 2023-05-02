@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.db.dto.response.CardDetailDto;
+import com.ssafy.star.common.db.entity.Card;
 import lombok.RequiredArgsConstructor;
 
 import static com.ssafy.star.common.db.entity.QCard.card;
@@ -17,10 +18,10 @@ public class CardRepositoryImpl implements CardRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CardDetailDto> searchBySearchCondition(SearchConditionReqDto searchConditionReqDto) {
+    public List<Card> searchBySearchCondition(SearchConditionReqDto searchConditionReqDto) {
 
-        QueryResults<CardDetailDto> results=queryFactory
-                .select(Projections.constructor(CardDetailDto.class
+        QueryResults<Card> results=queryFactory
+                .select(Projections.constructor(Card.class
                         ,card.ban
                         ,card.bojId
                         ,card.etc

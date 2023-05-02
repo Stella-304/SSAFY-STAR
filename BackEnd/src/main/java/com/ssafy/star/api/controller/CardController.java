@@ -63,6 +63,13 @@ public class CardController {
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue)));
 	}
+	@PostMapping("/list-v2")
+	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
+	public ResponseEntity<ResponseDto> cardListGetV2(
+			@RequestBody(required = false)SearchConditionReqDto searchConditionReqDto) {
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV2(searchConditionReqDto)));
+	}
 	@PostMapping
 	@Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "카드 등록하기")

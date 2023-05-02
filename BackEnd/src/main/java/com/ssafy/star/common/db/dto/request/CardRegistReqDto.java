@@ -25,6 +25,8 @@ public class CardRegistReqDto {
     private String githubId;
     @Schema(description = "백준 아이디")
     private String bojId;
+    @Schema(description = "백준 티어")
+    private String bojTier;
     @Schema(description = "개인 블로그 주소")
     private String blogAddr;
     @Schema(description = "직장", example = "삼성전자")
@@ -48,6 +50,7 @@ public class CardRegistReqDto {
                 .ban(this.ban)
                 .githubId(this.githubId)
                 .bojId(this.bojId)
+                .bojTier(this.bojTier)
                 .blogAddr(this.blogAddr)
                 .company(this.company)
                 .track(this.track)

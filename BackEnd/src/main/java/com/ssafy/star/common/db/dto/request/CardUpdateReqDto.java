@@ -59,4 +59,22 @@ public class CardUpdateReqDto {
                 .user(user)
                 .build();
     }
+    public Card of(){
+        return Card.builder()
+                .id(this.id)
+                .content(this.content)
+                .generation(this.generation)
+                .campus(this.campus)
+                .ban(this.ban)
+                .githubId(this.githubId)
+                .bojId(this.bojId)
+                .blogAddr(this.blogAddr)
+                .company(this.company)
+                .track(this.track)
+                .major(this.major)
+                .role(this.role)
+                .swTier(this.swTier)
+                .etc(this.etc)
+                .build();
+    }
 }

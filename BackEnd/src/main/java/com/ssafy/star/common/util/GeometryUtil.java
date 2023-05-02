@@ -31,11 +31,11 @@ public class GeometryUtil {
     }
     public static int getLevelFromCardCnt(int cardCnt) {
         if (cardCnt <= 4)
-            return 1;
+            return 4;
         if (cardCnt <= 10)
-            return 2;
+            return 4;
         if (cardCnt <= 40)
-            return 3;
+            return 4;
         if (cardCnt <= 200)
             return 4;
         if (cardCnt <= 600)
@@ -70,7 +70,7 @@ public class GeometryUtil {
             for(int j=i+1;j<cardCnt;j++){
                 edges.add(new Edge(i,j
                         ,Math.sqrt(Math.pow(cards.get(i).getX()-cards.get(j).getX(),2)
-                        +Math.pow(cards.get(i).getY()-cards.get(j).getY(),2)
+                        +Math.pow(cards.get(i).getZ()-cards.get(j).getZ(),2)
                 )));
             }
         }

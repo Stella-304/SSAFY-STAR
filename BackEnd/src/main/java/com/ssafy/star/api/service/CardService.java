@@ -17,10 +17,12 @@ public interface CardService {
 
 	ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
 	ConstellationListDto getCardListV1(String searchColumn, String searchValue);
+    ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto);
 
 	void registCard(CardRegistReqDto cardRegistReqDto);
 
 	void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception;
 
 	void deleteCard(Long cardId);
+
 }
