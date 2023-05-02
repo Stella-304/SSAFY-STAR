@@ -3,6 +3,7 @@ package com.ssafy.star.common.db.entity;
 import lombok.*;
 
 import org.hibernate.annotations.ColumnDefault;
+//import com.ssafy.star.common.db.entity.
 
 import javax.persistence.*;
 
@@ -27,13 +28,13 @@ public class Card {
 	private String content;
 
 	@Column(length = 2, nullable = false)
-	private int generation;
+	private String generation;
 
 	@Column(length = 10, nullable = false)
 	private String campus;
 
 	@Column(length = 2)
-	private int ban;
+	private String ban;
 
 	@Column(length = 20)
 	private String githubId;
