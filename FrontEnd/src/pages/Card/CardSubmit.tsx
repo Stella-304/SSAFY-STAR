@@ -139,7 +139,7 @@ export default function CardSubmit() {
       content: card.content,
       etc: card.etc,
       generation: card.cardinal,
-      githubid: card.github,
+      githubId: card.github,
       major: card.major,
       role: card.field,
       swTier: card.grade,

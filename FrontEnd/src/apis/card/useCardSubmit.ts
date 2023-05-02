@@ -21,6 +21,7 @@ const useCardSubmit = () => {
       navigate("/");
     },
     onError: () => {
+      console.log(sessionStorage.getItem("accessToken"));
       alert("잠시후 시도해주세요");
     },
   });
