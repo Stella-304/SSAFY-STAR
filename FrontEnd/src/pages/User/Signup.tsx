@@ -43,7 +43,7 @@ export default function Signup() {
 
   //이메일 중복 확인
   const [emailCheckSave, setEmailCheckSave] = useState("");
-  const emailCheckQeury = useEmailCheck(emailCheckSave, setTimer, setOpenCheck);
+  const emailCheckQeury = useEmailCheck(user.email, setTimer, setOpenCheck);
   //이메일 인증 전송
   const sendEmailCheckMutate = useSendMailCheck({
     setTimer,
@@ -164,7 +164,7 @@ export default function Signup() {
       return;
     }
 
-    sendEmailCheckMutate.mutate({ email: user.email, code: emailCheckCode });
+    sendEmailCheckMutate.mutate({ email: emailCheckSave, code: emailCheckCode });
   }
 
   //회원가입 진행

@@ -36,7 +36,10 @@ const useEmailCheck = (
       //인증 메일 전송
       sendEmailMutate.mutate({ email: email });
     },
-    onError: () => {},
+    onError: () => {
+      setTimer(-1)
+      setOpenCheck(false);
+    },
   });
 };
 
