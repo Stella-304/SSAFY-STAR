@@ -45,7 +45,7 @@ public class Icosphere {
 		while(!stk.isEmpty()){
 			vertices.remove(stk.pop());
 		}
-
+		Collections.sort(vertices);
 		convert(vertices,"hemisphere-coordinate-data");
 	}
 

@@ -200,10 +200,9 @@ public class CardServiceImpl implements CardService {
 
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
-			//y z 바꿔놓음 일시적으로
 			int rr = rs.get(i);
 			detailDtoList.add(new CardDetailDto(cardList.get(i), (r + rr) * coordinateList.get(selected).getX()
-				, (r + rr) * coordinateList.get(selected).getZ(), (r + rr) * coordinateList.get(selected).getY()));
+				, (r + rr) * coordinateList.get(selected).getY(), (r + rr) * coordinateList.get(selected).getZ()));
 		}
 		return detailDtoList;
 	}
