@@ -102,20 +102,29 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
 			if (searchColumn.equals("campus") && searchValue != null) {
-				int gen = Integer.parseInt(searchValue.split("-")[0]);
+				String gen = searchValue.split("-")[0];
 				String cam = searchValue.split("-")[1];
 				cardList = cardRepository.getAllFilteredByCampus(gen, cam);
 			}
 			if (searchColumn.equals("ban") && searchValue != null) {
-				int gen = Integer.parseInt(searchValue.split("-")[0]);
+				String gen = searchValue.split("-")[0];
 				String cam = searchValue.split("-")[1];
-				int ban = Integer.parseInt(searchValue.split("-")[2]);
+				String ban = searchValue.split("-")[2];
 				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
 
 		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
+		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+
+		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+		return new ConstellationListDto(detailDtoList, edgeDtoList);
+	}
+
+	@Override
+	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
+		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
@@ -133,7 +142,7 @@ public class CardServiceImpl implements CardService {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
-		int r = 50;
+		int r = 30;
 		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
 		int vertices = GeometryUtil.getVerticesFromLevel(level);
@@ -147,7 +156,7 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < cardCnt; i++) {
 			int index = random.nextInt(numbers.size());
 			result.add(numbers.remove(index));
-			rs.add(random.nextInt(50));
+			rs.add(random.nextInt(70));
 		}
 
 		//level별 coordinate limit 걸기
@@ -222,19 +231,7 @@ public class CardServiceImpl implements CardService {
 	@Transactional
 	public void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception {
 		Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
-		Optional.ofNullable(cardUpdateReqDto.getContent()).ifPresent(x -> card.setContent(x));
-		Optional.ofNullable(cardUpdateReqDto.getGeneration()).ifPresent(x -> card.setGeneration(x));
-		Optional.ofNullable(cardUpdateReqDto.getCampus()).ifPresent(x -> card.setCampus(x));
-		Optional.ofNullable(cardUpdateReqDto.getBan()).ifPresent(x -> card.setBan(x));
-		Optional.ofNullable(cardUpdateReqDto.getGithubId()).ifPresent(x -> card.setGithubId(x));
-		Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> card.setBojId(x));
-		Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> card.setBlogAddr(x));
-		Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> card.setCompany(x));
-		Optional.ofNullable(cardUpdateReqDto.getEtc()).ifPresent(x -> card.setEtc(x));
-		Optional.ofNullable(cardUpdateReqDto.getRole()).ifPresent(x -> card.setRole(x));
-		Optional.ofNullable(cardUpdateReqDto.getSwTier()).ifPresent(x -> card.setSwTier(x));
-		Optional.ofNullable(cardUpdateReqDto.getMajor()).ifPresent(x -> card.setMajor(x));
-		Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> card.setTrack(x));
+		card.of(cardUpdateReqDto);
 	}
 
 	@Override
