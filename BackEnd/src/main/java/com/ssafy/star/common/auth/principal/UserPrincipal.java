@@ -26,7 +26,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     public static UserPrincipal createNewUserPrincipal(User user) {
         List<GrantedAuthority> authorities =
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + RoleEnum.CLIENT));
+                Collections.singletonList(new SimpleGrantedAuthority("" + RoleEnum.CLIENT));
 
         return new UserPrincipal(
                 user.getId(),
@@ -40,7 +40,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         Set<String> authoritySet = user.getAuthoritySet();
-        authoritySet.forEach(authority -> authorities.add(new SimpleGrantedAuthority("ROLE_" + authority)));
+        authoritySet.forEach(authority -> authorities.add(new SimpleGrantedAuthority("" + authority)));
 
         return new UserPrincipal(
                 user.getId(),
