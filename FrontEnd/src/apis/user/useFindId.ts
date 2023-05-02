@@ -1,21 +1,19 @@
 import { useMutation } from "react-query";
 import axios from "axios";
-import { LOGIN_URL } from "../../utils/urls";
+import { FIND_ID_URL } from "../../utils/urls";
 
 interface Payload {
   email: string;
-  password: number;
 }
 const fetcher = (payload: Payload) =>
   axios
-    .post(LOGIN_URL, {
-      memberId: payload.email,
-      notificationId: payload.password,
+    .get(FIND_ID_URL, {
+      params: { email: payload.email },
     })
     .then(({ data }) => data);
 
-const useLogin = () => {
+const useFindId = () => {
   return useMutation(fetcher, {});
 };
 
-export default useLogin;
+export default useFindId;

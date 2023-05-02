@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -21,6 +21,7 @@ import Find from "./pages/User/Find";
 import Admin from "./pages/Admin";
 import Mypage from "./pages/User/Mypage";
 import { QueryClientProvider, QueryClient } from "react-query";
+import AuthLayout from "./components/Layout/AuthLayout";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -31,14 +32,6 @@ const router = createBrowserRouter([
   {
     path: "/oauth2/token",
     element: <Oauth />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
   },
   {
     path: "/cardsubmit",
@@ -54,6 +47,15 @@ const router = createBrowserRouter([
   },
   { path: "/admin", element: <Admin /> },
   { path: "/mypage", element: <Mypage /> },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+
   // 테스트 페이지
   {
     path: "/test1",
