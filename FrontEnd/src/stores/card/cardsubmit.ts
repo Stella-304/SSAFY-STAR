@@ -2,10 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface cardState {
   card: {
-    name: string;
     cardinal: string;
     campus: string;
-    email: string;
     content: string;
     job: string;
     grade: string;
@@ -15,15 +13,17 @@ interface cardState {
     content2: string;
     etc: string;
     boj: string;
+    ban: string;
+    track: string;
+    major: string;
   };
 }
 
 const initialState: cardState = {
   card: {
-    name: "",
+    ban: "",
     cardinal: "",
     campus: "",
-    email: "",
     content: "",
     job: "",
     grade: "",
@@ -33,6 +33,8 @@ const initialState: cardState = {
     content2: "",
     etc: "",
     boj: "",
+    track: "",
+    major: "",
   },
 };
 
@@ -45,10 +47,9 @@ const cardSlice = createSlice({
     },
     resetCard(state) {
       state.card = {
-        name: "",
+        ban: "",
         cardinal: "",
         campus: "",
-        email: "",
         content: "",
         job: "",
         grade: "",
@@ -58,6 +59,8 @@ const cardSlice = createSlice({
         content2: "",
         etc: "",
         boj: "",
+        track: "",
+        major: "",
       };
     },
   },

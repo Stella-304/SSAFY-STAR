@@ -25,8 +25,6 @@ export default function ImageInput({ id, children }: Props) {
     submitMutate.mutate(payload);
   };
   const readImage = (e: any) => {
-    console.log(e.target.files[0]);
-
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);

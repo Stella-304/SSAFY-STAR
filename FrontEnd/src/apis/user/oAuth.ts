@@ -6,6 +6,6 @@ import { OAUTH_URL } from "../../utils/urls";
  */
 export default function goOauth(target: string) {
   window.location.replace(
-    `${OAUTH_URL}/${target}?redirect_uri=https://k8b304.p.ssafy.io/oauth2/token`
+    `${OAUTH_URL}/${target}?redirect_uri=https://ssafy-star.com/oauth2/token`,
   );
 }

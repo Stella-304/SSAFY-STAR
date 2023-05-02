@@ -26,27 +26,33 @@ const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: "/oauth2/token",
+        element: <Oauth />,
+      },
+      {
+        path: "/cardsubmit",
+        element: <CardSubmit />,
+      },
+      {
+        path: "/cardmodify",
+        element: <CardModify />,
+      },
+      {
+        path: "/idpwfind",
+        element: <Find />,
+      },
+      { path: "/admin", element: <Admin /> },
+      { path: "/mypage", element: <Mypage /> },
+    ],
   },
-  {
-    path: "/oauth2/token",
-    element: <Oauth />,
-  },
-  {
-    path: "/cardsubmit",
-    element: <CardSubmit />,
-  },
-  {
-    path: "/cardmodify",
-    element: <CardModify />,
-  },
-  {
-    path: "/idpwfind",
-    element: <Find />,
-  },
-  { path: "/admin", element: <Admin /> },
-  { path: "/mypage", element: <Mypage /> },
+
   {
     path: "/login",
     element: <Login />,

@@ -10,7 +10,9 @@ const fetcher = (email: string) =>
     .then(({ data }) => data);
 
 const useEmailCheck = (email: string) => {
-  return useQuery(["/emailcheck", email], () => fetcher(email), {});
+  return useQuery(["/emailcheck", email], () => fetcher(email), {
+    enabled: false,
+  });
 };
 
 export default useEmailCheck;

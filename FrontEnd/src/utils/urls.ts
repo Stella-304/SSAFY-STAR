@@ -1,4 +1,4 @@
-const SERVER_API = "https://k8b304.p.ssafy.io";
+const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
@@ -11,7 +11,8 @@ export const SIGNUP_URL = SERVER_API + "/app/user/regist";
 //인증메일 전송
 export const EMAIL_SEND_URL = SERVER_API + "/app/user/email/send-verification";
 //인증메일 확인
-export const EMAIL_CODE_CHECK_URL = SERVER_API + "/app/user/email/compare-verification";
+export const EMAIL_CODE_CHECK_URL =
+  SERVER_API + "/app/user/email/compare-verification";
 //이메일 중복여부
 export const EMAIL_CHECK_URL = SERVER_API + "/app/user/email/check-duplicate";
 

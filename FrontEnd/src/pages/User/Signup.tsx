@@ -39,7 +39,6 @@ export default function Signup() {
   const nameRef = useRef<HTMLInputElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
 
-
   //회원가입 요청
   const signupMutate = useSignup();
 
@@ -120,7 +119,7 @@ export default function Signup() {
     if (!input.match(passwordReg)) {
       setPasswordWarning(
         //8~16자 사이 대문자, 특수문자 한개씩 필수 포함 가능한 특수문자 목록 '!', '@', '?', '#'
-        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이"
+        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이",
       );
     } else {
       setPasswordWarning("");
@@ -172,6 +171,7 @@ export default function Signup() {
     } else {
       //이메일 중복 확인요청
       setEmailCheckSave(user.email);
+      emailCheckQeury.refetch();
     }
   }
 
@@ -185,7 +185,7 @@ export default function Signup() {
       return;
     }
 
-    sendEmailCheckMutate.mutate({email:user.email, code: emailCheckCode });
+    sendEmailCheckMutate.mutate({ email: user.email, code: emailCheckCode });
   }
 
   //회원가입 진행
@@ -232,17 +232,17 @@ export default function Signup() {
       userId: user.loginid,
       userPwd: user.password,
       nickname: user.nickname,
-      name:user.name,
+      name: user.name,
       email: user.email,
     };
     signupMutate.mutate(payload);
   }
   return (
     <EarthLayout>
-      <div className="flex flex-col justify-around h-full">
+      <div className="flex h-full flex-col justify-around">
         <div>
-          <span className="text-4xl block font-bold">Register</span>
-          <span className="text-sm block">
+          <span className="block text-4xl font-bold">Register</span>
+          <span className="block text-sm">
             SsafyStar를 사용하기 위해 회원가입 해 주세요
           </span>
         </div>

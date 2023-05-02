@@ -1,19 +1,16 @@
-import { useMutation } from "react-query";
+import { useQuery } from "react-query";
 import axios from "axios";
 import { FIND_ID_URL } from "../../utils/urls";
 
-interface Payload {
-  email: string;
-}
-const fetcher = (payload: Payload) =>
+const fetcher = (email: string) =>
   axios
     .get(FIND_ID_URL, {
-      params: { email: payload.email },
+      params: { email: email },
     })
     .then(({ data }) => data);
 
-const useFindId = () => {
-  return useMutation(fetcher, {});
+const useFindId = (email: string) => {
+  return useQuery(["/findid", email], () => fetcher(email), { enabled: false });
 };
 
 export default useFindId;

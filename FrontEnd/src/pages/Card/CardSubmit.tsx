@@ -3,19 +3,33 @@ import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Input/Select";
 import EarthLayout from "../../components/Layout/EarthLayout";
-import { campusList, gradeList, fieldList } from "../../constants/categories";
+import {
+  campusList,
+  gradeList,
+  fieldList,
+  trackList,
+  majorList,
+} from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
 import { useEffect, useMemo, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
+import useCardSubmit from "../../apis/card/useCardSubmit";
+import { CardSubmitType } from "../../types/CardSubmit";
+import { isNumber } from "../../utils/regex";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
   const [checkBojid, setCheckBojid] = useState("");
-  const { data, isLoading, error } = useBojcheck(checkBojid);
+  const bojCheckquery = useBojcheck(checkBojid);
+  const cardSubmitMutate = useCardSubmit();
   const [bojTier, setBojTier] = useState("");
   const dispatch = useDispatch();
+
+  //경고
+  const [cardinalWarning, setCardinalWaring] = useState("");
+  const [banWarning, setBanWaring] = useState("");
 
   //리셋
   useEffect(() => {
@@ -23,20 +37,26 @@ export default function CardSubmit() {
   }, []);
 
   useMemo(() => {
-    if (isLoading || error) return null;
+    if (bojCheckquery.isLoading || bojCheckquery.error) return null;
 
-    if(data!==undefined)
-      setBojTier(data.value);
-  }, [isLoading, error, data]);
+    if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
+  }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
   //input
-  function onName(input: string) {
-    dispatch(setCard({ ...card, name: input }));
-  }
-  function onEmail(input: string) {
-    dispatch(setCard({ ...card, onEmail: input }));
-  }
 
+  function onBan(input: string) {
+    if (!input.match(isNumber)) {
+      setBanWaring("숫자만 입력 해주세요");
+      return;
+    }
+    setBanWaring("");
+    dispatch(setCard({ ...card, ban: input }));
+  }
   function onCardinal(input: string) {
+    if (!input.match(isNumber)) {
+      setCardinalWaring("숫자만 입력 해주세요");
+      return;
+    }
+    setCardinalWaring("");
     dispatch(setCard({ ...card, cardinal: input }));
   }
 
@@ -65,6 +85,12 @@ export default function CardSubmit() {
   function onField(input: string) {
     dispatch(setCard({ ...card, field: input }));
   }
+  function onTrack(input: string) {
+    dispatch(setCard({ ...card, track: input }));
+  }
+  function onMajor(input: string) {
+    dispatch(setCard({ ...card, major: input }));
+  }
 
   //textarea
   function onContent(input: string) {
@@ -84,50 +110,96 @@ export default function CardSubmit() {
     if (card.boj === "Unrated") {
     }
     setCheckBojid(card.boj);
+    bojCheckquery.refetch();
   }
 
   //등록 진행
   function submit() {
     console.log(card); //카드 정보들
     console.log(bojTier); //백준 티어
+
+    //필수 입력 확인
+    if (
+      card.campus === "" &&
+      card.cardinal === "" &&
+      card.ban === "" &&
+      card.content === ""
+    ) {
+      return;
+    }
+    if (card.boj !== "" && bojTier === "") {
+      //티어 확인
+      alert("백준 티어 확인해주세요");
+      return;
+    }
+    const cardsubmit: CardSubmitType = {
+      ban: card.ban,
+      blogAddr: card.blog,
+      bojid: card.boj,
+      bojTier: bojTier,
+      campus: card.campus,
+      company: card.job,
+      content: card.content,
+      etc: card.etc,
+      generation: card.cardinal,
+      githubid: card.github,
+      major: card.major,
+      role: card.field,
+      swTier: card.grade,
+      track: card.track,
+    };
+    cardSubmitMutate.mutate(cardsubmit);
   }
 
   return (
     <EarthLayout>
       <div className="flex justify-center">
-        <span className="text-4xl block font-bold">별 등록</span>
+        <span className="block text-4xl font-bold">별 등록</span>
       </div>
       <div className="mb-8 h-500 overflow-y-auto pr-8">
         <div className="flex flex-col gap-4">
-          <Input
-            id="name"
-            type="text"
-            label="이름*"
-            onChange={onName}
-            value={card.name}
-          />
+          {/* <div className="flex justify-between"> */}
           <div className="flex justify-between">
+            <Select
+              id="campus"
+              label="캠퍼스*"
+              options={campusList}
+              onChange={onCampus}
+            />
             <Input
               id="cardinal"
               type="text"
               label="기수*"
               onChange={onCardinal}
               value={card.cardinal}
-            />
-            <Select
-              id="campus"
-              label="캠퍼스"
-              options={campusList}
-              onChange={onCampus}
+              warning={cardinalWarning}
             />
           </div>
-          <Input
-            id="email"
-            type="text"
-            label="이메일*"
-            onChange={onEmail}
-            value={card.email}
+          <div className="flex justify-between">
+            <Select
+              id="track"
+              label="트랙"
+              options={trackList}
+              onChange={onTrack}
+            />
+            <Input
+              id="ban"
+              type="text"
+              label="1학기 반*"
+              onChange={onBan}
+              value={card.ban}
+              warning={banWarning}
+            />
+          </div>
+
+          <Select
+            id="major"
+            label="전공유무"
+            options={majorList}
+            onChange={onMajor}
           />
+
+          {/* </div> */}
           <Input
             id="content"
             type="textarea"

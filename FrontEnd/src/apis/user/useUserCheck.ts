@@ -1,6 +1,9 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 import { USER_URL } from "../../utils/urls";
+import { useNavigate } from "react-router-dom";
+import { setName } from "../../stores/user/user";
+import { useDispatch } from "react-redux";
 
 const fetcher = () =>
   axios
@@ -12,11 +15,16 @@ const fetcher = () =>
     .then(({ data }) => data);
 
 const useUserCheck = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useQuery("/usercheck", fetcher, {
+    enabled: false,
     onSuccess: (data) => {
-      console.log(data.value);
+      dispatch(setName(data.value));
     },
-    onError: () => {},
+    onError: () => {
+      navigate("/login");
+    },
   });
 };
 

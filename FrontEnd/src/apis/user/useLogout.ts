@@ -12,7 +12,11 @@ const fetcher = () =>
     .then(({ data }) => data);
 
 const useLogout = () => {
-  return useMutation(fetcher, {});
+  return useMutation(fetcher, {
+    onSuccess: () => {
+      sessionStorage.removeItem("accessToken");
+    },
+  });
 };
 
 export default useLogout;
