@@ -4,14 +4,13 @@ import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
-import { emailReg, loginidReg, nameReg, passwordReg } from "../../utils/regex";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { emailReg, loginidReg, nicknameReg, passwordReg } from "../../utils/regex";
+import { useEffect,  useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
 import useSignup from "../../apis/user/useSignup";
 import { SignupType } from "../../types/SignupType";
 import useEmailCheck from "../../apis/user/useEmailCheck";
-import useSendMail from "../../apis/user/useSendMail";
 import useSendMailCheck from "../../apis/user/useSendMailCheck";
 
 export default function Signup() {
@@ -124,7 +123,7 @@ export default function Signup() {
 
   //이름 입력
   function onName(input: string) {
-    if (!input.match(nameReg)) {
+    if (!input.match(nicknameReg)) {
       setNameWarning("이름은 5글자 이내로 해주세요");
     } else {
       //이메일 중복 확인요청
@@ -134,7 +133,7 @@ export default function Signup() {
   }
   //닉네임 입력
   function onNickname(input: string) {
-    if (!input.match(nameReg)) {
+    if (!input.match(nicknameReg)) {
       setNickameWarning("닉네임은 5글자 이내로 해주세요");
     } else {
       setNickameWarning("");
@@ -174,7 +173,7 @@ export default function Signup() {
     if (user.name === "") {
       return;
     }
-    if (!user.name.match(nameReg)) {
+    if (!user.name.match(nicknameReg)) {
       return nameRef?.current?.focus();
     }
 
@@ -182,7 +181,7 @@ export default function Signup() {
     if (user.nickname === "") {
       return;
     }
-    if (!user.nickname.match(nameReg)) {
+    if (!user.nickname.match(nicknameReg)) {
       return nicknameRef?.current?.focus();
     }
 

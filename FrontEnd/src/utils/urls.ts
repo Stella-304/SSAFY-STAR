@@ -34,8 +34,10 @@ export const BADGE_STATUS_URL = SERVER_API + "/app/user/badge/status";
 export const BADGE_SUBMIT_URL = SERVER_API + "/app/user/badge";
 //상세 유저정보 조회
 export const USER_DETAIL_URL = SERVER_API + "/app/user/detail";
-//메인 유저정보 조회
+//메인 유저정보 조회, 정보수정
 export const USER_URL = SERVER_API + "/app/user";
+//비밀번호 수정
+export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
 
 //------------------카드
 //카드 등록, 수정, 지우기
