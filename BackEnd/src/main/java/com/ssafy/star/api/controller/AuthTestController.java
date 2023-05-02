@@ -9,11 +9,26 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
-@RestController("/test")
+@RestController
+@RequestMapping("/test")
 public class AuthTestController {
+
+    @GetMapping("/test1")
+    public ResponseEntity<ResponseDto> test(){
+        log.error("testtesttest: {}", SecurityContextHolder.getContext().getAuthentication().toString());
+        log.error("{}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        log.error("{}", SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
+        log.error("{}", SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+        log.error("{}", SecurityContextHolder.getContext().getAuthentication().getName().toString());
+        log.error("{}", SecurityContextHolder.getContext().getAuthentication().getDetails().toString());
+        
+
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+    }
 
     @Secured("ROLE_CLIENT")
     @GetMapping("/test1")
@@ -24,8 +39,6 @@ public class AuthTestController {
     @Secured("{ROLE_CLIENT}")
     @GetMapping("/test2")
     public ResponseEntity<ResponseDto> test2(){
-
-        log.error("testtesttest: {}", SecurityContextHolder.getContext().getAuthentication().toString());
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
 
