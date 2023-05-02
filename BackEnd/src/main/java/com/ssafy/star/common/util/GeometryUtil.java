@@ -31,13 +31,13 @@ public class GeometryUtil {
     }
     public static int getLevelFromCardCnt(int cardCnt) {
         if (cardCnt <= 4)
-            return 4;
+            return 1;
         if (cardCnt <= 10)
-            return 4;
+            return 2;
         if (cardCnt <= 40)
-            return 4;
+            return 3;
         if (cardCnt <= 200)
-            return 5;
+            return 4;
         if (cardCnt <= 600)
             return 5;
         return 6;
