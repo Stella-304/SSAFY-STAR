@@ -1,27 +1,26 @@
 package com.ssafy.star.api.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
-
 import com.ssafy.star.api.service.CardService;
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import javax.annotation.security.RolesAllowed;
 
 @RestController
 @Api(tags = {"카드 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/card")
+@RolesAllowed("ROLE_CLIENT")
 public class CardController {
 	private final CardService cardService;
 
