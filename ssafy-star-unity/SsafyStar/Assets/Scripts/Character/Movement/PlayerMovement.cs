@@ -9,7 +9,8 @@ public class PlayerMovement : NetworkBehaviour
 {
     [Header("Move")]
     public bool stop = false;
-    public float playerSpeed = 2f;
+    [Networked]
+    public float playerSpeed { get; set; }
     public Vector3 velocity = Vector3.zero;
     [SerializeField]
     private float playerwalkSpeed = 2f;
@@ -54,12 +55,15 @@ public class PlayerMovement : NetworkBehaviour
             anim.SetBool("Jump", true);
         }
 
-        //if (Input.GetKeyDown(KeyCode.LeftShift))
-        //{
-        //    Debug.Log("pressed");
-        //    run = true;
-        //    anim.SetBool("Run", false);
-        //}
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Debug.Log("pressed");
+            run = true;
+        }
+        else
+        {
+            run = false;
+        }
 
         //if (run)
         //{
@@ -96,6 +100,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (HasStateAuthority)
         {
+            playerSpeed = playerwalkSpeed;
+
             Camera = Camera.main;
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
@@ -128,6 +134,17 @@ public class PlayerMovement : NetworkBehaviour
             anim.SetBool("Walk", false);
         }
 
+        if (run)
+        {
+            anim.SetBool("Run", true);
+            playerSpeed = playerRunSpeed;
+        }
+        else
+        {
+            anim.SetBool("Run", false);
+            playerSpeed = playerwalkSpeed;
+        }
+
         Vector3 move = new Vector3(horizontal, 0, vertical) * Runner.DeltaTime * playerSpeed;
 
         if (_jumpPressed)
@@ -136,6 +153,7 @@ public class PlayerMovement : NetworkBehaviour
             _jumpPressed = false;
         }
 
+        controller.maxSpeed = playerSpeed;
         controller.Move(move + velocity * Runner.DeltaTime);
     }
 }

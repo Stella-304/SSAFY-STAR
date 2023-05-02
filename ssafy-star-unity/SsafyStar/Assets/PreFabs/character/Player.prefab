@@ -2267,7 +2267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   stop: 0
-  playerSpeed: 5
+  _playerSpeed: 0
   velocity: {x: 0, y: 0, z: 0}
   playerwalkSpeed: 5
   playerRunSpeed: 10
@@ -2326,7 +2326,7 @@ MonoBehaviour:
   jumpImpulse: 8
   acceleration: 10
   braking: 10
-  maxSpeed: 2
+  maxSpeed: 4
   rotationSpeed: 15
   _IsGrounded: 0
   _Velocity: {x: 0, y: 0, z: 0}
