@@ -2,6 +2,9 @@ const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
+//소셜로그인
+export const OAUTH_URL = SERVER_API + "/app/oauth2/authorization";
+export const OAUTH_REDIRECT_URL = SERVER_API + "/oauth2/token";
 //로그아웃
 export const LOGOUT_URL = SERVER_API + "/app/user/logout";
 
@@ -23,8 +26,6 @@ export const FIND_PWD_URL = SERVER_API + "/app/user/email/find-pwd";
 export const FIND_ID_URL = SERVER_API + "/app/user/email/find-id";
 //회사명 검색
 export const COMPANY_SEARCH_URL = SERVER_API + "/app/card/company";
-//소셜로그인
-export const OAUTH_URL = SERVER_API + "/app/oauth2/authorization";
 //백준 티어 조회, 업데이트
 export const BOJ_URL = SERVER_API + "/app/card/boj";
 //뱃지 인증 진행 상태
@@ -33,8 +34,10 @@ export const BADGE_STATUS_URL = SERVER_API + "/app/user/badge/status";
 export const BADGE_SUBMIT_URL = SERVER_API + "/app/user/badge";
 //상세 유저정보 조회
 export const USER_DETAIL_URL = SERVER_API + "/app/user/detail";
-//메인 유저정보 조회
+//메인 유저정보 조회, 정보수정
 export const USER_URL = SERVER_API + "/app/user";
+//비밀번호 수정
+export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
 
 //------------------카드
 //카드 등록, 수정, 지우기

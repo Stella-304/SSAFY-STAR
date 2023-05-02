@@ -5,7 +5,7 @@ interface cardState {
     cardinal: string;
     campus: string;
     content: string;
-    job: string;
+    company: string;
     grade: string;
     field: string;
     github: string;
@@ -25,7 +25,7 @@ const initialState: cardState = {
     cardinal: "",
     campus: "",
     content: "",
-    job: "",
+    company: "",
     grade: "",
     field: "",
     github: "",
@@ -51,7 +51,7 @@ const cardSlice = createSlice({
         cardinal: "",
         campus: "",
         content: "",
-        job: "",
+        company: "",
         grade: "",
         field: "",
         github: "",

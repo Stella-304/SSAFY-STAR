@@ -14,4 +14,4 @@ export const loginidReg = /^[a-zA-Z0-9]{0,16}$/g;
 export const isNumber = /^\d+$/g;
 
 //닉네임 형식 영문대소, 숫자 5글자 이내
-export const nameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,5}$/g;
+export const nicknameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,5}$/g;

@@ -18,13 +18,19 @@ import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { isNumber } from "../../utils/regex";
+import useCompanySearch from "../../apis/company/useCompanySearch";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
-  const [checkBojid, setCheckBojid] = useState("");
-  const bojCheckquery = useBojcheck(checkBojid);
-  const cardSubmitMutate = useCardSubmit();
   const [bojTier, setBojTier] = useState("");
+  const [search,setSearch] = useState("");//회사명 검색시 사용
+  
+  //react query
+  const bojCheckquery = useBojcheck(card.boj);
+  const cardSubmitMutate = useCardSubmit();
+  const [searchList,setSearchList] = useState([]); //회사명 검색결과
+  const companySearchQuery = useCompanySearch(search);
+  
   const dispatch = useDispatch();
 
   //경고
@@ -36,32 +42,69 @@ export default function CardSubmit() {
     dispatch(resetCard());
   }, []);
 
+  //api호출
+  //백준티어 가져오기
   useMemo(() => {
     if (bojCheckquery.isLoading || bojCheckquery.error) return null;
 
     if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
   }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
-  //input
+  
+  //회사 검색
+  useMemo(() => {
+    if (companySearchQuery.isLoading || companySearchQuery.error) return null;
 
+    if (companySearchQuery.data !== undefined){
+      if(search===""){
+        setSearchList([]);
+      }else{
+        setSearchList(companySearchQuery.data.value)
+      }
+    }
+  }, [companySearchQuery.isLoading, companySearchQuery.error, companySearchQuery.data]);
+  
+  
+  //input
   function onBan(input: string) {
-    if (!input.match(isNumber)) {
+    if (input!==""&&!input.match(isNumber)) {
       setBanWaring("숫자만 입력 해주세요");
+      setTimeout(()=>{
+        setBanWaring("");
+      },1000)
       return;
     }
     setBanWaring("");
     dispatch(setCard({ ...card, ban: input }));
   }
   function onCardinal(input: string) {
-    if (!input.match(isNumber)) {
+    if (input!==""&&!input.match(isNumber)) {
       setCardinalWaring("숫자만 입력 해주세요");
+      setTimeout(()=>{
+        setCardinalWaring("");
+      },1000)
       return;
     }
     setCardinalWaring("");
     dispatch(setCard({ ...card, cardinal: input }));
   }
 
-  function onJob(input: string) {
-    dispatch(setCard({ ...card, job: input }));
+  function onCompany(input: string) {
+    //입력값으로 회사를 검색한다.
+      
+    setSearch(input);
+    if(input!==""){
+      companySearchQuery.refetch();
+    }else{
+      console.log("비었는데요")
+      setSearchList([]);
+    }
+    //
+  }
+
+  function selectCompany(input:string){
+    setSearch(input);
+    setSearchList([]);
+    dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
     dispatch(setCard({ ...card, github: input }));
@@ -107,16 +150,14 @@ export default function CardSubmit() {
   function checkBoj() {
     //백준 인증 진행
     //없으면 unranked
-    if (card.boj === "Unrated") {
+    if (card.boj === "") {
+      return;
     }
-    setCheckBojid(card.boj);
     bojCheckquery.refetch();
   }
 
   //등록 진행
   function submit() {
-    console.log(card); //카드 정보들
-    console.log(bojTier); //백준 티어
 
     //필수 입력 확인
     if (
@@ -125,6 +166,7 @@ export default function CardSubmit() {
       card.ban === "" &&
       card.content === ""
     ) {
+      alert("필수 정보를 입력해주세요")
       return;
     }
     if (card.boj !== "" && bojTier === "") {
@@ -138,11 +180,11 @@ export default function CardSubmit() {
       bojid: card.boj,
       bojTier: bojTier,
       campus: card.campus,
-      company: card.job,
+      company: card.company,
       content: card.content,
       etc: card.etc,
       generation: card.cardinal,
-      githubid: card.github,
+      githubId: card.github,
       major: card.major,
       role: card.field,
       swTier: card.grade,
@@ -208,11 +250,13 @@ export default function CardSubmit() {
             value={card.content}
           />
           <Input
-            id="job"
+            id="company"
             type="text"
             label="회사"
-            onChange={onJob}
-            value={card.job}
+            onChange={onCompany}
+            value={search}
+            queryResult = {searchList}
+            querySelect={selectCompany}
           />
           <div className="flex justify-between">
             <Select

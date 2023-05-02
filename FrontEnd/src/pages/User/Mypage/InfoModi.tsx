@@ -5,11 +5,17 @@ import SmallButton from "../../../components/Button/SmallButton";
 import Input from "../../../components/Input/Input";
 import useBojcheck from "../../../apis/user/useBoj";
 import { useNavigate } from "react-router-dom";
-import { passwordReg } from "../../../utils/regex";
+import { passwordReg ,nicknameReg } from "../../../utils/regex";
+import useUserModify from "../../../apis/user/useUserModify";
+import useUserPwdModify from "../../../apis/user/useUserPwdModify";
+import { UserModifyType } from "../../../types/UserModifyType";
 
 export default function InfoModi() {
   const navigate = useNavigate();
 
+  //api
+  const usermodifyMutate = useUserModify();
+  const userpwdmodifyMutate = useUserPwdModify();
   //백준
   const [checkBojid, setCheckBojid] = useState("");
   const { data, isLoading, error } = useBojcheck(checkBojid);
@@ -24,6 +30,7 @@ export default function InfoModi() {
   const [password2Warning, setPassword2Warning] = useState("");
   //닉네임
   const [nickname, setNickname] = useState("");
+  const [nicknameWarning,setNicknameWarning] = useState("");
 
   useMemo(() => {
     if (isLoading || error) return null;
@@ -68,14 +75,42 @@ export default function InfoModi() {
 
   function modiPassword() {
     //비밀번호 수정 진행
+    //1차 비밀번호 확인 여부
+    if(!password1.match(passwordReg)){
+      alert("비밀번호를 확인해주세요")
+      return;
+    }
+    //2차 비밀번호 일치 여부
+    if(password1!==password2){
+      alert("비밀번호확인을 해주세요")
+      return;
+    }
+
+    userpwdmodifyMutate.mutate(password1);
   }
 
   //닉네임
   function onNickname(input: string) {
+    if(!input.match(nicknameReg)){
+      setNicknameWarning("닉네임은 5글자 이내입니다.")
+      return;
+    }else{
+      setNicknameWarning("");
+    }
     setNickname(input);
   }
   function modiNickname() {
+
+    if(!nickname.match(nicknameReg)){
+      alert("닉네임을 확인해주세요")
+      return;
+    }
     //닉네임 수정 진행
+    const modifyinfo:UserModifyType = {
+      name: "",
+      nickname:nickname
+    }
+    usermodifyMutate.mutate(modifyinfo);
   }
 
   return (
@@ -120,10 +155,11 @@ export default function InfoModi() {
               label="닉네임 수정"
               onChange={onNickname}
               value={nickname}
+              warning={nicknameWarning}
             />
           </div>
           <div className="flex items-end">
-            <SmallButton value="수정" onClick={() => {}}></SmallButton>
+            <SmallButton value="수정" onClick={modiNickname}></SmallButton>
           </div>
         </div>
       </div>

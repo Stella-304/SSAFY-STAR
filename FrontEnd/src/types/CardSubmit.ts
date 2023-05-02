@@ -8,7 +8,7 @@ export interface CardSubmitType {
   content: string; //한마디
   etc: string; //더할말
   generation: string; //기수
-  githubid: string; //깃헙주소
+  githubId: string; //깃헙주소
   major: string; //전공
   role: string; //FE,BE
   swTier: string; //소프트티어

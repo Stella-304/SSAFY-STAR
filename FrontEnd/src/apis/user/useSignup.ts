@@ -1,11 +1,11 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { SIGNUP_URL } from "../../utils/urls";
 import { SignupType } from "../../types/SignupType";
 import { useNavigate } from "react-router-dom";
+import { api } from "../api";
 
 const fetcher = (payload: SignupType) =>
-  axios
+  api
     .post(SIGNUP_URL, {
       email: payload.email,
       name: payload.name,
@@ -15,6 +15,12 @@ const fetcher = (payload: SignupType) =>
     })
     .then(({ data }) => data);
 
+/**
+ * 회원가입을 진행한다.
+ * 성공시 메인으로
+ * 실패시 알림
+ * @returns 
+ */
 const useSignup = () => {
   const navigate = useNavigate();
   return useMutation(fetcher, {
