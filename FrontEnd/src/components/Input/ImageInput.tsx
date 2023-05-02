@@ -12,7 +12,7 @@ interface Props {
 export default function ImageInput({ id, children }: Props) {
   const imgRef = useRef(null);
   const [imgsrc, setImgsrc] = useState("" as any);
-  const submitMutate = useUserBadgeSubmit();
+  const submitMutate = useUserBadgeSubmit(id);
   const statusQuery = useUserBadgeStatus(id);
   const [status, setStatus] = useState("");
 
@@ -25,7 +25,7 @@ export default function ImageInput({ id, children }: Props) {
 
     //FINISHED, IN_PROGRESS, NO_REQUEST
     if (statusQuery.data !== undefined) {
-      setStatus(statusQuery.data.value);
+      setStatus(statusQuery.data.value.badgeStatus);
     }
   }, [statusQuery.isLoading, statusQuery.data, statusQuery.error]);
 
