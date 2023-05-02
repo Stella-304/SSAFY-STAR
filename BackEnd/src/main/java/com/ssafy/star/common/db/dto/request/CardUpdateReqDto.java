@@ -16,11 +16,11 @@ public class CardUpdateReqDto {
     @Schema(description = "한마디", example = "여러분 힘내서 취업해봅시다!!!")
     private String content;
     @Schema(description = "기수", example = "8")
-    private int generation;
+    private String generation;
     @Schema(description = "캠퍼스", example = "대전")
     private String campus;
     @Schema(description = "1학기 반", example = "4")
-    private int ban;
+    private String ban;
     @Schema(description = "github 아이디")
     private String githubId;
     @Schema(description = "백준 아이디")
@@ -57,6 +57,24 @@ public class CardUpdateReqDto {
                 .swTier(this.swTier)
                 .etc(this.etc)
                 .user(user)
+                .build();
+    }
+    public Card of(){
+        return Card.builder()
+                .id(this.id)
+                .content(this.content)
+                .generation(this.generation)
+                .campus(this.campus)
+                .ban(this.ban)
+                .githubId(this.githubId)
+                .bojId(this.bojId)
+                .blogAddr(this.blogAddr)
+                .company(this.company)
+                .track(this.track)
+                .major(this.major)
+                .role(this.role)
+                .swTier(this.swTier)
+                .etc(this.etc)
                 .build();
     }
 }

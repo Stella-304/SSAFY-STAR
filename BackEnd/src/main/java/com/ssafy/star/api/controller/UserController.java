@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,6 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/logout")
+    @Secured("ROLE_CLIENT")
     @ApiOperation(value="로그아웃")
     public ResponseEntity<ResponseDto> userLogout(@RequestHeader("Authorization") String token) {
         userService.logoutUser(token);
@@ -53,18 +55,21 @@ public class UserController {
     }
 
     @GetMapping("/detail")
+    @Secured({"ROLE_CLIENT", "ROLE_ADMIN"})
     @ApiOperation(value="유저 정보 조회")
     public ResponseEntity<ResponseDto> userGetDetail() {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
     }
 
     @GetMapping
+    @Secured("ROLE_CLIENT")
     @ApiOperation(value="메인화면 유저 정보 조회")
     public ResponseEntity<ResponseDto> userGet() {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getUser()));
     }
 
     @PutMapping
+    @Secured("ROLE_CLIENT")
     @ApiOperation(value="유저정보 수정")
     public ResponseEntity<ResponseDto> userModify(@RequestBody UserModifyReqDto userModifyReqDto) {
         userService.modifyUser(userModifyReqDto);
@@ -72,6 +77,7 @@ public class UserController {
     }
 
     @PutMapping("/pwd")
+    @Secured("ROLE_CLIENT")
     @ApiOperation(value="비밀번호 수정")
     public ResponseEntity<ResponseDto> userModifyPwd(@RequestParam String newPwd) {
         userService.modifyPwdUser(newPwd);
@@ -79,6 +85,7 @@ public class UserController {
     }
 
     @DeleteMapping
+    @Secured("ROLE_CLIENT")
     @ApiOperation(value="탈퇴")
     public ResponseEntity<ResponseDto> userDelete() {
         userService.deleteUser();

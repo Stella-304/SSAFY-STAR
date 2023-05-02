@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -52,7 +52,6 @@ const router = createBrowserRouter([
       { path: "/mypage", element: <Mypage /> },
     ],
   },
-
   {
     path: "/login",
     element: <Login />,
@@ -61,7 +60,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-
   // 테스트 페이지
   {
     path: "/test1",

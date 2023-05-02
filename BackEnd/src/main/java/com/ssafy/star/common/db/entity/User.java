@@ -21,6 +21,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "accountId")
 })
 public class User extends BaseTime {
 
@@ -49,10 +50,10 @@ public class User extends BaseTime {
     @Enumerated(EnumType.STRING)
     private LoginTypeEnum loginType;
 
-    @Column
+    @Column(length = 16)
     private String accountId;
 
-    @Column
+    @Column(length = 60)
     private String accountPwd;
 
     @Column

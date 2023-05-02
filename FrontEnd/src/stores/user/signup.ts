@@ -5,7 +5,7 @@ interface signupState {
     email: string;
     loginid: string;
     name: string;
-    nickname:string;
+    nickname: string;
     password: string;
     password2: string;
   };
@@ -14,7 +14,7 @@ interface signupState {
 const initialState: signupState = {
   user: {
     email: "",
-    nickname:"",
+    nickname: "",
     loginid: "",
     name: "",
     password: "",

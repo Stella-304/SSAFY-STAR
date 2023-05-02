@@ -12,14 +12,11 @@ import java.util.Optional;
 @Repository
 public interface CoordinateRepository extends JpaRepository<Coordinate, Long> {
 
-    List<Coordinate> findTop4ByOrderByIdDesc();
-    List<Coordinate> findTop17ByOrderByIdDesc();
-    List<Coordinate> findTop73ByOrderByIdDesc();
-    List<Coordinate> findTop305ByOrderByIdDesc();
-    List<Coordinate> findTop1249ByOrderByIdDesc();
+    List<Coordinate> findTop4ByOrderById();
+    List<Coordinate> findTop17ByOrderById();
+    List<Coordinate> findTop73ByOrderById();
+    List<Coordinate> findTop305ByOrderById();
+    List<Coordinate> findTop1249ByOrderById();
 
-//    JPQL에서 limit 값을 동적으로 할당하는 것이 불가능?
-//    @Query(value = "select co from Coordinate co limit limitCnt")
-//    List<String> (int limitCnt);
 
 }

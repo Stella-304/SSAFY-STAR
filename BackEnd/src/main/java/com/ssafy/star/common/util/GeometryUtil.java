@@ -31,11 +31,11 @@ public class GeometryUtil {
     }
     public static int getLevelFromCardCnt(int cardCnt) {
         if (cardCnt <= 4)
-            return 1;
+            return 4;
         if (cardCnt <= 10)
-            return 2;
+            return 4;
         if (cardCnt <= 40)
-            return 3;
+            return 4;
         if (cardCnt <= 200)
             return 4;
         if (cardCnt <= 600)
@@ -63,14 +63,19 @@ public class GeometryUtil {
         }
         List<EdgeDto> list=new ArrayList<>();
         List<Edge> edges=new ArrayList<>();
-        double x1=cards.get(0).getX();
-        Math.pow(x1,x1);
+
         int cardCnt=cards.size();
         for(int i=0;i<cardCnt-1;i++){
+            double length = Math.sqrt(cards.get(i).getX() * cards.get(i).getX() + cards.get(i).getY() * cards.get(i).getY() + cards.get(i).getZ() * cards.get(i).getZ());
+            double x1=cards.get(i).getX() / length;
+            double z1=cards.get(i).getZ() / length;
             for(int j=i+1;j<cardCnt;j++){
+                length = Math.sqrt(cards.get(j).getX() * cards.get(j).getX() + cards.get(j).getY() * cards.get(j).getY() + cards.get(j).getZ() * cards.get(j).getZ());
+                double x2=cards.get(j).getX() / length;
+                double z2=cards.get(j).getZ() / length;
                 edges.add(new Edge(i,j
-                        ,Math.sqrt(Math.pow(cards.get(i).getX()-cards.get(j).getX(),2)
-                        +Math.pow(cards.get(i).getY()-cards.get(j).getY(),2)
+                        ,Math.sqrt(Math.pow(x1-x2,2)
+                        +Math.pow(z1-z2,2)
                 )));
             }
         }

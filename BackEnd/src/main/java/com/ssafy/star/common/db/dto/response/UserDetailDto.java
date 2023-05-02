@@ -1,6 +1,9 @@
 package com.ssafy.star.common.db.dto.response;
 
 
+import lombok.Getter;
+
+@Getter
 public class UserDetailDto {
 
     String name;

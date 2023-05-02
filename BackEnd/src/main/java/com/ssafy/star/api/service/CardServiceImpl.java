@@ -23,6 +23,7 @@ import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,41 +82,50 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
 		//이부분을 jpql써서 바꿔야할듯
-		List<Card> cardList=new ArrayList<>();
-		if(searchColumn!=null){
-			if(searchColumn.equals("company")&&searchValue!=null) {
+		List<Card> cardList = new ArrayList<>();
+		if (searchColumn != null) {
+			if (searchColumn.equals("company") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByCompany(searchValue);
 			}
-			if(searchColumn.equals("track")&&searchValue!=null) {
+			if (searchColumn.equals("track") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByTrack(searchValue);
 			}
-			if(searchColumn.equals("swTier")&&searchValue!=null) {
+			if (searchColumn.equals("swTier") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredBySwTier(searchValue);
 			}
-			if(searchColumn.equals("major")&&searchValue!=null) {
+			if (searchColumn.equals("major") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByMajor(searchValue);
 			}
-			if(searchColumn.equals("bojTier")&&searchValue!=null) {
+			if (searchColumn.equals("bojTier") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
-			if(searchColumn.equals("generation")&&searchValue!=null) {
+			if (searchColumn.equals("generation") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
-			if(searchColumn.equals("campus")&&searchValue!=null) {
-				int gen=Integer.parseInt(searchValue.split("-")[0]);
-				String cam=searchValue.split("-")[1];
-				cardList = cardRepository.getAllFilteredByCampus(gen,cam);
+			if (searchColumn.equals("campus") && searchValue != null) {
+				String gen = searchValue.split("-")[0];
+				String cam = searchValue.split("-")[1];
+				cardList = cardRepository.getAllFilteredByCampus(gen, cam);
 			}
-			if(searchColumn.equals("ban")&&searchValue!=null) {
-				int gen=Integer.parseInt(searchValue.split("-")[0]);
-				String cam=searchValue.split("-")[1];
-				int ban=Integer.parseInt(searchValue.split("-")[2]);
-				cardList = cardRepository.getAllFilteredByBan(gen,cam,ban);
+			if (searchColumn.equals("ban") && searchValue != null) {
+				String gen = searchValue.split("-")[0];
+				String cam = searchValue.split("-")[1];
+				String ban = searchValue.split("-")[2];
+				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
 
-		}else{
+		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
+		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+
+		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+		return new ConstellationListDto(detailDtoList, edgeDtoList);
+	}
+
+	@Override
+	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
+		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
@@ -133,7 +143,7 @@ public class CardServiceImpl implements CardService {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
-		int r = 50;
+		int r = 30;
 		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
 		int vertices = GeometryUtil.getVerticesFromLevel(level);
@@ -141,27 +151,27 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < vertices; i++) {
 			numbers.add(i);
 		}
-		List<Integer> rs =new ArrayList<>();
+		List<Integer> rs = new ArrayList<>();
 		List<Integer> result = new ArrayList<>();
 		Random random = new Random();
 		for (int i = 0; i < cardCnt; i++) {
 			int index = random.nextInt(numbers.size());
 			result.add(numbers.remove(index));
-			rs.add(random.nextInt(50));
+			rs.add(random.nextInt(70));
 		}
 
 		//level별 coordinate limit 걸기
 		List<Coordinate> coordinateList = new ArrayList<>();
 		if (level == 1) {
-			coordinateList = coordinateRepository.findTop4ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop4ByOrderById();
 		} else if (level == 2) {
-			coordinateList = coordinateRepository.findTop17ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop17ByOrderById();
 		} else if (level == 3) {
-			coordinateList = coordinateRepository.findTop73ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop73ByOrderById();
 		} else if (level == 4) {
-			coordinateList = coordinateRepository.findTop305ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop305ByOrderById();
 		} else if (level == 5) {
-			coordinateList = coordinateRepository.findTop1249ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop1249ByOrderById();
 		} else {
 			coordinateList = coordinateRepository.findAll();
 		}
@@ -191,10 +201,9 @@ public class CardServiceImpl implements CardService {
 
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
-			//y z 바꿔놓음 일시적으로
-			int rr=rs.get(i);
-			detailDtoList.add(new CardDetailDto(cardList.get(i), (r+rr) * coordinateList.get(selected).getX()
-				, (r+rr) * coordinateList.get(selected).getZ(),(r+rr) * coordinateList.get(selected).getY()));
+			int rr = rs.get(i);
+			detailDtoList.add(new CardDetailDto(cardList.get(i), (r + rr) * coordinateList.get(selected).getX()
+				, (r + rr) * coordinateList.get(selected).getY(), (r + rr) * coordinateList.get(selected).getZ()));
 		}
 		return detailDtoList;
 	}
@@ -222,19 +231,7 @@ public class CardServiceImpl implements CardService {
 	@Transactional
 	public void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception {
 		Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
-		Optional.ofNullable(cardUpdateReqDto.getContent()).ifPresent(x -> card.setContent(x));
-		Optional.ofNullable(cardUpdateReqDto.getGeneration()).ifPresent(x -> card.setGeneration(x));
-		Optional.ofNullable(cardUpdateReqDto.getCampus()).ifPresent(x -> card.setCampus(x));
-		Optional.ofNullable(cardUpdateReqDto.getBan()).ifPresent(x -> card.setBan(x));
-		Optional.ofNullable(cardUpdateReqDto.getGithubId()).ifPresent(x -> card.setGithubId(x));
-		Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> card.setBojId(x));
-		Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> card.setBlogAddr(x));
-		Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> card.setCompany(x));
-		Optional.ofNullable(cardUpdateReqDto.getEtc()).ifPresent(x -> card.setEtc(x));
-		Optional.ofNullable(cardUpdateReqDto.getRole()).ifPresent(x -> card.setRole(x));
-		Optional.ofNullable(cardUpdateReqDto.getSwTier()).ifPresent(x -> card.setSwTier(x));
-		Optional.ofNullable(cardUpdateReqDto.getMajor()).ifPresent(x -> card.setMajor(x));
-		Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> card.setTrack(x));
+		card.of(cardUpdateReqDto);
 	}
 
 	@Override

@@ -10,11 +10,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
 import { loginidReg } from "../../utils/regex";
-import useLogin from "../../apis/user/useLogin";
-import { LoginType } from "../../types/LoginType";
 
 export default function Login() {
-  const loginMutate = useLogin();
   const { loginid, password } = useSelector((state: RootState) => state.login);
   const [idWarning, setIdWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
@@ -52,12 +49,6 @@ export default function Login() {
     } else {
       setPasswordWarning("");
     }
-
-    const payload: LoginType = {
-      accountId: loginid,
-      accountPwd: password,
-    };
-    loginMutate.mutate(payload);
   }
   return (
     <EarthLayout>
