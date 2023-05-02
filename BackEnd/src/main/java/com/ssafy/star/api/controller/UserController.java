@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +59,7 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
     }
 
+    @Secured("{ROLE_CLIENT}")
     @GetMapping
     @ApiOperation(value="메인화면 유저 정보 조회")
     public ResponseEntity<ResponseDto> userGet() {
