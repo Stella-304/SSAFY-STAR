@@ -94,10 +94,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private User registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
 
+		String nickName = oAuth2UserInfo.getName();
+
 		return userRepository.save(User.builder()
 				.email(oAuth2UserInfo.getEmail())
 				.name("익명")
-				.nickname(oAuth2UserInfo.getName().substring(0, 9))
+				.nickname(nickName.substring(0, Math.min(nickName.length(), 9)))
 				.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 				.providerId(oAuth2UserInfo.getId())
 				.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
