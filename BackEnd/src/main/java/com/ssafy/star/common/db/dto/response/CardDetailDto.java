@@ -14,9 +14,9 @@ public class CardDetailDto {
 	double x;
 	double y;
 	double z;
-	int generation;
+	String generation;
 	String campus;
-	int ban;
+	String ban;
 
 	String githubId;
 	String bojId;

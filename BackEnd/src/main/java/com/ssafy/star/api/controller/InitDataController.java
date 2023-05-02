@@ -39,9 +39,16 @@ public class InitDataController {
 	}
 
 	@GetMapping("/coordinate")
-	@ApiOperation(value="coordinate data init")
-	public ResponseEntity<?> coordinate(){
+	@ApiOperation(value = "coordinate data init")
+	public ResponseEntity<?> coordinate() {
 		initDataService.initCoordinate();
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK,Msg.SUCCESS_REGIST));
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
+	@GetMapping("/all")
+	@ApiOperation(value = "coordinate data init")
+	public ResponseEntity<?> all() throws Exception {
+		initDataService.initAll();
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 }

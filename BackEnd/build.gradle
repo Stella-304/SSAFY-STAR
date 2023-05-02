@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.ssafy'
@@ -63,8 +64,32 @@ dependencies {
 	// AWS S3
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.387'
 
+	// QueryDsl
+	implementation "com.querydsl:querydsl-jpa:5.0.0"
+	implementation "com.querydsl:querydsl-apt:5.0.0"
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+// Qtype 생성 경로
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
 }
