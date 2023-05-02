@@ -58,7 +58,7 @@ public class MenuController : MonoBehaviour
 
     private void BtnExitOnClicked()
     {
-        Application.Quit();
+        //Application.Quit();
     }
 
     private void BtnMuteOnClicked()

@@ -10,7 +10,6 @@ public class ChatController : MonoBehaviour
     private TextField inputfield;
 
     private bool chatboxVisibility = false;
-    private bool inputfieldClicked = false;
 
     private MultiplayerChat multiChat;
     public PlayerMovement player;
@@ -33,7 +32,6 @@ public class ChatController : MonoBehaviour
             {
                 multiChat.CallMessageRPC(inputfield.text);
                 inputfield.value = "";
-                //inputfield.SetEnabled(false);
             }
         });
     }
@@ -45,15 +43,16 @@ public class ChatController : MonoBehaviour
         chatbox.style.visibility = chatboxVisibility ? Visibility.Hidden : Visibility.Visible;
         
         chatboxVisibility = !chatboxVisibility;
-        player.stop = !player.stop;
+
+        player.stop = chatboxVisibility?true:false;
+
+        //if(chatboxVisibility)
+        //{
+        //    player.stop = true;
+        //}
+        //else
+        //{
+        //    player.stop = false;
+        //}
     }
-
-    //private void InputFieldClicked()
-    //{
-    //    Debug.Log("clicked");
-
-    //    inputfield.SetEnabled(inputfieldClicked ? true : false);
-
-    //    inputfieldClicked = !inputfieldClicked;
-    //}
 }

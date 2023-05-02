@@ -40,6 +40,22 @@ public class PlayerMovement : NetworkBehaviour
         controller = GetComponent<NetworkCharacterControllerPrototype>();
     }
 
+    public override void Spawned()
+    {
+        Camera = Camera.main;
+
+        if (HasStateAuthority)
+        {
+            playerSpeed = playerwalkSpeed;
+
+            cameraControl = GetComponent<CameraControl>();
+            cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
+
+            GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
+            GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
+        }
+    }
+
     void Update()
     {
         if (stop)
@@ -57,22 +73,12 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            Debug.Log("pressed");
             run = true;
         }
         else
         {
             run = false;
         }
-
-        //if (run)
-        //{
-        //    playerSpeed = playerRunSpeed;
-        //}
-        //else
-        //{
-        //    playerSpeed = playerwalkSpeed;
-        //}
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -87,27 +93,12 @@ public class PlayerMovement : NetworkBehaviour
 
                     hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
-
                     cameraControl.NPCPriority(transform);
+                    
 
                     stop = true;
                 }
             }
-        }
-    }
-
-    public override void Spawned()
-    {
-        if (HasStateAuthority)
-        {
-            playerSpeed = playerwalkSpeed;
-
-            Camera = Camera.main;
-            cameraControl = GetComponent<CameraControl>();
-            cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
-
-            GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
-            GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
         }
     }
 

@@ -24,6 +24,8 @@ public class CameraControl : MonoBehaviour
     public void NPCPriority(Transform transform)
     {
         cineCamera.Priority = -10;
+        rightCamera.Priority = 15;
+        leftCamera.Priority = 15;
         rightCamera.LookAt = transform;
         leftCamera.LookAt = transform;
     }
@@ -35,6 +37,8 @@ public class CameraControl : MonoBehaviour
 
     public void SetMainCameraPriorityLow()
     {
-        cineCamera.Priority = -20;
+        cineCamera.Priority = 20;
+        rightCamera.Priority = 10;
+        leftCamera.Priority = 10;
     }
 }

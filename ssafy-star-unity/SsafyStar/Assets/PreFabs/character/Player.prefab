@@ -2269,8 +2269,8 @@ MonoBehaviour:
   stop: 0
   _playerSpeed: 0
   velocity: {x: 0, y: 0, z: 0}
-  playerwalkSpeed: 5
-  playerRunSpeed: 10
+  playerwalkSpeed: 3
+  playerRunSpeed: 6
   run: 0
   Camera: {fileID: 0}
   JumpForce: 5

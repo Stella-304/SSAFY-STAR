@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.UIElements;
 
-public class NPC : NetworkBehaviour
+public class NPC : MonoBehaviour
 {
     [Header("Move")]
     public float moveSpeed = 5f;
@@ -19,8 +19,6 @@ public class NPC : NetworkBehaviour
 
     [Header("Chat")]
     private GameObject chatUI;
-    private VisualElement squareUI;
-    //private GameObject squareUI;
     public bool doChat = false;
     public GameObject player;
 
@@ -31,24 +29,14 @@ public class NPC : NetworkBehaviour
         chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
     }
 
-    public override void Spawned()
-    {
-        squareUI = GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement;
-    }
-
     private void Update()
     {
         if(doChat)
         {
-            squareUI.visible = false;
+            Debug.Log("chat......!");
+            GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
             chatUI.SetActive(true);
-        }
-    }
 
-    public override void FixedUpdateNetwork()
-    {
-        if (doChat)
-        {
             transform.LookAt(player.transform);
             navMeshAgent.isStopped = true;
             doChat = false;
@@ -84,15 +72,14 @@ public class NPC : NetworkBehaviour
 
     public void FinishChat()
     {
-        doChat = false;
-
         chatUI.SetActive(false);
-        squareUI.visible = true;
+        GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = true;
 
         navMeshAgent.isStopped = false;
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
-        //player.GetComponent<PlayerMovement>().stop = false;
+
+        doChat = false;
     }
 
     private IEnumerator ResetPlayer()
