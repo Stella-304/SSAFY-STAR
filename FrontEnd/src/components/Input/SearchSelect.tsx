@@ -10,7 +10,7 @@ interface props {
 export default function Select({ id, label, options, onChange }: props) {
   const [search, setSearch] = useState("");
 
-  const res = useCompanySearch(search);
+ // const res = useCompanySearch(search);
 
   function goSearch(e: any) {
     onChange(e.target.value);
@@ -24,13 +24,13 @@ export default function Select({ id, label, options, onChange }: props) {
         <option value="" hidden>
           선택
         </option>
-        {res.data.value.map((ele: any) => {
+        {/* {res.data.value.map((ele: any) => {
           return (
             <option key={ele} value={ele}>
               {ele}
             </option>
           );
-        })}
+        })} */}
       </select>
     </div>
   );

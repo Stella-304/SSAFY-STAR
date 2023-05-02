@@ -19,9 +19,9 @@ const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return useMutation(fetcher, {
-    onSuccess: () => {
-      sessionStorage.removeItem("accessToken");
-      dispatch(logout());
+    onSettled: () => {//성공, 실패 상관없이 수행
+      sessionStorage.removeItem("accessToken");//토큰제거
+      dispatch(logout());//유저정보 제거
       navigate("/");
     },
   });

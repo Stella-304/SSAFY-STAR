@@ -8,6 +8,7 @@ interface props {
   value?: string;
   inputRef?: React.ForwardedRef<HTMLInputElement>;
   disable?: boolean;
+  queryResult?:string [];
 }
 
 export default function Input({
@@ -20,6 +21,7 @@ export default function Input({
   confirm, //확인 문구
   inputRef,
   disable,
+  queryResult,
 }: props) {
   return (
     <div className="flex flex-col">
@@ -46,6 +48,11 @@ export default function Input({
           disabled={disable}
         ></input>
       )}
+      {queryResult&&
+        <div className="flex flex-col">
+            {queryResult.map((ele)=><div>{ele}</div>)}
+        </div>
+        }
     </div>
   );
 }

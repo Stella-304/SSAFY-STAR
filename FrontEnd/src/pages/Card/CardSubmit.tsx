@@ -18,12 +18,19 @@ import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { isNumber } from "../../utils/regex";
+import useCompanySearch from "../../apis/company/useCompanySearch";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
+  const [bojTier, setBojTier] = useState("");
+  const [search,setSearch] = useState("");//회사명 검색시 사용
+  
+  //react query
   const bojCheckquery = useBojcheck(card.boj);
   const cardSubmitMutate = useCardSubmit();
-  const [bojTier, setBojTier] = useState("");
+  const [searchList,setSearchList] = useState([]); //회사명 검색결과
+  const companySearchQuery = useCompanySearch(search,setSearchList);
+  
   const dispatch = useDispatch();
 
   //경고
@@ -35,13 +42,18 @@ export default function CardSubmit() {
     dispatch(resetCard());
   }, []);
 
+  //api호출
+  //백준티어 가져오기
   useMemo(() => {
     if (bojCheckquery.isLoading || bojCheckquery.error) return null;
 
     if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
   }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
+  
+  //회사 검색
+  
+  
   //input
-
   function onBan(input: string) {
     if (!input.match(isNumber)) {
       setBanWaring("숫자만 입력 해주세요");
@@ -59,8 +71,11 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, cardinal: input }));
   }
 
-  function onJob(input: string) {
-    dispatch(setCard({ ...card, job: input }));
+  function onCompany(input: string) {
+    //입력값으로 회사를 검색한다.
+    setSearch(input);
+    companySearchQuery.refetch();
+    //dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
     dispatch(setCard({ ...card, github: input }));
@@ -135,7 +150,7 @@ export default function CardSubmit() {
       bojid: card.boj,
       bojTier: bojTier,
       campus: card.campus,
-      company: card.job,
+      company: card.company,
       content: card.content,
       etc: card.etc,
       generation: card.cardinal,
@@ -205,11 +220,12 @@ export default function CardSubmit() {
             value={card.content}
           />
           <Input
-            id="job"
+            id="company"
             type="text"
             label="회사"
-            onChange={onJob}
-            value={card.job}
+            onChange={onCompany}
+            value={search}
+            queryResult = {searchList}
           />
           <div className="flex justify-between">
             <Select
