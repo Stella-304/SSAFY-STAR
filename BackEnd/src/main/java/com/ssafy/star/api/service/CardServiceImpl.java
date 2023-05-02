@@ -142,7 +142,7 @@ public class CardServiceImpl implements CardService {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
-		int r = 30;
+		int r = 100;
 		level = GeometryUtil.getLevelFromCardCnt(cardCnt);
 
 		int vertices = GeometryUtil.getVerticesFromLevel(level);
@@ -156,7 +156,8 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < cardCnt; i++) {
 			int index = random.nextInt(numbers.size());
 			result.add(numbers.remove(index));
-			rs.add(random.nextInt(70));
+//			rs.add(random.nextInt(0));
+			rs.add(0);
 		}
 
 		//level별 coordinate limit 걸기

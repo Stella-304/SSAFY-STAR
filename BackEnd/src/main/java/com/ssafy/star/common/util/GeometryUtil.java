@@ -80,12 +80,14 @@ public class GeometryUtil {
             }
         }
         Collections.sort(edges);
-//        edges.stream().forEach(x->{System.out.println(x.distance);});
+        edges.stream().forEach(x->{System.out.println(x.distance);});
         int cnt=0;
 
+        System.out.println("=======================");
+        System.out.println(edges.size());
         for(Edge edge : edges) {
             if(union((int)edge.a,(int)edge.b)) {
-//                System.out.println(edge.distance);
+                System.out.println(edge.distance);
                 list.add(new EdgeDto(cards.get((int)edge.a).getCardId(),cards.get((int)edge.b).getCardId()));
                 if(++cnt==cardCnt-1) break;
             }
