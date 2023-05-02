@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { USER_DETAIL_URL } from "../../utils/urls";
-import { sessionApi } from "../api";
+import { api } from "../api";
 
 const fetcher = () =>
-  sessionApi
-    .get(USER_DETAIL_URL)
+  api
+    .get(USER_DETAIL_URL,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
     .then(({ data }) => data);
 
 /**

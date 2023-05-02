@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { sessionApi } from "../api";
+import { api } from "../api";
 import { BOJ_URL } from "../../utils/urls";
 
 interface Payload {
@@ -7,7 +7,7 @@ interface Payload {
 }
 
 const fetcher = (payload: Payload) => 
-  sessionApi.get(BOJ_URL + "/" + payload.bojid).then(({ data }) => data);
+  api.get(BOJ_URL + "/" + payload.bojid,{headers:{Authorization:sessionStorage.getItem("accessToken")}}).then(({ data }) => data);
 ;
 
 /**

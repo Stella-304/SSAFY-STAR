@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { BADGE_STATUS_URL } from "../../utils/urls";
-import { sessionApi } from "../api";
+import { api } from "../api";
 
 const fetcher = (type: string) =>
-  sessionApi
-    .get(BADGE_STATUS_URL + "/" + type)
+  api
+    .get(BADGE_STATUS_URL + "/" + type,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
     .then(({ data }) => data);
 
 /**

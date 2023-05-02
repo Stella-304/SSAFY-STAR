@@ -3,12 +3,14 @@ import { USER_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 import { setName } from "../../stores/user/user";
 import { useDispatch } from "react-redux";
-import { sessionApi } from "../api";
+import { api } from "../api";
 
 const fetcher = () =>
-  sessionApi
-    .get(USER_URL)
-    .then(({ data }) => data);
+  api
+  .get(USER_URL,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
+  .then(({ data }) => data);
+
+  
 /**
  * 로그인한 유저인지 확인한다.
  * 로그인한 경우 redux에 정보저장, 메인으로 이동
@@ -25,6 +27,8 @@ const useUserCheck = () => {
       navigate("/");
     },
     onError: () => {
+      alert("토큰이 확인이 안됩니다.")
+      alert(sessionStorage.getItem("accessToken"));
       navigate("/login");
     },
   });

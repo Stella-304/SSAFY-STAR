@@ -3,11 +3,11 @@ import { LOGOUT_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../stores/user/user";
-import { sessionApi } from "../api";
+import { api } from "../api";
 
 const fetcher = () =>
-  sessionApi
-    .post(LOGOUT_URL)
+  api
+    .post(LOGOUT_URL,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
     .then(({ data }) => data);
 
 /**

@@ -2,10 +2,10 @@ import { useMutation } from "react-query";
 import { CARD_SUBMIT_URL } from "../../utils/urls";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { useNavigate } from "react-router-dom";
-import { sessionApi } from "../api";
+import { api } from "../api";
 const fetcher = (payload: CardSubmitType) =>
-  sessionApi
-    .post(CARD_SUBMIT_URL, payload,{})
+  api
+    .post(CARD_SUBMIT_URL, payload,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
     .then(({ data }) => data);
 
 /**

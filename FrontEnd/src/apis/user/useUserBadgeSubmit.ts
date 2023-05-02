@@ -7,7 +7,7 @@ import { fileApi } from "../api";
 //이미지 파일을 입력하기
 const fetcher = (payload: BadgeSubmitType) =>
   fileApi
-    .post(BADGE_SUBMIT_URL, payload.formdata)
+    .post(BADGE_SUBMIT_URL, payload.formdata,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
     .then(({ data }) => data);
 
 /**
