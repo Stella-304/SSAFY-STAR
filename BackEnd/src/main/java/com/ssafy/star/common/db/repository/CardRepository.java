@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.star.common.db.entity.Card;
+import static com.ssafy.star.common.db.entity.QCard.card;
 
 import java.util.List;
 

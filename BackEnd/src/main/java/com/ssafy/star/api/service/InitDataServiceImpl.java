@@ -59,8 +59,8 @@ public class InitDataServiceImpl implements InitDataService {
 			userRepository.save(user);
 
 			Card card = Card.builder()
-				.ban(((BigInteger)row.get("ban")).intValue())
-				.generation(((BigInteger)row.get("generation")).intValue())
+				.ban((String)row.get("ban"))
+				.generation((String)row.get("generation"))
 				.campus((String)row.get("campus"))
 				.bojId((String)row.get("boj_id"))
 				.githubId((String)row.get("github_id"))
