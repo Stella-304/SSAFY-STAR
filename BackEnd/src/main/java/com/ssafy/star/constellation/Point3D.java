@@ -30,7 +30,7 @@ public class Point3D implements Comparable<Point3D>{
 
 	@Override
 	public int compareTo(Point3D o) {
-		return Double.compare(o.z,this.z);
+		return Double.compare(o.y,this.y)==0?Double.compare(this.x,o.x):Double.compare(o.y,this.y);
 	}
 
 	@Override
