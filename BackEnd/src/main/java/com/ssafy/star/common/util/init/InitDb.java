@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
+import com.ssafy.star.api.service.InitDataService;
 import com.ssafy.star.common.db.entity.Company;
 import com.ssafy.star.common.db.entity.CompanyGroup;
 import com.ssafy.star.common.db.repository.CardRepository;
@@ -26,11 +27,13 @@ import com.ssafy.star.common.db.repository.CompanyRepository;
 public class InitDb {
 	final CompanyRepository companyRepository;
 	final CompanyGroupRepository companyGroupRepository;
+	final InitDataService initDataService;
 
 	@PostConstruct
-	public void init() {
-		// exampleInit();
-
+	public void init() throws Exception {
+		// initDataService.initCompany();
+		// initDataService.initUser();
+		// initDataService.initCoordinate();
 	}
 
 	@Transactional
