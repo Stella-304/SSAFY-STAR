@@ -1,14 +1,19 @@
 import { useQuery } from "react-query";
-import axios from "axios";
 import { FIND_ID_URL } from "../../utils/urls";
+import { api } from "../api";
 
 const fetcher = (email: string) =>
-  axios
+  api
     .get(FIND_ID_URL, {
       params: { email: email },
     })
     .then(({ data }) => data);
 
+/**
+ * 이메일로 아이디정보를 전송한다.
+ * @param email 
+ * @returns 
+ */
 const useFindId = (email: string) => {
   return useQuery(["/findid", email], () => fetcher(email), { enabled: false });
 };

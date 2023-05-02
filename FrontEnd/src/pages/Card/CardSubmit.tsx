@@ -21,8 +21,7 @@ import { isNumber } from "../../utils/regex";
 
 export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
-  const [checkBojid, setCheckBojid] = useState("");
-  const bojCheckquery = useBojcheck(checkBojid);
+  const bojCheckquery = useBojcheck(card.boj);
   const cardSubmitMutate = useCardSubmit();
   const [bojTier, setBojTier] = useState("");
   const dispatch = useDispatch();
@@ -107,16 +106,14 @@ export default function CardSubmit() {
   function checkBoj() {
     //백준 인증 진행
     //없으면 unranked
-    if (card.boj === "Unrated") {
+    if (card.boj === "") {
+      return;
     }
-    setCheckBojid(card.boj);
     bojCheckquery.refetch();
   }
 
   //등록 진행
   function submit() {
-    console.log(card); //카드 정보들
-    console.log(bojTier); //백준 티어
 
     //필수 입력 확인
     if (

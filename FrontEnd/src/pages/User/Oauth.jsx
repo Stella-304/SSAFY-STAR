@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useUserCheck from "../../apis/user/useLoginCheck";
+import useUserCheck from "../../apis/user/useUserCheck";
 
 /// https://k8b304.p.ssafy.io/app/oauth2/authorization/google?redict_uri=
 /// https://k8b304.p.ssafy.io/oauth2/token

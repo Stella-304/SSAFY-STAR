@@ -1,12 +1,12 @@
 import { useMutation } from "react-query";
-import axios from "axios";
 import { EMAIL_SEND_URL } from "../../utils/urls";
+import { api } from "../api";
 
 interface Payload {
   email: string;
 }
 const fetcher = (payload: Payload) =>
-  axios
+  api
     .post(
       EMAIL_SEND_URL,
       {},
@@ -17,6 +17,11 @@ const fetcher = (payload: Payload) =>
       }
     )
     .then(({ data }) => data);
+
+/**
+ * 인증 이메일을 전송한다.
+ * @returns 
+ */
 const useSendMail = () => {
   return useMutation(fetcher, {});
 };
