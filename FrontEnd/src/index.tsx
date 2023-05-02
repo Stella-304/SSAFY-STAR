@@ -33,10 +33,6 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "/oauth2/token",
-        element: <Oauth />,
-      },
-      {
         path: "/cardsubmit",
         element: <CardSubmit />,
       },
@@ -59,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/oauth2/token",
+    element: <Oauth />,
   },
   // 테스트 페이지
   {
