@@ -27,7 +27,6 @@ public class ChatController : MonoBehaviour
         chatbox.style.visibility = Visibility.Hidden;
 
         chat.AddManipulator(new Clickable(ChatOnClicked));
-        //chatbox.AddManipulator(new Clickable(InputFieldClicked));
         inputfield.RegisterCallback<KeyDownEvent>(e =>
         {
             if(e.keyCode.ToString() == "Return")
@@ -41,8 +40,10 @@ public class ChatController : MonoBehaviour
 
     private void ChatOnClicked()
     {
-        chatbox.style.visibility = chatboxVisibility ? Visibility.Hidden : Visibility.Visible;
+        Debug.Log("clicked");
 
+        chatbox.style.visibility = chatboxVisibility ? Visibility.Hidden : Visibility.Visible;
+        
         chatboxVisibility = !chatboxVisibility;
         player.stop = !player.stop;
     }

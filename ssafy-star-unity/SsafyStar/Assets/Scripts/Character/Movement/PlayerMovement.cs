@@ -11,6 +11,8 @@ public class PlayerMovement : NetworkBehaviour
     public bool stop = false;
     public float playerSpeed = 2f;
     public Vector3 velocity = Vector3.zero;
+    [SerializeField]
+    private float chatDistance = 3f;
 
     [Header("Camera")]
     public Camera Camera;
@@ -56,6 +58,8 @@ public class PlayerMovement : NetworkBehaviour
             {
                 if (hit.collider.gameObject.name == "NPC")
                 {
+                    if (Vector3.Distance(transform.position, hit.collider.transform.position) > chatDistance) return;
+
                     hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
 

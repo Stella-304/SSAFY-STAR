@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
+using UnityEngine.UIElements;
 
 public class NPC : NetworkBehaviour
 {
@@ -18,7 +19,8 @@ public class NPC : NetworkBehaviour
 
     [Header("Chat")]
     private GameObject chatUI;
-    private GameObject squareUI;
+    private VisualElement squareUI;
+    //private GameObject squareUI;
     public bool doChat = false;
     public GameObject player;
 
@@ -31,14 +33,14 @@ public class NPC : NetworkBehaviour
 
     public override void Spawned()
     {
-        squareUI = GameObject.Find("UIMenu");
+        squareUI = GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement;
     }
 
     private void Update()
     {
         if(doChat)
         {
-            squareUI.SetActive(false);
+            squareUI.visible = false;
             chatUI.SetActive(true);
         }
     }
@@ -86,7 +88,7 @@ public class NPC : NetworkBehaviour
         doChat = false;
 
         chatUI.SetActive(false);
-        squareUI.SetActive(true);
+        squareUI.visible = true;
 
         navMeshAgent.isStopped = false;
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
