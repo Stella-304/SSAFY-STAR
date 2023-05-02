@@ -163,15 +163,15 @@ public class CardServiceImpl implements CardService {
 		//level별 coordinate limit 걸기
 		List<Coordinate> coordinateList = new ArrayList<>();
 		if (level == 1) {
-			coordinateList = coordinateRepository.findTop4ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop4ByOrderById();
 		} else if (level == 2) {
-			coordinateList = coordinateRepository.findTop17ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop17ByOrderById();
 		} else if (level == 3) {
-			coordinateList = coordinateRepository.findTop73ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop73ByOrderById();
 		} else if (level == 4) {
-			coordinateList = coordinateRepository.findTop305ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop305ByOrderById();
 		} else if (level == 5) {
-			coordinateList = coordinateRepository.findTop1249ByOrderByIdDesc();
+			coordinateList = coordinateRepository.findTop1249ByOrderById();
 		} else {
 			coordinateList = coordinateRepository.findAll();
 		}
