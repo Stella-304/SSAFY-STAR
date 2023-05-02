@@ -66,16 +66,22 @@ export default function CardSubmit() {
   
   //input
   function onBan(input: string) {
-    if (!input.match(isNumber)) {
+    if (input!==""&&!input.match(isNumber)) {
       setBanWaring("숫자만 입력 해주세요");
+      setTimeout(()=>{
+        setBanWaring("");
+      },1000)
       return;
     }
     setBanWaring("");
     dispatch(setCard({ ...card, ban: input }));
   }
   function onCardinal(input: string) {
-    if (!input.match(isNumber)) {
+    if (input!==""&&!input.match(isNumber)) {
       setCardinalWaring("숫자만 입력 해주세요");
+      setTimeout(()=>{
+        setCardinalWaring("");
+      },1000)
       return;
     }
     setCardinalWaring("");
@@ -160,6 +166,7 @@ export default function CardSubmit() {
       card.ban === "" &&
       card.content === ""
     ) {
+      alert("필수 정보를 입력해주세요")
       return;
     }
     if (card.boj !== "" && bojTier === "") {

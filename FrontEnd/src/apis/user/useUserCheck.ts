@@ -28,7 +28,6 @@ const useUserCheck = () => {
     },
     onError: () => {
       alert("토큰이 확인이 안됩니다.")
-      alert(sessionStorage.getItem("accessToken"));
       navigate("/login");
     },
   });

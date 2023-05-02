@@ -21,7 +21,6 @@ const useLogin = () => {
     onSuccess: (data) => {
       //토큰 저장
       sessionStorage.setItem("accessToken", data.value);
-      alert(sessionStorage.getItem("accessToken"));
       usercheck.refetch();
     },
     onError: () => {

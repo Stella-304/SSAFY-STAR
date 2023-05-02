@@ -20,9 +20,12 @@ const useCardSubmit = () => {
     onSuccess: () => {
       navigate("/");
     },
-    onError: () => {
-      console.log(sessionStorage.getItem("accessToken"));
-      alert("잠시후 시도해주세요");
+    onError: (e:any) => {
+      if(e.response.status===403){
+        alert("등록하신 카드가 있습니다.");
+      }else{
+        alert("잠시후 시도해 주세요")
+      }
     },
   });
 };
