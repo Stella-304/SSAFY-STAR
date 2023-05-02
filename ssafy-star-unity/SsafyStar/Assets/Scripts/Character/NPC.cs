@@ -76,7 +76,6 @@ public class NPC : NetworkBehaviour
         Vector3 randomPosition = transform.position + Random.insideUnitSphere * 10f;
         if (NavMesh.SamplePosition(randomPosition, out hit, 10f, NavMesh.AllAreas))
         {
-            Debug.Log(hit.position);
             return hit.position;
         }
 
@@ -92,6 +91,13 @@ public class NPC : NetworkBehaviour
 
         navMeshAgent.isStopped = false;
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
+        StartCoroutine(ResetPlayer());
+        //player.GetComponent<PlayerMovement>().stop = false;
+    }
+
+    private IEnumerator ResetPlayer()
+    {
+        yield return new WaitForSeconds(2f);
         player.GetComponent<PlayerMovement>().stop = false;
     }
 }

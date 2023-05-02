@@ -747,14 +747,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2389777511982818372}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7886468697038978715}
-  m_Father: {fileID: 6467038624446371106}
-  m_RootOrder: 1
+  m_Father: {fileID: 5198462825006742622}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1427,7 +1427,7 @@ Transform:
   m_Children:
   - {fileID: 6768903665096199543}
   m_Father: {fileID: 6467038624446371106}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 8, y: -50, z: 0}
 --- !u!114 &5126455685980015835
 MonoBehaviour:
@@ -1985,6 +1985,7 @@ Transform:
   m_Children:
   - {fileID: 4616866506971283948}
   - {fileID: 7414270792631557775}
+  - {fileID: 6789250528005055005}
   m_Father: {fileID: 6467038624446371106}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2231,7 +2232,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5198462825006742622}
-  - {fileID: 6789250528005055005}
   - {fileID: 4912388633905069369}
   - {fileID: 2581343937140467466}
   m_Father: {fileID: 0}
@@ -2269,10 +2269,10 @@ MonoBehaviour:
   stop: 0
   playerSpeed: 5
   velocity: {x: 0, y: 0, z: 0}
+  playerwalkSpeed: 5
+  playerRunSpeed: 10
+  run: 0
   Camera: {fileID: 0}
-  cineCamera: {fileID: 0}
-  rightCamera: {fileID: 5126455685980015835}
-  leftCamera: {fileID: 8777621908186182934}
   JumpForce: 5
   GravityValue: -3
   anim: {fileID: 2217049409586488868}
@@ -2832,7 +2832,7 @@ Transform:
   m_Children:
   - {fileID: 6956750184720361837}
   m_Father: {fileID: 6467038624446371106}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 6, y: 50, z: 0}
 --- !u!114 &8777621908186182934
 MonoBehaviour:
