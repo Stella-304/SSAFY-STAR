@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 	final AuthStatusRepository authStatusRepository;
 
 	@Override
+	@Transactional
 	public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
 		if (userRepository.existsByAccountId(userRegistReqDto.getAccountId())) {
@@ -65,6 +66,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
 
 		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
@@ -79,6 +81,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void logoutUser(String token) {
 		if (tokenProvider.validateToken(token)) {
 			redisProvider.setBlackList(token, tokenProvider.getUserIdFromToken(token),
@@ -87,6 +90,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public UserDetailDto getDetailUser() {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
@@ -94,11 +98,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public String getUser() {
 		return userRepository.findNicknameById(authProvider.getUserIdFromPrincipal());
 	}
 
 	@Override
+	@Transactional
 	public void modifyUser(UserModifyReqDto userModifyReqDto) {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
@@ -115,6 +121,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void modifyPwdUser(String newPwd) {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
@@ -122,16 +129,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser() {
 		userRepository.deleteById(authProvider.getUserIdFromPrincipal());
 	}
 
 	@Override
+	@Transactional
 	public boolean duplicateEmailCheck(String email) {
 		return userRepository.existsByEmail(email);
 	}
 
 	@Override
+	@Transactional
 	public void sendVerificationCodeEmail(String email) {
 		String authCode = randValueMaker.makeVerificationCode();
 		redisProvider.set(email, authCode, 3L, TimeUnit.MINUTES);
@@ -139,11 +149,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto) {
 		return String.valueOf(redisProvider.get(emailCompareReqDto.getEmail())).equals(emailCompareReqDto.getUserCode());
 	}
 
 	@Override
+	@Transactional
 	public String findIdUser(String email) {
 
 		Optional<User> userOptional = userRepository.findByEmail(email);
@@ -159,6 +171,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
 
 		String accountId = userFindPwdReqDto.getAccountiId();
