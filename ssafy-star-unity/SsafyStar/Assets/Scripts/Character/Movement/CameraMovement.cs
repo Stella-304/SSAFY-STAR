@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -25,9 +27,10 @@ public class CameraMovement : MonoBehaviour
         }
 
         float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
-        if(scroollWheel != 0)
+        if (scroollWheel != 0)
         {
-            posOffset.y += scroollWheel * scrollSpeed *Time.deltaTime;
+            posOffset.y += scroollWheel * scrollSpeed * Time.deltaTime;
+            posOffset.y = Mathf.Clamp(posOffset.y, minZoomDistance, maxZoomDistance);
         }
 
         transform.position = Target.position + posOffset;
