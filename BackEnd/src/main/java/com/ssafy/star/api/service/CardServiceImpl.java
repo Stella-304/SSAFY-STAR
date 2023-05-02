@@ -81,39 +81,39 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
 		//이부분을 jpql써서 바꿔야할듯
-		List<Card> cardList=new ArrayList<>();
-		if(searchColumn!=null){
-			if(searchColumn.equals("company")&&searchValue!=null) {
+		List<Card> cardList = new ArrayList<>();
+		if (searchColumn != null) {
+			if (searchColumn.equals("company") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByCompany(searchValue);
 			}
-			if(searchColumn.equals("track")&&searchValue!=null) {
+			if (searchColumn.equals("track") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByTrack(searchValue);
 			}
-			if(searchColumn.equals("swTier")&&searchValue!=null) {
+			if (searchColumn.equals("swTier") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredBySwTier(searchValue);
 			}
-			if(searchColumn.equals("major")&&searchValue!=null) {
+			if (searchColumn.equals("major") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByMajor(searchValue);
 			}
-			if(searchColumn.equals("bojTier")&&searchValue!=null) {
+			if (searchColumn.equals("bojTier") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
-			if(searchColumn.equals("generation")&&searchValue!=null) {
+			if (searchColumn.equals("generation") && searchValue != null) {
 				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
-			if(searchColumn.equals("campus")&&searchValue!=null) {
-				int gen=Integer.parseInt(searchValue.split("-")[0]);
-				String cam=searchValue.split("-")[1];
-				cardList = cardRepository.getAllFilteredByCampus(gen,cam);
+			if (searchColumn.equals("campus") && searchValue != null) {
+				int gen = Integer.parseInt(searchValue.split("-")[0]);
+				String cam = searchValue.split("-")[1];
+				cardList = cardRepository.getAllFilteredByCampus(gen, cam);
 			}
-			if(searchColumn.equals("ban")&&searchValue!=null) {
-				int gen=Integer.parseInt(searchValue.split("-")[0]);
-				String cam=searchValue.split("-")[1];
-				int ban=Integer.parseInt(searchValue.split("-")[2]);
-				cardList = cardRepository.getAllFilteredByBan(gen,cam,ban);
+			if (searchColumn.equals("ban") && searchValue != null) {
+				int gen = Integer.parseInt(searchValue.split("-")[0]);
+				String cam = searchValue.split("-")[1];
+				int ban = Integer.parseInt(searchValue.split("-")[2]);
+				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
 
-		}else{
+		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
@@ -141,7 +141,7 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < vertices; i++) {
 			numbers.add(i);
 		}
-		List<Integer> rs =new ArrayList<>();
+		List<Integer> rs = new ArrayList<>();
 		List<Integer> result = new ArrayList<>();
 		Random random = new Random();
 		for (int i = 0; i < cardCnt; i++) {
@@ -192,9 +192,9 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
 			//y z 바꿔놓음 일시적으로
-			int rr=rs.get(i);
-			detailDtoList.add(new CardDetailDto(cardList.get(i), (r+rr) * coordinateList.get(selected).getX()
-				, (r+rr) * coordinateList.get(selected).getZ(),(r+rr) * coordinateList.get(selected).getY()));
+			int rr = rs.get(i);
+			detailDtoList.add(new CardDetailDto(cardList.get(i), (r + rr) * coordinateList.get(selected).getX()
+				, (r + rr) * coordinateList.get(selected).getZ(), (r + rr) * coordinateList.get(selected).getY()));
 		}
 		return detailDtoList;
 	}
