@@ -14,7 +14,7 @@ export default function Oauth() {
   useEffect(() => {
     sessionStorage.setItem("accessToken", token);
     usercheck.refetch();
-  });
+  }, []);
 
   return <></>;
 }
