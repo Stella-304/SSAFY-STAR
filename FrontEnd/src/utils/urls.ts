@@ -41,3 +41,11 @@ export const USER_URL = SERVER_API + "/app/user";
 export const CARD_SUBMIT_URL = SERVER_API + "/app/card";
 //카드 목록
 export const CARD_LIST_URL = SERVER_API + "/app/card/list";
+//백준티어확인
+export const BOJ_CHECK_URL = SERVER_API + "/app/card/boj";
+
+// 별(유저)정보 확인
+export const STAR_INFO_URL = SERVER_API + "/app/card/list";
+
+// 별(유저)정보 필터링 확인
+export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";
