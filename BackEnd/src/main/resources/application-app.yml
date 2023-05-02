@@ -1,0 +1,49 @@
+app:
+  oauth2:
+    authorized-redirect-uris:
+      - https://ssafy-star.com/oauth2/token
+
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 86400000
+
+mysql:
+  port: k8b304.p.ssafy.io:3306
+  user: star
+  pwd: "!star@ssafy-start#304"
+
+redis:
+  host: k8b304.p.ssafy.io
+  port: 6379
+  pwd: ssafystar304
+
+smtp:
+  user: ssafytest3542@naver.com
+  pwd: ssafytest3542!!
+  admin: ssafytest3542@naver.com
+
+oauth2:
+  google:
+    id: 529211202441-1f39a5fgiova7jmrcb7b4navbq073d9d.apps.googleusercontent.com
+    secret: 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
+  naver:
+    id: K1szP4JW7JKznwjyNfJG
+    secret: JrCnwne0J3
+  kakao:
+    id: de9754b07aad201c6fb6a23ffd482469
+    secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
+
+cors:
+  allowedOrigins: https://localhost:3000, http://ssafy-star.com:3000, https://ssafy-star.com
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIAXOKFGBIDWBDEY6IA
+      secretKey: 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
+    s3:
+      bucket: ssafy-star-s3-bucket
+    region:
+      static: ap-northeast-2
