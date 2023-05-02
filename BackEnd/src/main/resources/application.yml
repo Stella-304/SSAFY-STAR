@@ -30,7 +30,7 @@ spring:
             client-name: google
             client-id: ${oauth2.google.id}
             client-secret: ${oauth2.google.secret}
-            redirect-uri: "https://k8b304.p.ssafy.io/app/oauth2/callback/{registrationId}"
+            redirect-uri: "https://ssafy-star.com/app/oauth2/callback/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - email
@@ -39,7 +39,7 @@ spring:
             client-name: naver
             client-id: ${oauth2.naver.id}
             client-secret: ${oauth2.naver.secret}
-            redirect-uri: "https://k8b304.p.ssafy.io/app/oauth2/callback/{registrationId}"
+            redirect-uri: "https://ssafy-star.com/app/oauth2/callback/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - email
@@ -49,7 +49,7 @@ spring:
             client-name: kakao
             client-id: ${oauth2.kakao.id}
             client-secret: ${oauth2.kakao.secret}
-            redirect-uri: "https://k8b304.p.ssafy.io/app/oauth2/callback/{registrationId}"
+            redirect-uri: "https://ssafy-star.com/app/oauth2/callback/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - account_email
