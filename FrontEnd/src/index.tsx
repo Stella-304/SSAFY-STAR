@@ -40,10 +40,6 @@ const router = createBrowserRouter([
         path: "/cardmodify",
         element: <CardModify />,
       },
-      {
-        path: "/idpwfind",
-        element: <Find />,
-      },
       { path: "/admin", element: <Admin /> },
       { path: "/mypage", element: <Mypage /> },
     ],
@@ -59,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/oauth2/token",
     element: <Oauth />,
+  },
+  {
+    path: "/idpwfind",
+    element: <Find />,
   },
   // 테스트 페이지
   {
