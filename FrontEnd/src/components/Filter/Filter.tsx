@@ -12,6 +12,9 @@ export default function Filter() {
   const [generation, setGeneration] = useState<number>();
   const [region, setRegion] = useState<string>();
   const [ban, setBan] = useState<number>();
+  const [generationTabOpen, setGenerationTabOpen] = useState<boolean>(false);
+  const [regionTabOpen, setRegionTabOpen] = useState<boolean>(false);
+  const [banTabOpen, setBanTabOpen] = useState<boolean>(false);
 
   const starFilterInfo = useStarFilterInfoQuery("campus", "4-대전");
 
@@ -61,18 +64,29 @@ export default function Filter() {
       </div>
       <div className="flex w-full flex-col gap-10 pl-18">
         <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
-        <div className="flex cursor-pointer items-center">
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => setGenerationTabOpen(!generationTabOpen)}
+        >
           <img src="icons/right-vector-gray.svg" className="h-12 w-12" />
           <div className="ml-5 text-14 font-semibold">기수</div>
         </div>
-        <div className="flex w-full cursor-pointer flex-col gap-8 pl-25 text-14">
+        <div
+          className={
+            (generationTabOpen ? "" : "invisible") +
+            " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14"
+          }
+        >
           {Generation.map((_, i) => (
             <div key={i} onClick={() => setGeneration(i + 1)}>
               {i + 1}기
             </div>
           ))}
         </div>
-        <div className="flex cursor-pointer items-center">
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => setRegionTabOpen(!regionTabOpen)}
+        >
           <img src="icons/right-vector-gray.svg" className="h-12 w-12" />
           <div className="ml-5 text-14 font-semibold">지역</div>
         </div>
@@ -83,7 +97,10 @@ export default function Filter() {
             </div>
           ))}
         </div>
-        <div className="flex cursor-pointer items-center">
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={() => setBanTabOpen(!banTabOpen)}
+        >
           <img src="icons/right-vector-gray.svg" className="h-12 w-12" />
           <div className="ml-5 text-14 font-semibold">반(1학기)</div>
         </div>
