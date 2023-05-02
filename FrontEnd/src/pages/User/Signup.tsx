@@ -44,34 +44,14 @@ export default function Signup() {
 
   //이메일 중복 확인
   const [emailCheckSave, setEmailCheckSave] = useState("");
-  const emailCheckQeury = useEmailCheck(emailCheckSave);
+  const emailCheckQeury = useEmailCheck(emailCheckSave, setTimer, setOpenCheck);
   //이메일 인증 전송
-  const sendEmailMutate = useSendMail();
   const sendEmailCheckMutate = useSendMailCheck({
     setTimer,
     setCodeConfirm,
     setCodeWarning,
     setEmailCheck,
   });
-
-  useMemo(() => {
-    if (emailCheckSave === "") return;
-    if (emailCheckQeury.isLoading || emailCheckQeury.error) return null;
-
-    if (emailCheckQeury.data !== undefined) {
-      if (emailCheckQeury.data.status === "CONFLICT") {
-        //중복
-        setEmailWarning(emailCheckQeury.data.message);
-      } else {
-        //사용가능 이메일
-        setTimer(60 * 3); //3분 타이머 시작
-
-        //메일 전송
-        sendEmailMutate.mutate({ email: user.email });
-        setOpenCheck(true);
-      }
-    }
-  }, [emailCheckQeury.isLoading, emailCheckQeury.error, emailCheckQeury.data]);
 
   useEffect(() => {
     dispatch(resetUser());
