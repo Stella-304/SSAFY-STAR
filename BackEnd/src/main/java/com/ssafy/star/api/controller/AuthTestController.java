@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class AuthTestController {
 
-    @GetMapping("/test1")
+    @GetMapping("/test")
     public ResponseEntity<ResponseDto> test(){
         log.error("testtesttest: {}", SecurityContextHolder.getContext().getAuthentication().toString());
         log.error("{}", SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -25,7 +25,7 @@ public class AuthTestController {
         log.error("{}", SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
         log.error("{}", SecurityContextHolder.getContext().getAuthentication().getName().toString());
         log.error("{}", SecurityContextHolder.getContext().getAuthentication().getDetails().toString());
-        
+
 
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
     }
