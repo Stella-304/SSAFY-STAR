@@ -4,15 +4,22 @@ import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
-import { emailReg, loginidReg, passwordReg } from "../../utils/regex";
-import { useEffect, useRef, useState } from "react";
+import { emailReg, loginidReg, nameReg, passwordReg } from "../../utils/regex";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
+import useSignup from "../../apis/user/useSignup";
+import { SignupType } from "../../types/SignupType";
+import useEmailCheck from "../../apis/user/useEmailCheck";
+import useSendMail from "../../apis/user/useSendMail";
+import useSendMailCheck from "../../apis/user/useSendMailCheck";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
   const dispatch = useDispatch();
   const [idWarning, setIdWarning] = useState("");
+  const [nameWarning, setNameWarning] = useState("");
+  const [nicknameWarning, setNickameWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
@@ -30,6 +37,41 @@ export default function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const nicknameRef = useRef<HTMLInputElement>(null);
+
+  //회원가입 요청
+  const signupMutate = useSignup();
+
+  //이메일 중복 확인
+  const [emailCheckSave, setEmailCheckSave] = useState("");
+  const emailCheckQeury = useEmailCheck(emailCheckSave);
+  //이메일 인증 전송
+  const sendEmailMutate = useSendMail();
+  const sendEmailCheckMutate = useSendMailCheck({
+    setTimer,
+    setCodeConfirm,
+    setCodeWarning,
+    setEmailCheck,
+  });
+
+  useMemo(() => {
+    if (emailCheckSave === "") return;
+    if (emailCheckQeury.isLoading || emailCheckQeury.error) return null;
+
+    if (emailCheckQeury.data !== undefined) {
+      if (emailCheckQeury.data.status === "CONFLICT") {
+        //중복
+        setEmailWarning(emailCheckQeury.data.message);
+      } else {
+        //사용가능 이메일
+        setTimer(60 * 3); //3분 타이머 시작
+
+        //메일 전송
+        sendEmailMutate.mutate({ email: user.email });
+        setOpenCheck(true);
+      }
+    }
+  }, [emailCheckQeury.isLoading, emailCheckQeury.error, emailCheckQeury.data]);
 
   useEffect(() => {
     dispatch(resetUser());
@@ -55,7 +97,7 @@ export default function Signup() {
   //아이디 입력
   function onId(input: string) {
     if (!input.match(loginidReg)) {
-      setIdWarning("아이디는 10글자이내 영문+숫자로 해주세요.");
+      setIdWarning("아이디는 16글자이내 영문+숫자로 해주세요.");
     } else {
       setIdWarning("");
     }
@@ -77,7 +119,7 @@ export default function Signup() {
     if (!input.match(passwordReg)) {
       setPasswordWarning(
         //8~16자 사이 대문자, 특수문자 한개씩 필수 포함 가능한 특수문자 목록 '!', '@', '?', '#'
-        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이"
+        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이",
       );
     } else {
       setPasswordWarning("");
@@ -102,7 +144,22 @@ export default function Signup() {
 
   //이름 입력
   function onName(input: string) {
+    if (!input.match(nameReg)) {
+      setNameWarning("이름은 5글자 이내로 해주세요");
+    } else {
+      //이메일 중복 확인요청
+      setNameWarning("");
+    }
     dispatch(setUser({ ...user, name: input }));
+  }
+  //닉네임 입력
+  function onNickname(input: string) {
+    if (!input.match(nameReg)) {
+      setNickameWarning("닉네임은 5글자 이내로 해주세요");
+    } else {
+      setNickameWarning("");
+    }
+    dispatch(setUser({ ...user, nickname: input }));
   }
 
   //이메일 인증
@@ -112,12 +169,10 @@ export default function Signup() {
       setEmailWarning("이메일을 알맞게 작성해주세요.");
       return;
     } else {
-      setEmailWarning("");
+      //이메일 중복 확인요청
+      setEmailCheckSave(user.email);
+      emailCheckQeury.refetch();
     }
-
-    setTimer(60 * 3); //3분 타이머 시작
-
-    setOpenCheck(true);
   }
 
   //이메일 인증 번호확인
@@ -125,27 +180,40 @@ export default function Signup() {
     //인증번호 일치 확인
     //일치 setEmailCheck(true);
     //불일치 setEmailCheck(false);
-    if (timer === 0) {
+    if (timer <= 0) {
       setCodeWarning("다시 인증 해주세요");
       return;
     }
-    if (emailCheckCode === "test") {
-      setTimer(0);
-      setCodeWarning("");
-      setCodeConfirm("인증완료");
-      setEmailCheck(true);
-    }
+
+    sendEmailCheckMutate.mutate({ email: user.email, code: emailCheckCode });
   }
 
   //회원가입 진행
   function submit() {
     //이름 확인
     if (user.name === "") {
+      return;
+    }
+    if (!user.name.match(nameReg)) {
       return nameRef?.current?.focus();
     }
+
+    //닉네임 확인
+    if (user.nickname === "") {
+      return;
+    }
+    if (!user.nickname.match(nameReg)) {
+      return nicknameRef?.current?.focus();
+    }
+
     //이메일 확인
     if (!user.email.match(emailReg)) {
       return emailRef?.current?.focus();
+    }
+    //이메일 인증 여부
+    if (!emailCheck) {
+      alert("인증을 완료해주세요");
+      return;
     }
     //아이디 확인
     if (!user.loginid.match(loginidReg)) {
@@ -160,14 +228,21 @@ export default function Signup() {
       return password2Ref?.current?.focus();
     }
     //회원가입 진행
-    alert("가입완료");
+    const payload: SignupType = {
+      userId: user.loginid,
+      userPwd: user.password,
+      nickname: user.nickname,
+      name: user.name,
+      email: user.email,
+    };
+    signupMutate.mutate(payload);
   }
   return (
     <EarthLayout>
-      <div className="flex flex-col justify-around h-full">
+      <div className="flex h-full flex-col justify-around">
         <div>
-          <span className="text-4xl block font-bold">Register</span>
-          <span className="text-sm block">
+          <span className="block text-4xl font-bold">Register</span>
+          <span className="block text-sm">
             SsafyStar를 사용하기 위해 회원가입 해 주세요
           </span>
         </div>
@@ -188,6 +263,16 @@ export default function Signup() {
             label="이름"
             onChange={onName}
             value={user?.name}
+            warning={nameWarning}
+          />
+          <Input
+            inputRef={nicknameRef}
+            id="nickname"
+            type="input"
+            label="닉네임"
+            onChange={onNickname}
+            value={user?.nickname}
+            warning={nicknameWarning}
           />
           <div className="flex">
             <div className="flex-grow">
@@ -203,7 +288,7 @@ export default function Signup() {
               />
             </div>
             <div className="flex items-end">
-              <SmallButton value="인증" onClick={sendEmail}></SmallButton>
+              <SmallButton value="중복확인" onClick={sendEmail}></SmallButton>
             </div>
           </div>
           {openCheck && (
