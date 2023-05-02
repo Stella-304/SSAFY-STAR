@@ -11,8 +11,8 @@ export default function AuthLayout() {
     if (name !== "") {
       setLoginCheck(true);
     } else {
-      // setLoginCheck(true);
-      navigate("/login");
+      setLoginCheck(true);
+      // navigate("/login");
     }
   }, []);
 
