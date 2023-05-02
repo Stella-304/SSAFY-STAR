@@ -10,11 +10,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
 import { loginidReg } from "../../utils/regex";
+import { LoginType } from "../../types/LoginType";
+import useLogin from "../../apis/user/useLogin";
 
 export default function Login() {
   const { loginid, password } = useSelector((state: RootState) => state.login);
   const [idWarning, setIdWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
+  const loginMutate = useLogin();
   useEffect(() => {
     dispatch(resetLogin());
   }, []);
@@ -49,13 +52,19 @@ export default function Login() {
     } else {
       setPasswordWarning("");
     }
+
+    const payload: LoginType = {
+      accountId: loginid,
+      accountPwd: password,
+    };
+    loginMutate.mutate(payload);
   }
   return (
     <EarthLayout>
-      <div className="flex flex-col justify-around h-full">
+      <div className="flex h-full flex-col justify-around">
         <div>
-          <span className="text-4xl block font-bold">Login</span>
-          <span className="text-sm block">
+          <span className="block text-4xl font-bold">Login</span>
+          <span className="block text-sm">
             SsafyStar를 사용하기 위해 로그인 해 주세요
           </span>
         </div>
