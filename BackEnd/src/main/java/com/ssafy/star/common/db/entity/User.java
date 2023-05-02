@@ -53,7 +53,7 @@ public class User extends BaseTime {
     @Column(length = 16)
     private String accountId;
 
-    @Column(length = 16)
+    @Column(length = 60)
     private String accountPwd;
 
     @Column
