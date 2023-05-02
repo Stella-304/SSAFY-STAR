@@ -26,13 +26,13 @@ public class CardController {
 	private final CardService cardService;
 
 	@PostMapping("/boj")
-	// @Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
 		cardService.updateBojTier();
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
+
 
 	@GetMapping("/boj/{bojId}")
 	@ApiOperation(value = "BOJ 티어 가져오기")
@@ -64,6 +64,7 @@ public class CardController {
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue)));
 	}
 	@PostMapping
+	@Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "카드 등록하기")
 	public ResponseEntity<ResponseDto> cardRegist(@RequestBody CardRegistReqDto cardRegistReqDto) {
 		cardService.registCard(cardRegistReqDto);
