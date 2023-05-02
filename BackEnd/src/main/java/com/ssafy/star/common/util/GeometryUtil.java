@@ -31,11 +31,11 @@ public class GeometryUtil {
     }
     public static int getLevelFromCardCnt(int cardCnt) {
         if (cardCnt <= 4)
-            return 1;
+            return 4;
         if (cardCnt <= 10)
-            return 2;
+            return 4;
         if (cardCnt <= 40)
-            return 3;
+            return 4;
         if (cardCnt <= 200)
             return 4;
         if (cardCnt <= 600)
@@ -80,14 +80,13 @@ public class GeometryUtil {
             }
         }
         Collections.sort(edges);
-        edges.stream().forEach(x->{System.out.println(x.distance);});
+//        edges.stream().forEach(x->{System.out.println(x.distance);});
         int cnt=0;
 
-        System.out.println("=======================");
-        System.out.println(edges.size());
+//        System.out.println(edges.size());
         for(Edge edge : edges) {
             if(union((int)edge.a,(int)edge.b)) {
-                System.out.println(edge.distance);
+//                System.out.println(edge.distance);
                 list.add(new EdgeDto(cards.get((int)edge.a).getCardId(),cards.get((int)edge.b).getCardId()));
                 if(++cnt==cardCnt-1) break;
             }
