@@ -35,7 +35,7 @@ public class GeometryUtil {
         if (cardCnt <= 10)
             return 4;
         if (cardCnt <= 40)
-            return 5;
+            return 4;
         if (cardCnt <= 200)
             return 5;
         if (cardCnt <= 600)
@@ -57,7 +57,6 @@ public class GeometryUtil {
     }
     private static int[] parents=new int[5057];
     public static List<EdgeDto> getEdgeList(List<CardDetailDto> cards){
-        long first=cards.get(0).getCardId();
         for(int i=0;i<parents.length;i++){
             parents[i]=i;
         }
@@ -76,18 +75,18 @@ public class GeometryUtil {
                 double x2=cards.get(j).getX() / length;
                 double y2=cards.get(j).getY() / length;
                 double z2=cards.get(j).getZ() / length;
-                edges.add(new Edge(i,j
-                        ,Math.sqrt(Math.pow(x1-x2,2)
-                        +Math.pow(y1-y2,2)+Math.pow(z1-z2,2)
-                )));
+                double distance=Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2)+Math.pow(z1-z2,2));
+                edges.add(new Edge(i,j,distance));
             }
         }
         Collections.sort(edges);
+//        edges.stream().forEach(x->{System.out.println(x.distance);});
         int cnt=0;
 
         for(Edge edge : edges) {
             if(union((int)edge.a,(int)edge.b)) {
-                list.add(new EdgeDto((long)(first+edge.a),(long)(first+edge.b)));
+//                System.out.println(edge.distance);
+                list.add(new EdgeDto(cards.get((int)edge.a).getCardId(),cards.get((int)edge.b).getCardId()));
                 if(++cnt==cardCnt-1) break;
             }
         }
