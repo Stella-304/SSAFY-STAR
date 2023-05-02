@@ -21,6 +21,7 @@ const useUserCheck = () => {
     enabled: false,
     onSuccess: (data) => {
       dispatch(setName(data.value));
+      navigate("/");
     },
     onError: () => {
       navigate("/login");
