@@ -146,7 +146,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto) {
-		return String.valueOf(redisProvider.get(emailCompareReqDto.getEmail())).equals(emailCompareReqDto.getUserCode());
+		return String.valueOf(redisProvider.get(emailCompareReqDto.getEmail()))
+			.equals(emailCompareReqDto.getUserCode());
 	}
 
 	@Override
@@ -185,12 +186,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException {
-		// 이미지 S3에 저장하고, url 얻어옴
-		String imageUrl = s3Provider.upload(file, "ssafy-star");
+		String fileContentType = file.getContentType();
+		System.out.println(fileContentType);
+		if (!fileContentType.startsWith("image"))
+			throw new CommonApiException(CommonErrorCode.FILE_NOT_VAILD);
 		// 유저 정보 얻어옴.
 		long userId = authProvider.getUserIdFromPrincipal();
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		// 이미지 S3에 저장하고, url 얻어옴
+		String imageUrl = s3Provider.upload(file, "ssafy-star", user.getId());
 
 		// 진행중인 뱃지 요청이 있으면 throw.
 		List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadgeType(user, dto.getBadgeType());

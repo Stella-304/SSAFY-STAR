@@ -50,9 +50,10 @@ public class S3ProviderImpl implements S3Provider {
 			.build();
 	}
 
-	public String upload(MultipartFile file, String baseDir) throws IOException {
+	public String upload(MultipartFile file, String baseDir, long userId) throws IOException {
 		if (file != null && !file.isEmpty()) {
-			String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+			String fileName =
+				UUID.randomUUID().toString() + String.valueOf(userId) + "." + file.getContentType().split("/")[1];
 			String saveName = baseDir + "/" + fileName
 				.replaceAll("[~!@#$%^&*()_+ ]", "_");
 			s3Client.putObject(new PutObjectRequest(bucket, saveName, file.getInputStream(), null)

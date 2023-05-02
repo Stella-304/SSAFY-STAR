@@ -53,9 +53,9 @@ public class Card {
 	@Column(length = 140)
 	private String etc;
 
-	@Column(length=20)
+	@Column(length = 20)
 	private String role;
-	
+
 	@Column
 	private String blogAddr;
 
@@ -81,4 +81,5 @@ public class Card {
 	public String toString() {
 		return "CardInfo " + this.user.getName();
 	}
+
 }
