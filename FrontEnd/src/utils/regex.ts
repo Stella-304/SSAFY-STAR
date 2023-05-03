@@ -8,7 +8,13 @@ export const passwordReg =
 export const emailReg = /[\w\-\.]+@[\w]+\.[\w]+/g;
 
 //아이디 형식 영문대소, 숫자 10글자 이내
-export const loginidReg = /^[a-zA-Z0-9]{0,10}$/g;
+export const loginidReg = /^[a-zA-Z0-9]{0,16}$/g;
 
 //숫자만
 export const isNumber = /^\d+$/g;
+
+//닉네임 형식 영문대소, 숫자 5글자 이내
+export const nameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,5}$/g;
+
+//닉네임 형식 영문대소, 숫자 10글자 이내
+export const nicknameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,10}$/g;

@@ -73,7 +73,7 @@ public class InitDataServiceImpl implements InitDataService {
 						.major((String)row.get("major"))
 						.role((String)row.get("role"))
 						.company((String)row.get("company"))
-						.content((String)row.get("content"))
+						.content(((String)row.get("content")).substring(0, Math.min(((String)row.get("content")).length(), 70)))
 						.user(user)
 						.build();
 				cardRepository.save(card);
@@ -129,5 +129,20 @@ public class InitDataServiceImpl implements InitDataService {
 		initCompany();
 		initCoordinate();
 		initPolygon();
+	}
+
+	@Override
+	@Transactional
+	public void initCompanyAdditional() {
+		try {
+			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/company-additional-data.json");
+			List<Company> companyList = json.stream()
+					.map(x -> Company.builder().name((String)x.get("회사이름")).assetSize((String)x.get("기업분류")).build())
+					.collect(
+							Collectors.toList());
+			companyRepository.saveAll(companyList);
+		} catch (Exception e) {
+			throw new CommonParseException(CommonErrorCode.FAIL_TO_PARSE);
+		}
 	}
 }

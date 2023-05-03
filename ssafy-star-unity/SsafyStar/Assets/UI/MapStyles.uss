@@ -1,0 +1,164 @@
+.root-container-full {
+    align-items: center;
+    justify-content: center;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background-image: url('project://database/Assets/Sprites/UI/MiniMap/game_map.png?fileID=2800000&guid=9aa501fed16f8ff418a3755e680d98c2&type=3#game_map');
+    -unity-background-scale-mode: scale-to-fit;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.map-container {
+    width: 50%;
+    height: 90%;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-img {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 115%;
+    height: 100%;
+    background-image: url('project://database/Assets/Sprites/UI/MiniMap/game_map.png?fileID=2800000&guid=9aa501fed16f8ff418a3755e680d98c2&type=3#game_map');
+    -unity-background-scale-mode: scale-and-crop;
+}
+
+.root-container-mini {
+    flex-grow: 1;
+    align-items: flex-end;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content: flex-start;
+}
+
+.root-container-mini #Map {
+    width: 200px;
+    height: 200px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.root-container-mini #Image {
+    position: absolute;
+    -unity-background-scale-mode: scale-and-crop;
+    width: 512px;
+    height: 512px;
+}
+
+.menu-icon {
+    width: 80px;
+    height: 80px;
+    background-image: url('project://database/Assets/Sprites/UI/dictionary.png?fileID=2800000&guid=3df987d85638d2f449c882b15fe53d24&type=3#dictionary');
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 10px;
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
+.inven-slot {
+    background-image: url('project://database/Assets/Sprites/UI/InvenOuterBox.png?fileID=2800000&guid=aec1efed0cc405e43bec0130351e9a24&type=3#InvenOuterBox');
+    align-items: center;
+    justify-content: flex-start;
+    width: 60px;
+    height: 80px;
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgba(255, 255, 255, 0);
+    transition-duration: 0s;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.inven-slot:hover {
+    background-image: url('project://database/Assets/Sprites/UI/InvenOuterBoxSelected.png?fileID=2800000&guid=ff4a85161e3d1d64096b4cf0c6e7e7f3&type=3#InvenOuterBoxSelected');
+    align-items: center;
+    justify-content: flex-start;
+    width: 60px;
+    height: 80px;
+    -unity-background-scale-mode: scale-to-fit;
+    scale: 1 1;
+    transition-duration: 0s;
+}
+
+.inven-slot-blank {
+    background-image: url('project://database/Assets/Sprites/UI/InvenInnerBox.png?fileID=2800000&guid=f82834a60728794489fc552fbecca151&type=3#InvenInnerBox');
+    width: 49px;
+    height: 47px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+}
+
+.menu-icon:hover {
+    width: 80px;
+    height: 80px;
+    background-image: url('project://database/Assets/Sprites/UI/dictionary.png?fileID=2800000&guid=3df987d85638d2f449c882b15fe53d24&type=3#dictionary');
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 10px;
+    scale: 1.2 1.2;
+    transition-duration: 0.3s;
+}
+
+.player-container {
+    width: 10px;
+    height: 10px;
+}
+
+.player-cone {
+    background-image: url('project://database/Assets/Sprites/UI/MiniMap/playerCone.png?fileID=2800000&guid=0474f680ae98d884a8bf7ed7a1836229&type=3#playerCone');
+    width: 80px;
+    height: 60px;
+    -unity-background-scale-mode: scale-to-fit;
+    position: absolute;
+    top: -54px;
+    left: -35px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.29);
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.player-arrow {
+    width: 20px;
+    height: 20px;
+    background-image: url('project://database/Assets/Sprites/UI/MiniMap/player_arrow.png?fileID=2800000&guid=3e620c7728093c44e811a73f5fb61640&type=3#player_arrow');
+    -unity-background-image-tint-color: rgb(255, 117, 0);
+    top: 4px;
+}
+
+.chatbox {
+    height: 200px;
+    width: 100%;
+    flex-direction: column-reverse;
+    background-color: rgba(255, 255, 255, 0.46);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 34px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

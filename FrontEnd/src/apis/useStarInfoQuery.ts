@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { STAR_INFO } from "../constants/queryKeys";
+import { STAR_INFO_URL } from "../utils/urls";
 
-const fetcher = () =>
-  axios
-    .get("https://k8b304.p.ssafy.io/app/card/list")
-    .then(({ data }) => data.value);
+const fetcher = () => axios.get(STAR_INFO_URL).then(({ data }) => data.value);
 
 export default function useStarInfoQuery() {
   return useQuery(STAR_INFO, () => fetcher(), {

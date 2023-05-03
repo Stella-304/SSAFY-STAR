@@ -5,6 +5,6 @@ public interface InitDataService {
 	void initUser();
 	void initCoordinate();
 	void initPolygon();
-
 	void initAll();
+    void initCompanyAdditional();
 }

@@ -5,6 +5,7 @@ interface signupState {
     email: string;
     loginid: string;
     name: string;
+    nickname: string;
     password: string;
     password2: string;
   };
@@ -13,6 +14,7 @@ interface signupState {
 const initialState: signupState = {
   user: {
     email: "",
+    nickname: "",
     loginid: "",
     name: "",
     password: "",
@@ -31,6 +33,7 @@ const signupSlice = createSlice({
       state.user.loginid = "";
       state.user.email = "";
       state.user.name = "";
+      state.user.nickname = "";
       state.user.password = "";
       state.user.password2 = "";
     },

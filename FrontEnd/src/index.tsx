@@ -21,16 +21,29 @@ import Find from "./pages/User/Find";
 import Admin from "./pages/Admin";
 import Mypage from "./pages/User/Mypage";
 import { QueryClientProvider, QueryClient } from "react-query";
+import AuthLayout from "./components/Layout/AuthLayout";
+import Notfound from "./pages/Error/Notfound";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/oauth2/token",
-    element: <Oauth />,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: "/cardsubmit",
+        element: <CardSubmit />,
+      },
+      {
+        path: "/cardmodify",
+        element: <CardModify />,
+      },
+      { path: "/admin", element: <Admin /> },
+      { path: "/mypage", element: <Mypage /> },
+    ],
   },
   {
     path: "/login",
@@ -41,19 +54,14 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/cardsubmit",
-    element: <CardSubmit />,
-  },
-  {
-    path: "/cardmodify",
-    element: <CardModify />,
+    path: "/oauth2/token",
+    element: <Oauth />,
   },
   {
     path: "/idpwfind",
     element: <Find />,
   },
-  { path: "/admin", element: <Admin /> },
-  { path: "/mypage", element: <Mypage /> },
+  { path: "*", element: <Notfound /> },
   // 테스트 페이지
   {
     path: "/test1",

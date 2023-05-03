@@ -1,7 +1,12 @@
 import * as THREE from "three";
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, QuadraticBezierLine, Stars } from "@react-three/drei";
+import {
+  Line,
+  OrbitControls,
+  QuadraticBezierLine,
+  Stars,
+} from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -11,6 +16,11 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import Ground from "../../components/Ground/Ground";
 import Star from "../../components/GroundObjects/Star";
+import Filter from "../../components/Filter/Filter";
+import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
+import CardPreviewFront from "../../components/Card/CardPreviewFront";
 
 const userInfo: User = {
   name: "이아현",
@@ -38,13 +48,15 @@ const userInfo: User = {
 };
 
 interface Iprops {
-  starPos: THREE.Vector3 | undefined;
-  starRef: any;
-  planeRef: any;
-  endAnim: boolean;
+  // starPos: THREE.Vector3 | undefined;
+  // starRef: any;
+  // planeRef: any;
+  // endAnim: boolean;
+  starFilterInfo: any;
+  starFilterEdgeList: any;
 }
 
-function StarLine({ starPos }: Iprops) {
+function StarLine({ starFilterInfo, starFilterEdgeList }: Iprops) {
   const [hovered, setHovered] = useState<boolean>(false);
   const color = new THREE.Color();
   const lineRef = useRef<any>(null);
@@ -60,29 +72,39 @@ function StarLine({ starPos }: Iprops) {
   // });
   let t = 0;
   useFrame(() => {
-    if (t > 1) return;
+    if (t > 10) return;
     t += 0.01;
-    if (starPos) {
-      //console.log(lineRef.current);
-      lineRef.current.setPoints(
-        starPos,
-        [0, 0, 0],
-        // [5, 0, 0] // Optional: mid-point
-      );
-    }
+
+    //console.log(lineRef.current);
+    // for (let i = 0; i < starFilterInfo?.length - 1; i++) {
+    //   lineRef.current.setPoints(
+    //     [starFilterInfo[i].x, starFilterInfo[i].y, starFilterInfo[i].z],
+    //     [
+    //       starFilterInfo[i + 1].x,
+    //       starFilterInfo[i + 1].y,
+    //       starFilterInfo[i + 1].z,
+    //     ],
+    //   );
+    // }
   });
 
-  console.log(starPos);
-
-  return (
-    <QuadraticBezierLine
-      ref={lineRef}
-      start={starPos ? starPos : [0, 0, 0]} // Starting point, can be an array or a vec3
-      end={[0, 0, 0]} // Ending point, can be an array or a vec3
-      lineWidth={3}
-      color="#ff2060" // Default
-      visible={starPos ? true : false}
-    />
+  return starFilterEdgeList ? (
+    <>
+      {starFilterEdgeList.map((item: any) => (
+        <Line
+          ref={lineRef}
+          points={[
+            [item.x1 * 2, item.y1 * 2, item.z1 * 2],
+            [item.x2 * 2, item.y2 * 2, item.z2 * 2],
+          ]}
+          lineWidth={1}
+          color="#fffff" // Default
+          visible={starFilterInfo ? true : false}
+        />
+      ))}
+    </>
+  ) : (
+    <></>
   );
 }
 
@@ -91,6 +113,7 @@ export default function Test1() {
   const [endAnim, setEndAnim] = useState<boolean>(false);
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
+  const [isCardOpen, setCardOpen] = useState<boolean>(false);
 
   const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
@@ -105,17 +128,28 @@ export default function Test1() {
   ];
 
   const lineRef = useRef<any>(null);
-  const starInfo = useStarInfoQuery();
   const starRef = useRef<any>(null);
 
+  const starInfo = useStarInfoQuery();
+
+  const starFilterInfo = useSelector(
+    (state: RootState) => state.starInfo.userInfoList,
+  );
+
+  const starFilterEdgeList = useSelector(
+    (state: RootState) => state.starInfo.starEdgeList,
+  );
+
+  const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
+
+  const isFilterOpen = useSelector(
+    (state: RootState) => state.starInfo.filterOpen,
+  );
+
   return (
-    <div className="h-screen w-full overflow-hidden bg-black perspective-9">
+    <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
-        <OrbitControls
-          enableZoom={false}
-          autoRotate={true}
-          autoRotateSpeed={0.1}
-        />
+        <OrbitControls autoRotate={true} autoRotateSpeed={0.15} />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
@@ -131,7 +165,24 @@ export default function Test1() {
             intensity={0.5}
           />
         </EffectComposer>
-        {starInfo?.data?.cardList?.map((item: User) => (
+        {!starFilterInfo &&
+          starInfo?.data?.cardList?.map((item: User) => (
+            <Star
+              item={item}
+              starPos={starPos}
+              setEndAnim={setEndAnim}
+              onClick={() => {
+                setStarPos(
+                  new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2),
+                );
+                setSelectedUserInfo(item);
+                setCardFront(true);
+                setEndAnim(false);
+              }}
+              key={item.cardId}
+            />
+          ))}
+        {starFilterInfo?.map((item: User) => (
           <Star
             item={item}
             starPos={starPos}
@@ -145,17 +196,6 @@ export default function Test1() {
             key={item.cardId}
           />
         ))}
-        {/* {position.map((item, index) => (
-          <Star
-            item={item}
-            starPos={starPos}
-            setEndAnim={setEndAnim}
-            onClick={() => {
-              setStarPos(new THREE.Vector3(item.x * 3, item.y * 3, item.z * 3));
-            }}
-            key={index}
-          />
-        ))} */}
         <Stars
           radius={130}
           depth={30}
@@ -166,20 +206,28 @@ export default function Test1() {
           speed={1}
         />
         <Ground />
+        <StarLine
+          starFilterInfo={starFilterInfo}
+          starFilterEdgeList={starFilterEdgeList}
+        />
       </Canvas>
+      <Filter />
       {selectedUserInfo && (
         <div
           className={
             (endAnim
-              ? "opacity-100 transition duration-[2000ms]"
+              ? "opacity-100 transition duration-[1200ms]"
               : "invisible opacity-0") +
-            " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-10 h-712 w-461"
+            " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-25 h-712 w-461"
           }
         >
           <img
             src="/icons/exit.svg"
             className="absolute right-10 top-10 z-20 h-20 w-20 cursor-pointer"
-            onClick={() => setEndAnim(false)}
+            onClick={() => {
+              setEndAnim(false);
+              setCardOpen(false);
+            }}
           />
           <div
             className={
@@ -199,6 +247,37 @@ export default function Test1() {
               <CardBack user={selectedUserInfo} />
             </div>
           </div>
+        </div>
+      )}
+      {isCardOpen && (
+        <div className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"></div>
+      )}
+      {viewCard && (
+        <div
+          className={
+            (isFilterOpen
+              ? "left-300 w-[calc(100%-300px)]"
+              : "left-30 w-full") +
+            " absolute top-0 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+          }
+        >
+          {starFilterInfo?.map((item, index) => (
+            <div
+              className="h-200 w-150 cursor-pointer hover:brightness-125"
+              key={index}
+              onClick={() => {
+                setStarPos(
+                  new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2),
+                );
+                setSelectedUserInfo(item);
+                setCardFront(true);
+                setEndAnim(false);
+                setCardOpen(true);
+              }}
+            >
+              <CardPreviewFront generation={item.generation} name={item.name} />
+            </div>
+          ))}
         </div>
       )}
     </div>

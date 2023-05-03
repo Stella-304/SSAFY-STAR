@@ -6,11 +6,15 @@ import loginSlice from "./user/login";
 import signupSlice from "./user/signup";
 import cardSlice from "./card/cardsubmit";
 import findSlice from "./user/find";
+import userSlice from "./user/user";
+import starInfoSlice from "./star/starInfo";
 const reducers = combineReducers({
   login: loginSlice,
   signup: signupSlice,
   card: cardSlice,
   find: findSlice,
+  user: userSlice,
+  starInfo: starInfoSlice,
 });
 
 const persistConfig = {

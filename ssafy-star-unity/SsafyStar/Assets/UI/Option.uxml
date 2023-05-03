@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MenuStyles.uss?fileID=7433441132597879392&amp;guid=4a8c249daf3c4ed4f958ede91f8a52c4&amp;type=3#MenuStyles" />
+    <ui:VisualElement name="Menu" style="flex-grow: 1; flex-direction: row; align-items: stretch; justify-content: flex-start; background-image: none; background-color: rgba(17, 17, 17, 0);">
+        <ui:VisualElement name="LeftSection" style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;" />
+        <ui:VisualElement name="MiddleSection" style="background-color: rgba(56, 56, 56, 0); width: 50%; height: 100%; margin-left: 0;">
+            <ui:Label text="OPTION" display-tooltip-when-elided="true" style="height: auto; width: 100%; font-size: 60px; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(255, 255, 255); letter-spacing: -6px; word-spacing: -8px; -unity-paragraph-spacing: 0; margin-top: 20%; margin-bottom: 0;" />
+            <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: center; padding-bottom: 15%; width: 100%; align-items: center; flex-direction: row; margin-top: 5%;">
+                <ui:VisualElement name="CardSetting" class="menu-card">
+                    <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/UI/cards.jpg?fileID=2800000&amp;guid=e3eaf997a13a52a4f8e047393be4e291&amp;type=3#cards&apos;); width: 50%; height: 50%; -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Button text="Settings" display-tooltip-when-elided="true" name="ButtonSetting" class="menu-button button" style="width: 100%;" />
+                    <ui:Button text="게임 설정을 변경하시겠습니까?" display-tooltip-when-elided="true" name="text" style="width: 100%; background-color: rgba(88, 88, 88, 0); font-size: 18px; -unity-font-style: bold-and-italic; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="CardExit" class="menu-card" style="width: 100%;">
+                    <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/UI/keys.jpg?fileID=2800000&amp;guid=857b382b1f4f04f47a939c1ca1c1eff3&amp;type=3#keys&apos;); width: 50%; height: 50%; -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Button text="Exit" display-tooltip-when-elided="true" name="ButtonExit" class="menu-button button" style="width: 100%;" />
+                    <ui:Button text="다음에 또 만나요" display-tooltip-when-elided="true" name="text" style="width: 100%; background-color: rgba(88, 88, 88, 0); font-size: 18px; -unity-font-style: bold-and-italic; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="RightSection" style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;">
+            <ui:Button display-tooltip-when-elided="true" name="ButtonMute" class="menu-button button" style="background-image: url(&apos;project://database/Assets/Sprites/UI/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); -unity-background-scale-mode: scale-to-fit; width: 10%; justify-content: space-between; align-items: flex-end;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
