@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
 		boolean isCardRegistered= (user.getCard())!=null;
-		return new UserDetailDto(user.getName(), user.getEmail(), user.isAutorized(),isCardRegistered);
+		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAutorized(),isCardRegistered);
 	}
 
 	@Override
