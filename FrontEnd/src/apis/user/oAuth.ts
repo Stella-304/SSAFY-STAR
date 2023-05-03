@@ -13,3 +13,6 @@ export default function goOauth(target: string) {
     `${OAUTH_URL}/${target}?redirect_uri=https://ssafy-star.com/oauth2/token`,
   );
 }
+
+// http://ssafy-star.com/app/oauth2/authorization/google?redirect_uri=https://ssafy-star.com/oauth2/token
+// http://ssafy-star.com/app/oauth2/authorization/google?redirect_uri=http://ssafy-star.com/oauth2/token
