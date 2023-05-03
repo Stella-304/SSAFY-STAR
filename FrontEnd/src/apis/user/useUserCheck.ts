@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { USER_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
-import { setName } from "../../stores/user/user";
+import { setUser } from "../../stores/user/user";
 import { useDispatch } from "react-redux";
 import { api } from "../api";
 
@@ -25,7 +25,7 @@ const useUserCheck = () => {
     enabled: false,
     retry: 0,
     onSuccess: (data) => {
-      dispatch(setName(data.value));
+      dispatch(setUser({name:data.value}));
       navigate("/");
     },
     onError: () => {
