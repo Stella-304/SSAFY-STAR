@@ -23,6 +23,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import AuthLayout from "./components/Layout/AuthLayout";
 import NoneAuthLayout from "./components/Layout/NoneAuthLayout";
 import Notfound from "./pages/Error/Notfound";
+import AdminLayout from "./components/Layout/AdminLayout";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -34,9 +35,15 @@ const router = createBrowserRouter([
         path: "/cardsubmit/:type",
         element: <CardSubmit />,
       },
-      { path: "/admin", element: <Admin /> },
       { path: "/mypage", element: <Mypage /> },
     ],
+  },
+  {
+    //관리자페이지
+    element:<AdminLayout />,
+    children:[
+      { path: "/ssafystaradmin", element: <Admin /> },
+    ]
   },
   {
     // 비로그인시만 이용가능

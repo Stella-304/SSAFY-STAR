@@ -38,6 +38,8 @@ export const USER_DETAIL_URL = SERVER_API + "/app/user/detail";
 export const USER_URL = SERVER_API + "/app/user";
 //비밀번호 수정
 export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
+//유저의 권한조회
+export const ROLE_URL = SERVER_API+"/app/user/role";
 
 //------------------카드
 //카드 등록, 수정
