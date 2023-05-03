@@ -256,4 +256,10 @@ public class UserServiceImpl implements UserService {
 		return user.getCard() != null;
 	}
 
+
+	@Override
+	public List<String> getRoleListUser() {
+		return userRepository.findAllRolesById(authProvider.getUserIdFromPrincipal())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+	}
 }
