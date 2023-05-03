@@ -50,13 +50,13 @@ function App() {
             SSAFY-STAR
           </div>
           <div className="-mt-80">
-            <div className="text-center font-['nemo030'] text-4xl text-white">
+            <div className="text-center font-['nemo030'] text-3xl text-white">
               전체 싸피생 : {allSsafyCount}
             </div>
-            <div className="mt-10 text-center font-['nemo030'] text-4xl text-white">
+            <div className="mt-10 text-center font-['nemo030'] text-3xl text-white">
               현재 사용자 : {useSiteAllCount}
             </div>
-            <div className="mt-10 text-center font-['nemo030'] text-4xl text-white">
+            <div className="mt-10 text-center font-['nemo030'] text-3xl text-white">
               인증된 사용자 : {useSiteSsafyCount}
             </div>
           </div>
