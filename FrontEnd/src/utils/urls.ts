@@ -58,3 +58,11 @@ export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";
 //---------------메인 메이지
 // 유저 숫자 조회
 export const MAIN_USERNUM_URL = SERVER_API + "/app/number/landing";
+
+
+
+//--- 관리자
+export const ADMIN_ALL = SERVER_API+"/app/admin/badge/list/all";
+export const ADMIN_YET = SERVER_API+"/app/admin/badge/list/yet";
+//관리자 승인
+export const ADMIN_ACCEPT = SERVER_API+"/app/admin/badge"
