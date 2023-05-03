@@ -51,9 +51,9 @@ export default function Star(props: any) {
 
   useLayoutEffect(() => {
     if (hovered) {
-      starRef.current.scale.x = 1;
-      starRef.current.scale.y = 1;
-      starRef.current.scale.z = 1;
+      starRef.current.scale.x = 1.2;
+      starRef.current.scale.y = 1.2;
+      starRef.current.scale.z = 1.2;
       dispatch(setStarInfoPreview(props.item));
     } else {
       starRef.current.scale.x = 0.5;
@@ -84,14 +84,6 @@ export default function Star(props: any) {
         position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}
         ref={starRef}
       />
-      {hovered && (
-        <Text
-          color="white"
-          position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}
-        >
-          hello world!
-        </Text>
-      )}
     </>
   );
 }

@@ -3,6 +3,7 @@ package com.ssafy.star.common.db.repository.querydsl;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.db.dto.response.CardDetailDto;
@@ -12,90 +13,50 @@ import lombok.RequiredArgsConstructor;
 import static com.ssafy.star.common.db.entity.QCard.card;
 
 import java.util.List;
+
 @RequiredArgsConstructor
-public class CardRepositoryImpl implements CardRepositoryCustom{
+public class CardRepositoryImpl implements CardRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public List<Card> searchBySearchCondition(SearchConditionReqDto searchConditionReqDto) {
 
-        QueryResults<Card> results=queryFactory
-                .select(Projections.constructor(Card.class
-                        ,card.ban
-                        ,card.bojId
-                        ,card.etc
-                        ,card.company
-                        ,card.id
-                        ,card.blogAddr
-                        ,card.bojTier
-                        ,card.campus
-                        ,card.content
-                        ,card.generation
-                        ,card.githubId
-                        ,card.hit
-                        ,card.major
-                        ,card.role
-                        ,card.swTier
-                        ,card.track
-                        ,card.user
-                )).from(card).where().fetchResults();
+        QueryResults<Card> results = queryFactory
+                .selectFrom(card).join(card.user).from(card).where(searchCondition(searchConditionReqDto)).fetchResults();
 
         return results.getResults();
     }
 
     private BooleanExpression searchCondition(SearchConditionReqDto searchConditionReqDto) {
-//        if(keyword == null) return null;
 
-        BooleanExpression predicate = card.id.isNotNull();
-        if(!searchConditionReqDto.isIntersection()) {
-            for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
-                List<String> list = searchConditionReqDto.getlists().get(searchColumn);
-                if (searchColumn.equals("ban")) {
-                    for (String value : list) {
-                        predicate = predicate.or(card.ban.equalsIgnoreCase(value));
-                    }
-                } else if (searchColumn.equals("generation")) {
-                    for (String value : list) {
-                        predicate = predicate.or(card.generation.equalsIgnoreCase(value));
-                    }
-                } else {
-                    for (String value : list) {
-                        predicate = predicate.or(searchCondition(value));
-                    }
+        BooleanExpression predicate = Expressions.asBoolean(true).isTrue();
+        for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
+            List<String> list = searchConditionReqDto.getlists().get(searchColumn);
+            if(list!=null&&!list.isEmpty()){
+                if(searchColumn.equals("ban")) {
+                    predicate = predicate.and(card.ban.in(list));
+                }else if(searchColumn.equals("generation")){
+                    predicate = predicate.and(card.generation.in(list));
+                }else if(searchColumn.equals("campus")){
+                    predicate = predicate.and(card.campus.in(list));
+                }else if(searchColumn.equals("company")){
+                    predicate = predicate.and(card.company.in(list));
+                }else if(searchColumn.equals("bojTier")){
+                    predicate = predicate.and(card.bojTier.in(list));
+                }else if(searchColumn.equals("track")){
+                    predicate = predicate.and(card.track.in(list));
+                }else if(searchColumn.equals("major")){
+                    predicate = predicate.and(card.major.in(list));
+                }else if(searchColumn.equals("role")) {
+                    predicate = predicate.and(card.role.in(list));
+                }else if(searchColumn.equals("swTier")){
+                    predicate = predicate.and(card.swTier.in(list));
                 }
             }
-        }else{
-            for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
-                List<String> list = searchConditionReqDto.getlists().get(searchColumn);
-                if (searchColumn.equals("ban")) {
-                    for (String value : list) {
-                        predicate = predicate.and(card.ban.equalsIgnoreCase(value));
-                    }
-                } else if (searchColumn.equals("generation")) {
-                    for (String value : list) {
-                        predicate = predicate.and(card.generation.equalsIgnoreCase(value));
-                    }
-                } else {
-                    for (String value : list) {
-                        predicate = predicate.and(searchCondition(value));
-                    }
-                }
-            }
+
         }
-
         return predicate;
-    }
-    private BooleanExpression searchCondition(String keyword) {
-        if(keyword == null) return null;
-
-        return card.bojTier.contains(keyword)
-                .or(card.campus.contains(keyword))
-                .or(card.company.contains(keyword))
-                .or(card.major.contains(keyword))
-                .or(card.role.contains(keyword))
-                .or(card.swTier.contains(keyword))
-                .or(card.track.contains(keyword));
     }
 
 }
