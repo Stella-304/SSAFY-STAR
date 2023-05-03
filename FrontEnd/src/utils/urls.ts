@@ -54,3 +54,7 @@ export const STAR_INFO_URL = SERVER_API + "/app/card/list";
 
 // 별(유저)정보 필터링 확인
 export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";
+
+//---------------메인 메이지
+// 유저 숫자 조회
+export const MAIN_USERNUM_URL = SERVER_API + "/app/number/landing";

@@ -1,10 +1,39 @@
 import FloatingMenu from "../components/Layout/FloatingMenu";
 import { useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import useUserNum from "../apis/main/useUserNumber";
 
 function App() {
   const navigate = useNavigate();
-  return (
-    <div>
+
+  // "allSsafyCount": 7350,
+  // "useSiteSsafyCount": 514,
+  // "useSiteAllCount": 1005
+
+  const [allSsafyCount, setallSsafyCount] = useState("");
+  const [useSiteAllCount, setuseSiteAllCount] = useState("");
+  //react query
+  const userNumCheckquery = useUserNum();
+
+  //api호출
+  //백준티어 가져오기
+  useMemo(() => {
+    if (userNumCheckquery.isLoading || userNumCheckquery.error) return null;
+    console.log("null이 아님");
+    console.log(userNumCheckquery.data);
+
+    if (userNumCheckquery.data !== undefined) {
+      setallSsafyCount(userNumCheckquery.data.value.allSsafyCount);
+      setuseSiteAllCount(userNumCheckquery.data.value.useSiteAllCount);
+    }
+  }, [
+    userNumCheckquery.isLoading,
+    userNumCheckquery.error,
+    userNumCheckquery.data,
+  ]);
+
+  const MainPage = () => {
+    return (
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_stars_background.png')] bg-cover bg-local bg-center bg-no-repeat">
         <div className="flex h-screen  flex-col justify-around">
           <div>
@@ -20,10 +49,10 @@ function App() {
           </div>
           <div className="-mt-80">
             <div className="text-center font-['nemo030'] text-4xl text-white">
-              전체 싸피생 : 1000명
+              전체 싸피생 : {allSsafyCount}
             </div>
             <div className="mt-10 text-center font-['nemo030'] text-4xl text-white">
-              현재 사용자 : 200명
+              현재 사용자 : {useSiteAllCount}
             </div>
           </div>
           <div className="-mt-50 flex justify-center">
@@ -39,6 +68,12 @@ function App() {
           </div>
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div>
+      <MainPage />
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_2.png')] bg-cover bg-center bg-no-repeat"></div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_3.png')] bg-cover bg-center bg-no-repeat"></div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
