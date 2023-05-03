@@ -11,11 +11,14 @@ const fetcher = (email: string) =>
 
 /**
  * 이메일로 아이디정보를 전송한다.
- * @param email 
- * @returns 
+ * @param email
+ * @returns
  */
 const useFindId = (email: string) => {
-  return useQuery(["/findid", email], () => fetcher(email), { enabled: false });
+  return useQuery(["/findid", email], () => fetcher(email), {
+    enabled: false,
+    retry: 0,
+  });
 };
 
 export default useFindId;

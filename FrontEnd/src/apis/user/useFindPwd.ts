@@ -14,13 +14,12 @@ const fetcher = (payload: Payload) =>
     })
     .then(({ data }) => data);
 
-
 /**
  * 이메일과 아이디를 입력후 이메일로 초기화 비밀번호를 전달한다.
- * @returns 
+ * @returns
  */
 const useFindPwd = () => {
-  return useMutation(fetcher, {});
+  return useMutation(fetcher, { retry: 0 });
 };
 
 export default useFindPwd;

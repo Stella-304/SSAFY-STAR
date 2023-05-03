@@ -3,9 +3,10 @@ interface props {
   label: string;
   options: string[];
   onChange: (parmas: string) => void;
+  value?: string;
 }
 
-export default function Select({ id, label, options, onChange }: props) {
+export default function Select({ id, value, label, options, onChange }: props) {
   return (
     <div className="flex flex-col">
       <label htmlFor={id}>{label}</label>
@@ -19,7 +20,7 @@ export default function Select({ id, label, options, onChange }: props) {
         </option>
         {options.map((ele) => {
           return (
-            <option key={ele} value={ele}>
+            <option key={ele} value={ele} selected={value === ele}>
               {ele}
             </option>
           );

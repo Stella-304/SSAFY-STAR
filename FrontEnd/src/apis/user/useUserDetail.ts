@@ -4,15 +4,17 @@ import { api } from "../api";
 
 const fetcher = () =>
   api
-    .get(USER_DETAIL_URL,{headers:{Authorization:sessionStorage.getItem("accessToken")}})
+    .get(USER_DETAIL_URL, {
+      headers: { Authorization: sessionStorage.getItem("accessToken") },
+    })
     .then(({ data }) => data);
 
 /**
  * 유저의 정보를 가져온다.
- * @returns 
+ * @returns
  */
 const useUserDetail = () => {
-  return useQuery("/userdetail", fetcher, {});
+  return useQuery("/userdetail", fetcher, { retry: 0 });
 };
 
 export default useUserDetail;

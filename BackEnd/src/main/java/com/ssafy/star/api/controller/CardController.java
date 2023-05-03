@@ -27,9 +27,8 @@ public class CardController {
 	@PostMapping("/boj")
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
-		cardService.updateBojTier();
 		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE,cardService.updateBojTier()));
 	}
 
 
@@ -64,9 +63,9 @@ public class CardController {
 	@GetMapping("/list-v1")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
 	public ResponseEntity<ResponseDto> cardListGetV1(
-			@RequestParam(value = "searchColumn",required = false) String searchColumn,@RequestParam(value = "searchValue",required = false) String searchValue) {
+			@RequestParam(value = "searchColumn",required = false) String searchColumn,@RequestParam(value = "searchValue",required = false) String searchValue,@RequestParam(value = "searchValue2",required = false) String searchValue2,@RequestParam(value = "searchValue3",required = false) String searchValue3) {
 		return ResponseEntity.ok()
-				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue)));
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue,searchValue2,searchValue3)));
 	}
 	@PostMapping("/list-v2")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
@@ -98,5 +97,12 @@ public class CardController {
 		cardService.deleteCard(cardId);
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
+	}
+	@DeleteMapping("mycard")
+	@ApiOperation(value = "내 카드 지우기")
+	public ResponseEntity<ResponseDto> myCardDelete() {
+		cardService.deleteMyCard();
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
 	}
 }

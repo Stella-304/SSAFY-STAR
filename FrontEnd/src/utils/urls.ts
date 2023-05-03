@@ -1,4 +1,4 @@
-const SERVER_API = "http://ssafy-star.com";
+const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
@@ -40,12 +40,14 @@ export const USER_URL = SERVER_API + "/app/user";
 export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
 
 //------------------카드
-//카드 등록, 수정, 지우기
+//카드 등록, 수정
 export const CARD_SUBMIT_URL = SERVER_API + "/app/card";
 //카드 목록
 export const CARD_LIST_URL = SERVER_API + "/app/card/list";
 //백준티어확인
 export const BOJ_CHECK_URL = SERVER_API + "/app/card/boj";
+//나의 카드 조회, 삭제
+export const CARD_MYCARD_URL = SERVER_API + "/app/card/mycard";
 
 // 별(유저)정보 확인
 export const STAR_INFO_URL = SERVER_API + "/app/card/list";

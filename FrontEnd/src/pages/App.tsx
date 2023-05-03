@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import FloatingMenu from "../components/Layout/FloatingMenu";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
-
   return (
     <div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_stars_background.png')] bg-cover bg-local bg-center bg-no-repeat">

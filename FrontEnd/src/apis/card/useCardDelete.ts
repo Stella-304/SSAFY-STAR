@@ -1,11 +1,10 @@
 import { useMutation } from "react-query";
-import { CARD_SUBMIT_URL } from "../../utils/urls";
-import { CardSubmitType } from "../../types/CardSubmit";
+import { CARD_MYCARD_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-const fetcher = (payload: CardSubmitType) =>
+const fetcher = () =>
   api
-    .post(CARD_SUBMIT_URL, payload, {
+    .delete(CARD_MYCARD_URL, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => data);
@@ -25,7 +24,8 @@ const useCardSubmit = () => {
     },
     onError: (e: any) => {
       if (e.response.status === 403) {
-        alert("등록하신 카드가 있습니다.");
+        alert("로그인하고 시도해주세요");
+        navigate("/login");
       } else {
         alert("잠시후 시도해 주세요");
       }

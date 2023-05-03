@@ -150,4 +150,10 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchBadgeStatus(type)));
     }
 
+    @GetMapping("/card/is-regist")
+    @ApiOperation(value = "카드 등록했는지 유무 확인")
+    public ResponseEntity<ResponseDto> cardIsRegistSearch(){
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchCardIsRegist()));
+    }
+
 }

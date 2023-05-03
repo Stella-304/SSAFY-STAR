@@ -3,6 +3,7 @@ package com.ssafy.star.common.handler;
 import com.ssafy.star.common.auth.exception.CustomAuthException;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
 import com.ssafy.star.common.exception.CommonApiException;
+import com.ssafy.star.common.exception.CommonParseException;
 import com.ssafy.star.common.util.constant.ErrorCode;
 import com.ssafy.star.common.util.dto.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler extends ResponseStatusExceptionHandler {
 
     @ExceptionHandler(CommonApiException.class)
     public ResponseEntity<Object> handlerCommonApiException(CommonApiException e){
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(CommonParseException.class)
+    public ResponseEntity<Object> handleCommonParseException(CommonParseException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 

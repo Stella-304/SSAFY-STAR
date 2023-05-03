@@ -14,16 +14,16 @@ const fetcher = (payload: Payload) =>
         params: {
           email: payload.email,
         },
-      }
+      },
     )
     .then(({ data }) => data);
 
 /**
  * 인증 이메일을 전송한다.
- * @returns 
+ * @returns
  */
 const useSendMail = () => {
-  return useMutation(fetcher, {});
+  return useMutation(fetcher, { retry: 0 });
 };
 
 export default useSendMail;

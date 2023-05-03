@@ -13,8 +13,10 @@ import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,13 +53,13 @@ public class UserServiceImpl implements UserService {
 		}
 
 		User user = User.builder()
-				.email(userRegistReqDto.getEmail())
-				.name(userRegistReqDto.getName())
-				.nickname(String.valueOf(userRegistReqDto.getNickname()))
-				.loginType(LoginTypeEnum.custom)
-				.accountId(userRegistReqDto.getAccountId())
-				.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
-				.build();
+			.email(userRegistReqDto.getEmail())
+			.name(userRegistReqDto.getName())
+			.nickname(String.valueOf(userRegistReqDto.getNickname()))
+			.loginType(LoginTypeEnum.custom)
+			.accountId(userRegistReqDto.getAccountId())
+			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
+			.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
 
@@ -68,7 +70,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
-
 		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
@@ -241,6 +242,14 @@ public class UserServiceImpl implements UserService {
 
 		// 모든 요청이 거절당한경우(요청을 하나도 안보냈거나).
 		return new BadgeStatusDto("NO_REQUEST");
+	}
+
+	@Override
+	public boolean searchCardIsRegist() {
+		long userId = authProvider.getUserIdFromPrincipal();
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+		return user.getCard() != null;
 	}
 
 }

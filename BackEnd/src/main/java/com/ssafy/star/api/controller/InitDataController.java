@@ -29,7 +29,13 @@ public class InitDataController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
-
+	@GetMapping("/company-additional")
+	@ApiOperation(value = "company data init")
+	public ResponseEntity<?> companyAdditional() {
+		initDataService.initCompanyAdditional();
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
 	@GetMapping("/user")
 	@ApiOperation(value = "user data init")
 	public ResponseEntity<?> user() throws Exception {
@@ -42,6 +48,13 @@ public class InitDataController {
 	@ApiOperation(value = "coordinate data init")
 	public ResponseEntity<?> coordinate() {
 		initDataService.initCoordinate();
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
+	@GetMapping("/polygon")
+	@ApiOperation(value = "coordinate data init")
+	public ResponseEntity<?> polygon() throws Exception {
+		initDataService.initPolygon();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 

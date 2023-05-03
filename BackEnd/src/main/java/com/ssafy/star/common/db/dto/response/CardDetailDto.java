@@ -17,7 +17,7 @@ public class CardDetailDto {
 	String generation;
 	String campus;
 	String ban;
-
+	String content;
 	String githubId;
 	String bojId;
 	String bojTier;
@@ -51,6 +51,7 @@ public class CardDetailDto {
 		this.major=card.getMajor();
 		this.swTier=card.getSwTier();
 		this.role=card.getRole();
+		this.content=card.getContent();
 		this.etc=card.getEtc();
 		this.email = card.getUser().getEmail();
 		this.nickname = card.getUser().getNickname();

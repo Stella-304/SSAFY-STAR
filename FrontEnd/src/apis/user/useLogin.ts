@@ -13,18 +13,23 @@ const fetcher = (payload: LoginType) =>
     .then(({ data }) => data);
 /**
  * 아이디와 비밀번호로 로그인을 진행한다.
- * @returns 
+ * @returns
  */
 const useLogin = () => {
   const usercheck = useUserCheck();
   return useMutation(fetcher, {
+    retry: 0,
     onSuccess: (data) => {
       //토큰 저장
       sessionStorage.setItem("accessToken", data.value);
       usercheck.refetch();
     },
-    onError: () => {
-      alert("아이디, 비밀번호를 확인해 주세요");
+    onError: (e: any) => {
+      if (e.response.status === 404) {
+        alert("아이디나 비밀번호를 확인해주세요");
+      }else{
+        alert("잠시후 시도해 주세요.")
+      }
     },
   });
 };

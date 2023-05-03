@@ -5,18 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 const fetcher = (payload: CardSubmitType) =>
   api
-    .post(CARD_SUBMIT_URL, payload, {
+    .put(CARD_SUBMIT_URL, payload, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => data);
 
 /**
- * 카드 정보를 입력한다.
+ * 카드 정보를 수정한다.
  * 성공시 메인으로
- * 실패시 알림
  * @returns
  */
-const useCardSubmit = () => {
+const useCardModify = () => {
   const navigate = useNavigate();
   return useMutation(fetcher, {
     retry: 0,
@@ -25,7 +24,7 @@ const useCardSubmit = () => {
     },
     onError: (e: any) => {
       if (e.response.status === 403) {
-        alert("등록하신 카드가 있습니다.");
+        alert("로그인 해주세요.");
       } else {
         alert("잠시후 시도해 주세요");
       }
@@ -33,4 +32,4 @@ const useCardSubmit = () => {
   });
 };
 
-export default useCardSubmit;
+export default useCardModify;

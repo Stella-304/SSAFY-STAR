@@ -47,7 +47,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	@Transactional
-	public void updateBojTier() {
+	public String updateBojTier() {
 		long userId = authProvider.getUserIdFromPrincipal();
 
 		User user = userRepository.findById(userId)
@@ -61,6 +61,7 @@ public class CardServiceImpl implements CardService {
 
 		String tier = CallAPIUtil.getUserTier(bojId);
 		card.updateBojTier(tier);
+		return tier;
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
+	public ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3) {
 		//이부분을 jpql써서 바꿔야할듯
 		List<Card> cardList = new ArrayList<>();
 		if (searchColumn != null) {
@@ -100,20 +101,22 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
 			if (searchColumn.equals("generation") && searchValue != null) {
-				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
+				cardList = cardRepository.getAllFilteredByGeneration(searchValue);
 			}
 			if (searchColumn.equals("campus") && searchValue != null) {
-				String gen = searchValue.split("-")[0];
-				String cam = searchValue.split("-")[1];
+				String gen = searchValue;
+				String cam = searchValue2;
 				cardList = cardRepository.getAllFilteredByCampus(gen, cam);
 			}
 			if (searchColumn.equals("ban") && searchValue != null) {
-				String gen = searchValue.split("-")[0];
-				String cam = searchValue.split("-")[1];
-				String ban = searchValue.split("-")[2];
+				String gen = searchValue;
+				String cam = searchValue2;
+				String ban = searchValue3;
 				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
-
+			if(searchColumn.equals("")){
+				cardList=cardRepository.getAllCardListWithUser();
+			}
 		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
@@ -251,6 +254,18 @@ public class CardServiceImpl implements CardService {
 				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 		CardDetailDto cardDetailDto=new CardDetailDto(card,0,0,0);
 		return cardDetailDto;
+	}
+
+	@Override
+	public void deleteMyCard() {
+		long userId = authProvider.getUserIdFromPrincipal();
+
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+
+		Card card = Optional.ofNullable(user.getCard())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+		cardRepository.deleteById(card.getId());
 	}
 
 }

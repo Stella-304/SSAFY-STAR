@@ -96,7 +96,7 @@ export default function Login() {
           {/* oauth */}
           <div className="flex flex-col justify-center gap-16">
             <MidButton value="구글 로그인" onClick={() => goOauth("google")} />
-            <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} />
+            {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
             <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} />
           </div>
           <div className="flex justify-center">

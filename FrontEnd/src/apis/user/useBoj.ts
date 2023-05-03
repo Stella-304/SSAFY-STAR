@@ -20,6 +20,7 @@ const fetcher = (payload: Payload) =>
 const useBojcheck = (bojid: string) => {
   return useQuery(["/bojcheck", bojid], () => fetcher({ bojid: bojid }), {
     enabled: false,
+    retry: 0,
   });
 };
 
