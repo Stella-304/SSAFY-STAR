@@ -4,8 +4,8 @@ logging:
 
 server:
   servlet:
-    context-path: /app
-    port: 8080
+    context-path: /api
+    port: 8081
 
 spring:
   servlet:

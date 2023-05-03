@@ -11,7 +11,7 @@ mysql:
   port: k8b304.p.ssafy.io:3306
   user: star
   pwd: "!star@ssafy-start#304"
-  schema: star
+  schema: realStar
 
 redis:
   host: k8b304.p.ssafy.io
@@ -35,7 +35,7 @@ oauth2:
     secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
 
 cors:
-  allowedOrigins: https://localhost:3000, http://ssafy-star.com:3000, https://ssafy-star.com
+  allowedOrigins: https://localhost:3001, http://ssafy-star.com:3001, https://ssafy-star.com
 
 cloud:
   aws:
