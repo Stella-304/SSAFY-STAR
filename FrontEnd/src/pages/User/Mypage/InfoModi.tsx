@@ -3,7 +3,7 @@ import BigButton from "../../../components/Button/BigButton";
 import MidButton from "../../../components/Button/MidButton";
 import SmallButton from "../../../components/Button/SmallButton";
 import Input from "../../../components/Input/Input";
-import useBojcheck from "../../../apis/user/useBoj";
+import userBojUpdate from "../../../apis/user/useBojUpdate";
 import { useNavigate } from "react-router-dom";
 import { passwordReg, nicknameReg } from "../../../utils/regex";
 import useUserModify from "../../../apis/user/useUserModify";
@@ -17,8 +17,8 @@ export default function InfoModi() {
   const usermodifyMutate = useUserModify();
   const userpwdmodifyMutate = useUserPwdModify();
   //백준
-  const [bojid, setBojid] = useState("");
-  const bojCheck = useBojcheck(bojid);
+  // const [bojid, setBojid] = useState("");
+  const bojCheck = userBojUpdate();
   const [bojTier, setBojTier] = useState("");
 
   //비밀번호
@@ -38,9 +38,9 @@ export default function InfoModi() {
   }, [bojCheck.isLoading, bojCheck.error, bojCheck.data]);
 
   //백준
-  function onBoj(input: string) {
-    setBojid(input);
-  }
+  // function onBoj(input: string) {
+  //   setBojid(input);
+  // }
 
   function checkBoj(): void {
     bojCheck.refetch();
@@ -168,13 +168,13 @@ export default function InfoModi() {
             id="boj"
             type="input"
             label="백준아이디"
-            onChange={onBoj}
-            value={bojid}
-            confirm={
+            onChange={() => {}}
+            value={
               bojTier === "Unrated"
                 ? bojTier + " *solved.ac에 등록해주세요"
                 : bojTier
             }
+            disable={true}
           />
         </div>
         <div className="flex items-end">
