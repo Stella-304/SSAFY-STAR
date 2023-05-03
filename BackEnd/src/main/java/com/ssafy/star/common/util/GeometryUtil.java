@@ -85,7 +85,6 @@ public class GeometryUtil {
 			double z1 = cards.get(i).getZ() / length;
 
 			for (int j = i + 1; j < cardCnt; j++) {
-				System.out.println(i + " " + j);
 				length = Math.sqrt(cards.get(j).getX() * cards.get(j).getX() + cards.get(j).getY() * cards.get(j).getY()
 					+ cards.get(j).getZ() * cards.get(j).getZ());
 				double x2 = cards.get(j).getX() / length;
