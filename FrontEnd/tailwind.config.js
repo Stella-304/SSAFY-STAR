@@ -32,7 +32,6 @@ module.exports = {
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
       },
-
       keyframes: {
         wave: {
           "0%, 50%, 100%": {

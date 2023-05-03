@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "RocaOne";
+  src: url("./assets/fonts/RocaOne-Rg.ttf") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "nemo030";
+  src: url("./assets/fonts/210 네모진 030.ttf") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
