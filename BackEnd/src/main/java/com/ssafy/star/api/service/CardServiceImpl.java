@@ -81,7 +81,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public ConstellationListDto getCardListV1(String searchColumn, String searchValue) {
+	public ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3) {
 		//이부분을 jpql써서 바꿔야할듯
 		List<Card> cardList = new ArrayList<>();
 		if (searchColumn != null) {
@@ -104,17 +104,19 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
 			}
 			if (searchColumn.equals("campus") && searchValue != null) {
-				String gen = searchValue.split("-")[0];
-				String cam = searchValue.split("-")[1];
+				String gen = searchValue;
+				String cam = searchValue2;
 				cardList = cardRepository.getAllFilteredByCampus(gen, cam);
 			}
 			if (searchColumn.equals("ban") && searchValue != null) {
-				String gen = searchValue.split("-")[0];
-				String cam = searchValue.split("-")[1];
-				String ban = searchValue.split("-")[2];
+				String gen = searchValue;
+				String cam = searchValue2;
+				String ban = searchValue3;
 				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
-
+			if(searchColumn.equals("")){
+				cardList=cardRepository.getAllCardListWithUser();
+			}
 		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
