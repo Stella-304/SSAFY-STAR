@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
-
 		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
