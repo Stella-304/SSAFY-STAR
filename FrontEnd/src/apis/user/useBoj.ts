@@ -17,10 +17,14 @@ const fetcher = (payload: Payload) =>
  * @param payload
  * @returns
  */
-const useBojcheck = (bojid: string) => {
+const useBojcheck = (bojid: string,setBojTier:(params:string)=>void) => {
   return useQuery(["/bojcheck", bojid], () => fetcher({ bojid: bojid }), {
     enabled: false,
     retry: 0,
+    onSuccess:(data)=>{
+      alert(data)
+      setBojTier(data.value)
+    }
   });
 };
 

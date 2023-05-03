@@ -44,7 +44,7 @@ const cardSlice = createSlice({
   reducers: {
     setCard(state, action) {
       state.card = action.payload;
-    }
+    },
     resetCard(state) {
       state.card = {
         ban: "", //1학기 기준 반

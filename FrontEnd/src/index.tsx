@@ -15,7 +15,6 @@ import { persistStore } from "redux-persist";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
 import CardSubmit from "./pages/Card/CardSubmit";
-import CardModify from "./pages/Card/CardModify";
 import Oauth from "./pages/User/Oauth";
 import Find from "./pages/User/Find";
 import Admin from "./pages/Admin";

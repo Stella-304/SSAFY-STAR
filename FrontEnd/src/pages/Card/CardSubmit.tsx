@@ -31,13 +31,13 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   //react query
-  const bojCheckquery = useBojcheck(card.bojId);
+  const bojCheckquery = useBojcheck(card.bojId,setBojTier);
   const cardModifyMutate = useCardModify();
   const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
   const companySearchQuery = useCompanySearch(search);
-  const myCardQuery = useMyCard();
+  const myCardQuery = useMyCard(setSearch);
 
   const dispatch = useDispatch();
 
@@ -63,28 +63,28 @@ export default function CardSubmit() {
 
   //api호출
   //백준티어 가져오기
-  useMemo(() => {
-    if (bojCheckquery.isLoading || bojCheckquery.error) return null;
+  // useMemo(() => {
+  //   if (bojCheckquery.isLoading || bojCheckquery.error) return null;
 
-    if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
-  }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
+  //   if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
+  // }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
 
   //회사 검색
-  useMemo(() => {
-    if (companySearchQuery.isLoading || companySearchQuery.error) return null;
+  // useMemo(() => {
+  //   if (companySearchQuery.isLoading || companySearchQuery.error) return null;
 
-    if (companySearchQuery.data !== undefined) {
-      if (search === "") {
-        setSearchList([]);
-      } else {
-        setSearchList(companySearchQuery.data.value);
-      }
-    }
-  }, [
-    companySearchQuery.isLoading,
-    companySearchQuery.error,
-    companySearchQuery.data,
-  ]);
+  //   if (companySearchQuery.data !== undefined) {
+  //     if (search === "") {
+  //       setSearchList([]);
+  //     } else {
+  //       setSearchList(companySearchQuery.data.value);
+  //     }
+  //   }
+  // }, [
+  //   companySearchQuery.isLoading,
+  //   companySearchQuery.error,
+  //   companySearchQuery.data,
+  // ]);
 
   //input
   function onBan(input: string) {
@@ -115,6 +115,7 @@ export default function CardSubmit() {
 
     setSearch(input);
     if (input !== "") {
+      console.log("ㄱ자")
       companySearchQuery.refetch();
     } else {
       setSearchList([]);
@@ -136,7 +137,7 @@ export default function CardSubmit() {
 
   //백준
   function onBoj(input: string) {
-    dispatch(setCard({ ...card, bojid: input }));
+    dispatch(setCard({ ...card, bojId: input }));
   }
 
   //select
@@ -245,6 +246,7 @@ export default function CardSubmit() {
               label="캠퍼스*"
               options={campusList}
               onChange={onCampus}
+              value={card.campus}
             />
             <Input
               id="cardinal"
@@ -279,12 +281,14 @@ export default function CardSubmit() {
               label="트랙"
               options={trackList}
               onChange={onTrack}
+              value={card.track}
             />
             <Select
               id="major"
               label="전공유무"
               options={majorList}
               onChange={onMajor}
+              value={card.major}
             />
           </div>
 
@@ -303,12 +307,14 @@ export default function CardSubmit() {
               label="역량테스트등급"
               options={gradeList}
               onChange={onGrade}
+              value={card.swTier}
             />
             <Select
               id="field"
               label="분야"
               options={fieldList}
               onChange={onField}
+              value={card.role}
             />
           </div>
           <Input
