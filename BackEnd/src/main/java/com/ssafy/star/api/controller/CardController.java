@@ -27,9 +27,8 @@ public class CardController {
 	@PostMapping("/boj")
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<?> bojTierUpdate() {
-		cardService.updateBojTier();
 		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE,cardService.updateBojTier()));
 	}
 
 

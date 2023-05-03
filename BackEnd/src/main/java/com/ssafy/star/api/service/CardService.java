@@ -9,7 +9,7 @@ import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 
 public interface CardService {
-	void updateBojTier();
+	String updateBojTier();
 
 	String getBojTier(String bojId);
 
