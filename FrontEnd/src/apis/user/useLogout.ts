@@ -7,9 +7,13 @@ import { api } from "../api";
 
 const fetcher = () =>
   api
-    .post(LOGOUT_URL, {
-      headers: { Authorization: sessionStorage.getItem("accessToken") },
-    })
+    .post(
+      LOGOUT_URL,
+      {},
+      {
+        headers: { Authorization: sessionStorage.getItem("accessToken") },
+      },
+    )
     .then(({ data }) => data);
 
 /**
@@ -22,11 +26,14 @@ const useLogout = () => {
   const dispatch = useDispatch();
   return useMutation(fetcher, {
     retry: 0,
-    onSettled: () => {
-      //성공, 실패 상관없이 수행
+    onSuccess: () => {
+      //성공시 삭제
       sessionStorage.removeItem("accessToken"); //토큰제거
       dispatch(logout()); //유저정보 제거
       navigate("/");
+    },
+    onError: () => {
+      alert("잠시후 시도해주세요.");
     },
   });
 };
