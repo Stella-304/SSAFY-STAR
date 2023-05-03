@@ -21,7 +21,7 @@ public interface UserService {
     void sendVerificationCodeEmail(String email);
     boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto);
     String findIdUser(String email);
-    void findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
+    int findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
     BadgeStatusDto searchBadgeStatus(String type);
 
