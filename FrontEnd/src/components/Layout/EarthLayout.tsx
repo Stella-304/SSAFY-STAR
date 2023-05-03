@@ -1,19 +1,21 @@
 import { ReactNode } from "react";
+import FloatingMenu from "./FloatingMenu";
 
 interface props {
   children: ReactNode;
 }
 export default function EarthLayout(props: props) {
   return (
-    <div className="w-full h-screen flex items-center bg-[url('/public/background/stars.png')]">
-      <div className="w-1200 h-650 flex m-auto">
+    <div className="flex h-screen w-full items-center bg-[url('/public/background/stars.png')]">
+      <div className="m-auto flex h-650 w-1200">
         {/* 왼쪽 배경 */}
-        <div className="w-600 h-650  bg-[url('/public/background/earth_back1.png')] bg-cover	bg-center"></div>
+        <div className="h-650 w-600  bg-[url('/public/background/earth_back1.png')] bg-cover	bg-center"></div>
         {/* 오른쪽 영역 */}
-        <div className="w-600 h-650 bg-white flex justify-center items-center">
-          <div className="w-400 h-550">{props.children}</div>
+        <div className="flex h-650 w-600 items-center justify-center bg-white">
+          <div className="h-550 w-400">{props.children}</div>
         </div>
       </div>
+      <FloatingMenu />
     </div>
   );
 }
