@@ -1,10 +1,10 @@
 import { useMutation } from "react-query";
-import { CARD_DELETE_URL } from "../../utils/urls";
+import { CARD_MYCARD_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 const fetcher = () =>
   api
-    .delete(CARD_DELETE_URL, {
+    .delete(CARD_MYCARD_URL, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => data);
