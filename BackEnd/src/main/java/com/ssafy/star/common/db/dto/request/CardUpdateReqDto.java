@@ -11,8 +11,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CardUpdateReqDto {
-    @Schema(description = "카드아이디", example = "13163")
-    private long id;
     @Schema(description = "한마디", example = "여러분 힘내서 취업해봅시다!!!")
     private String content;
     @Schema(description = "기수", example = "8")
@@ -25,6 +23,8 @@ public class CardUpdateReqDto {
     private String githubId;
     @Schema(description = "백준 아이디")
     private String bojId;
+    @Schema(description = "백준 티어")
+    private String bojTier;
     @Schema(description = "개인 블로그 주소")
     private String blogAddr;
     @Schema(description = "직장", example = "삼성전자")
@@ -42,7 +42,6 @@ public class CardUpdateReqDto {
 
     public Card of(User user){
         return Card.builder()
-                .id(this.id)
                 .content(this.content)
                 .generation(this.generation)
                 .campus(this.campus)
@@ -61,13 +60,13 @@ public class CardUpdateReqDto {
     }
     public Card of(){
         return Card.builder()
-                .id(this.id)
                 .content(this.content)
                 .generation(this.generation)
                 .campus(this.campus)
                 .ban(this.ban)
                 .githubId(this.githubId)
                 .bojId(this.bojId)
+                .bojTier(this.bojTier)
                 .blogAddr(this.blogAddr)
                 .company(this.company)
                 .track(this.track)

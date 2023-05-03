@@ -94,6 +94,7 @@ public class Card {
 		Optional.ofNullable(cardUpdateReqDto.getBan()).ifPresent(x -> this.ban=x);
 		Optional.ofNullable(cardUpdateReqDto.getGithubId()).ifPresent(x -> this.githubId=x);
 		Optional.ofNullable(cardUpdateReqDto.getBojId()).ifPresent(x -> this.bojId=x);
+		Optional.ofNullable(cardUpdateReqDto.getBojTier()).ifPresent(x -> this.bojTier=x);
 		Optional.ofNullable(cardUpdateReqDto.getBlogAddr()).ifPresent(x -> this.blogAddr=x);
 		Optional.ofNullable(cardUpdateReqDto.getCompany()).ifPresent(x -> this.company=x);
 		Optional.ofNullable(cardUpdateReqDto.getEtc()).ifPresent(x -> this.etc=x);
