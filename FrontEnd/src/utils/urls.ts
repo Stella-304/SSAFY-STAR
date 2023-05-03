@@ -40,8 +40,10 @@ export const USER_URL = SERVER_API + "/app/user";
 export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
 
 //------------------카드
-//카드 등록, 수정, 지우기
+//카드 등록, 수정
 export const CARD_SUBMIT_URL = SERVER_API + "/app/card";
+//카드 삭제
+export const CARD_DELETE_URL = SERVER_API + "/app/mycarddelete";
 //카드 목록
 export const CARD_LIST_URL = SERVER_API + "/app/card/list";
 //백준티어확인
