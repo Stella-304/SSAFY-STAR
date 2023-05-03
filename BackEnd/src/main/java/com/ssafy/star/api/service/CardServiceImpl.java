@@ -100,7 +100,7 @@ public class CardServiceImpl implements CardService {
 				cardList = cardRepository.getAllFilteredByBojTier(searchValue);
 			}
 			if (searchColumn.equals("generation") && searchValue != null) {
-				cardList = cardRepository.getAllFilteredByGeneration(Integer.parseInt(searchValue));
+				cardList = cardRepository.getAllFilteredByGeneration(searchValue);
 			}
 			if (searchColumn.equals("campus") && searchValue != null) {
 				String gen = searchValue;
