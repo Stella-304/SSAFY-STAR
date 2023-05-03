@@ -6,6 +6,7 @@ import java.util.List;
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
+import com.ssafy.star.common.db.dto.response.CardDetailDto;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 
 public interface CardService {
@@ -25,4 +26,5 @@ public interface CardService {
 
 	void deleteCard(Long cardId);
 
+    CardDetailDto getMyCard();
 }
