@@ -45,6 +45,13 @@ public class InitDataController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
+	@GetMapping("/polygon")
+	@ApiOperation(value = "coordinate data init")
+	public ResponseEntity<?> polygon() throws Exception {
+		initDataService.initPolygon();
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
 	@GetMapping("/all")
 	@ApiOperation(value = "coordinate data init")
 	public ResponseEntity<?> all() throws Exception {
