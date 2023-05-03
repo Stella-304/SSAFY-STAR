@@ -11,6 +11,7 @@ function App() {
   // "useSiteAllCount": 1005
 
   const [allSsafyCount, setallSsafyCount] = useState("");
+  const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
   //react query
   const userNumCheckquery = useUserNum();
@@ -24,6 +25,7 @@ function App() {
 
     if (userNumCheckquery.data !== undefined) {
       setallSsafyCount(userNumCheckquery.data.value.allSsafyCount);
+      setuseSiteSsafyCount(userNumCheckquery.data.value.useSiteSsafyCount);
       setuseSiteAllCount(userNumCheckquery.data.value.useSiteAllCount);
     }
   }, [
@@ -53,6 +55,9 @@ function App() {
             </div>
             <div className="mt-10 text-center font-['nemo030'] text-4xl text-white">
               현재 사용자 : {useSiteAllCount}
+            </div>
+            <div className="mt-10 text-center font-['nemo030'] text-4xl text-white">
+              인증된 사용자 : {useSiteSsafyCount}
             </div>
           </div>
           <div className="-mt-50 flex justify-center">
