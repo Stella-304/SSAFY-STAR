@@ -16,7 +16,7 @@ import javax.annotation.security.RolesAllowed;
 @Api(tags = {"관리자 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin")
-@RolesAllowed("ROLE_ADMIN")
+//@RolesAllowed("ROLE_ADMIN")
 public class AdminController {
 	final AdminService adminService;
 

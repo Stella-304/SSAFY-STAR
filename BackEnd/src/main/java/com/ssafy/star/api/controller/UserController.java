@@ -23,7 +23,7 @@ import java.util.Optional;
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
-@RolesAllowed("ROLE_CLIENT")
+//@RolesAllowed("ROLE_CLIENT")
 public class UserController {
     private final UserService userService;
 
