@@ -4,7 +4,6 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./pages/App";
-import Test1 from "./pages/test/Test1";
 import Test2 from "./pages/test/Test2";
 import Test3 from "./pages/test/Test3";
 import { Provider } from "react-redux";
@@ -23,6 +22,7 @@ import Mypage from "./pages/User/Mypage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import AuthLayout from "./components/Layout/AuthLayout";
 import Notfound from "./pages/Error/Notfound";
+import Universe from "./pages/test/Universe";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -64,8 +64,8 @@ const router = createBrowserRouter([
   { path: "*", element: <Notfound /> },
   // 테스트 페이지
   {
-    path: "/test1",
-    element: <Test1 />,
+    path: "/universe",
+    element: <Universe />,
   },
   {
     path: "/test2",

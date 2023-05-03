@@ -1,7 +1,13 @@
 import * as THREE from "three";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import {
+  Canvas,
+  createRoot,
+  extend,
+  events,
+  useThree,
+} from "@react-three/fiber";
+import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -42,7 +48,30 @@ const userInfo: User = {
   content: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
 };
 
-export default function Test1() {
+function Controls(props: any) {
+  const cameraRef = useRef<any>(null);
+  const { camera } = useThree();
+  useEffect(() => {
+    if (props.starFilterInfo && cameraRef.current) {
+      console.log("hi");
+      camera.setViewOffset(
+        window.innerWidth,
+        window.innerHeight,
+        -150,
+        0,
+        window.innerWidth,
+        window.innerHeight,
+      );
+    }
+  }, [props.starFilterInfo]);
+  return (
+    <>
+      <PerspectiveCamera ref={cameraRef} />
+    </>
+  );
+}
+
+export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
   const [endAnim, setEndAnim] = useState<boolean>(false);
   const [isCardFront, setCardFront] = useState<boolean>(true);
@@ -63,7 +92,7 @@ export default function Test1() {
     new THREE.Vector3(-15, 30, 20),
   ];
 
-  const ref = useRef<any>(null);
+  const controls = useRef<any>(null);
   //const mouse = useMouse(ref);
 
   const starFilterInfo = useSelector(
@@ -84,25 +113,35 @@ export default function Test1() {
     (state: RootState) => state.starInfo.filterOpen,
   );
 
-  useEffect(() => {
-    console.log(ref);
-  }, [starFilterInfo]);
-
   // useEffect(() => {
   //   if (userInfoPreview) {
-  //     setMousePosX(userInfoPreview.x * 2 - 1);
+  //     setMousePosX(userInfoPreview.x * 2 - 1)
   //     setMousePosY(userInfoPreview.y * 2 - 1);
   //   }
   // }, [userInfoPreview]);
+
+  useEffect(() => {
+    if (controls.current) {
+      controls.current.object.position.x = 0;
+      controls.current.object.position.y = -10;
+      controls.current.object.position.z = 0;
+    }
+  }, [starFilterInfo]);
 
   return (
     <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas
         dpr={[1, 2]}
-        camera={{ position: [0, -10, 0], fov: 47 }}
-        ref={ref}
+        camera={{
+          fov: 47,
+        }}
       >
-        <OrbitControls autoRotate={true} autoRotateSpeed={0.15} />
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={0.15}
+          position={[0, -10, 0]}
+          ref={controls}
+        />
         <ambientLight />
         <EffectComposer multisampling={8}>
           <Bloom
