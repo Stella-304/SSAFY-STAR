@@ -97,8 +97,6 @@ public class GeometryUtil {
 		}
 
 		Collections.sort(edges);
-		edges.stream().forEach(x -> System.out.println(x.distance));
-		System.out.println("-------------------------------------");
 
 		int remaneEdge = cardCnt - cardCnt / maxStar;
 		for (Edge edge : edges) {
@@ -110,7 +108,6 @@ public class GeometryUtil {
 			if (remaneEdge == 0)
 				break;
 		}
-
 		return edgeDtoList;
 	}
 
