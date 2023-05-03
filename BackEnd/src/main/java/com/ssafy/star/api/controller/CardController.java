@@ -99,4 +99,11 @@ public class CardController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
 	}
+	@DeleteMapping("mycard")
+	@ApiOperation(value = "내 카드 지우기")
+	public ResponseEntity<ResponseDto> myCardDelete() {
+		cardService.deleteMyCard();
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
+	}
 }
