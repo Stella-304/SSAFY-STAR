@@ -1,0 +1,95 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	// MySQL
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Spring Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Spring Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Swagger 3
+	implementation "io.springfox:springfox-boot-starter:3.0.0"
+	implementation "io.springfox:springfox-swagger-ui:3.0.0"
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// STMP - Email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Spring Boot Devtools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-core:5.7.3'
+	implementation 'org.springframework.security:spring-security-web:5.7.3'
+	implementation 'org.springframework.security:spring-security-config:5.7.3'
+
+	// OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// STMP - Email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+	//jackson
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
+	// AWS S3
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.387'
+
+	// QueryDsl
+	implementation "com.querydsl:querydsl-jpa:5.0.0"
+	implementation "com.querydsl:querydsl-apt:5.0.0"
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+// Qtype 생성 경로
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
