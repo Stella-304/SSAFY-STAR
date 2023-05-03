@@ -39,6 +39,12 @@ public class CardController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
 	}
+	@GetMapping("/mycard")
+	@ApiOperation(value = "로그인한 유저의 카드 정보 가져오기")
+	public ResponseEntity<?> myCardGet() {
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getMyCard()));
+	}
 
 	@GetMapping("/company")
 	@ApiOperation(value = "기업명 입력하면, 관련된 기업명 보여주기")

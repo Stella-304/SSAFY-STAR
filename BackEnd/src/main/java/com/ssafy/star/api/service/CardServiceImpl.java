@@ -240,4 +240,17 @@ public class CardServiceImpl implements CardService {
 		cardRepository.deleteById(cardId);
 	}
 
+	@Override
+	public CardDetailDto getMyCard() {
+		long userId = authProvider.getUserIdFromPrincipal();
+
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+
+		Card card = Optional.ofNullable(user.getCard())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+		CardDetailDto cardDetailDto=new CardDetailDto(card,0,0,0);
+		return cardDetailDto;
+	}
+
 }
