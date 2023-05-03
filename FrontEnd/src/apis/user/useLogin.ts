@@ -24,8 +24,12 @@ const useLogin = () => {
       sessionStorage.setItem("accessToken", data.value);
       usercheck.refetch();
     },
-    onError: () => {
-      alert("아이디, 비밀번호를 확인해 주세요");
+    onError: (e: any) => {
+      if (e.response.status === 404) {
+        alert("아이디나 비밀번호를 확인해주세요");
+      }else{
+        alert("잠시후 시도해 주세요.")
+      }
     },
   });
 };

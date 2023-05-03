@@ -39,6 +39,8 @@ const useEmailCheck = (
     onError: (e: any) => {
       if (e.response.status === 409) {
         alert("이메일이 중복되었습니다.");
+      }else{
+        alert("잠시후 시도해 주세요.")
       }
       setTimer(-1);
       setOpenCheck(false);
