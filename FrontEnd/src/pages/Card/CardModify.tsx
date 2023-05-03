@@ -15,25 +15,26 @@ import { resetCard, setCard } from "../../stores/card/cardsubmit";
 import { useEffect, useMemo, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
-import useCardModify from "../../apis/card/useCardModify";
-import useCardDelete from "../../apis/card/useCardDelete";
+import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
+import useCardModify from "../../apis/card/useCardModify";
+import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
 
 export default function CardModify() {
   const { card } = useSelector((state: RootState) => state.card);
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
-
+  const [active, setActive] = useState(false);
   //react query
   const bojCheckquery = useBojcheck(card.bojid);
   const cardModifyMutate = useCardModify();
   const cardDeleteMutate = useCardDelete();
+  const cardSubmitMutate = useCardSubmit();
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
   const companySearchQuery = useCompanySearch(search);
-
   const myCardQuery = useMyCard();
 
   const dispatch = useDispatch();
@@ -47,6 +48,14 @@ export default function CardModify() {
     dispatch(resetCard());
     myCardQuery.refetch();
   }, []);
+
+  useEffect(() => {
+    if (checkNecessary()) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  }, [card.campus, card.generation, card.ban, card.content]);
 
   //api호출
   //백준티어 가져오기
@@ -163,8 +172,18 @@ export default function CardModify() {
     }
     bojCheckquery.refetch();
   }
-
-  //수정 진행
+  function checkNecessary() {
+    if (
+      card.campus === "" ||
+      card.generation === "" ||
+      card.ban === "" ||
+      card.content === ""
+    ) {
+      return false;
+    }
+    return true;
+  }
+  //등록 진행
   function submit() {
     //필수 입력 확인
     if (
@@ -197,13 +216,13 @@ export default function CardModify() {
       swTier: card.swTier,
       track: card.track,
     };
+    cardSubmitMutate.mutate(cardsubmit);
     cardModifyMutate.mutate(cardsubmit);
   }
 
   function deleteCard() {
     cardDeleteMutate.mutate();
   }
-
   return (
     <EarthLayout>
       <div className="flex justify-center">
@@ -218,7 +237,6 @@ export default function CardModify() {
               label="캠퍼스*"
               options={campusList}
               onChange={onCampus}
-              value={card.campus}
             />
             <Input
               id="cardinal"
@@ -229,33 +247,15 @@ export default function CardModify() {
               warning={cardinalWarning}
             />
           </div>
-          <div className="flex justify-between">
-            <Select
-              id="track"
-              label="트랙"
-              options={trackList}
-              onChange={onTrack}
-              value={card.track}
-            />
-            <Input
-              id="ban"
-              type="text"
-              label="1학기 반*"
-              onChange={onBan}
-              value={card.ban}
-              warning={banWarning}
-            />
-          </div>
-
-          <Select
-            id="major"
-            label="전공유무"
-            options={majorList}
-            onChange={onMajor}
-            value={card.major}
+          <Input
+            id="ban"
+            type="text"
+            label="1학기 반*"
+            onChange={onBan}
+            value={card.ban}
+            warning={banWarning}
           />
 
-          {/* </div> */}
           <Input
             id="content"
             type="textarea"
@@ -263,6 +263,23 @@ export default function CardModify() {
             onChange={onContent}
             value={card.content}
           />
+          <hr />
+
+          <div className="flex justify-between">
+            <Select
+              id="track"
+              label="트랙"
+              options={trackList}
+              onChange={onTrack}
+            />
+            <Select
+              id="major"
+              label="전공유무"
+              options={majorList}
+              onChange={onMajor}
+            />
+          </div>
+
           <Input
             id="company"
             type="text"
@@ -278,14 +295,12 @@ export default function CardModify() {
               label="역량테스트등급"
               options={gradeList}
               onChange={onGrade}
-              value={card.swTier}
             />
             <Select
               id="field"
               label="분야"
               options={fieldList}
               onChange={onField}
-              value={card.role}
             />
           </div>
           <Input
@@ -338,8 +353,11 @@ export default function CardModify() {
         </div>
       </div>
       <div className="flex justify-center">
-        <MidButton value="별 수정" onClick={submit}></MidButton>
-        <MidButton value="별 삭제" onClick={deleteCard}></MidButton>
+        {active ? (
+          <MidButton value="별 등록" onClick={submit}></MidButton>
+        ) : (
+          <MidButton value="별 등록" disable={true}></MidButton>
+        )}
       </div>
     </EarthLayout>
   );

@@ -34,12 +34,8 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "/cardsubmit",
+        path: "/cardsubmit/:type",
         element: <CardSubmit />,
-      },
-      {
-        path: "/cardmodify",
-        element: <CardModify />,
       },
       { path: "/admin", element: <Admin /> },
       { path: "/mypage", element: <Mypage /> },

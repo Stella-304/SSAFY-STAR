@@ -185,7 +185,7 @@ export default function InfoModi() {
       {/* 카드수정 */}
       <BigButton
         value="카드 수정하러 가기"
-        onClick={() => navigate("/cardmodify")}
+        onClick={() => navigate("/cardsubmit/modify")}
       />
     </>
   );

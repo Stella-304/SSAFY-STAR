@@ -20,7 +20,9 @@ export default function FloatingMenu() {
             <>
               <button onClick={logout}>로그아웃</button>
               <button onClick={() => navigate("/mypage")}>마이페이지</button>
-              <button onClick={() => navigate("/cardsubmit")}>카드 등록</button>
+              <button onClick={() => navigate("/cardsubmit/submit")}>
+                카드 등록
+              </button>
             </>
           ) : (
             <>
