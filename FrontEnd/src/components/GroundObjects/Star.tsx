@@ -35,7 +35,7 @@ export default function Star(props: any) {
           x: 2,
           y: 2,
           z: 2,
-          duration: 1.3,
+          duration: 1,
           ease: "elastic",
         }).then(() => {
           props.setEndAnim(true);
@@ -56,9 +56,9 @@ export default function Star(props: any) {
       starRef.current.scale.z = 1;
       dispatch(setStarInfoPreview(props.item));
     } else {
-      starRef.current.scale.x = 0.3;
-      starRef.current.scale.y = 0.3;
-      starRef.current.scale.z = 0.3;
+      starRef.current.scale.x = 0.5;
+      starRef.current.scale.y = 0.5;
+      starRef.current.scale.z = 0.5;
       dispatch(setStarInfoPreview(null));
     }
   }, [hovered]);
