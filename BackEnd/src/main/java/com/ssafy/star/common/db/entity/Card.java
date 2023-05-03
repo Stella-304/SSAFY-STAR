@@ -9,6 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.util.Optional;
 
+import static com.ssafy.star.common.db.entity.QCard.card;
+
 @Entity
 @Getter
 @Setter

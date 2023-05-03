@@ -4,6 +4,7 @@ import io.swagger.models.auth.In;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +23,7 @@ public class SearchConditionReqDto {
     List<String> major;
     List<String> role;
     List<String> swTier;
-    // 성운 플래그.
-    String starCloudFlag;
-    //교집합인지 여부
-    boolean isIntersection;
+
 
     public Map<String,List<String>> getlists(){
         HashMap<String,List<String>> map=new HashMap<>();

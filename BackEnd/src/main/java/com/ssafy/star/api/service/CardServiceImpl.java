@@ -129,7 +129,9 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
+		log.info("들어왔나?");
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
