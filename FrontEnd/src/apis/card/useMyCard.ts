@@ -16,6 +16,7 @@ const useMyCard = () => {
   const dispatch = useDispatch();
   return useQuery("/mycardinfo", fetcher, {
     retry: 0,
+    enabled: false,
     onSuccess: (data) => {
       console.log(data.value);
       dispatch(setCard(data.value));

@@ -9,17 +9,25 @@ import {
   resetFind,
 } from "../../stores/user/find";
 import { RootState } from "../../stores/store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { emailReg, loginidReg } from "../../utils/regex";
+import useEmailFindCheck from "../../apis/user/useEmailFindCheck";
+import useEmailFindCheck2 from "../../apis/user/useEmailFindCheck2";
 
 export default function Find() {
   const [idWarning, setIdWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
   const [email2Warning, setEmail2Warning] = useState("");
   const { email, email2, loginid } = useSelector(
-    (state: RootState) => state.find
+    (state: RootState) => state.find,
   );
+
   const dispatch = useDispatch();
+
+  //이메일 아이디, 아이디, 이메일, 성공했을때
+  //api
+  const emailfindcheckQuery = useEmailFindCheck(email);
+  const emailfindcheckQuery2 = useEmailFindCheck2(email2, loginid);
 
   useEffect(() => {
     dispatch(resetFind());
@@ -56,17 +64,46 @@ export default function Find() {
   }
 
   //아이디 찾기
-  function findLoginId() {}
+  function findLoginId() {
+    //이메일 유효성 확인
+    if (email === "") {
+      alert("이메일을 작성해주세요");
+      return;
+    }
+    if (!email.match(emailReg)) {
+      return;
+    }
+    emailfindcheckQuery.refetch();
+    //전송
+    //연속으로 전송 안되게 막기
+  }
 
   //비밀번호 찾기
-  function findPassword() {}
+  function findPassword() {
+    //이메일 유효성 확인
+    if (email2 === "") {
+      alert("이메일을 작성해주세요");
+      return;
+    }
+    if (!email2.match(emailReg)) {
+      return;
+    }
+    //아이디 유효성 확인
+    if (loginid === "") {
+      alert("아이디를 작성해주세요");
+      return;
+    }
+    //이메일 전송
+    emailfindcheckQuery2.refetch();
+    //연속 안되게 막기
+  }
   return (
     <EarthLayout>
-      <div className="flex flex-col justify-around h-full">
+      <div className="flex h-full flex-col justify-around">
         <div>
-          <span className="text-4xl block font-bold">아이디/비밀번호 찾기</span>
+          <span className="block text-4xl font-bold">아이디/비밀번호 찾기</span>
         </div>
-        <div className="h-full flex flex-col justify-around">
+        <div className="flex h-full flex-col justify-around">
           <div>
             <div className="text-2xl font-bold">아이디 찾기</div>
             <div className="mb-8">
