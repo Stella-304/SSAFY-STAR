@@ -12,6 +12,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class GeometryUtil {
 	static class Edge implements Comparable<Edge> {
 		int a;
@@ -29,6 +33,8 @@ public class GeometryUtil {
 			return Double.compare(this.distance, o.distance);
 		}
 	}
+
+	private final static int maxStar = 15;
 
 	public static int getLevelFromCardCnt(int cardCnt) {
 		if (cardCnt <= 4)
@@ -79,7 +85,7 @@ public class GeometryUtil {
 			double z1 = cards.get(i).getZ() / length;
 
 			for (int j = i + 1; j < cardCnt; j++) {
-				System.out.println(i+" "+j);
+				System.out.println(i + " " + j);
 				length = Math.sqrt(cards.get(j).getX() * cards.get(j).getX() + cards.get(j).getY() * cards.get(j).getY()
 					+ cards.get(j).getZ() * cards.get(j).getZ());
 				double x2 = cards.get(j).getX() / length;
@@ -91,15 +97,20 @@ public class GeometryUtil {
 		}
 
 		Collections.sort(edges);
+		edges.stream().forEach(x -> System.out.println(x.distance));
+		System.out.println("-------------------------------------");
+
+		int remaneEdge = cardCnt - cardCnt / maxStar;
 		for (Edge edge : edges) {
 			if (!isSameParents(edge.a, edge.b)) {
-				union(edge.a,edge.b);
+				union(edge.a, edge.b);
 				edgeDtoList.add(new EdgeDto(cards.get(edge.a), cards.get(edge.b)));
+				remaneEdge--;
 			}
+			if (remaneEdge == 0)
+				break;
 		}
 
-		System.out.println(cards.size());
-		System.out.println(edgeDtoList.size());
 		return edgeDtoList;
 	}
 
