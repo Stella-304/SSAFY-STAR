@@ -131,7 +131,11 @@ public class UserController {
     @PermitAll
     @ApiOperation(value="아이디와 이메일 체크 후 비밀번호 이메일 전송")
     public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
-        userService.findPwdUser(userFindPwdReqDto);
+        int state = userService.findPwdUser(userFindPwdReqDto);
+
+        if(state == 1) { return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_AND_ACCOUNT_ID_NOT_FOUND)); }
+        if(state == 2) { return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.ACCOUNT_ID_NOT_FOUND)); }
+        if(state == 3) { return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND)); }
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
     }
 

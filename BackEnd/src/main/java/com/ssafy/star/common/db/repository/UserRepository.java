@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByAccountId(String accountId);
     @Query("select u.nickname from User u where id like :id")
     String findNicknameById(long id);
-    Optional<User> findByAccountIdAndEmail(String accountId, String email);
+    Optional<User> findByAccountIdOrEmail(String accountId, String email);
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
 }

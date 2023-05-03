@@ -13,10 +13,8 @@ import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +86,8 @@ public class UserServiceImpl implements UserService {
 			redisProvider.setBlackList(token, tokenProvider.getUserIdFromToken(token),
 				tokenProvider.getExpireTime(token).getTime() - new Date().getTime(), TimeUnit.MICROSECONDS);
 		}
+
+
 	}
 
 	@Override
@@ -174,21 +174,25 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
+	public int findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
 
 		String accountId = userFindPwdReqDto.getAccountiId();
 		String email = userFindPwdReqDto.getEmail();
 
-		Optional<User> userOptional = userRepository.findByAccountIdAndEmail(accountId, email);
-		if (userOptional.isPresent()) {
+		Optional<User> userOptional = userRepository.findByAccountIdOrEmail(accountId, email);
 
-			User user = userOptional.get();
-			String newPwd = randValueMaker.makeRandPwd();
+		if(userOptional.isEmpty()) { return 1; }
 
-			smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
-			user.setAccountPwd(passwordEncoder.encode(newPwd));
-			userRepository.save(user);
-		}
+		User user = userOptional.get();
+
+		if(!accountId.equals(user.getAccountId())) { return 2; }
+		if(!email.equals(user.getEmail())) { return 3; }
+
+		String newPwd = randValueMaker.makeRandPwd();
+		smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
+		user.setAccountPwd(passwordEncoder.encode(newPwd));
+		userRepository.save(user);
+		return 4;
 	}
 
 	@Override
