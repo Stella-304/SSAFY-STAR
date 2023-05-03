@@ -20,5 +20,5 @@ export interface User {
   algoTest: string;
   authorized: boolean;
   prize: string;
-  text: string;
+  content: string;
 }

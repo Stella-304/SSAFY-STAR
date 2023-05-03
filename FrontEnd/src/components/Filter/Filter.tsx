@@ -14,15 +14,21 @@ const Region = ["서울", "대전", "구미", "광주", "부울경"];
 const Ban = Array.from(Array(16));
 
 export default function Filter() {
+  const [searchValue, setSearchValue] = useState<string>("");
   const [generation, setGeneration] = useState<number>();
-  const [region, setRegion] = useState<string>();
+  const [region, setRegion] = useState<string>("");
   const [ban, setBan] = useState<number>();
   const [generationTabOpen, setGenerationTabOpen] = useState<boolean>(false);
   const [regionTabOpen, setRegionTabOpen] = useState<boolean>(false);
   const [banTabOpen, setBanTabOpen] = useState<boolean>(false);
   const [openAnimation, setOpenAnimation] = useState<boolean>(false);
 
-  const starFilterInfo = useStarFilterInfoQuery("campus", "8-대전");
+  const starFilterInfo = useStarFilterInfoQuery(
+    searchValue,
+    generation !== undefined ? String(generation) : "",
+    region,
+    ban !== undefined ? String(ban) : "",
+  );
 
   const dispatch = useDispatch();
 
@@ -36,9 +42,21 @@ export default function Filter() {
   };
 
   useEffect(() => {
-    dispatch(setStarInfo(starFilterInfo?.data?.cardList));
-    dispatch(setStarEdgeList(starFilterInfo?.data?.edgeList));
-  }, [starFilterInfo.isSuccess]);
+    if (ban) {
+      setSearchValue("ban");
+    } else if (region) {
+      setSearchValue("campus");
+    } else if (generation) {
+      setSearchValue("generation");
+    }
+  }, [generation, region, ban]);
+
+  useEffect(() => {
+    if (starFilterInfo?.data) {
+      dispatch(setStarInfo(starFilterInfo?.data?.cardList));
+      dispatch(setStarEdgeList(starFilterInfo?.data?.edgeList));
+    }
+  }, [starFilterInfo]);
 
   useEffect(() => {
     if (openAnimation) {
@@ -120,7 +138,11 @@ export default function Filter() {
               {Generation.map((_, i) => (
                 <div
                   key={i}
-                  onClick={() => setGeneration(i + 1)}
+                  onClick={() => {
+                    generation === i + 1
+                      ? setGeneration(undefined)
+                      : setGeneration(i + 1);
+                  }}
                   className={generation === i + 1 ? "text-blue-400" : ""}
                 >
                   {i + 1}기
@@ -150,7 +172,9 @@ export default function Filter() {
               {Region.map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => setRegion(item)}
+                  onClick={() => {
+                    region === item ? setRegion("") : setRegion(item);
+                  }}
                   className={region === item ? "text-blue-400" : ""}
                 >
                   {item}
@@ -179,7 +203,9 @@ export default function Filter() {
               {Ban.map((_, i) => (
                 <div
                   key={i}
-                  onClick={() => setBan(i + 1)}
+                  onClick={() => {
+                    ban === i + 1 ? setBan(undefined) : setBan(i + 1);
+                  }}
                   className={ban === i + 1 ? "text-blue-400" : ""}
                 >
                   {i + 1}반

@@ -20,7 +20,7 @@ export default function Ground() {
           side={THREE.DoubleSide}
         />
       </mesh>
-      {/* <Tree2
+      <Tree2
         x={-100}
         y={-10}
         z={-130}
@@ -117,7 +117,7 @@ export default function Ground() {
       <Grass x={700} y={-5} z={-120} scale={0.3} fbx={"/obj/grass/Grass.fbx"} />
       <Grass x={470} y={-5} z={-190} scale={0.3} fbx={"/obj/grass/Grass.fbx"} />
       <Grass x={0} y={-5} z={-120} scale={0.3} fbx={"/obj/grass/Grass.fbx"} />
-      <Grass x={-530} y={-5} z={200} scale={0.3} fbx={"/obj/grass/Grass.fbx"} /> */}
+      <Grass x={-530} y={-5} z={200} scale={0.3} fbx={"/obj/grass/Grass.fbx"} />
     </>
   );
 }

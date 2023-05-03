@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-hook/mouse-position": "^4.1.3",
     "@react-three/drei": "^9.65.3",
     "@react-three/fiber": "^8.12.2",
     "@react-three/postprocessing": "^2.8.0",
