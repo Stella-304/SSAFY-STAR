@@ -28,7 +28,7 @@ export default function FloatingMenu() {
               <button onClick={() => navigate("/signup")}>회원가입</button>
             </>
           )}
-          <button onClick={() => navigate("/metaverse")}>메타버스</button>
+          <button onClick={() => navigate("/test3")}>메타버스</button>
         </div>
       ) : (
         <></>

@@ -24,7 +24,7 @@ export default function CardSubmit() {
   const { card } = useSelector((state: RootState) => state.card);
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
-
+  const [active, setActive] = useState(false);
   //react query
   const bojCheckquery = useBojcheck(card.bojid);
   const cardSubmitMutate = useCardSubmit();
@@ -41,6 +41,14 @@ export default function CardSubmit() {
   useEffect(() => {
     dispatch(resetCard());
   }, []);
+
+  useEffect(() => {
+    if (checkNecessary()) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  }, [card.campus, card.generation, card.ban, card.content]);
 
   //api호출
   //백준티어 가져오기
@@ -98,7 +106,6 @@ export default function CardSubmit() {
     if (input !== "") {
       companySearchQuery.refetch();
     } else {
-      console.log("비었는데요");
       setSearchList([]);
     }
     //
@@ -158,7 +165,17 @@ export default function CardSubmit() {
     }
     bojCheckquery.refetch();
   }
-
+  function checkNecessary() {
+    if (
+      card.campus === "" ||
+      card.generation === "" ||
+      card.ban === "" ||
+      card.content === ""
+    ) {
+      return false;
+    }
+    return true;
+  }
   //등록 진행
   function submit() {
     //필수 입력 확인
@@ -219,31 +236,15 @@ export default function CardSubmit() {
               warning={cardinalWarning}
             />
           </div>
-          <div className="flex justify-between">
-            <Select
-              id="track"
-              label="트랙"
-              options={trackList}
-              onChange={onTrack}
-            />
-            <Input
-              id="ban"
-              type="text"
-              label="1학기 반*"
-              onChange={onBan}
-              value={card.ban}
-              warning={banWarning}
-            />
-          </div>
-
-          <Select
-            id="major"
-            label="전공유무"
-            options={majorList}
-            onChange={onMajor}
+          <Input
+            id="ban"
+            type="text"
+            label="1학기 반*"
+            onChange={onBan}
+            value={card.ban}
+            warning={banWarning}
           />
 
-          {/* </div> */}
           <Input
             id="content"
             type="textarea"
@@ -251,6 +252,23 @@ export default function CardSubmit() {
             onChange={onContent}
             value={card.content}
           />
+          <hr />
+
+          <div className="flex justify-between">
+            <Select
+              id="track"
+              label="트랙"
+              options={trackList}
+              onChange={onTrack}
+            />
+            <Select
+              id="major"
+              label="전공유무"
+              options={majorList}
+              onChange={onMajor}
+            />
+          </div>
+
           <Input
             id="company"
             type="text"
@@ -324,7 +342,11 @@ export default function CardSubmit() {
         </div>
       </div>
       <div className="flex justify-center">
-        <MidButton value="별 등록" onClick={submit}></MidButton>
+        {active ? (
+          <MidButton value="별 등록" onClick={submit}></MidButton>
+        ) : (
+          <MidButton value="별 등록" disable={true}></MidButton>
+        )}
       </div>
     </EarthLayout>
   );
