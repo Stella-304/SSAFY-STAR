@@ -19,18 +19,20 @@ import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
+import { useParams } from "react-router-dom";
 
 export default function CardSubmit() {
+  const { liveId } = useParams();
   const { card } = useSelector((state: RootState) => state.card);
   const [bojTier, setBojTier] = useState("");
-  const [search,setSearch] = useState("");//회사명 검색시 사용
-  
+  const [search, setSearch] = useState(""); //회사명 검색시 사용
+
   //react query
   const bojCheckquery = useBojcheck(card.boj);
   const cardSubmitMutate = useCardSubmit();
-  const [searchList,setSearchList] = useState([]); //회사명 검색결과
+  const [searchList, setSearchList] = useState([]); //회사명 검색결과
   const companySearchQuery = useCompanySearch(search);
-  
+
   const dispatch = useDispatch();
 
   //경고
@@ -49,39 +51,42 @@ export default function CardSubmit() {
 
     if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
   }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
-  
+
   //회사 검색
   useMemo(() => {
     if (companySearchQuery.isLoading || companySearchQuery.error) return null;
 
-    if (companySearchQuery.data !== undefined){
-      if(search===""){
+    if (companySearchQuery.data !== undefined) {
+      if (search === "") {
         setSearchList([]);
-      }else{
-        setSearchList(companySearchQuery.data.value)
+      } else {
+        setSearchList(companySearchQuery.data.value);
       }
     }
-  }, [companySearchQuery.isLoading, companySearchQuery.error, companySearchQuery.data]);
-  
-  
+  }, [
+    companySearchQuery.isLoading,
+    companySearchQuery.error,
+    companySearchQuery.data,
+  ]);
+
   //input
   function onBan(input: string) {
-    if (input!==""&&!input.match(isNumber)) {
+    if (input !== "" && !input.match(isNumber)) {
       setBanWaring("숫자만 입력 해주세요");
-      setTimeout(()=>{
+      setTimeout(() => {
         setBanWaring("");
-      },1000)
+      }, 1000);
       return;
     }
     setBanWaring("");
     dispatch(setCard({ ...card, ban: input }));
   }
   function onCardinal(input: string) {
-    if (input!==""&&!input.match(isNumber)) {
+    if (input !== "" && !input.match(isNumber)) {
       setCardinalWaring("숫자만 입력 해주세요");
-      setTimeout(()=>{
+      setTimeout(() => {
         setCardinalWaring("");
-      },1000)
+      }, 1000);
       return;
     }
     setCardinalWaring("");
@@ -90,18 +95,18 @@ export default function CardSubmit() {
 
   function onCompany(input: string) {
     //입력값으로 회사를 검색한다.
-      
+
     setSearch(input);
-    if(input!==""){
+    if (input !== "") {
       companySearchQuery.refetch();
-    }else{
-      console.log("비었는데요")
+    } else {
+      console.log("비었는데요");
       setSearchList([]);
     }
     //
   }
 
-  function selectCompany(input:string){
+  function selectCompany(input: string) {
     setSearch(input);
     setSearchList([]);
     dispatch(setCard({ ...card, company: input }));
@@ -158,7 +163,6 @@ export default function CardSubmit() {
 
   //등록 진행
   function submit() {
-
     //필수 입력 확인
     if (
       card.campus === "" &&
@@ -166,7 +170,7 @@ export default function CardSubmit() {
       card.ban === "" &&
       card.content === ""
     ) {
-      alert("필수 정보를 입력해주세요")
+      alert("필수 정보를 입력해주세요");
       return;
     }
     if (card.boj !== "" && bojTier === "") {
@@ -255,7 +259,7 @@ export default function CardSubmit() {
             label="회사"
             onChange={onCompany}
             value={search}
-            queryResult = {searchList}
+            queryResult={searchList}
             querySelect={selectCompany}
           />
           <div className="flex justify-between">

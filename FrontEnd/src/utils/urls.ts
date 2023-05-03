@@ -46,6 +46,8 @@ export const CARD_SUBMIT_URL = SERVER_API + "/app/card";
 export const CARD_LIST_URL = SERVER_API + "/app/card/list";
 //백준티어확인
 export const BOJ_CHECK_URL = SERVER_API + "/app/card/boj";
+//나의 카드 조회
+export const CARD_MYCARD_URL = SERVER_API + "/app/card/mycard";
 
 // 별(유저)정보 확인
 export const STAR_INFO_URL = SERVER_API + "/app/card/list";
