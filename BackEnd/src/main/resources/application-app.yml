@@ -9,8 +9,8 @@ app:
 
 mysql:
   port: k8b304.p.ssafy.io:3306
-  user: star
-  pwd: "!star@ssafy-start#304"
+  user: root
+  pwd: "ssafy"
 
 redis:
   host: k8b304.p.ssafy.io
