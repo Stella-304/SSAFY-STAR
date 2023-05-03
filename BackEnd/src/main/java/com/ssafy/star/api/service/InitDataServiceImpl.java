@@ -76,7 +76,7 @@ public class InitDataServiceImpl implements InitDataService {
 				.major((String)row.get("major"))
 				.role((String)row.get("role"))
 				.company((String)row.get("company"))
-				.content((String)row.get("content"))
+				.content(((String)row.get("content")).substring(0, Math.min(((String)row.get("content")).length(), 70)))
 				.user(user)
 				.build();
 			cardRepository.save(card);
