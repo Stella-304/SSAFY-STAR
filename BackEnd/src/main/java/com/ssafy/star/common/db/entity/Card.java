@@ -26,7 +26,7 @@ public class Card {
 	private Long id;
 
 	//	여기에 한마디도 추가되어야함.
-	@Column(length = 140)
+	@Column(length = 140, nullable = false)
 	private String content;
 
 	@Column(length = 2, nullable = false)
@@ -35,7 +35,7 @@ public class Card {
 	@Column(length = 10, nullable = false)
 	private String campus;
 
-	@Column(length = 2)
+	@Column(length = 2, nullable = false)
 	private String ban;
 
 	@Column(length = 20)
