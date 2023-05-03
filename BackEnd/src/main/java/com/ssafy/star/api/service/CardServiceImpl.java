@@ -47,7 +47,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	@Transactional
-	public void updateBojTier() {
+	public String updateBojTier() {
 		long userId = authProvider.getUserIdFromPrincipal();
 
 		User user = userRepository.findById(userId)
@@ -61,6 +61,7 @@ public class CardServiceImpl implements CardService {
 
 		String tier = CallAPIUtil.getUserTier(bojId);
 		card.updateBojTier(tier);
+		return tier;
 	}
 
 	@Override

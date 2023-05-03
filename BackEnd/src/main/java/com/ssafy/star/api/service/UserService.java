@@ -25,4 +25,5 @@ public interface UserService {
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
     BadgeStatusDto searchBadgeStatus(String type);
 
+	boolean searchCardIsRegist();
 }
