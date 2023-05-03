@@ -110,4 +110,18 @@ public class InitDataServiceImpl implements InitDataService {
 		initCompany();
 		initCoordinate();
 	}
+
+	@Override
+	@Transactional
+	public void initCompanyAdditional() {
+		try {
+			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/company-additional-data.json");
+			List<Company> companyList = json.stream()
+					.map(x -> Company.builder().name((String)x.get("회사이름")).assetSize((String)x.get("기업분류")).build())
+					.collect(
+							Collectors.toList());
+			companyRepository.saveAll(companyList);
+		} catch (Exception e) {
+		}
+	}
 }

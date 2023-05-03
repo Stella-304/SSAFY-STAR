@@ -29,7 +29,13 @@ public class InitDataController {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
-
+	@GetMapping("/company-additional")
+	@ApiOperation(value = "company data init")
+	public ResponseEntity<?> companyAdditional() {
+		initDataService.initCompanyAdditional();
+		return ResponseEntity.ok()
+				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
 	@GetMapping("/user")
 	@ApiOperation(value = "user data init")
 	public ResponseEntity<?> user() throws Exception {

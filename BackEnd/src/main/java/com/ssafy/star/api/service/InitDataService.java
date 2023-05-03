@@ -6,4 +6,5 @@ public interface InitDataService {
 	void initCoordinate();
 
 	void initAll() throws Exception;
+    void initCompanyAdditional();
 }
