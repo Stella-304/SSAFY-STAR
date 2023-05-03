@@ -4,7 +4,7 @@ interface cardState {
   card: {
     ban: string; //1학기 기준 반
     blogAddr: string; //블로그
-    bojid: string; //백준아이디
+    bojId: string; //백준아이디
     bojTier: string; //백준티어
     campus: string; //캠퍼스 지역
     company: string; //회사
@@ -23,7 +23,7 @@ const initialState: cardState = {
   card: {
     ban: "", //1학기 기준 반
     blogAddr: "", //블로그
-    bojid: "", //백준아이디
+    bojId: "", //백준아이디
     bojTier: "", //백준티어
     campus: "", //캠퍼스 지역
     company: "", //회사
@@ -44,12 +44,12 @@ const cardSlice = createSlice({
   reducers: {
     setCard(state, action) {
       state.card = action.payload;
-    },
+    }
     resetCard(state) {
       state.card = {
         ban: "", //1학기 기준 반
         blogAddr: "", //블로그
-        bojid: "", //백준아이디
+        bojId: "", //백준아이디
         bojTier: "", //백준티어
         campus: "", //캠퍼스 지역
         company: "", //회사

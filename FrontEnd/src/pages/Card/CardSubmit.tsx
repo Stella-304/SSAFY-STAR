@@ -31,7 +31,7 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   //react query
-  const bojCheckquery = useBojcheck(card.bojid);
+  const bojCheckquery = useBojcheck(card.bojId);
   const cardModifyMutate = useCardModify();
   const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
@@ -171,7 +171,7 @@ export default function CardSubmit() {
   function checkBoj() {
     //백준 인증 진행
     //없으면 unranked
-    if (card.bojid === "") {
+    if (card.bojId === "") {
       return;
     }
     bojCheckquery.refetch();
@@ -199,7 +199,7 @@ export default function CardSubmit() {
       alert("필수 정보를 입력해주세요");
       return;
     }
-    if (card.bojid !== "" && bojTier === "") {
+    if (card.bojId !== "" && bojTier === "") {
       //티어 확인
       alert("백준 티어 확인해주세요");
       return;
@@ -207,7 +207,7 @@ export default function CardSubmit() {
     const cardsubmit: CardSubmitType = {
       ban: card.ban,
       blogAddr: card.blogAddr,
-      bojid: card.bojid,
+      bojId: card.bojId,
       bojTier: bojTier,
       campus: card.campus,
       company: card.company,
@@ -325,7 +325,7 @@ export default function CardSubmit() {
                 type="input"
                 label="백준아이디"
                 onChange={onBoj}
-                value={card?.bojid}
+                value={card?.bojId}
                 confirm={
                   bojTier === "Unrated"
                     ? bojTier + " *solved.ac에 등록해주세요"
