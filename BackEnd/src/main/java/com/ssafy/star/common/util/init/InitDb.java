@@ -1,21 +1,17 @@
 package com.ssafy.star.common.util.init;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import com.ssafy.star.api.service.InitDataService;
+import com.ssafy.star.common.db.entity.Company;
+import com.ssafy.star.common.db.entity.CompanyGroup;
+import com.ssafy.star.common.db.repository.CompanyGroupRepository;
+import com.ssafy.star.common.db.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-
-import com.ssafy.star.api.service.InitDataService;
-import com.ssafy.star.common.db.entity.Company;
-import com.ssafy.star.common.db.entity.CompanyGroup;
-import com.ssafy.star.common.db.repository.CardRepository;
-import com.ssafy.star.common.db.repository.CompanyGroupRepository;
-import com.ssafy.star.common.db.repository.CompanyRepository;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
  * ddl-auto: create 일 때, 기본적으로 쌓일 더미데이터를 기술하는 클래스
