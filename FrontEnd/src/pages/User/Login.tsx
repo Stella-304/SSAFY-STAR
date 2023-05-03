@@ -73,7 +73,7 @@ export default function Login() {
         <div>
           <span className="block text-4xl font-bold">Login</span>
           <span className="block text-sm">
-            SsafyStar를 사용하기 위해 로그인 해 주세요
+            SSAFY STAR를 사용하기 위해 로그인 해 주세요
           </span>
         </div>
         <div className="mb-80">
