@@ -27,4 +27,6 @@ public interface CardService {
 	void deleteCard(Long cardId);
 
     CardDetailDto getMyCard();
+
+	void deleteMyCard();
 }
