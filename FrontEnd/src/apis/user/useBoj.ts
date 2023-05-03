@@ -6,14 +6,16 @@ interface Payload {
   bojid: string;
 }
 
-const fetcher = (payload: Payload) => 
-  api.get(BOJ_URL + "/" + payload.bojid,{headers:{Authorization:sessionStorage.getItem("accessToken")}}).then(({ data }) => data);
-;
-
+const fetcher = (payload: Payload) =>
+  api
+    .get(BOJ_URL + "/" + payload.bojid, {
+      headers: { Authorization: sessionStorage.getItem("accessToken") },
+    })
+    .then(({ data }) => data);
 /**
  * 백준 아이디로 백준 티어를 확인한다.
- * @param payload 
- * @returns 
+ * @param payload
+ * @returns
  */
 const useBojcheck = (bojid: string) => {
   return useQuery(["/bojcheck", bojid], () => fetcher({ bojid: bojid }), {

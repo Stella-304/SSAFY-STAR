@@ -5,7 +5,7 @@ import SmallButton from "../../../components/Button/SmallButton";
 import Input from "../../../components/Input/Input";
 import useBojcheck from "../../../apis/user/useBoj";
 import { useNavigate } from "react-router-dom";
-import { passwordReg ,nicknameReg } from "../../../utils/regex";
+import { passwordReg, nicknameReg } from "../../../utils/regex";
 import useUserModify from "../../../apis/user/useUserModify";
 import useUserPwdModify from "../../../apis/user/useUserPwdModify";
 import { UserModifyType } from "../../../types/UserModifyType";
@@ -17,9 +17,8 @@ export default function InfoModi() {
   const usermodifyMutate = useUserModify();
   const userpwdmodifyMutate = useUserPwdModify();
   //백준
-  const [checkBojid, setCheckBojid] = useState("");
-  const { data, isLoading, error } = useBojcheck(checkBojid);
   const [bojid, setBojid] = useState("");
+  const bojCheck = useBojcheck(bojid);
   const [bojTier, setBojTier] = useState("");
 
   //비밀번호
@@ -30,13 +29,13 @@ export default function InfoModi() {
   const [password2Warning, setPassword2Warning] = useState("");
   //닉네임
   const [nickname, setNickname] = useState("");
-  const [nicknameWarning,setNicknameWarning] = useState("");
+  const [nicknameWarning, setNicknameWarning] = useState("");
 
   useMemo(() => {
-    if (isLoading || error) return null;
+    if (bojCheck.isLoading || bojCheck.error) return null;
 
-    if (data !== undefined) setBojTier(data);
-  }, [isLoading, error, data]);
+    if (bojCheck.data !== undefined) setBojTier(bojCheck.data.value);
+  }, [bojCheck.isLoading, bojCheck.error, bojCheck.data]);
 
   //백준
   function onBoj(input: string) {
@@ -44,7 +43,7 @@ export default function InfoModi() {
   }
 
   function checkBoj(): void {
-    setCheckBojid(bojid);
+    bojCheck.refetch();
   }
 
   //비밀번호
@@ -76,13 +75,13 @@ export default function InfoModi() {
   function modiPassword() {
     //비밀번호 수정 진행
     //1차 비밀번호 확인 여부
-    if(!password1.match(passwordReg)){
-      alert("비밀번호를 확인해주세요")
+    if (!password1.match(passwordReg)) {
+      alert("비밀번호를 확인해주세요");
       return;
     }
     //2차 비밀번호 일치 여부
-    if(password1!==password2){
-      alert("비밀번호확인을 해주세요")
+    if (password1 !== password2) {
+      alert("비밀번호확인을 해주세요");
       return;
     }
 
@@ -91,25 +90,24 @@ export default function InfoModi() {
 
   //닉네임
   function onNickname(input: string) {
-    if(!input.match(nicknameReg)){
-      setNicknameWarning("닉네임은 5글자 이내입니다.")
+    if (!input.match(nicknameReg)) {
+      setNicknameWarning("닉네임은 5글자 이내입니다.");
       return;
-    }else{
+    } else {
       setNicknameWarning("");
     }
     setNickname(input);
   }
   function modiNickname() {
-
-    if(!nickname.match(nicknameReg)){
-      alert("닉네임을 확인해주세요")
+    if (!nickname.match(nicknameReg)) {
+      alert("닉네임을 확인해주세요");
       return;
     }
     //닉네임 수정 진행
-    const modifyinfo:UserModifyType = {
+    const modifyinfo: UserModifyType = {
       name: "",
-      nickname:nickname
-    }
+      nickname: nickname,
+    };
     usermodifyMutate.mutate(modifyinfo);
   }
 
