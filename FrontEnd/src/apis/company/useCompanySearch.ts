@@ -3,13 +3,10 @@ import { COMPANY_SEARCH_URL } from "../../utils/urls";
 import { api } from "../api";
 
 const fetcher = (input: string) =>
-  api
-    .get(COMPANY_SEARCH_URL+"?query="+input, {
-      // params: { query: input },
+  api.get(COMPANY_SEARCH_URL+"?query="+input, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => {
-      alert(data)
       return data
     });
 
@@ -19,18 +16,10 @@ const fetcher = (input: string) =>
  * @param setSearchList
  * @returns
  */
-const useCompanySearch = (searchName: string) => {
+const useCompanySearch = (searchName: string,setSearchList:(params:any)=>void) => {
   return useQuery(["/companyname", searchName], () => fetcher(searchName), {
     onSuccess:(data)=>{
-      console.log("무야 무야")
-      alert(data);
-      // setSearchList([]);
-    },
-    onError: () => {
-      console.log("뭔데")
-    },
-    onSettled: () => {
-      console.log("뭐야")
+      setSearchList(data.value);
     },
     enabled: false,
     retry: 0,

@@ -31,10 +31,6 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: "/",
-        element: <App />,
-      },
-      {
         path: "/cardsubmit/:type",
         element: <CardSubmit />,
       },
@@ -63,6 +59,10 @@ const router = createBrowserRouter([
         element: <Find />,
       },
     ],
+  },
+  {
+    path: "/",
+    element: <App />,
   },
   { path: "*", element: <Notfound /> },
   // 테스트 페이지

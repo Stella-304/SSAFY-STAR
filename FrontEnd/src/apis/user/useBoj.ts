@@ -22,7 +22,6 @@ const useBojcheck = (bojid: string,setBojTier:(params:string)=>void) => {
     enabled: false,
     retry: 0,
     onSuccess:(data)=>{
-      alert(data)
       setBojTier(data.value)
     }
   });

@@ -36,7 +36,7 @@ export default function CardSubmit() {
   const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const companySearchQuery = useCompanySearch(search);
+  const companySearchQuery = useCompanySearch(search,setSearchList);
   const myCardQuery = useMyCard(setSearch);
 
   const dispatch = useDispatch();
@@ -53,6 +53,14 @@ export default function CardSubmit() {
     }
   }, []);
 
+  useEffect(()=>{
+    if (search!==card.company && search !== "") {
+      companySearchQuery.refetch();
+    } else {
+      setSearchList([]);
+    }
+  },[search])
+
   useEffect(() => {
     if (checkNecessary()) {
       setActive(true);
@@ -60,31 +68,6 @@ export default function CardSubmit() {
       setActive(false);
     }
   }, [card.campus, card.generation, card.ban, card.content]);
-
-  //api호출
-  //백준티어 가져오기
-  // useMemo(() => {
-  //   if (bojCheckquery.isLoading || bojCheckquery.error) return null;
-
-  //   if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
-  // }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
-
-  //회사 검색
-  // useMemo(() => {
-  //   if (companySearchQuery.isLoading || companySearchQuery.error) return null;
-
-  //   if (companySearchQuery.data !== undefined) {
-  //     if (search === "") {
-  //       setSearchList([]);
-  //     } else {
-  //       setSearchList(companySearchQuery.data.value);
-  //     }
-  //   }
-  // }, [
-  //   companySearchQuery.isLoading,
-  //   companySearchQuery.error,
-  //   companySearchQuery.data,
-  // ]);
 
   //input
   function onBan(input: string) {
@@ -112,15 +95,7 @@ export default function CardSubmit() {
 
   function onCompany(input: string) {
     //입력값으로 회사를 검색한다.
-
     setSearch(input);
-    if (input !== "") {
-      console.log("ㄱ자")
-      companySearchQuery.refetch();
-    } else {
-      setSearchList([]);
-    }
-    //
   }
 
   function selectCompany(input: string) {
