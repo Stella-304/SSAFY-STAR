@@ -96,3 +96,7 @@ spring:
     host: ${redis.host}
     port: ${redis.port}
     password: ${redis.pwd}
+
+
+const:
+  max-star: 15
