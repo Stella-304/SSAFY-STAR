@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
-import { useDispatch } from "react-redux";
-import { setStarEdgeList, setStarInfo } from "../../stores/star/starInfo";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFilterTabOpen,
+  setStarEdgeList,
+  setStarInfo,
+  setViewCard,
+} from "../../stores/star/starInfo";
+import { RootState } from "../../stores/store";
 
 const Generation = Array.from(Array(9));
 const Region = ["서울", "대전", "구미", "광주", "부울경"];
 const Ban = Array.from(Array(16));
 
 export default function Filter() {
-  const [viewCard, setViewCard] = useState<boolean>(false);
   const [generation, setGeneration] = useState<number>();
   const [region, setRegion] = useState<string>();
   const [ban, setBan] = useState<number>();
@@ -16,11 +21,15 @@ export default function Filter() {
   const [regionTabOpen, setRegionTabOpen] = useState<boolean>(false);
   const [banTabOpen, setBanTabOpen] = useState<boolean>(false);
   const [openAnimation, setOpenAnimation] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const starFilterInfo = useStarFilterInfoQuery("campus", "4-대전");
+  const starFilterInfo = useStarFilterInfoQuery("campus", "8-대전");
 
   const dispatch = useDispatch();
+
+  const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
+  const isFilterOpen = useSelector(
+    (state: RootState) => state.starInfo.filterOpen,
+  );
 
   const clickFilterBtn = () => {
     starFilterInfo.refetch();
@@ -33,23 +42,23 @@ export default function Filter() {
 
   useEffect(() => {
     if (openAnimation) {
-      setIsOpen(true);
+      dispatch(setFilterTabOpen(true));
     } else {
       setTimeout(() => {
-        setIsOpen(false);
+        dispatch(setFilterTabOpen(false));
       }, 400);
     }
   }, [openAnimation]);
 
   return (
     <>
-      {isOpen ? (
+      {isFilterOpen ? (
         <div
           className={
             (openAnimation
-              ? "translate-x-300 opacity-100"
-              : "opacity-0 -translate-x-300") +
-            " absolute -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 transition duration-700 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+              ? "visible translate-x-300 opacity-100 transition duration-700 "
+              : "opacity-0  transition duration-700 -translate-x-300 ") +
+            " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
           }
         >
           <div className="flex h-48 w-full items-center pb-10 shadow-sm ">
@@ -70,7 +79,7 @@ export default function Filter() {
                 (!viewCard && "bg-[#DDE2E4] font-bold") +
                 " h-32 w-112 text-center leading-32 "
               }
-              onClick={() => setViewCard(false)}
+              onClick={() => dispatch(setViewCard(false))}
             >
               별자리 보기
             </div>
@@ -79,17 +88,12 @@ export default function Filter() {
                 (viewCard && "bg-[#DDE2E4] font-bold") +
                 " h-32 w-112 text-center leading-32 "
               }
-              onClick={() => setViewCard(true)}
+              onClick={() => dispatch(setViewCard(true))}
             >
               카드 보기
             </div>
           </div>
-          <div>
-            <button className="h-40 w-100 bg-blue-200" onClick={clickFilterBtn}>
-              필터 보기
-            </button>
-          </div>
-          <div className="flex w-full flex-col gap-10 pl-18">
+          <div className="mt-10 flex w-full flex-col gap-10 pl-18">
             <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
 
             <div
@@ -114,7 +118,11 @@ export default function Filter() {
               }
             >
               {Generation.map((_, i) => (
-                <div key={i} onClick={() => setGeneration(i + 1)}>
+                <div
+                  key={i}
+                  onClick={() => setGeneration(i + 1)}
+                  className={generation === i + 1 ? "text-blue-400" : ""}
+                >
                   {i + 1}기
                 </div>
               ))}
@@ -140,7 +148,11 @@ export default function Filter() {
               }
             >
               {Region.map((item, index) => (
-                <div key={index} onClick={() => setRegion(item)}>
+                <div
+                  key={index}
+                  onClick={() => setRegion(item)}
+                  className={region === item ? "text-blue-400" : ""}
+                >
                   {item}
                 </div>
               ))}
@@ -165,7 +177,11 @@ export default function Filter() {
               }
             >
               {Ban.map((_, i) => (
-                <div key={i} onClick={() => setBan(i + 1)}>
+                <div
+                  key={i}
+                  onClick={() => setBan(i + 1)}
+                  className={ban === i + 1 ? "text-blue-400" : ""}
+                >
                   {i + 1}반
                 </div>
               ))}
@@ -175,11 +191,12 @@ export default function Filter() {
           <div></div>
         </div>
       ) : (
-        <img
-          className="absolute left-0 top-20 h-92 w-39 bg-white text-center text-18 font-bold"
-          src="/icons/sidebar-opener.svg"
-          onClick={() => setOpenAnimation(true)}
-        />
+        <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer bg-white">
+          <img
+            src="/icons/sidebar-opener.svg"
+            onClick={() => setOpenAnimation(true)}
+          />
+        </div>
       )}
     </>
   );

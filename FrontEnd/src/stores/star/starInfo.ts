@@ -5,12 +5,16 @@ interface starInfoState {
   userInfoList: User[];
   userInfoPreview: User | null;
   starEdgeList: any[];
+  viewCard: boolean;
+  filterOpen: boolean;
 }
 
 const initialState: starInfoState = {
   userInfoList: [],
   userInfoPreview: null,
   starEdgeList: [],
+  viewCard: false,
+  filterOpen: false,
 };
 
 const starInfoSlice = createSlice({
@@ -26,10 +30,21 @@ const starInfoSlice = createSlice({
     setStarEdgeList(state, action) {
       state.starEdgeList = action.payload;
     },
+    setViewCard(state, action) {
+      state.viewCard = action.payload;
+    },
+    setFilterTabOpen(state, action) {
+      state.filterOpen = action.payload;
+    },
   },
 });
 
-export const { setStarInfo, setStarInfoPreview, setStarEdgeList } =
-  starInfoSlice.actions;
+export const {
+  setStarInfo,
+  setStarInfoPreview,
+  setStarEdgeList,
+  setViewCard,
+  setFilterTabOpen,
+} = starInfoSlice.actions;
 
 export default starInfoSlice.reducer;
