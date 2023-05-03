@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     NetworkDebugStart networkDebugStart;
+    public UIManager uiManager;
 
     private void Awake()
     {
@@ -14,6 +15,8 @@ public class GameData : MonoBehaviour
     private void Start()
     {
         networkDebugStart.StartSharedClient();
+        uiManager.SetVisibleFalse();
+
     }
 
     public void GameExit()

@@ -6,10 +6,6 @@ import useUserNum from "../apis/main/useUserNumber";
 function App() {
   const navigate = useNavigate();
 
-  // "allSsafyCount": 7350,
-  // "useSiteSsafyCount": 514,
-  // "useSiteAllCount": 1005
-
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
@@ -20,9 +16,8 @@ function App() {
   //백준티어 가져오기
   useMemo(() => {
     if (userNumCheckquery.isLoading || userNumCheckquery.error) return null;
-    console.log("null이 아님");
+    console.log(allSsafyCount);
     console.log(userNumCheckquery.data);
-
     if (userNumCheckquery.data !== undefined) {
       setallSsafyCount(userNumCheckquery.data.value.allSsafyCount);
       setuseSiteSsafyCount(userNumCheckquery.data.value.useSiteSsafyCount);
@@ -86,12 +81,6 @@ function App() {
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_5.png')] bg-cover bg-center bg-no-repeat"></div>
       <div className="flex h-screen w-screen items-center justify-start bg-[url('/public/background/landing_temp_6.png')] bg-cover bg-center bg-no-repeat">
-        <button
-          onClick={() => navigate("/test3")}
-          className="ml-140 mt-230 rounded-[10px] bg-[#02C7FE] px-70 py-15 font-['nemo030'] text-white hover:bg-blue-100 hover:text-black"
-        >
-          바로 시작하기
-        </button>
       </div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_7.png')] bg-cover bg-center bg-no-repeat"></div>
       <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_8.png')] bg-cover bg-center bg-no-repeat"></div>

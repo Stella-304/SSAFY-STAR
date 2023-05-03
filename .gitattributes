@@ -1,1 +1,2 @@
 SsafyStar/Assets/External[[:space:]]Assets filter=lfs diff=lfs merge=lfs -text
+SsafyStar/BuildFile filter=lfs diff=lfs merge=lfs -text
