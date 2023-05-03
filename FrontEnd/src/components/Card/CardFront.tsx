@@ -20,7 +20,7 @@ export default function CardFront({ generation, name, text }: Iprops) {
           <div className="text-16 font-bold">- {generation}기 -</div>
           <div className="mt-15 text-48 font-bold">{name}</div>
           <div className="mt-20 text-20 font-bold">나의 한마디</div>
-          <div className="mt-22 w-full whitespace-pre-wrap text-18">
+          <div className="mt-22 w-full whitespace-pre-wrap pl-10 pr-10 text-18">
             "{text}"
           </div>
         </div>

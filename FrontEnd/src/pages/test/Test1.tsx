@@ -1,26 +1,21 @@
 import * as THREE from "three";
-import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Line,
-  OrbitControls,
-  QuadraticBezierLine,
-  Stars,
-} from "@react-three/drei";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Stars } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
 import { KernelSize } from "postprocessing";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
-import useStarInfoQuery from "../../apis/useStarInfoQuery";
 import Ground from "../../components/Ground/Ground";
-import Star from "../../components/GroundObjects/Star";
+import Star from "../../components/Star/Star";
 import Filter from "../../components/Filter/Filter";
-import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
+import StarLine from "../../components/Star/StarLine";
+import useMouse from "@react-hook/mouse-position";
 
 const userInfo: User = {
   name: "이아현",
@@ -44,69 +39,8 @@ const userInfo: User = {
   algoTest: "B형",
   authorized: false,
   prize: `자율 1등\n특화 2등\n공통 1등`,
-  text: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
+  content: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
 };
-
-interface Iprops {
-  // starPos: THREE.Vector3 | undefined;
-  // starRef: any;
-  // planeRef: any;
-  // endAnim: boolean;
-  starFilterInfo: any;
-  starFilterEdgeList: any;
-}
-
-function StarLine({ starFilterInfo, starFilterEdgeList }: Iprops) {
-  const [hovered, setHovered] = useState<boolean>(false);
-  const color = new THREE.Color();
-  const lineRef = useRef<any>(null);
-
-  // useFrame(({ camera }) => {
-  //   // Make text face the camera
-  //   lineRef.current.quaternion.copy(camera.quaternion);
-  //   // Animate font color
-  //   lineRef.current.material.color.lerp(
-  //     color.set(hovered ? "#fa2720" : "white"),
-  //     0.1,
-  //   );
-  // });
-  let t = 0;
-  useFrame(() => {
-    if (t > 10) return;
-    t += 0.01;
-
-    //console.log(lineRef.current);
-    // for (let i = 0; i < starFilterInfo?.length - 1; i++) {
-    //   lineRef.current.setPoints(
-    //     [starFilterInfo[i].x, starFilterInfo[i].y, starFilterInfo[i].z],
-    //     [
-    //       starFilterInfo[i + 1].x,
-    //       starFilterInfo[i + 1].y,
-    //       starFilterInfo[i + 1].z,
-    //     ],
-    //   );
-    // }
-  });
-
-  return starFilterEdgeList ? (
-    <>
-      {starFilterEdgeList.map((item: any) => (
-        <Line
-          ref={lineRef}
-          points={[
-            [item.x1 * 2, item.y1 * 2, item.z1 * 2],
-            [item.x2 * 2, item.y2 * 2, item.z2 * 2],
-          ]}
-          lineWidth={1}
-          color="#fffff" // Default
-          visible={starFilterInfo ? true : false}
-        />
-      ))}
-    </>
-  ) : (
-    <></>
-  );
-}
 
 export default function Test1() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
@@ -114,6 +48,8 @@ export default function Test1() {
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [isCardOpen, setCardOpen] = useState<boolean>(false);
+  const [mousePosX, setMousePosX] = useState<number>();
+  const [mousePosY, setMousePosY] = useState<number>();
 
   const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
@@ -127,10 +63,8 @@ export default function Test1() {
     new THREE.Vector3(-15, 30, 20),
   ];
 
-  const lineRef = useRef<any>(null);
-  const starRef = useRef<any>(null);
-
-  const starInfo = useStarInfoQuery();
+  const ref = useRef<any>(null);
+  //const mouse = useMouse(ref);
 
   const starFilterInfo = useSelector(
     (state: RootState) => state.starInfo.userInfoList,
@@ -140,15 +74,34 @@ export default function Test1() {
     (state: RootState) => state.starInfo.starEdgeList,
   );
 
+  const userInfoPreview = useSelector(
+    (state: RootState) => state.starInfo.userInfoPreview,
+  );
+
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
   const isFilterOpen = useSelector(
     (state: RootState) => state.starInfo.filterOpen,
   );
 
+  useEffect(() => {
+    console.log(ref);
+  }, [starFilterInfo]);
+
+  // useEffect(() => {
+  //   if (userInfoPreview) {
+  //     setMousePosX(userInfoPreview.x * 2 - 1);
+  //     setMousePosY(userInfoPreview.y * 2 - 1);
+  //   }
+  // }, [userInfoPreview]);
+
   return (
     <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, -10, 0], fov: 47 }}>
+      <Canvas
+        dpr={[1, 2]}
+        camera={{ position: [0, -10, 0], fov: 47 }}
+        ref={ref}
+      >
         <OrbitControls autoRotate={true} autoRotateSpeed={0.15} />
         <ambientLight />
         <EffectComposer multisampling={8}>
@@ -165,23 +118,6 @@ export default function Test1() {
             intensity={0.5}
           />
         </EffectComposer>
-        {!starFilterInfo &&
-          starInfo?.data?.cardList?.map((item: User) => (
-            <Star
-              item={item}
-              starPos={starPos}
-              setEndAnim={setEndAnim}
-              onClick={() => {
-                setStarPos(
-                  new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2),
-                );
-                setSelectedUserInfo(item);
-                setCardFront(true);
-                setEndAnim(false);
-              }}
-              key={item.cardId}
-            />
-          ))}
         {starFilterInfo?.map((item: User) => (
           <Star
             item={item}
@@ -240,7 +176,7 @@ export default function Test1() {
               <CardFront
                 generation={selectedUserInfo.generation}
                 name={selectedUserInfo.name}
-                text={`얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`}
+                text={selectedUserInfo.content}
               />
             </div>
             <div className="absolute h-full w-full backface-hidden rotate-y-180">
@@ -261,7 +197,7 @@ export default function Test1() {
             " absolute top-0 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
           }
         >
-          {starFilterInfo?.map((item, index) => (
+          {starFilterInfo?.map((item: User, index: number) => (
             <div
               className="h-200 w-150 cursor-pointer hover:brightness-125"
               key={index}
@@ -280,6 +216,14 @@ export default function Test1() {
           ))}
         </div>
       )}
+      {/* {userInfoPreview && mouse && (
+        <div
+          style={{ top: mouse.y!, left: mouse.x! }}
+          className="absolute z-30 h-30 w-50 bg-yellow-500"
+        >
+          {userInfoPreview?.name}
+        </div>
+      )} */}
     </div>
   );
 }
