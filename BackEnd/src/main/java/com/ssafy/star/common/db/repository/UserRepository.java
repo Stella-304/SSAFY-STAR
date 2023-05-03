@@ -26,4 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select authority_set from user_authority_set where user_id = :id", nativeQuery = true)
     Optional<List<String>> findAllRolesById(long id);
+
+    @Query(value = "select u from User u join fetch u.card")
+    List<User> findAllWithCard();
 }
