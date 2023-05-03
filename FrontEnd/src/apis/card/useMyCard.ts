@@ -9,7 +9,7 @@ const fetcher = () =>
     .then(({ data }) => data);
 
 const useMyCard = () => {
-  return useQuery("/mycardinfo", fetcher, {});
+  return useQuery("/mycardinfo", fetcher, { retry: 0 });
 };
 
 export default useMyCard;

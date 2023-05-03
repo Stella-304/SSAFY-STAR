@@ -4,8 +4,14 @@ import EarthLayout from "../../components/Layout/EarthLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
-import { emailReg, loginidReg, nicknameReg, passwordReg } from "../../utils/regex";
-import { useEffect,  useRef, useState } from "react";
+import {
+  emailReg,
+  loginidReg,
+  nicknameReg,
+  passwordReg,
+  nameReg,
+} from "../../utils/regex";
+import { useEffect, useRef, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import { sec2time } from "../../utils/util";
 import useSignup from "../../apis/user/useSignup";
@@ -39,7 +45,7 @@ export default function Signup() {
   const nicknameRef = useRef<HTMLInputElement>(null);
 
   //회원가입 요청
-  const signupMutate = useSignup();
+  const signupMutate = useSignup(setIdWarning);
 
   //이메일 중복 확인
   const [emailCheckSave, setEmailCheckSave] = useState("");
@@ -123,7 +129,7 @@ export default function Signup() {
 
   //이름 입력
   function onName(input: string) {
-    if (!input.match(nicknameReg)) {
+    if (!input.match(nameReg)) {
       setNameWarning("이름은 5글자 이내로 해주세요");
     } else {
       //이메일 중복 확인요청
@@ -134,7 +140,7 @@ export default function Signup() {
   //닉네임 입력
   function onNickname(input: string) {
     if (!input.match(nicknameReg)) {
-      setNickameWarning("닉네임은 5글자 이내로 해주세요");
+      setNickameWarning("닉네임은 10글자 이내로 해주세요");
     } else {
       setNickameWarning("");
     }
@@ -164,7 +170,10 @@ export default function Signup() {
       return;
     }
 
-    sendEmailCheckMutate.mutate({ email: emailCheckSave, code: emailCheckCode });
+    sendEmailCheckMutate.mutate({
+      email: emailCheckSave,
+      code: emailCheckCode,
+    });
   }
 
   //회원가입 진행
@@ -173,7 +182,7 @@ export default function Signup() {
     if (user.name === "") {
       return;
     }
-    if (!user.name.match(nicknameReg)) {
+    if (!user.name.match(nameReg)) {
       return nameRef?.current?.focus();
     }
 

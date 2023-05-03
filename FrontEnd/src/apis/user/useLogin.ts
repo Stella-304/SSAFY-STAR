@@ -13,11 +13,12 @@ const fetcher = (payload: LoginType) =>
     .then(({ data }) => data);
 /**
  * 아이디와 비밀번호로 로그인을 진행한다.
- * @returns 
+ * @returns
  */
 const useLogin = () => {
   const usercheck = useUserCheck();
   return useMutation(fetcher, {
+    retry: 0,
     onSuccess: (data) => {
       //토큰 저장
       sessionStorage.setItem("accessToken", data.value);

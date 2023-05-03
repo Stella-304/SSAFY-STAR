@@ -19,16 +19,20 @@ const fetcher = (payload: SignupType) =>
  * 회원가입을 진행한다.
  * 성공시 메인으로
  * 실패시 알림
- * @returns 
+ * @returns
  */
-const useSignup = () => {
+const useSignup = (setIdWarning: (params: string) => void) => {
   const navigate = useNavigate();
   return useMutation(fetcher, {
+    retry: 0,
     onSuccess: () => {
       navigate("/");
     },
-    onError: () => {
-      alert("잠시후 시도해 주세요");
+    onError: (e: any) => {
+      if (e.response.status === 409) {
+        alert("존재하는 아이디입니다.");
+        setIdWarning("존재하는 아이디입니다.");
+      }
     },
   });
 };

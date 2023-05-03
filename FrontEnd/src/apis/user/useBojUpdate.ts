@@ -16,6 +16,7 @@ const fetcher = () =>
 const useBojcheck = () => {
   return useQuery("/bojupdate", fetcher, {
     enabled: false,
+    retry: 0,
   });
 };
 
