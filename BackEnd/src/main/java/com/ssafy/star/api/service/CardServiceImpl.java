@@ -236,7 +236,13 @@ public class CardServiceImpl implements CardService {
 	@Override
 	@Transactional
 	public void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception {
-		Card card = cardRepository.findById(cardUpdateReqDto.getId()).orElseThrow(() -> new Exception());
+		long userId = authProvider.getUserIdFromPrincipal();
+
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+
+		Card card = Optional.ofNullable(user.getCard())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 		card.of(cardUpdateReqDto);
 	}
 

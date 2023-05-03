@@ -59,13 +59,21 @@ export default function Login() {
     };
     loginMutate.mutate(payload);
   }
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      submit(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
   return (
     <EarthLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div
+        className="flex h-full flex-col justify-around"
+        onKeyDown={handleOnKeyPress}
+      >
         <div>
           <span className="block text-4xl font-bold">Login</span>
           <span className="block text-sm">
-            SsafyStar를 사용하기 위해 로그인 해 주세요
+            SSAFY STAR를 사용하기 위해 로그인 해 주세요
           </span>
         </div>
         <div className="mb-80">
@@ -94,7 +102,7 @@ export default function Login() {
 
         <div className="flex flex-col gap-4">
           {/* oauth */}
-          <div className="flex flex-col justify-center gap-16">
+          <div className="flex justify-center gap-16">
             <MidButton value="구글 로그인" onClick={() => goOauth("google")} />
             {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
             <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} />

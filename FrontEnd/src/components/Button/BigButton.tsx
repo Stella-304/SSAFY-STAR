@@ -5,7 +5,7 @@ interface props {
 export default function BigButton({ value, onClick }: props) {
   return (
     <div
-      className="rounded-5 bg-black text-white text-center w-360 h-32 leading-32 cursor-pointer"
+      className="h-32 w-360 cursor-pointer rounded-5 bg-black text-center leading-32 text-white"
       onClick={onClick}
     >
       {value}

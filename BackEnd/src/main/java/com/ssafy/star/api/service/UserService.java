@@ -6,6 +6,7 @@ import com.ssafy.star.common.db.dto.response.UserDetailDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
 
@@ -24,6 +25,6 @@ public interface UserService {
     int findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
     BadgeStatusDto searchBadgeStatus(String type);
-
 	boolean searchCardIsRegist();
+    List<String> getRoleListUser();
 }

@@ -95,7 +95,8 @@ public class UserServiceImpl implements UserService {
 	public UserDetailDto getDetailUser() {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
-		return new UserDetailDto(user.getName(), user.getEmail(), user.isAutorized());
+		boolean isCardRegistered= (user.getCard())!=null;
+		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAutorized(),isCardRegistered);
 	}
 
 	@Override
@@ -256,4 +257,10 @@ public class UserServiceImpl implements UserService {
 		return user.getCard() != null;
 	}
 
+
+	@Override
+	public List<String> getRoleListUser() {
+		return userRepository.findAllRolesById(authProvider.getUserIdFromPrincipal())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+	}
 }

@@ -1,18 +1,16 @@
 package com.ssafy.star.api.controller;
 
+import com.ssafy.star.api.service.InitDataService;
+import com.ssafy.star.common.util.constant.Msg;
+import com.ssafy.star.common.util.dto.ResponseDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.ssafy.star.api.service.InitDataService;
-import com.ssafy.star.common.util.constant.Msg;
-import com.ssafy.star.common.util.dto.ResponseDto;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 
 @Controller
 @Api(tags = {"데이터 초기화 API"})
@@ -53,14 +51,14 @@ public class InitDataController {
 
 	@GetMapping("/polygon")
 	@ApiOperation(value = "coordinate data init")
-	public ResponseEntity<?> polygon() throws Exception {
+	public ResponseEntity<?> polygon() {
 		initDataService.initPolygon();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@GetMapping("/all")
 	@ApiOperation(value = "coordinate data init")
-	public ResponseEntity<?> all() throws Exception {
+	public ResponseEntity<?> all() {
 		initDataService.initAll();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}

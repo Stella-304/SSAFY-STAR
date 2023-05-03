@@ -48,6 +48,8 @@ export default function Filter() {
       setSearchValue("campus");
     } else if (generation) {
       setSearchValue("generation");
+    } else {
+      setSearchValue("");
     }
   }, [generation, region, ban]);
 
@@ -112,7 +114,20 @@ export default function Filter() {
             </div>
           </div>
           <div className="mt-10 flex w-full flex-col gap-10 pl-18">
-            <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
+            <div className="flex">
+              <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
+              {generation && (
+                <div className="ml-16 text-12 text-blue-400">
+                  {generation}기
+                </div>
+              )}
+              {region && (
+                <div className="ml-16 text-12 text-blue-400">{region}</div>
+              )}
+              {ban && (
+                <div className="ml-16 text-12 text-blue-400">{ban}반</div>
+              )}
+            </div>
 
             <div
               className="flex cursor-pointer items-center"
