@@ -22,6 +22,7 @@ import useSendMailCheck from "../../apis/user/useSendMailCheck";
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
   const dispatch = useDispatch();
+  //경고
   const [idWarning, setIdWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
   const [nicknameWarning, setNickameWarning] = useState("");
@@ -32,11 +33,13 @@ export default function Signup() {
   const [codeWarning, setCodeWarning] = useState("");
   const [codeConfirm, setCodeConfirm] = useState("");
 
+  //이메일 체크
   const [emailCheckCode, setEmailCheckCode] = useState(""); //이메일 체크코드
   const [openCheck, setOpenCheck] = useState(false); //이메일 인증칸 오픈
   const [emailCheck, setEmailCheck] = useState(false); //이메일 체크유무
   const [timer, setTimer] = useState(-1); //3분 타이머
 
+  //포커스용
   const idRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -96,6 +99,7 @@ export default function Signup() {
     } else {
       setEmailWarning("");
     }
+    setOpenCheck(false);
     dispatch(setUser({ ...user, email: input }));
   }
 
@@ -276,7 +280,11 @@ export default function Signup() {
               />
             </div>
             <div className="flex items-end">
-              <SmallButton value="중복확인" onClick={sendEmail}></SmallButton>
+              <SmallButton
+                value="중복확인"
+                onClick={sendEmail}
+                disable={openCheck}
+              ></SmallButton>
             </div>
           </div>
           {openCheck && (
