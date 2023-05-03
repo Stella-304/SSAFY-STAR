@@ -40,23 +40,25 @@ function App() {
         <div className="flex h-screen  flex-col justify-around">
           <div>
             <img
-              className=" mx-auto h-auto max-w-xs font-bold"
+              className=" mx-auto h-auto max-w-xs select-none font-bold"
               src="/background/landing_starLogo.png"
               alt="logo"
             ></img>
-            <div className="text-1xl text-center text-white">STELLA</div>
+            <div className="text-1xl select-none text-center text-white">
+              STELLA
+            </div>
           </div>
-          <div className="mt-20 text-center font-['RocaOne'] text-9xl text-[#02C7FE]">
+          <div className="mt-20 select-none text-center font-['RocaOne'] text-9xl text-[#02C7FE]">
             SSAFY-STAR
           </div>
           <div className="-mt-80">
-            <div className="text-center font-['nemo030'] text-3xl text-white">
+            <div className="select-none text-center font-['nemo030'] text-3xl text-white">
               전체 싸피생 : {allSsafyCount}
             </div>
-            <div className="mt-10 text-center font-['nemo030'] text-3xl text-white">
+            <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               현재 사용자 : {useSiteAllCount}
             </div>
-            <div className="mt-10 text-center font-['nemo030'] text-3xl text-white">
+            <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               인증된 사용자 : {useSiteSsafyCount}
             </div>
           </div>
