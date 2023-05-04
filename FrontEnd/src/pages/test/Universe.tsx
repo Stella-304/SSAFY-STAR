@@ -180,17 +180,9 @@ export default function Universe() {
             (endAnim
               ? "opacity-100 transition duration-[1200ms]"
               : "invisible opacity-0") +
-            " absolute left-[calc(50%-230px)] top-[calc(50%-356px)] z-25 h-712 w-461"
+            " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
           }
         >
-          <img
-            src="/icons/exit-white.svg"
-            className="absolute right-30 top-50 z-20 h-20 w-20 cursor-pointer"
-            onClick={() => {
-              setEndAnim(false);
-              setCardOpen(false);
-            }}
-          />
           <div
             className={
               (isCardFront ? "" : "rotate-y-180") +
@@ -204,10 +196,20 @@ export default function Universe() {
                 name={selectedUserInfo.name}
                 text={selectedUserInfo.content}
                 isSsafyVerified={selectedUserInfo.authorized}
+                onClick={() => {
+                  setEndAnim(false);
+                  setCardOpen(false);
+                }}
               />
             </div>
             <div className="absolute h-full w-full backface-hidden rotate-y-180">
-              <CardBack user={selectedUserInfo} />
+              <CardBack
+                user={selectedUserInfo}
+                onClick={() => {
+                  setEndAnim(false);
+                  setCardOpen(false);
+                }}
+              />
             </div>
           </div>
         </div>
