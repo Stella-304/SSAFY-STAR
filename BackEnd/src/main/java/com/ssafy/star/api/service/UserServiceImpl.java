@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public int findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
 
-		String accountId = userFindPwdReqDto.getAccountiId();
+		String accountId = userFindPwdReqDto.getAccountId();
 		String email = userFindPwdReqDto.getEmail();
 
 		Optional<User> userOptional = userRepository.findByAccountIdOrEmail(accountId, email);
