@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.dto.response;
 
 import com.ssafy.star.common.db.entity.Card;
+import com.ssafy.star.common.db.entity.Company;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.util.ParsingUtil;
 
@@ -14,8 +15,11 @@ import java.util.List;
 public class MainNumberDto {
 	@Schema(description = "SW역량테스트 등급별 취득자 수.")
 	SwTier swTier;
-    @Schema(description = "백준 티어별 인원수.")
-    BojTier bojTier;
+	@Schema(description = "백준 티어별 인원수.")
+	BojTier bojTier;
+
+	@Schema(description = "유명한 회사 취업한 인원수")
+	Company company;
 
 	@Getter
 	class SwTier {
@@ -111,6 +115,48 @@ public class MainNumberDto {
 			this.diamondCnt = diamondCnt;
 			this.rubyCnt = rubyCnt;
 			this.nullCnt = nullCnt;
+
+		}
+	}
+
+	@Getter
+	class Company {
+		int samsungEleCnt;
+		int samsungSdsCnt;
+		int naverCnt;
+		int kakaoCnt;
+		int lineCnt;
+		int coupangCnt;
+		int baedalCnt;
+
+		public Company(List<Card> cardList, List<User> userList) {
+
+			//
+			// for (Card card : cardList) {
+			// 	String company = ParsingUtil.nullStr2NULL(card.getCompany());
+			// 	if (bojTier.startsWith("Bronze")) {
+			// 		bronzeCnt++;
+			// 	} else if (bojTier.startsWith("Silver")) {
+			// 		silverCnt++;
+			// 	} else if (bojTier.startsWith("Gold")) {
+			// 		goldCnt++;
+			// 	} else if (bojTier.startsWith("Platinum")) {
+			// 		platinumCnt++;
+			// 	} else if (bojTier.startsWith("Diamond")) {
+			// 		diamondCnt++;
+			// 	} else if (bojTier.startsWith("Ruby")) {
+			// 		rubyCnt++;
+			// 	} else {
+			// 		nullCnt++;
+			// 	}
+			// }
+			// this.bronzeCnt = bronzeCnt;
+			// this.silverCnt = silverCnt;
+			// this.goldCnt = goldCnt;
+			// this.platinumCnt = platinumCnt;
+			// this.diamondCnt = diamondCnt;
+			// this.rubyCnt = rubyCnt;
+			// this.nullCnt = nullCnt;
 
 		}
 	}
