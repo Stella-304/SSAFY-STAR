@@ -56,14 +56,17 @@ export default function MainPage() {
             </div>
           </div>
           <div className="-mt-50 flex justify-center">
-            <button className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white">
-              더 알아보기
+            <button
+              onClick={() => navigate("/metaverse")}
+              className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
+            >
+              메타버스
             </button>
             <button
               onClick={() => navigate("/universe")}
               className=" rounded-[10px] bg-[#02C7FE] px-70 py-15 font-['nemo030'] text-white hover:bg-blue-100 hover:text-black"
             >
-              바로 시작하기
+              별 보러가기
             </button>
           </div>
         </div>
