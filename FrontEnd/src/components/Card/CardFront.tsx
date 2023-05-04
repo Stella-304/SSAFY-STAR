@@ -5,6 +5,7 @@ interface Iprops {
   name: string;
   text: string;
   isSsafyVerified: boolean;
+  onClick: () => void;
 }
 
 export default function CardFront({
@@ -12,24 +13,22 @@ export default function CardFront({
   name,
   text,
   isSsafyVerified,
+  onClick,
 }: Iprops) {
   return (
-    <div className="z-20 h-full w-full select-none rounded-20 bg-gradient-to-b from-cardTop to-[#EFF6EE] px-25 py-28 shadow-md">
-      <div className="absolute left-0 top-0 h-0 w-0  border-r-30 border-t-30 border-r-transparent border-t-red-500 hover:border-t-red-300"></div>
-      <div className="relative h-full w-full rounded-20 border-2 border-black">
-        <div className="absolute left-[calc(50%-37px)] top-[-15px] h-25 w-75 bg-cardTop text-center text-16 font-bold">
-          - ★ -
-        </div>
-        <img
-          className="absolute left-40 top-20 aspect-square w-[calc(100%-80px)]"
-          alt="front"
-          src="/background/cardFrontCircle.svg"
-        />
-        <div className="absolute top-1/3 flex w-full flex-col items-center justify-center text-center">
-          <div className="text-16 font-bold">- {generation}기 -</div>
-          <div className="mt-15 text-48 font-bold">{name}</div>
-          <div className="mt-20 text-20 font-bold">나의 한마디</div>
-          <div className="mt-22 w-full whitespace-pre-wrap pl-10 pr-10 text-18">
+    <div className="shadow-neon relative box-border h-640 w-480 rounded-2xl border-5 border-white bg-black bg-opacity-70 px-20 py-20">
+      <img
+        src="/icons/exit-white.svg"
+        className="absolute right-8 top-8 z-20 h-20 w-20 cursor-pointer"
+        onClick={onClick}
+      />
+      <div className="absolute left-0 top-0 h-0 w-0  border-r-30 border-t-30 border-r-transparent border-t-white hover:border-t-blue-900"></div>
+      <div className="from-opacity-70 to-opacity-38 to-darkblue shadow-neon relative h-full w-full rounded-lg border-5 border-white bg-gradient-to-b from-black">
+        <div className="absolute top-1/4 flex w-full flex-col items-center justify-center px-16 text-center">
+          <div className="mt-15 text-48 font-bold text-white">{name}</div>
+          <div className="text-16 font-bold text-white">- {generation}기 -</div>
+          <div className="mt-20 text-20 font-bold text-white">나의 한마디</div>
+          <div className="mt-22 w-full whitespace-pre-wrap pl-10 pr-10 text-18 text-white">
             "{text}"
           </div>
         </div>

@@ -38,7 +38,7 @@ export default function FloatingMenu() {
   return (
     <div>
       {open ? (
-        <div className="fixed bottom-58 right-16 flex flex-col justify-around gap-8">
+        <div className="fixed bottom-78 right-16 flex flex-col justify-around gap-8">
           {email ? (
             <>
               <FloatButton onClick={logout} value="로그아웃" />
@@ -81,7 +81,7 @@ export default function FloatingMenu() {
       )}
 
       <div
-        className="fixed bottom-8 right-32 h-50 w-50 rounded-full bg-black text-center leading-50 text-white "
+        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center leading-50 text-white"
         onClick={() => setOpen(!open)}
       >
         메뉴
