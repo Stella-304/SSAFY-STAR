@@ -89,8 +89,12 @@ export default function Universe() {
 
   //const myCard = useMyCard();
   useEffect(() => {
-    //myCard.refetch();
-  }, []);
+    if (controls.current) {
+      controls.current.object.position.x = 0;
+      controls.current.object.position.y = -10;
+      controls.current.object.position.z = 0;
+    }
+  }, [controls.current]);
 
   // useEffect(() => {
   //   if (userInfoPreview) {
