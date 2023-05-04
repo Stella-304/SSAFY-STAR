@@ -93,9 +93,10 @@ export default function Login() {
             value={password}
             warning={passwordWarning}
           />
-          <div className="flex flex-col text-right">
+          
+          <div className="py-10 flex flex-col text-right">
             <LinkButton onClick={() => navigate("/idpwfind")}>
-              아이디/비밀번호 찾기
+              로그인이 안 되시나요?
             </LinkButton>
           </div>
           <div className="mt-30 flex h-48 justify-center font-bold">
@@ -133,9 +134,9 @@ export default function Login() {
             </button>
           </div>
           {/* </div> */}
-          <div className="mb-14 text-right font-bold">
+          <div className="py-10 mb-14 text-right font-bold">
             <LinkButton onClick={() => navigate("/signup")}>
-              회원정보가 없으신가요? Register Herer
+              계정 생성하기
             </LinkButton>
           </div>
         </div>
