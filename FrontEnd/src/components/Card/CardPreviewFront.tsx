@@ -5,19 +5,11 @@ interface Iprops {
 
 export default function CardPreviewFront({ generation, name }: Iprops) {
   return (
-    <div className="h-full w-full select-none rounded-20 bg-gradient-to-b from-cardTop to-[#EFF6EE] px-12 py-15 shadow-md">
-      <div className="relative h-full w-full rounded-20 border-2 border-black">
-        <div className="absolute left-[calc(50%-37px)] top-[-15px] h-25 w-75 bg-cardTop text-center text-16 font-bold">
-          - ★ -
-        </div>
-        <img
-          className="absolute left-40 top-20 aspect-square w-[calc(100%-80px)]"
-          alt="front"
-          src="/background/cardFrontCircle.svg"
-        />
+    <div className="box-border px-10 py-10 w-full h-full bg-opacity-70 bg-black border-3 border-white shadow-neon rounded-20">
+      <div className="relative h-full w-full bg-gradient-to-b from-opacity-70 to-opacity-38 from-black to-darkblue border-3 border-white shadow-neon rounded-15">
         <div className="absolute top-1/3 flex w-full flex-col items-center justify-center text-center">
-          <div className="text-16 font-bold">- {generation}기 -</div>
-          <div className="mt-15 text-20 font-bold">{name}</div>
+          <div className="text-16 font-bold text-white">- {generation}기 -</div>
+          <div className="mt-15 text-20 font-bold text-white">{name}</div>
         </div>
       </div>
     </div>
