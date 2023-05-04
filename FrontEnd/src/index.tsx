@@ -24,6 +24,7 @@ import Notfound from "./pages/Error/Notfound";
 import AdminLayout from "./components/Layout/AdminLayout";
 import Universe from "./pages/test/Universe";
 import Metaverse from "./pages/test/Metaverse";
+import MainPage from "./pages/MainPage";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -68,21 +69,27 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "universe",
+        element: <Universe />,
+      },
+      {
+        path: "test2",
+        element: <Test2 />,
+      },
+      {
+        path: "metaverse",
+        element: <Metaverse />,
+      },
+    ],
   },
   { path: "*", element: <Notfound /> },
   // 테스트 페이지
-  {
-    path: "/universe",
-    element: <Universe />,
-  },
-  {
-    path: "/test2",
-    element: <Test2 />,
-  },
-  {
-    path: "/metaverse",
-    element: <Metaverse />,
-  },
 ]);
 createRoot(container).render(
   <QueryClientProvider client={queryClient}>
