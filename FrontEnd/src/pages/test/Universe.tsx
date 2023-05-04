@@ -184,8 +184,8 @@ export default function Universe() {
           }
         >
           <img
-            src="/icons/exit.svg"
-            className="absolute right-10 top-10 z-20 h-20 w-20 cursor-pointer"
+            src="/icons/exit-white.svg"
+            className="absolute right-30 top-50 z-20 h-20 w-20 cursor-pointer"
             onClick={() => {
               setEndAnim(false);
               setCardOpen(false);

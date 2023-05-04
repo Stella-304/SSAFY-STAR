@@ -29,8 +29,13 @@ module.exports = {
         current: "currentColor",
         black: "#000000",
         white: "#ffffff",
+        darkblue: 'rgba(0, 21, 134, 0.54)',
+        dblue:'rgba(0, 21, 134, 1)',
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
+      },
+      boxShadow:{
+        'neon': '0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)',
       },
       keyframes: {
         wave: {
