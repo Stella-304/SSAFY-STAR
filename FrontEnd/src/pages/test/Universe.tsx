@@ -22,6 +22,7 @@ import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
 import useMyCard from "../../apis/card/useMyCard";
+import FloatingMenu from "../../components/Layout/FloatingMenu";
 
 // const userInfo: User = {
 //   name: "이아현",
@@ -114,122 +115,42 @@ export default function Universe() {
   // }, [myCard]);
 
   return (
-    <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
-      <Canvas
-        dpr={[1, 2]}
-        camera={{
-          fov: 47,
-        }}
-      >
-        <OrbitControls
-          autoRotate={true}
-          autoRotateSpeed={0.15}
-          enableZoom={false}
-          position={[0, -10, 0]}
-          reverseOrbit={true}
-          ref={controls}
-        />
-        <ambientLight />
-        <EffectComposer multisampling={8}>
-          <Bloom
-            kernelSize={3}
-            luminanceThreshold={0}
-            luminanceSmoothing={0.4}
-            intensity={0.6}
-          />
-          <Bloom
-            kernelSize={KernelSize.HUGE}
-            luminanceThreshold={0}
-            luminanceSmoothing={0}
-            intensity={0.5}
-          />
-        </EffectComposer>
-        {starFilterInfo?.map((item: User) => (
-          <Star
-            item={item}
-            starPos={starPos}
-            setEndAnim={setEndAnim}
-            onClick={() => {
-              setStarPos(new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2));
-              setSelectedUserInfo(item);
-              setCardFront(true);
-              setEndAnim(false);
-            }}
-            key={item.cardId}
-          />
-        ))}
-        <Stars
-          radius={130}
-          depth={30}
-          count={5000}
-          factor={4}
-          saturation={0}
-          fade
-          speed={1}
-        />
-        <Ground />
-        <StarLine
-          starFilterInfo={starFilterInfo}
-          starFilterEdgeList={starFilterEdgeList}
-        />
-      </Canvas>
-      <Filter />
-      {selectedUserInfo && (
-        <div
-          className={
-            (endAnim
-              ? "opacity-100 transition duration-[1200ms]"
-              : "invisible opacity-0") +
-            " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
-          }
+    <>
+      <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
+        <Canvas
+          dpr={[1, 2]}
+          camera={{
+            fov: 47,
+          }}
         >
-          <div
-            className={
-              (isCardFront ? "" : "rotate-y-180") +
-              " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
-            }
-            onClick={() => setCardFront(!isCardFront)}
-          >
-            <div className="absolute h-full w-full backface-hidden">
-              <CardFront
-                generation={selectedUserInfo.generation}
-                name={selectedUserInfo.name}
-                text={selectedUserInfo.content}
-                isSsafyVerified={selectedUserInfo.authorized}
-                onClick={() => {
-                  setEndAnim(false);
-                  setCardOpen(false);
-                }}
-              />
-            </div>
-            <div className="absolute h-full w-full backface-hidden rotate-y-180">
-              <CardBack
-                user={selectedUserInfo}
-                onClick={() => {
-                  setEndAnim(false);
-                  setCardOpen(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-      {isCardOpen && (
-        <div className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"></div>
-      )}
-      {viewCard && (
-        <div
-          className={
-            (isFilterOpen
-              ? "left-300 w-[calc(100%-300px)]"
-              : "left-30 w-full") +
-            " absolute top-0 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
-          }
-        >
-          {starFilterInfo?.map((item: User, index: number) => (
-            <div
-              className="h-200 w-150 cursor-pointer hover:brightness-125"
-              key={index}
+          <OrbitControls
+            autoRotate={true}
+            autoRotateSpeed={0.15}
+            enableZoom={false}
+            position={[0, -10, 0]}
+            reverseOrbit={true}
+            ref={controls}
+          />
+          <ambientLight />
+          <EffectComposer multisampling={8}>
+            <Bloom
+              kernelSize={3}
+              luminanceThreshold={0}
+              luminanceSmoothing={0.4}
+              intensity={0.6}
+            />
+            <Bloom
+              kernelSize={KernelSize.HUGE}
+              luminanceThreshold={0}
+              luminanceSmoothing={0}
+              intensity={0.5}
+            />
+          </EffectComposer>
+          {starFilterInfo?.map((item: User) => (
+            <Star
+              item={item}
+              starPos={starPos}
+              setEndAnim={setEndAnim}
               onClick={() => {
                 setStarPos(
                   new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2),
@@ -237,14 +158,102 @@ export default function Universe() {
                 setSelectedUserInfo(item);
                 setCardFront(true);
                 setEndAnim(false);
-                setCardOpen(true);
               }}
-            >
-              <CardPreviewFront generation={item.generation} name={item.name} />
-            </div>
+              key={item.cardId}
+            />
           ))}
-        </div>
-      )}
-    </div>
+          <Stars
+            radius={130}
+            depth={30}
+            count={5000}
+            factor={4}
+            saturation={0}
+            fade
+            speed={1}
+          />
+          <Ground />
+          <StarLine
+            starFilterInfo={starFilterInfo}
+            starFilterEdgeList={starFilterEdgeList}
+          />
+        </Canvas>
+        <Filter />
+        {selectedUserInfo && (
+          <div
+            className={
+              (endAnim
+                ? "opacity-100 transition duration-[1200ms]"
+                : "invisible opacity-0") +
+              " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
+            }
+          >
+            <div
+              className={
+                (isCardFront ? "" : "rotate-y-180") +
+                " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
+              }
+              onClick={() => setCardFront(!isCardFront)}
+            >
+              <div className="absolute h-full w-full backface-hidden">
+                <CardFront
+                  generation={selectedUserInfo.generation}
+                  name={selectedUserInfo.name}
+                  text={selectedUserInfo.content}
+                  isSsafyVerified={selectedUserInfo.authorized}
+                  onClick={() => {
+                    setEndAnim(false);
+                    setCardOpen(false);
+                  }}
+                />
+              </div>
+              <div className="absolute h-full w-full backface-hidden rotate-y-180">
+                <CardBack
+                  user={selectedUserInfo}
+                  onClick={() => {
+                    setEndAnim(false);
+                    setCardOpen(false);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {isCardOpen && (
+          <div className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"></div>
+        )}
+        {viewCard && (
+          <div
+            className={
+              (isFilterOpen
+                ? "left-300 w-[calc(100%-300px)]"
+                : "left-30 w-full") +
+              " absolute top-0 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+            }
+          >
+            {starFilterInfo?.map((item: User, index: number) => (
+              <div
+                className="h-200 w-150 cursor-pointer hover:brightness-125"
+                key={index}
+                onClick={() => {
+                  setStarPos(
+                    new THREE.Vector3(item.x * 2, item.y * 2, item.z * 2),
+                  );
+                  setSelectedUserInfo(item);
+                  setCardFront(true);
+                  setEndAnim(false);
+                  setCardOpen(true);
+                }}
+              >
+                <CardPreviewFront
+                  generation={item.generation}
+                  name={item.name}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <FloatingMenu />
+    </>
   );
 }

@@ -17,7 +17,6 @@ export default function NoneAuthLayout() {
       if (sessionStorage.getItem("accessToken") !== null) {
         navigate("/"); //진짜 로그인하면 메인으로
       } else {
-        alert(sessionStorage.getItem("accessToken"));
         //세션이 없다? 로그아웃 진행
         dispatch(logout());
         setLoginCheck(true);
