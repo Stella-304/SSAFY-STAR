@@ -11,14 +11,14 @@ const fetcher = () =>
     })
     .then(({ data }) => data);
 
-const useMyCard = () => {
+const useMyCard = (setCompany:(params:string)=>void) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return useQuery("/mycardinfo", fetcher, {
     retry: 0,
     enabled: false,
     onSuccess: (data) => {
-      console.log(data.value);
+      setCompany(data.value.company);
       dispatch(setCard(data.value));
     },
     onError: (e: any) => {

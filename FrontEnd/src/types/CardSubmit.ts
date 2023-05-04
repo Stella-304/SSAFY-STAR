@@ -1,7 +1,7 @@
 export interface CardSubmitType {
   ban: string; //1학기 기준 반
   blogAddr: string; //블로그
-  bojid: string; //백준아이디
+  bojId: string; //백준아이디
   bojTier: string; //백준티어
   campus: string; //캠퍼스 지역
   company: string; //회사

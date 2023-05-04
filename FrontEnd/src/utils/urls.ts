@@ -38,6 +38,8 @@ export const USER_DETAIL_URL = SERVER_API + "/app/user/detail";
 export const USER_URL = SERVER_API + "/app/user";
 //비밀번호 수정
 export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
+//유저의 권한조회
+export const ROLE_URL = SERVER_API+"/app/user/role";
 
 //------------------카드
 //카드 등록, 수정
@@ -58,3 +60,11 @@ export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";
 //---------------메인 메이지
 // 유저 숫자 조회
 export const MAIN_USERNUM_URL = SERVER_API + "/app/number/landing";
+
+
+
+//--- 관리자
+export const ADMIN_ALL = SERVER_API+"/app/admin/badge/list/all";
+export const ADMIN_YET = SERVER_API+"/app/admin/badge/list/yet";
+//관리자 승인
+export const ADMIN_ACCEPT = SERVER_API+"/app/admin/badge"
