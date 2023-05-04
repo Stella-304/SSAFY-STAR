@@ -18,3 +18,6 @@ export const nameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,5}$/g;
 
 //닉네임 형식 영문대소, 숫자 10글자 이내
 export const nicknameReg = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]{0,10}$/g;
+
+//깃헙아이디 형식 영문대소, 숫자 20글자 이내
+export const githubIdReg = /^[a-zA-Z0-9]{0,20}$/g;

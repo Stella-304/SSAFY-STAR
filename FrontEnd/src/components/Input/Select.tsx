@@ -14,13 +14,14 @@ export default function Select({ id, value, label, options, onChange }: props) {
         id={id}
         className="w-160 border-2"
         onChange={(e) => onChange(e.target.value)}
+        value={value}
       >
         <option value="" hidden>
           선택
         </option>
         {options.map((ele) => {
           return (
-            <option key={ele} value={ele} selected={value === ele}>
+            <option key={ele} value={ele}>
               {ele}
             </option>
           );

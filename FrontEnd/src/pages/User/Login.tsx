@@ -71,15 +71,15 @@ export default function Login() {
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="block text-4xl font-bold">Login</span>
-          <span className="block text-sm">
-            SSAFY STAR를 사용하기 위해 로그인 해 주세요
+          <span className="mb-14 block text-4xl font-bold">LOG-IN</span>
+          <span className="block text-sm font-bold">
+            SSAFY STAR를 사용하기 위해 로그인 해 주세요👀
           </span>
         </div>
-        <div className="mb-80">
+        <div className=" block font-bold">
           <Input
             id="loginId"
-            type="input"
+            type="textfield"
             label="아이디"
             onChange={onLoginid}
             value={loginid}
@@ -93,26 +93,51 @@ export default function Login() {
             value={password}
             warning={passwordWarning}
           />
-          <div className="flex flex-col text-right">
+
+          <div className="flex flex-col py-10 text-right">
             <LinkButton onClick={() => navigate("/idpwfind")}>
-              아이디/비밀번호 찾기
+              로그인이 안 되시나요?
             </LinkButton>
+          </div>
+          <div className="mt-30 flex h-48 justify-center font-bold">
+            <MidButton value="로그인" onClick={submit} />
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
           {/* oauth */}
-          <div className="flex justify-center gap-16">
-            <MidButton value="구글 로그인" onClick={() => goOauth("google")} />
-            {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
-            <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} />
+          {/* <div className="flex justify-center gap-16"> */}
+          {/* <MidButton value="구글 로그인" onClick={() => goOauth("google")} /> */}
+          {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
+          {/* <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} /> */}
+
+          <div className="flex flex-col items-center">
+            {/*
+            <button
+              className="flex justify-center"
+              onClick={() => goOauth("google")}
+            >
+              <img
+                className="h-48"
+                src="./background/login_google.png"
+                alt="google 로그인"
+              />
+            </button>
+             <button
+              className="flex justify-center"
+              onClick={() => goOauth("kakao")}
+            >
+              <img
+                className="h-48"
+                src="./background/login_kakao.png"
+                alt="kakao 로그인"
+              />
+            </button> */}
           </div>
-          <div className="flex justify-center">
-            <BigButton value="로그인" onClick={submit} />
-          </div>
-          <div className="text-right">
+          {/* </div> */}
+          <div className="mb-14 py-10 text-right font-bold">
             <LinkButton onClick={() => navigate("/signup")}>
-              회원정보가 없으신가요? Register Herer
+              계정 생성하기
             </LinkButton>
           </div>
         </div>

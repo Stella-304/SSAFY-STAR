@@ -26,7 +26,7 @@ const useSignup = (setIdWarning: (params: string) => void) => {
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
-      navigate("/");
+      navigate("/login");
     },
     onError: (e: any) => {
       if (e.response.status === 409) {

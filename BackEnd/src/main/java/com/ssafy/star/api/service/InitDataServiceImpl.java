@@ -55,8 +55,8 @@ public class InitDataServiceImpl implements InitDataService {
 						.name((String)row.get("name"))
 						.nickname(((String)row.get("nickname")))
 						.email((String)row.get("email"))
-						.isAutorized(random.nextBoolean())
-						.companyIsAutorized(random.nextBoolean())
+						.isAuthorized(random.nextBoolean())
+						.companyIsAuthorized(random.nextBoolean())
 						.loginType(LoginTypeEnum.custom)
 						.build();
 				userRepository.save(user);

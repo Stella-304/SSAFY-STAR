@@ -33,7 +33,7 @@ public class SmtpProviderImpl implements SmtpProvider {
 			message.addRecipients(Message.RecipientType.TO, email);
 			message.setSubject("ssafy-star 비밀번호 찾기 안내");
 
-			String text = "임시 비밀번호는 " + "[ " + pwd + " ] 입니다.";
+			String text = "임시 비밀번호는 " + "[" + pwd + "] 입니다.";
 			message.setText(text, "utf-8");
 			message.setFrom(new InternetAddress(ADMIN_ADDRESS, "ssafy-star"));
 
@@ -69,7 +69,7 @@ public class SmtpProviderImpl implements SmtpProvider {
 			message.addRecipients(Message.RecipientType.TO, email);
 			message.setSubject("ssafy-star 이메일 인증 안내");
 
-			String text = "인증번호는" + " [ " + code + " ] 입니다.";
+			String text = "인증번호는" + " [" + code + "] 입니다.";
 			message.setText(text, "utf-8");
 			message.setFrom(new InternetAddress(ADMIN_ADDRESS, "ssafy-star"));
 

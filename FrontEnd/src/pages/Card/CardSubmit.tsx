@@ -17,27 +17,31 @@ import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
-import { isNumber } from "../../utils/regex";
+import { githubIdReg, isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
 import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { setUser } from "../../stores/user/user";
 
 export default function CardSubmit() {
+  const navigate = useNavigate();
   const { type } = useParams();
   const { card } = useSelector((state: RootState) => state.card);
+  const user = useSelector((state: RootState) => state.user);
+
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   //react query
-  const bojCheckquery = useBojcheck(card.bojid);
+  const bojCheckquery = useBojcheck(card.bojId, setBojTier);
   const cardModifyMutate = useCardModify();
   const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const companySearchQuery = useCompanySearch(search);
-  const myCardQuery = useMyCard();
+  const companySearchQuery = useCompanySearch(search, setSearchList);
+  const myCardQuery = useMyCard(setSearch);
 
   const dispatch = useDispatch();
 
@@ -50,8 +54,21 @@ export default function CardSubmit() {
     dispatch(resetCard());
     if (type === "modify") {
       myCardQuery.refetch();
+    } else {
+      if (user.cardRegistered) {
+        alert("등록하신 카드가 존재합니다.");
+        navigate("/");
+      }
     }
-  }, []);
+  }, [type]);
+
+  useEffect(() => {
+    if (search !== card.company && search !== "") {
+      companySearchQuery.refetch();
+    } else {
+      setSearchList([]);
+    }
+  }, [search]);
 
   useEffect(() => {
     if (checkNecessary()) {
@@ -60,31 +77,6 @@ export default function CardSubmit() {
       setActive(false);
     }
   }, [card.campus, card.generation, card.ban, card.content]);
-
-  //api호출
-  //백준티어 가져오기
-  useMemo(() => {
-    if (bojCheckquery.isLoading || bojCheckquery.error) return null;
-
-    if (bojCheckquery.data !== undefined) setBojTier(bojCheckquery.data.value);
-  }, [bojCheckquery.isLoading, bojCheckquery.error, bojCheckquery.data]);
-
-  //회사 검색
-  useMemo(() => {
-    if (companySearchQuery.isLoading || companySearchQuery.error) return null;
-
-    if (companySearchQuery.data !== undefined) {
-      if (search === "") {
-        setSearchList([]);
-      } else {
-        setSearchList(companySearchQuery.data.value);
-      }
-    }
-  }, [
-    companySearchQuery.isLoading,
-    companySearchQuery.error,
-    companySearchQuery.data,
-  ]);
 
   //input
   function onBan(input: string) {
@@ -112,14 +104,7 @@ export default function CardSubmit() {
 
   function onCompany(input: string) {
     //입력값으로 회사를 검색한다.
-
     setSearch(input);
-    if (input !== "") {
-      companySearchQuery.refetch();
-    } else {
-      setSearchList([]);
-    }
-    //
   }
 
   function selectCompany(input: string) {
@@ -128,6 +113,10 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
+    //
+    if (!input.match(githubIdReg)) {
+      return;
+    }
     dispatch(setCard({ ...card, githubId: input }));
   }
   function onBlog(input: string) {
@@ -136,7 +125,7 @@ export default function CardSubmit() {
 
   //백준
   function onBoj(input: string) {
-    dispatch(setCard({ ...card, bojid: input }));
+    dispatch(setCard({ ...card, bojId: input }));
   }
 
   //select
@@ -171,7 +160,7 @@ export default function CardSubmit() {
   function checkBoj() {
     //백준 인증 진행
     //없으면 unranked
-    if (card.bojid === "") {
+    if (card.bojId === "") {
       return;
     }
     bojCheckquery.refetch();
@@ -199,7 +188,7 @@ export default function CardSubmit() {
       alert("필수 정보를 입력해주세요");
       return;
     }
-    if (card.bojid !== "" && bojTier === "") {
+    if (card.bojId !== "" && bojTier === "") {
       //티어 확인
       alert("백준 티어 확인해주세요");
       return;
@@ -207,7 +196,7 @@ export default function CardSubmit() {
     const cardsubmit: CardSubmitType = {
       ban: card.ban,
       blogAddr: card.blogAddr,
-      bojid: card.bojid,
+      bojId: card.bojId,
       bojTier: bojTier,
       campus: card.campus,
       company: card.company,
@@ -224,11 +213,13 @@ export default function CardSubmit() {
     if (type === "modify") {
       cardModifyMutate.mutate(cardsubmit);
     } else {
+      dispatch(setUser({ ...user, cardRegistered: true }));
       cardSubmitMutate.mutate(cardsubmit);
     }
   }
 
   function deleteCard() {
+    dispatch(setUser({ ...user, cardRegistered: false }));
     cardDeleteMutate.mutate();
   }
   return (
@@ -245,6 +236,7 @@ export default function CardSubmit() {
               label="캠퍼스*"
               options={campusList}
               onChange={onCampus}
+              value={card.campus}
             />
             <Input
               id="cardinal"
@@ -279,12 +271,14 @@ export default function CardSubmit() {
               label="트랙"
               options={trackList}
               onChange={onTrack}
+              value={card.track}
             />
             <Select
               id="major"
               label="전공유무"
               options={majorList}
               onChange={onMajor}
+              value={card.major}
             />
           </div>
 
@@ -303,18 +297,20 @@ export default function CardSubmit() {
               label="역량테스트등급"
               options={gradeList}
               onChange={onGrade}
+              value={card.swTier}
             />
             <Select
               id="field"
               label="분야"
               options={fieldList}
               onChange={onField}
+              value={card.role}
             />
           </div>
           <Input
             id="github"
             type="text"
-            label="Github 링크"
+            label="Github아이디"
             onChange={onGithub}
             value={card.githubId}
           />
@@ -325,7 +321,7 @@ export default function CardSubmit() {
                 type="input"
                 label="백준아이디"
                 onChange={onBoj}
-                value={card?.bojid}
+                value={card?.bojId}
                 confirm={
                   bojTier === "Unrated"
                     ? bojTier + " *solved.ac에 등록해주세요"

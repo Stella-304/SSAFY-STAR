@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { useTexture } from "@react-three/drei";
 import ground from "../../assets/ground.jpg";
-import Tree from "../GroundObjects/Tree";
 import Flower from "../GroundObjects/Flower";
 import Tree2 from "../GroundObjects/Tree2";
 import Grass from "../GroundObjects/Grass";

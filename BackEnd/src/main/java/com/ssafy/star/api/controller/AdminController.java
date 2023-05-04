@@ -1,5 +1,7 @@
 package com.ssafy.star.api.controller;
 
+import javax.annotation.security.RolesAllowed;
+
 import com.ssafy.star.api.service.AdminService;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"관리자 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/admin")
-//@RolesAllowed("ROLE_ADMIN")
+@RolesAllowed("ROLE_ADMIN")
 public class AdminController {
 	final AdminService adminService;
 

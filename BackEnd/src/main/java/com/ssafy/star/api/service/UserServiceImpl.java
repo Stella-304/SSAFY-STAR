@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
 		boolean isCardRegistered= (user.getCard())!=null;
-		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAutorized(),isCardRegistered);
+		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAuthorized(),isCardRegistered);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public int findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
 
-		String accountId = userFindPwdReqDto.getAccountiId();
+		String accountId = userFindPwdReqDto.getAccountId();
 		String email = userFindPwdReqDto.getEmail();
 
 		Optional<User> userOptional = userRepository.findByAccountIdOrEmail(accountId, email);
@@ -234,9 +234,9 @@ public class UserServiceImpl implements UserService {
 		List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadgeType(user, enumType);
 
 		// 인증이 마쳐진 경우.
-		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAutorized())
+		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAuthorized())
 			return new BadgeStatusDto("FINISHED");
-		if (enumType == BadgeEnum.SSAFY && user.isAutorized())
+		if (enumType == BadgeEnum.SSAFY && user.isAuthorized())
 			return new BadgeStatusDto("FINISHED");
 
 		// 보낸 요청중에 하나라도 진행중인게 있으면.

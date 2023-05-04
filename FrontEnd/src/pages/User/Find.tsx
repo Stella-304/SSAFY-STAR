@@ -105,8 +105,8 @@ export default function Find() {
         </div>
         <div className="flex h-full flex-col justify-around">
           <div>
-            <div className="text-2xl font-bold">아이디 찾기</div>
-            <div className="mb-8">
+            <div className="mb-10 text-2xl font-bold">아이디 찾기</div>
+            <div className="mb-8 block font-bold">
               <Input
                 id="email1"
                 label="이메일"
@@ -121,8 +121,8 @@ export default function Find() {
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold">비밀번호 재 발급</div>
-            <div className="mb-8">
+            <div className="mb-10 text-2xl font-bold">비밀번호 재 발급</div>
+            <div className="mb-8 block font-bold">
               <Input
                 id="email2"
                 label="이메일"

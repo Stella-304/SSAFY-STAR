@@ -20,5 +20,9 @@ export interface User {
   algoTest: string;
   authorized: boolean;
   prize: string;
+  mine: boolean;
+  etc: string;
+  companyIsAuthorized: boolean;
+  swTier: string;
   content: string;
 }
