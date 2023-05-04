@@ -87,7 +87,7 @@ export default function Universe() {
     (state: RootState) => state.starInfo.filterOpen,
   );
 
-  const myCard = useMyCard();
+  //const myCard = useMyCard();
   useEffect(() => {
     //myCard.refetch();
   }, []);
@@ -107,11 +107,11 @@ export default function Universe() {
     }
   }, [starFilterInfo]);
 
-  useEffect(() => {
-    if (myCard?.data) {
-      console.log("hi");
-    }
-  }, [myCard]);
+  // useEffect(() => {
+  //   if (myCard?.data) {
+  //     console.log("hi");
+  //   }
+  // }, [myCard]);
 
   return (
     <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
