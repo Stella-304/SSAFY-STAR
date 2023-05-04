@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./pages/App";
 import Test2 from "./pages/test/Test2";
-import Test3 from "./pages/test/Test3";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store from "./stores/store";
@@ -24,6 +23,7 @@ import NoneAuthLayout from "./components/Layout/NoneAuthLayout";
 import Notfound from "./pages/Error/Notfound";
 import AdminLayout from "./components/Layout/AdminLayout";
 import Universe from "./pages/test/Universe";
+import Metaverse from "./pages/test/Metaverse";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -80,8 +80,8 @@ const router = createBrowserRouter([
     element: <Test2 />,
   },
   {
-    path: "/test3",
-    element: <Test3 />,
+    path: "/metaverse",
+    element: <Metaverse />,
   },
 ]);
 createRoot(container).render(
