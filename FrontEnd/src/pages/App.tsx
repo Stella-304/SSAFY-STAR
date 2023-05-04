@@ -67,7 +67,7 @@ function App() {
               더 알아보기
             </button>
             <button
-              onClick={() => navigate("/test1")}
+              onClick={() => navigate("/universe")}
               className=" rounded-[10px] bg-[#02C7FE] px-70 py-15 font-['nemo030'] text-white hover:bg-blue-100 hover:text-black"
             >
               바로 시작하기

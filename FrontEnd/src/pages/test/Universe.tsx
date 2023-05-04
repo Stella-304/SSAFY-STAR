@@ -21,55 +21,32 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
-import useMouse from "@react-hook/mouse-position";
+import useMyCard from "../../apis/card/useMyCard";
 
-const userInfo: User = {
-  name: "이아현",
-  generation: 7,
-  ban: 5,
-  x: 25,
-  y: 25,
-  z: 25,
-  cardId: 1,
-  campus: "대전",
-  major: "전공",
-  track: "자바",
-  company: "삼성전자",
-  githubId: "skylove308",
-  bojId: "skylove650",
-  blogAddr: "https://daily-programmers-diary.tistory.com",
-  email: "skylove0911@naver.com",
-  nickname: "블루베리",
-  role: "BackEnd",
-  bojTier: "Platinum",
-  algoTest: "B형",
-  authorized: false,
-  prize: `자율 1등\n특화 2등\n공통 1등`,
-  content: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
-};
-
-function Controls(props: any) {
-  const cameraRef = useRef<any>(null);
-  const { camera } = useThree();
-  useEffect(() => {
-    if (props.starFilterInfo && cameraRef.current) {
-      console.log("hi");
-      camera.setViewOffset(
-        window.innerWidth,
-        window.innerHeight,
-        -150,
-        0,
-        window.innerWidth,
-        window.innerHeight,
-      );
-    }
-  }, [props.starFilterInfo]);
-  return (
-    <>
-      <PerspectiveCamera ref={cameraRef} />
-    </>
-  );
-}
+// const userInfo: User = {
+//   name: "이아현",
+//   generation: 7,
+//   ban: 5,
+//   x: 25,
+//   y: 25,
+//   z: 25,
+//   cardId: 1,
+//   campus: "대전",
+//   major: "전공",
+//   track: "자바",
+//   company: "삼성전자",
+//   githubId: "skylove308",
+//   bojId: "skylove650",
+//   blogAddr: "https://daily-programmers-diary.tistory.com",
+//   email: "skylove0911@naver.com",
+//   nickname: "블루베리",
+//   role: "BackEnd",
+//   bojTier: "Platinum",
+//   algoTest: "B형",
+//   authorized: false,
+//   prize: `자율 1등\n특화 2등\n공통 1등`,
+//   content: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
+// };
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
@@ -77,8 +54,6 @@ export default function Universe() {
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [isCardOpen, setCardOpen] = useState<boolean>(false);
-  const [mousePosX, setMousePosX] = useState<number>();
-  const [mousePosY, setMousePosY] = useState<number>();
 
   const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
@@ -93,7 +68,6 @@ export default function Universe() {
   ];
 
   const controls = useRef<any>(null);
-  //const mouse = useMouse(ref);
 
   const starFilterInfo = useSelector(
     (state: RootState) => state.starInfo.userInfoList,
@@ -113,6 +87,11 @@ export default function Universe() {
     (state: RootState) => state.starInfo.filterOpen,
   );
 
+  const myCard = useMyCard();
+  useEffect(() => {
+    //myCard.refetch();
+  }, []);
+
   // useEffect(() => {
   //   if (userInfoPreview) {
   //     setMousePosX(userInfoPreview.x * 2 - 1)
@@ -128,6 +107,12 @@ export default function Universe() {
     }
   }, [starFilterInfo]);
 
+  useEffect(() => {
+    if (myCard?.data) {
+      console.log("hi");
+    }
+  }, [myCard]);
+
   return (
     <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
       <Canvas
@@ -139,7 +124,9 @@ export default function Universe() {
         <OrbitControls
           autoRotate={true}
           autoRotateSpeed={0.15}
+          enableZoom={false}
           position={[0, -10, 0]}
+          reverseOrbit={true}
           ref={controls}
         />
         <ambientLight />
@@ -216,6 +203,7 @@ export default function Universe() {
                 generation={selectedUserInfo.generation}
                 name={selectedUserInfo.name}
                 text={selectedUserInfo.content}
+                isSsafyVerified={selectedUserInfo.authorized}
               />
             </div>
             <div className="absolute h-full w-full backface-hidden rotate-y-180">
@@ -255,14 +243,6 @@ export default function Universe() {
           ))}
         </div>
       )}
-      {/* {userInfoPreview && mouse && (
-        <div
-          style={{ top: mouse.y!, left: mouse.x! }}
-          className="absolute z-30 h-30 w-50 bg-yellow-500"
-        >
-          {userInfoPreview?.name}
-        </div>
-      )} */}
     </div>
   );
 }

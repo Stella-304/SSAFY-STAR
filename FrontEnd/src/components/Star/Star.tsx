@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Sphere, Text } from "@react-three/drei";
+import { Html, Sphere, Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
@@ -13,11 +13,14 @@ export default function Star(props: any) {
   const dispatch = useDispatch();
 
   useFrame(() => {
+    let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
-      starRef.current.material.color.lerp(
-        color.set(hovered ? "yellow" : "white"),
-        0.1,
-      );
+      if (props.item.mine) {
+        c = "red";
+      } else if (hovered) {
+        c = "yellow";
+      }
+      starRef.current.material.color.lerp(color.set(c), 0.1);
     }
   });
 
@@ -84,6 +87,13 @@ export default function Star(props: any) {
         position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}
         ref={starRef}
       />
+      {hovered && (
+        <Html position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}>
+          <div className="h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
+            {props.item.generation}기 {props.item.name}
+          </div>
+        </Html>
+      )}
     </>
   );
 }
