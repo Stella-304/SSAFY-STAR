@@ -28,14 +28,14 @@ public class NumberController {
 
 	@GetMapping("/landing")
 	@ApiOperation(value = "랜딩 페이지에서 보여줄 정보")
-	public ResponseEntity<?> landingNumberGet() {
+	public ResponseEntity<ResponseDto> landingNumberGet() {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, numberService.getLandingNumber()));
 	}
 
 	@GetMapping("/main")
 	@ApiOperation(value = "메인 페이지에서 보여줄 정보")
-	public ResponseEntity<?> mainNumberGet() {
+	public ResponseEntity<ResponseDto> mainNumberGet() {
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, numberService.getMainNumber()));
 	}

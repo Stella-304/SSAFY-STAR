@@ -33,7 +33,7 @@ public class NumberServiceImpl implements NumberService {
     public LandingNumberDto getLandingNumber() {
         List<User> user = userRepository.findAll();
         int useSiteAllCnt = user.size();
-        int useSiteSsafyCnt = (int) user.stream().filter(x -> x.isAutorized()).count();
+        int useSiteSsafyCnt = (int) user.stream().filter(x -> x.isAuthorized()).count();
         return LandingNumberDto.builder()
                 .allSsafyCount(ALL_SSAFY_COUNT)
                 .useSiteAllCount(useSiteAllCnt)
@@ -52,7 +52,9 @@ public class NumberServiceImpl implements NumberService {
                 cardList.add(user.getCard());
             else
                 System.out.println("null!!!");
+            System.out.println(user.getCard());
         }
+        System.out.println(userList.size());
 
 
         return new MainNumberDto(cardList, userList);
