@@ -67,7 +67,11 @@ export default function FloatingMenu() {
               />
             </>
           )}
-          <FloatButton onClick={() => navigate("/test3")} value="메타버스" />
+          <FloatButton onClick={() => navigate("/universe")} value="유니버스" />
+          <FloatButton
+            onClick={() => navigate("/metaverse")}
+            value="메타버스"
+          />
           <button className="h-40" onClick={addChannel}>
             <img
               className="h-40"

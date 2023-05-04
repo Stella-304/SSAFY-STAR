@@ -93,8 +93,8 @@ export default function Login() {
             value={password}
             warning={passwordWarning}
           />
-          
-          <div className="py-10 flex flex-col text-right">
+
+          <div className="flex flex-col py-10 text-right">
             <LinkButton onClick={() => navigate("/idpwfind")}>
               로그인이 안 되시나요?
             </LinkButton>
@@ -112,6 +112,7 @@ export default function Login() {
           {/* <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} /> */}
 
           <div className="flex flex-col items-center">
+            {/*
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
@@ -122,7 +123,7 @@ export default function Login() {
                 alt="google 로그인"
               />
             </button>
-            <button
+             <button
               className="flex justify-center"
               onClick={() => goOauth("kakao")}
             >
@@ -131,10 +132,10 @@ export default function Login() {
                 src="./background/login_kakao.png"
                 alt="kakao 로그인"
               />
-            </button>
+            </button> */}
           </div>
           {/* </div> */}
-          <div className="py-10 mb-14 text-right font-bold">
+          <div className="mb-14 py-10 text-right font-bold">
             <LinkButton onClick={() => navigate("/signup")}>
               계정 생성하기
             </LinkButton>
