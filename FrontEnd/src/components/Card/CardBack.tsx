@@ -27,70 +27,74 @@ export default function CardBack({ user }: Iprops) {
 
         <div className="absolute bottom-10 flex w-full flex-col pl-20">
           {user.company && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">직장</div>
-              <div className="text-24">{user.company}</div>
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">직장</div>
+              <div className="h-36 text-22 ">{user.company}</div>
             </div>
           )}
           {user.major && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">전공</div>
-              <div className="text-24">{user.major}</div>
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">전공</div>
+              <div className="h-36 text-22 ">{user.major}</div>
             </div>
           )}
           {user.role && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">분야</div>
-              <div className="text-24">{user.role}</div>
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">분야</div>
+              <div className="h-36 text-22 ">{user.role}</div>
             </div>
           )}
           {user.email && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">이메일</div>
-              <div className="text-24">{user.email}</div>
+            <div className="flex h-36 items-baseline gap-10">
+              <div className="h-36 text-24  font-bold">이메일</div>
+              <div className="h-36 text-22 ">{user.email}</div>
             </div>
           )}
           {user.githubId && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">깃허브</div>
+            <div className="flex h-36 items-baseline gap-10">
+              <div className="h-36 text-24 font-bold">깃허브</div>
               <Link
                 to={`https://github.com/${user.githubId}`}
                 target="_blank"
-                className="text-24"
+                className="flex h-36 text-22 text-blue-300 hover:text-blue-700"
               >
                 바로가기
               </Link>
             </div>
           )}
           {user.blogAddr && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">기술 블로그</div>
-              <Link to={user.blogAddr} target="_blank" className="text-24">
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">기술 블로그</div>
+              <Link
+                to={user.blogAddr}
+                target="_blank"
+                className="h-36 text-22  text-blue-300 hover:text-blue-700"
+              >
                 바로가기
               </Link>
             </div>
           )}
 
           {user.bojTier && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">백준 티어</div>
-              <div className="text-24">{user.bojTier}</div>
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">백준 티어</div>
+              <div className="h-36 text-22 ">{user.bojTier}</div>
             </div>
           )}
-          {user.algoTest && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">역량 테스트</div>
-              <div className="text-24">{user.algoTest}</div>
+          {user.swTier && (
+            <div className="flex h-36 items-center gap-10">
+              <div className="h-36 text-24  font-bold">역량 테스트</div>
+              <div className="h-36 text-22 ">{user.swTier}</div>
             </div>
           )}
-          {user.prize && (
-            <div className="flex gap-10">
-              <div className="text-24 font-bold">수상내역</div>
-              <div className="whitespace-pre-wrap text-24">{user.prize}</div>
+          {user.etc && (
+            <div className="flex h-36 items-center gap-10">
+              <div className="text-24 font-bold">기타사항</div>
+              <div className="whitespace-pre-wrap text-22">{user.etc}</div>
             </div>
           )}
         </div>
-        <div className="absolute bottom-[-11px] left-[calc(50%-100px)] inline-block  h-25 w-200 overflow-hidden bg-cardBottom text-center text-16 font-bold">
+        <div className="absolute bottom-[-11px] left-[calc(50%-100px)] inline-block h-25 w-200 overflow-hidden bg-cardBottom text-center text-16 font-bold">
           - ssafy star -
         </div>
       </div>
