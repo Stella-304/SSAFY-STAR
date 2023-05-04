@@ -10,6 +10,7 @@ export default function CardBack({ user, onClick }: Iprops) {
   return (
     <div className="shadow-neon box-border h-640 w-480 rounded-2xl border-5 border-white bg-black bg-opacity-70 px-20 py-20">
       <div className="hover:border-t-blue absolute left-0 top-0 h-0  w-0 border-r-30 border-t-30 border-r-transparent border-t-white"></div>
+      <div className="from-opacity-70 to-opacity-38 to-darkblue shadow-neon relative h-full w-full rounded-lg border-5 border-white bg-gradient-to-b from-black">
         <div className="absolute top-25 flex w-full flex-col pl-20">
           <div className="mb-10 text-40 font-bold">{user.name}</div>
           <div className="text-20">
