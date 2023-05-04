@@ -9,6 +9,7 @@ import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
+import com.ssafy.star.common.util.constant.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,9 +42,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (Exception e) {
+			CustomOAuth2Exception customOAuth2Exception = (CustomOAuth2Exception)e;
+			ErrorCode errorCode = customOAuth2Exception.getErrorCode();
 			log.error(e.getLocalizedMessage());
-			e.printStackTrace();
-			throw new InternalAuthenticationServiceException(e.getMessage(), e.getCause());
+			throw new InternalAuthenticationServiceException(errorCode.getMessage());
 		}
 	}
 
@@ -97,13 +99,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		String nickName = oAuth2UserInfo.getName();
 
 		return userRepository.save(User.builder()
-				.email(oAuth2UserInfo.getEmail())
-				.name("익명")
-				.nickname(nickName.substring(0, Math.min(nickName.length(), 9)))
-				.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
-				.providerId(oAuth2UserInfo.getId())
-				.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
-				.build());
+			.email(oAuth2UserInfo.getEmail())
+			.name("익명")
+			.nickname(nickName.substring(0, Math.min(nickName.length(), 9)))
+			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
+			.providerId(oAuth2UserInfo.getId())
+			.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
+			.build());
 
 	}
 
