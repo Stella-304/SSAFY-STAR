@@ -40,11 +40,11 @@ public class User extends BaseTime {
 
     @Column(nullable = false)
     @ColumnDefault("false")
-    private boolean isAutorized;
+    private boolean isAuthorized;
 
     @Column(nullable = false)
     @ColumnDefault("false")
-    private boolean companyIsAutorized;
+    private boolean companyIsAuthorized;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
@@ -92,10 +92,11 @@ public class User extends BaseTime {
 	public void equipBadge(BadgeEnum badgeEnum) {
 
 		if (badgeEnum == BadgeEnum.COMPANY) {
-			this.companyIsAutorized = true;
+			this.companyIsAuthorized = true;
 		}
 		if (badgeEnum == BadgeEnum.SSAFY) {
-			this.isAutorized = true;
+			this.isAuthorized = true;
 		}
+
 	}
 }

@@ -31,7 +31,7 @@ public class CardDetailDto {
 	String swTier;
 	String etc;
 	String role;
-	boolean isAutorized;
+	boolean isAuthorized;
 	boolean companyIsAuthorized;
 
 	public CardDetailDto(Card card, double x, double y, double z) {
@@ -56,7 +56,7 @@ public class CardDetailDto {
 		this.email = card.getUser().getEmail();
 		this.nickname = card.getUser().getNickname();
 		this.name = card.getUser().getName();
-		this.isAutorized = card.getUser().isAutorized();
-		this.companyIsAuthorized=card.getUser().isCompanyIsAutorized();
+		this.isAuthorized = card.getUser().isAuthorized();
+		this.companyIsAuthorized=card.getUser().isCompanyIsAuthorized();
 	}
 }

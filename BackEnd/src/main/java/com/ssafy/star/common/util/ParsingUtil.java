@@ -14,4 +14,8 @@ public class ParsingUtil {
 		int flag = (level - 1) / 5;
 		return bojTierTable[flag] + (6 - (level - flag * 5));
 	}
+
+	public static String nullStr2NULL(String str) {
+		return str == null || str.equals("") ? "NULL" : str;
+	}
 }
