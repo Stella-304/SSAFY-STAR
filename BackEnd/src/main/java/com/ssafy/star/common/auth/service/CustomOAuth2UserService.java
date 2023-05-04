@@ -11,6 +11,7 @@ import com.ssafy.star.common.auth.info.OAuth2UserInfo;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
+import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.common.util.constant.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 @Log4j2
@@ -35,6 +35,7 @@ import java.util.Set;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	private RandValueMaker randValueMaker;
 
 	@Override
 	@Transactional
@@ -126,15 +127,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private String makeRandomNickName(int depth) {
 
-		Random rd = new Random();
-		StringBuilder sb = new StringBuilder("중복닉네임");
+		String randomNickname = randValueMaker.makeNicknameCode();
 
-		for(int i=0; i<5; i++) {
-			sb.append((char) (rd.nextInt(75) + 48));
-		}
-
-		if(!userRepository.existsByNickname(sb.toString())) {
-			return sb.toString();
+		if(!userRepository.existsByNickname(randomNickname)) {
+			return randomNickname;
 		} else if(depth < 1000){
 			makeRandomNickName(depth + 1);
 		}
