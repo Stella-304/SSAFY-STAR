@@ -109,13 +109,13 @@ public class GeometryUtil {
         }
 		// y좌표의 합 내림차순으로 간선의 쌍 정렬
 		// 가운데에서부터 퍼져나가는 느낌.
-        edgeDtoList.sort(new Comparator<EdgeDto>() {
-            @Override
-            public int compare(EdgeDto o1, EdgeDto o2) {
-
-                return Double.compare(-(o1.getY1() + o1.getY1()), -(o2.getY1() + o2.getY2()));
-            }
-        });
+        // edgeDtoList.sort(new Comparator<EdgeDto>() {
+        //     @Override
+        //     public int compare(EdgeDto o1, EdgeDto o2) {
+        //
+        //         return Double.compare(-(o1.getY1() + o1.getY1()), -(o2.getY1() + o2.getY2()));
+        //     }
+        // });
         return edgeDtoList;
     }
 

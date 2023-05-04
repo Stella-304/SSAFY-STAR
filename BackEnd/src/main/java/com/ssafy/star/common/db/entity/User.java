@@ -39,11 +39,9 @@ public class User extends BaseTime {
     private String nickname;
 
     @Column(nullable = false)
-    @ColumnDefault("false")
     private boolean isAuthorized;
 
     @Column(nullable = false)
-    @ColumnDefault("false")
     private boolean companyIsAuthorized;
 
     @Column(length = 10)
