@@ -51,8 +51,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
 
-		//        Map<String, Object> mapForLog = oAuth2User.getAttributes();
-		//        mapForLog.forEach((k, v) -> log.info("{} : {}", k,v));
+		        Map<String, Object> mapForLog = oAuth2User.getAttributes();
+				log.info("{}", oAuth2User.getAuthorities());
+				log.info("{}", oAuth2User.getName());
+		        mapForLog.forEach((k, v) -> log.info("{} : {}", k,v));
 
 		OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(),
 			oAuth2User.getAttributes()
