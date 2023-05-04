@@ -22,6 +22,7 @@ const useUserDetail = () => {
   const navigate = useNavigate();
   return useQuery("/userdetail", fetcher, {
     retry: 0,
+    enabled: false,
     onSuccess: (data) => {
       // alert(data.value.email);
       dispatch(
