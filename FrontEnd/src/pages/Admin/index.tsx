@@ -12,7 +12,7 @@ export default function Admin() {
         <SmallButton value="전체내역" onClick={()=>{setPage(1)}}/>
       </div>
       <div className="flex justify-center border-1 w-1000 min-h-570">
-        {page===0?<AcceptList/>:<AcceptList/>}
+        {page===0?<AcceptList type="yet"/>:<AcceptList type="all"/>}
       </div>
     </div>
   </div>

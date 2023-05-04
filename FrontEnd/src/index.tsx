@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./pages/App";
 import Test2 from "./pages/test/Test2";
-import Test3 from "./pages/test/Test3";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store from "./stores/store";
@@ -14,7 +13,6 @@ import { persistStore } from "redux-persist";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
 import CardSubmit from "./pages/Card/CardSubmit";
-import CardModify from "./pages/Card/CardModify";
 import Oauth from "./pages/User/Oauth";
 import Find from "./pages/User/Find";
 import Admin from "./pages/Admin";
@@ -23,7 +21,10 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import AuthLayout from "./components/Layout/AuthLayout";
 import NoneAuthLayout from "./components/Layout/NoneAuthLayout";
 import Notfound from "./pages/Error/Notfound";
+import AdminLayout from "./components/Layout/AdminLayout";
 import Universe from "./pages/test/Universe";
+import Metaverse from "./pages/test/Metaverse";
+import MainPage from "./pages/MainPage";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -32,16 +33,16 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: "/",
-        element: <App />,
-      },
-      {
         path: "/cardsubmit/:type",
         element: <CardSubmit />,
       },
-      { path: "/admin", element: <Admin /> },
       { path: "/mypage", element: <Mypage /> },
     ],
+  },
+  {
+    //관리자페이지
+    element: <AdminLayout />,
+    children: [{ path: "/ssafystaradmin", element: <Admin /> }],
   },
   {
     // 비로그인시만 이용가능
@@ -65,31 +66,39 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "universe",
+        element: <Universe />,
+      },
+      {
+        path: "test2",
+        element: <Test2 />,
+      },
+      {
+        path: "metaverse",
+        element: <Metaverse />,
+      },
+    ],
+  },
   { path: "*", element: <Notfound /> },
   // 테스트 페이지
-  {
-    path: "/universe",
-    element: <Universe />,
-  },
-  {
-    path: "/test2",
-    element: <Test2 />,
-  },
-  {
-    path: "/test3",
-    element: <Test3 />,
-  },
 ]);
 createRoot(container).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate persistor={persistStore(store)}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </QueryClientProvider>
-  </React.StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <PersistGate persistor={persistStore(store)}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </QueryClientProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

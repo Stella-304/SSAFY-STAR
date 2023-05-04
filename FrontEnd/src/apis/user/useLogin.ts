@@ -1,7 +1,8 @@
 import { useMutation } from "react-query";
 import { LOGIN_URL } from "../../utils/urls";
 import { LoginType } from "../../types/LoginType";
-import useUserCheck from "./useUserCheck";
+// import useUserCheck from "./useUserCheck";
+import useUserDetail from "./useUserDetail";
 import { api } from "../api";
 
 const fetcher = (payload: LoginType) =>
@@ -16,7 +17,7 @@ const fetcher = (payload: LoginType) =>
  * @returns
  */
 const useLogin = () => {
-  const usercheck = useUserCheck();
+  const usercheck = useUserDetail();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: (data) => {
@@ -27,8 +28,8 @@ const useLogin = () => {
     onError: (e: any) => {
       if (e.response.status === 404) {
         alert("아이디나 비밀번호를 확인해주세요");
-      }else{
-        alert("잠시후 시도해 주세요.")
+      } else {
+        alert("잠시후 시도해 주세요.");
       }
     },
   });

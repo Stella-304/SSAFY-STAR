@@ -5,14 +5,14 @@ import { RootState } from "../../stores/store";
 import { logout } from "../../stores/user/user";
 
 export default function NoneAuthLayout() {
-  const { name } = useSelector((state: RootState) => state.user);
+  const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     //로그인 안하면 true
     //로그인 하면 false
-    if (name !== "") {
+    if (email !== "") {
       //로그인함
       if (sessionStorage.getItem("accessToken") !== null) {
         navigate("/"); //진짜 로그인하면 메인으로
