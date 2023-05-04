@@ -36,7 +36,10 @@ public enum CommonErrorCode implements ErrorCode {
 	ALEADY_EXIST_CARD(HttpStatus.FORBIDDEN,"이미 등록된 카드가 존재합니다."),
 
 	//파일
-	FILE_NOT_VAILD(HttpStatus.FORBIDDEN, "유효하지 않은 파일입니다"),
+	FILE_NOT_VAILD(HttpStatus.FORBIDDEN, "유효하지 않은 파일입니다."),
+
+	//로또당첨
+	INSANE_USER(HttpStatus.BAD_REQUEST, "로또 당첨자입니다."),
 
 	//파싱
 	FAIL_TO_PARSE(HttpStatus.BAD_REQUEST, "파싱에 실패했습니다.");

@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 @Log4j2
@@ -96,12 +97,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private User registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
 
-		String nickName = oAuth2UserInfo.getName();
+		String oauth2Name = oAuth2UserInfo.getName();
+		String nickName = oauth2Name.substring(0, Math.min(oauth2Name.length(), 9));
+
+		nickName = userRepository.existsByNickname(nickName) ? makeRandomNickName(0) : nickName;
 
 		return userRepository.save(User.builder()
 			.email(oAuth2UserInfo.getEmail())
 			.name("익명")
-			.nickname(nickName.substring(0, Math.min(nickName.length(), 9)))
+			.nickname(nickName)
 			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 			.providerId(oAuth2UserInfo.getId())
 			.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
@@ -118,6 +122,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
 
 		return userRepository.save(user);
+	}
+
+	private String makeRandomNickName(int depth) {
+
+		Random rd = new Random();
+		StringBuilder sb = new StringBuilder("중복닉네임");
+
+		for(int i=0; i<5; i++) {
+			sb.append((char) (rd.nextInt(75) + 48));
+		}
+
+		if(!userRepository.existsByNickname(sb.toString())) {
+			return sb.toString();
+		} else if(depth < 1000){
+			makeRandomNickName(depth + 1);
+		}
+
+		throw new CustomOAuth2Exception(CommonErrorCode.INSANE_USER);
 	}
 
 }
