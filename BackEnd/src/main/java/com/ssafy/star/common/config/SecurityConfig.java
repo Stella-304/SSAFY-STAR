@@ -91,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/oauth2/**", "/", "/admin/**", "/card/**", "/init-data/**", "/number/**", "/user/**", "/role")
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()
