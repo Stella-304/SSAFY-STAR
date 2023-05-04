@@ -21,7 +21,8 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "accountId")
+        @UniqueConstraint(columnNames = "accountId"),
+        @UniqueConstraint(columnNames = "nickname"),
 })
 public class User extends BaseTime {
 
