@@ -81,7 +81,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3) {
+	public ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2,
+		String searchValue3) {
 		//이부분을 jpql써서 바꿔야할듯
 		List<Card> cardList = new ArrayList<>();
 		if (searchColumn != null) {
@@ -114,8 +115,8 @@ public class CardServiceImpl implements CardService {
 				String ban = searchValue3;
 				cardList = cardRepository.getAllFilteredByBan(gen, cam, ban);
 			}
-			if(searchColumn.equals("")){
-				cardList=cardRepository.getAllCardListWithUser();
+			if (searchColumn.equals("")) {
+				cardList = cardRepository.getAllCardListWithUser();
 			}
 		} else {
 			cardList = cardRepository.getAllCardListWithUser();
@@ -129,10 +130,7 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
-		log.info("들어왔나?");
 		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
-
-
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
 	}
@@ -162,7 +160,7 @@ public class CardServiceImpl implements CardService {
 		for (int i = 0; i < cardCnt; i++) {
 			int index = random.nextInt(numbers.size());
 			result.add(numbers.remove(index));
-//			rs.add(random.nextInt(0));
+			//			rs.add(random.nextInt(0));
 			rs.add(0);
 		}
 
@@ -205,11 +203,21 @@ public class CardServiceImpl implements CardService {
 			}
 		}
 
+		long userId = -1L;
+		try {
+			userId = authProvider.getUserIdFromPrincipal();
+		} catch (Exception e) {
+
+		}
+
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
 			int rr = rs.get(i);
-			detailDtoList.add(new CardDetailDto(cardList.get(i), (r + rr) * coordinateList.get(selected).getX()
-				, (r + rr) * coordinateList.get(selected).getY(), (r + rr) * coordinateList.get(selected).getZ()));
+			Card curCard = cardList.get(i);
+			detailDtoList.add(new CardDetailDto(curCard, (r + rr) * coordinateList.get(selected).getX()
+				, (r + rr) * coordinateList.get(selected).getY(), (r + rr) * coordinateList.get(selected).getZ(),
+				curCard.getUser().getId() == userId
+			));
 		}
 		return detailDtoList;
 	}
@@ -239,10 +247,10 @@ public class CardServiceImpl implements CardService {
 		long userId = authProvider.getUserIdFromPrincipal();
 
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
 		Card card = Optional.ofNullable(user.getCard())
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 		card.of(cardUpdateReqDto);
 	}
 
@@ -256,11 +264,11 @@ public class CardServiceImpl implements CardService {
 		long userId = authProvider.getUserIdFromPrincipal();
 
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
 		Card card = Optional.ofNullable(user.getCard())
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
-		CardDetailDto cardDetailDto=new CardDetailDto(card,0,0,0);
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+		CardDetailDto cardDetailDto = new CardDetailDto(card, 0, 0, 0, true);
 		return cardDetailDto;
 	}
 
@@ -269,10 +277,10 @@ public class CardServiceImpl implements CardService {
 		long userId = authProvider.getUserIdFromPrincipal();
 
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 
 		Card card = Optional.ofNullable(user.getCard())
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
 		cardRepository.deleteById(card.getId());
 	}
 
