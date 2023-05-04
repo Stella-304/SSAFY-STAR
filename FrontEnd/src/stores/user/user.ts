@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface userState {
   name: string;
-  nickname:string;
-  email:string;
-  authorized:boolean;
-  cardRegistered:boolean;
+  nickname: string;
+  email: string;
+  authorized: boolean;
+  cardRegistered: boolean;
 }
 
 const initialState: userState = {
   name: "",
-  nickname:"",
-  email:"",
-  authorized:false,
-  cardRegistered:false,
+  nickname: "",
+  email: "",
+  authorized: false,
+  cardRegistered: false,
 };
 
 const userSlice = createSlice({
@@ -29,6 +29,10 @@ const userSlice = createSlice({
     },
     logout(state) {
       state.name = "";
+      state.nickname = "";
+      state.email = "";
+      state.authorized = false;
+      state.cardRegistered = false;
     },
   },
 });

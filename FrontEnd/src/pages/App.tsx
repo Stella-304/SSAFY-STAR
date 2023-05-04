@@ -20,8 +20,6 @@ function App() {
   //백준티어 가져오기
   useMemo(() => {
     if (userNumCheckquery.isLoading || userNumCheckquery.error) return null;
-    console.log("null이 아님");
-    console.log(userNumCheckquery.data);
 
     if (userNumCheckquery.data !== undefined) {
       setallSsafyCount(userNumCheckquery.data.value.allSsafyCount);

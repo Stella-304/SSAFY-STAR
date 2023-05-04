@@ -5,7 +5,9 @@ import { RootState } from "../../stores/store";
 import { useState } from "react";
 
 export default function FloatingMenu() {
-  const { name } = useSelector((state: RootState) => state.user);
+  const { email, cardRegistered } = useSelector(
+    (state: RootState) => state.user,
+  );
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const logoutMutate = useLogout();
@@ -16,13 +18,19 @@ export default function FloatingMenu() {
     <div>
       {open ? (
         <div className="fixed bottom-58 right-16 flex h-100 flex-col justify-around border-1 bg-white">
-          {name ? (
+          {email ? (
             <>
               <button onClick={logout}>로그아웃</button>
               <button onClick={() => navigate("/mypage")}>마이페이지</button>
-              <button onClick={() => navigate("/cardsubmit/submit")}>
-                카드 등록
-              </button>
+              {cardRegistered ? (
+                <button onClick={() => navigate("/cardsubmit/modify")}>
+                  카드 수정
+                </button>
+              ) : (
+                <button onClick={() => navigate("/cardsubmit/submit")}>
+                  카드 등록
+                </button>
+              )}
             </>
           ) : (
             <>

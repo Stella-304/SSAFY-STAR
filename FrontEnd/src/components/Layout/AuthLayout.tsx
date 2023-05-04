@@ -5,12 +5,12 @@ import { RootState } from "../../stores/store";
 import { logout } from "../../stores/user/user";
 
 export default function AuthLayout() {
-  const { name } = useSelector((state: RootState) => state.user);
+  const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (name !== "") {
+    if (email !== "") {
       if (!sessionStorage.getItem("accessToken")) {
         dispatch(logout());
         navigate("/login");

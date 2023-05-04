@@ -31,6 +31,7 @@ const useLogout = () => {
       sessionStorage.removeItem("accessToken"); //토큰제거
       dispatch(logout()); //유저정보 제거
       navigate("/");
+      alert("로그아웃 완료되었습니다.");
     },
     onError: () => {
       alert("잠시후 시도해주세요.");

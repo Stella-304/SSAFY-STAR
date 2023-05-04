@@ -40,10 +40,8 @@ const router = createBrowserRouter([
   },
   {
     //관리자페이지
-    element:<AdminLayout />,
-    children:[
-      { path: "/ssafystaradmin", element: <Admin /> },
-    ]
+    element: <AdminLayout />,
+    children: [{ path: "/ssafystaradmin", element: <Admin /> }],
   },
   {
     // 비로그인시만 이용가능
@@ -87,15 +85,13 @@ const router = createBrowserRouter([
   },
 ]);
 createRoot(container).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <PersistGate persistor={persistStore(store)}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </QueryClientProvider>
-  </React.StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <PersistGate persistor={persistStore(store)}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </QueryClientProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

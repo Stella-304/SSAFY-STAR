@@ -22,21 +22,24 @@ import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
 import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CardSubmit() {
+  const navigate = useNavigate();
   const { type } = useParams();
   const { card } = useSelector((state: RootState) => state.card);
+  const { cardRegistered } = useSelector((state: RootState) => state.user);
+
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   //react query
-  const bojCheckquery = useBojcheck(card.bojId,setBojTier);
+  const bojCheckquery = useBojcheck(card.bojId, setBojTier);
   const cardModifyMutate = useCardModify();
   const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const companySearchQuery = useCompanySearch(search,setSearchList);
+  const companySearchQuery = useCompanySearch(search, setSearchList);
   const myCardQuery = useMyCard(setSearch);
 
   const dispatch = useDispatch();
@@ -50,16 +53,21 @@ export default function CardSubmit() {
     dispatch(resetCard());
     if (type === "modify") {
       myCardQuery.refetch();
+    } else {
+      if (cardRegistered) {
+        alert("등록하신 카드가 존재합니다.");
+        navigate("/");
+      }
     }
-  }, []);
+  }, [type]);
 
-  useEffect(()=>{
-    if (search!==card.company && search !== "") {
+  useEffect(() => {
+    if (search !== card.company && search !== "") {
       companySearchQuery.refetch();
     } else {
       setSearchList([]);
     }
-  },[search])
+  }, [search]);
 
   useEffect(() => {
     if (checkNecessary()) {
