@@ -1,19 +1,20 @@
 package com.ssafy.star.common.auth.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-import com.ssafy.star.common.auth.enumeration.RoleEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
+import com.ssafy.star.common.auth.enumeration.RoleEnum;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
-import com.ssafy.star.common.auth.info.*;
+import com.ssafy.star.common.auth.info.GoogleOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.KakaoOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.NaverOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.OAuth2UserInfo;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.common.util.constant.ErrorCode;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -23,7 +24,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Log4j2
 @Service
@@ -50,11 +53,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	}
 
 	private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-
-		        Map<String, Object> mapForLog = oAuth2User.getAttributes();
-				log.info("{}", oAuth2User.getAuthorities());
-				log.info("{}", oAuth2User.getName());
-		        mapForLog.forEach((k, v) -> log.info("{} : {}", k,v));
 
 		OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(),
 			oAuth2User.getAttributes()
