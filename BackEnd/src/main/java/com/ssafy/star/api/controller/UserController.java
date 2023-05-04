@@ -151,13 +151,19 @@ public class UserController {
     @GetMapping("/badge/status/{type}")
     @ApiOperation(value = "뱃지 인증 진행상태 확인")
     public ResponseEntity<ResponseDto> badgeStatusSearch(@PathVariable("type") String type){
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchBadgeStatus(type)));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST, userService.searchBadgeStatus(type)));
     }
 
     @GetMapping("/card/is-regist")
     @ApiOperation(value = "카드 등록했는지 유무 확인")
     public ResponseEntity<ResponseDto> cardIsRegistSearch(){
-        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST,userService.searchCardIsRegist()));
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST, userService.searchCardIsRegist()));
+    }
+
+    @GetMapping("/role")
+    @ApiOperation(value = "권한 정보 조회")
+    public ResponseEntity<ResponseDto> userFindRoleList(){
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getRoleListUser()));
     }
 
 }

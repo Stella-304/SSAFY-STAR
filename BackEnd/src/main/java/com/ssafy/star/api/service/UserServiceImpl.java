@@ -95,7 +95,8 @@ public class UserServiceImpl implements UserService {
 	public UserDetailDto getDetailUser() {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
-		return new UserDetailDto(user.getName(), user.getEmail(), user.isAutorized());
+		boolean isCardRegistered= (user.getCard())!=null;
+		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAuthorized(),isCardRegistered);
 	}
 
 	@Override
@@ -233,9 +234,9 @@ public class UserServiceImpl implements UserService {
 		List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadgeType(user, enumType);
 
 		// 인증이 마쳐진 경우.
-		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAutorized())
+		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAuthorized())
 			return new BadgeStatusDto("FINISHED");
-		if (enumType == BadgeEnum.SSAFY && user.isAutorized())
+		if (enumType == BadgeEnum.SSAFY && user.isAuthorized())
 			return new BadgeStatusDto("FINISHED");
 
 		// 보낸 요청중에 하나라도 진행중인게 있으면.
@@ -256,4 +257,10 @@ public class UserServiceImpl implements UserService {
 		return user.getCard() != null;
 	}
 
+
+	@Override
+	public List<String> getRoleListUser() {
+		return userRepository.findAllRolesById(authProvider.getUserIdFromPrincipal())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+	}
 }

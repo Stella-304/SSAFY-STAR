@@ -51,8 +51,9 @@ public class PlayerMovement : NetworkBehaviour
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
 
+            GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
-            GameObject.Find("UIMenu").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
+            GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
         }
     }
 
@@ -94,7 +95,6 @@ public class PlayerMovement : NetworkBehaviour
                     hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
                     cameraControl.NPCPriority(transform);
-                    
 
                     stop = true;
                 }
@@ -110,8 +110,6 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         if (stop) return;
-
-        //InputSystem.Update();
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");

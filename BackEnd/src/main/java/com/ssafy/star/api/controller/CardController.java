@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -67,8 +68,10 @@ public class CardController {
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getCardListV1(searchColumn,searchValue,searchValue2,searchValue3)));
 	}
+
 	@PostMapping("/list-v2")
 	@ApiOperation(value = "카드 목록 가져오기, 검색조건 넣으면 검색조건에 맞는 카드들만 가져오기")
+	@Transactional
 	public ResponseEntity<ResponseDto> cardListGetV2(
 			@RequestBody(required = false)SearchConditionReqDto searchConditionReqDto) {
 		return ResponseEntity.ok()

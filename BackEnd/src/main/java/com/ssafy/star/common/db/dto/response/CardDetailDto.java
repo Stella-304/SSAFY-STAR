@@ -31,10 +31,12 @@ public class CardDetailDto {
 	String swTier;
 	String etc;
 	String role;
-	boolean isAutorized;
+	boolean isAuthorized;
 	boolean companyIsAuthorized;
+	boolean isMine;
 
-	public CardDetailDto(Card card, double x, double y, double z) {
+	public CardDetailDto(Card card, double x, double y, double z, boolean isMine) {
+		System.out.println(card.getUser());
 		this.cardId = card.getId();
 		this.x = x;
 		this.y = y;
@@ -48,15 +50,16 @@ public class CardDetailDto {
 		this.blogAddr = card.getBlogAddr();
 		this.company = card.getCompany();
 		this.track = card.getTrack();
-		this.major=card.getMajor();
-		this.swTier=card.getSwTier();
-		this.role=card.getRole();
-		this.content=card.getContent();
-		this.etc=card.getEtc();
+		this.major = card.getMajor();
+		this.swTier = card.getSwTier();
+		this.role = card.getRole();
+		this.content = card.getContent();
+		this.etc = card.getEtc();
 		this.email = card.getUser().getEmail();
 		this.nickname = card.getUser().getNickname();
 		this.name = card.getUser().getName();
-		this.isAutorized = card.getUser().isAutorized();
-		this.companyIsAuthorized=card.getUser().isCompanyIsAutorized();
+		this.isAuthorized = card.getUser().isAuthorized();
+		this.companyIsAuthorized = card.getUser().isCompanyIsAuthorized();
+		this.isMine = isMine;
 	}
 }
