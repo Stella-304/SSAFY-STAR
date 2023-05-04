@@ -8,6 +8,7 @@ interface Iprops {
 export default function CardBack({ user }: Iprops) {
   return (
     <div className="h-full w-full select-none rounded-20 bg-gradient-to-b from-cardTop to-[#EFF6EE] px-25 py-28 shadow-md">
+      <div className="absolute left-0 top-0 h-0 w-0  border-r-30 border-t-30 border-r-transparent border-t-red-500 hover:border-t-red-300"></div>
       <div className="relative h-full w-full rounded-20 border-2 border-black">
         <div className="absolute left-[calc(50%-37px)] top-[-15px] h-25 w-75 bg-cardTop text-center text-16 font-bold">
           - ★ -
