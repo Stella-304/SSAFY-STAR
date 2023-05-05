@@ -69,16 +69,18 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (!controller.IsGrounded) return;
             _jumpPressed = true;
-            anim.SetBool("Jump", true);
+            //anim.SetBool("Jump", true);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
+            anim.SetBool("Run", true);
         }
         else
         {
             run = false;
+            anim.SetBool("Run", false);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -125,12 +127,12 @@ public class PlayerMovement : NetworkBehaviour
 
         if (run)
         {
-            anim.SetBool("Run", true);
+            //anim.SetBool("Run", true);
             playerSpeed = playerRunSpeed;
         }
         else
         {
-            anim.SetBool("Run", false);
+            //anim.SetBool("Run", false);
             playerSpeed = playerwalkSpeed;
         }
 
@@ -139,6 +141,7 @@ public class PlayerMovement : NetworkBehaviour
         if (_jumpPressed)
         {
             controller.Jump();
+            anim.SetBool("Jump", true);
             _jumpPressed = false;
         }
 
