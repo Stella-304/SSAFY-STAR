@@ -16,6 +16,7 @@ export default function Star(props: any) {
     let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
       if (props.item.mine) {
+        console.log("mine!");
         c = "red";
       } else if (hovered) {
         c = "yellow";
@@ -74,7 +75,7 @@ export default function Star(props: any) {
           props.onClick();
         }}
         key={props.item.cardId}
-        scale={2}
+        scale={2.5}
         onPointerOver={() => {
           setHovered(true);
         }}
@@ -89,7 +90,7 @@ export default function Star(props: any) {
       />
       {hovered && (
         <Html position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}>
-          <div className="h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
+          <div className="ml-8 mt-8 h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
             {props.item.generation}기 {props.item.name}
           </div>
         </Html>

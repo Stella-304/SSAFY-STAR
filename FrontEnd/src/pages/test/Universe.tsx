@@ -90,6 +90,7 @@ export default function Universe() {
 
   //const myCard = useMyCard();
   useEffect(() => {
+    //myCard.refetch();
     if (controls.current) {
       controls.current.object.position.x = 0;
       controls.current.object.position.y = -10;
@@ -120,7 +121,7 @@ export default function Universe() {
 
   return (
     <>
-      <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
+      <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
         <Canvas
           dpr={[1, 2]}
           camera={{
@@ -183,47 +184,46 @@ export default function Universe() {
         </Canvas>
         <Filter />
         {selectedUserInfo && (
-          <div
-            className={
-              (endAnim
-                ? "opacity-100 transition duration-[1200ms]"
-                : "invisible opacity-0") +
-              " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
-            }
-          >
+          <>
+            <div
+              className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"
+              onClick={() => {
+                setEndAnim(false);
+                setSelectedUserInfo(undefined);
+              }}
+            ></div>
+
             <div
               className={
-                (isCardFront ? "" : "rotate-y-180") +
-                " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
+                (endAnim
+                  ? "opacity-100 transition duration-[1200ms]"
+                  : "invisible opacity-0") +
+                " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
               }
-              onClick={() => setCardFront(!isCardFront)}
             >
-              <div className="absolute h-full w-full backface-hidden">
-                <CardFront
-                  generation={selectedUserInfo.generation}
-                  name={selectedUserInfo.name}
-                  text={selectedUserInfo.content}
-                  isSsafyVerified={selectedUserInfo.authorized}
-                  onClick={() => {
-                    setEndAnim(false);
-                    setCardOpen(false);
-                  }}
-                />
-              </div>
-              <div className="absolute h-full w-full backface-hidden rotate-y-180">
-                <CardBack
-                  user={selectedUserInfo}
-                  onClick={() => {
-                    setEndAnim(false);
-                    setCardOpen(false);
-                  }}
-                />
+              <div
+                className={
+                  (isCardFront ? "" : "rotate-y-180") +
+                  " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
+                }
+                onClick={() => {
+                  setCardFront(!isCardFront);
+                }}
+              >
+                <div className="absolute h-full w-full backface-hidden">
+                  <CardFront
+                    generation={selectedUserInfo.generation}
+                    name={selectedUserInfo.name}
+                    text={selectedUserInfo.content}
+                    isSsafyVerified={selectedUserInfo.authorized}
+                  />
+                </div>
+                <div className="absolute h-full w-full backface-hidden rotate-y-180">
+                  <CardBack user={selectedUserInfo} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        {isCardOpen && (
-          <div className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"></div>
+          </>
         )}
         {viewCard && (
           <div
