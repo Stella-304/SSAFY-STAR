@@ -5,6 +5,10 @@ import { RootState } from "../../stores/store";
 import { logout } from "../../stores/user/user";
 import useUserRole from "../../apis/user/useRole";
 
+/**
+ * 관리자 권한이 있는 사람을 거른다.
+ * @returns
+ */
 export default function AdminLayout() {
   const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -12,20 +16,12 @@ export default function AdminLayout() {
   const userRoleQuery = useUserRole(setAdminCheck);
   const navigate = useNavigate();
   useEffect(() => {
-    if (email !== "") {
-      //이름이 있음
-      if (!sessionStorage.getItem("accessToken")) {
-        //세션이 없음
-        dispatch(logout());
-        navigate("/");
-      } else {
-        //세션 있음
-        //어드민 권한을 확인한다.
-        userRoleQuery.refetch();
-      }
+    if (email !== "" || !sessionStorage.getItem("accessToken")) {
+      dispatch(logout());
+      navigate("/login");
     } else {
-      //로그인안됨
-      navigate("/");
+      //어드민 권한을 확인한다.
+      userRoleQuery.refetch();
     }
   }, []);
 
