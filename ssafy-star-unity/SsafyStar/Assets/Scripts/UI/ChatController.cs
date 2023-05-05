@@ -40,13 +40,20 @@ public class ChatController : NetworkBehaviour
         {
             inputChat.Select();
 
-            if (inputChat.text == "") return;
-
             Debug.Log("enter");
             if (chatboxVisibility)
             {
+                if (inputChat.text == "")
+                {
+                    ChatOnClicked();
+                    return;
+                }
                 Debug.Log("send Message");
                 SendMessage();
+            }
+            else
+            {
+                ChatOnClicked();
             }
         }
     }
