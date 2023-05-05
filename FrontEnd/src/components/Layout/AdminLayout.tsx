@@ -16,12 +16,12 @@ export default function AdminLayout() {
   const userRoleQuery = useUserRole(setAdminCheck);
   const navigate = useNavigate();
   useEffect(() => {
-    if (email !== "" || !sessionStorage.getItem("accessToken")) {
-      dispatch(logout());
-      navigate("/login");
-    } else {
+    if (email !== "" && sessionStorage.getItem("accessToken")) {
       //어드민 권한을 확인한다.
       userRoleQuery.refetch();
+    } else {
+      dispatch(logout());
+      navigate("/login");
     }
   }, []);
 

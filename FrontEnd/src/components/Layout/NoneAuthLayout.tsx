@@ -14,7 +14,7 @@ export default function NoneAuthLayout() {
   const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    if (email !== "" && !sessionStorage.getItem("accessToken")) {
+    if (email !== "" && sessionStorage.getItem("accessToken")) {
       //둘다 있으면 로그인한 유저
       navigate("/");
     } else {
