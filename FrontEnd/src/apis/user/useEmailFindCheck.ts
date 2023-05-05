@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { EMAIL_CHECK_URL } from "../../utils/urls";
-import useFindId from "../../apis/user/useFindId";
 import { api } from "../api";
+import useFindPwd from "./useFindPwd";
 
 const fetcher = (email: string) =>
   api
@@ -17,19 +17,16 @@ const fetcher = (email: string) =>
  * @param setOpenCheck 인증창 열기
  * @returns
  */
-const useEmailFindCheck = (email: string) => {
-  const findidQuery = useFindId(email);
-  return useQuery(["/emailcheck", email], () => fetcher(email), {
-    retry: 0,
+const useEmailFindCheck = (email: string, accountId: string) => {
+  const findMutate = useFindPwd();
+  return useQuery(["/emailcheck2", email], () => fetcher(email), {
     enabled: false,
-
+    retry: 0,
     onSuccess: () => {
-      //등록되지 않은 사용자
-      alert("없는 사용자입니다.");
+      alert("등록되지 않은 이메일입니다.");
     },
     onError: () => {
-      //등록된 사용자
-      findidQuery.refetch();
+      findMutate.mutate({ email: email, accountId: accountId });
     },
   });
 };
