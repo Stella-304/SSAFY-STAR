@@ -18,12 +18,31 @@ public class CameraMovement : MonoBehaviour
     public float minZoomDistance = 1f;
     public float maxZoomDistance = 10f;
 
+    [Header("회전")]
+    private Vector2 mousePos;
+    public float rotationSpeed = 5f;
+    public float minRotateDistance = -20f;
+    public float maxRotateDistance = 20f;
 
     void LateUpdate()
     {
         if (Target == null)
         {
             return;
+        }
+
+        mousePos = Input.mousePosition;
+        if(mousePos.x<100)
+        {
+            Debug.Log("왼쪽으로 회전");
+            lookOffset.x -= rotationSpeed * Time.deltaTime;
+            lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+        }
+        if(mousePos.x>1800)
+        {
+            Debug.Log("오른쪽으로 회전");
+            lookOffset.x += rotationSpeed * Time.deltaTime;
+            lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
         }
 
         float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
