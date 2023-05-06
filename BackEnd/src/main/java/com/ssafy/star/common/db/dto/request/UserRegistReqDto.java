@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class UserRegistReqDto {
 
-    String email;
+    private String email;
 
-    String name;
+    private String name;
 
-    String nickname;
+    private String nickname;
 
-    String accountId;
+    private String accountId;
 
-    String accountPwd;
+    private String accountPwd;
 }

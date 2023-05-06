@@ -14,15 +14,15 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 public class SearchConditionReqDto {
-    List<String> ban;
-    List<String> generation;
-    List<String> campus;
-    List<String> company;
-    List<String> bojTier;
-    List<String> track;
-    List<String> major;
-    List<String> role;
-    List<String> swTier;
+    private List<String> ban;
+    private List<String> generation;
+    private List<String> campus;
+    private List<String> company;
+    private List<String> bojTier;
+    private List<String> track;
+    private List<String> major;
+    private List<String> role;
+    private List<String> swTier;
 
 
     public Map<String,List<String>> getlists(){

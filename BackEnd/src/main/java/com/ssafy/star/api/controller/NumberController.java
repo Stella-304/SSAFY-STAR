@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping(value = "/number")
 public class NumberController {
-	final NumberService numberService;
+	private final NumberService numberService;
 
 	@GetMapping("/landing")
 	@ApiOperation(value = "랜딩 페이지에서 보여줄 정보")
