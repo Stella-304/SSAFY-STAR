@@ -39,6 +39,7 @@ export default function FloatingMenu() {
     <div>
       {open ? (
         <div className="fixed bottom-78 right-16 flex flex-col justify-around gap-8">
+          <FloatButton onClick={() => navigate("/")} value="홈으로" />
           {email ? (
             <>
               <FloatButton onClick={logout} value="로그아웃" />
