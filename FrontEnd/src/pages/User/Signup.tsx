@@ -48,7 +48,7 @@ export default function Signup() {
   const nicknameRef = useRef<HTMLInputElement>(null);
 
   //회원가입 요청
-  const signupMutate = useSignup(setIdWarning);
+  const signupMutate = useSignup(user.loginid, user.password, setIdWarning);
 
   //이메일 중복 확인
   const [emailCheckSave, setEmailCheckSave] = useState("");
