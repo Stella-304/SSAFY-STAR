@@ -47,6 +47,11 @@ public class ChatController : NetworkBehaviour
     private List<ChatCell> chatList; //대화창에 출력되는 모든 대화를 보관
     private ChatType currentViewType; //현재 대화 보기 속성
 
+    [Header("whisper")]
+    private string lastChatData = ""; //마지막 대화 내용
+    private string lastWhisperID = ""; // 마지막 귓말 대상
+    private string friendID = "Friend";//친구 아이디;
+
     private void Awake()
     {
         chatList = new List<ChatCell>();
@@ -130,13 +135,76 @@ public class ChatController : NetworkBehaviour
     {
         Debug.Log("<=" + message);
 
+        UpdateChatWithCommand(username, message);
+    }
+
+    public void PrintChatData(string username, string message, ChatType type, Color color, RpcInfo rpcInfo = default)
+    {
         GameObject clone = Instantiate(textChatPrefab, parentContent);
         ChatCell cell = clone.GetComponent<ChatCell>();
 
         //clone.GetComponent<TextMeshProUGUI>().text = $"{username}: {message}\n";
-        cell.SetUp(currentInputType, currentTextColor, $"{username}: {message}\n");
+        cell.SetUp(type, color, $"{username}: {message}\n");
 
         chatList.Add(cell);
+    }
+
+    public void UpdateChatWithCommand(string username, string message)
+    {
+        if(!message.StartsWith('/'))
+        {
+            //lastChatData = message;
+            PrintChatData(username, message, currentInputType, currentTextColor);
+            return;
+        }
+
+        //// 마지막에 작성한 내용 다시 출력
+        //if(message.StartsWith("/re"))
+        //{
+        //    if(lastChatData.Equals(""))
+        //    {
+        //        inputChat.text = "";
+        //        return;
+        //    }
+
+        //    UpdateChatWithCommand(lastChatData, message);
+        //}
+        //귓말
+        if(message.StartsWith("/w"))
+        {
+            //lastChatData = message;
+
+            //명령어, 귓말대상, 내용
+            string[] whisper = message.Split(' ', 3);
+
+            //모든 유저의 아이디를 검색에 동일한 아이디가 있는지 검사 후
+            //대상이 있으면 보내고 없으면 시스템 메세지 출력
+            if (whisper[1]==friendID)
+            {
+                lastWhisperID = whisper[1];
+
+                PrintChatData(username, $"[to {whisper[1]}] {whisper[2]}", ChatType.Whisper, ChatTypeToColor(ChatType.Whisper));
+            }
+            else
+            {
+                PrintChatData("[system]", $"[{whisper[1]}]님을 찾지 못했습니다", ChatType.System, ChatTypeToColor(ChatType.System));
+            }
+        }
+        //마지막에 귓말을 보낸 대상에게 다시 귓말 보내기
+        else if(message.StartsWith("/r"))
+        {
+            if(lastWhisperID.Equals(""))
+            {
+                inputChat.text = "";
+                return;
+            }
+
+            //lastChatData = message;
+
+            string[] whisper = message.Split(' ', 2);
+
+            PrintChatData(username, $"[to {lastWhisperID}] {whisper[1]}", ChatType.Whisper, ChatTypeToColor(ChatType.Whisper));
+        }
     }
 
     private Color ChatTypeToColor(ChatType type)
