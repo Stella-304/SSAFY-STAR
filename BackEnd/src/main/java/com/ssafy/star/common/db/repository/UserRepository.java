@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	boolean existsByAccountId(String accountId);
-
+	boolean existsByNickname(String nickname);
 	Optional<User> findByAccountId(String accountId);
 
 	@Query("select u.nickname from User u where id like :id")
@@ -23,8 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmail(String email);
 
 	boolean existsByEmail(String email);
-
-	boolean existsByNickname(String nickname);
 
 	@Query(value = "select authority_set from user_authority_set where user_id = :id", nativeQuery = true)
 	Optional<List<String>> findAllRolesById(long id);

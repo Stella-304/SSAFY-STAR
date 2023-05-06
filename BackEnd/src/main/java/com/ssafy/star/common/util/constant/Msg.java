@@ -25,6 +25,7 @@ public interface Msg {
     final String EMAIL_NOT_FOUND = "등록되지 않은 이메일 입니다.";
     final String EMAIL_OR_ACCOUNT_ID_NOT_FOUND = "등록되지 않은 이메일이거나, 아이디 입니다.";
     final String DUPLICATED_ID = "중복된 아이디입니다.";
+    final String DUPLICATED_NICKNAME = "중복된 닉네임입니다.";
     final String DUPLICATED_EMAIL = "중복된 이메일입니다.";
     final String VALID_EMAIL = "사용 가능한 이메일입니다.";
     final String SUCCESS_SEND_EMAIL = "이메일 전송에 성공했습니다.";

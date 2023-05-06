@@ -31,10 +31,16 @@ public class UserController {
 	@PermitAll
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
-		if (userService.registUser(userRegistReqDto)) {
-			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+
+		int result = userService.registUser(userRegistReqDto);
+
+		if(result == 1) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
 		}
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
+		if(result == 2) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.BAD_REQUEST, Msg.DUPLICATED_NICKNAME));
+		}
+			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@PostMapping("/login")
@@ -83,7 +89,7 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
 
-	@PutMapping
+	@PutMapping("/name")
 	@ApiOperation(value = "이름 수정")
 	public ResponseEntity<ResponseDto> userModifyName(@RequestParam String name) {
 		userService.modifyNameUser(name);

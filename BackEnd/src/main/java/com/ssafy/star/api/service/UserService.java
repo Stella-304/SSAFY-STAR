@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean registUser(UserRegistReqDto userRegistReqDto);
+    int registUser(UserRegistReqDto userRegistReqDto);
     String loginUser(UserLoginReqDto userLoginReqDto);
     void logoutUser(String token);
     UserDetailDto getDetailUser();

@@ -42,25 +42,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public boolean registUser(UserRegistReqDto userRegistReqDto) {
+	public int registUser(UserRegistReqDto userRegistReqDto) {
 
-		if (userRepository.existsByAccountId(userRegistReqDto.getAccountId())) {
-			return false;
-		}
+		String accountId = userRegistReqDto.getAccountId();
+		String nickname = userRegistReqDto.getNickname();
+
+		if (userRepository.existsByAccountId(accountId)) { return 1; }
+		if (userRepository.existsByNickname(nickname)) { return 2; }
 
 		User user = User.builder()
 			.email(userRegistReqDto.getEmail())
 			.name(userRegistReqDto.getName())
-			.nickname(String.valueOf(userRegistReqDto.getNickname()))
+			.nickname(nickname)
 			.loginType(LoginTypeEnum.custom)
-			.accountId(userRegistReqDto.getAccountId())
+			.accountId(accountId)
 			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 			.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
-
 		userRepository.save(user);
-		return true;
+
+		return 3;
 	}
 
 	@Override
@@ -194,7 +196,7 @@ public class UserServiceImpl implements UserService {
 
 		smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
 		user.setAccountPwd(passwordEncoder.encode(newPwd));
-		userRepository.save(userOptional.get());
+
 		return true;
 	}
 
