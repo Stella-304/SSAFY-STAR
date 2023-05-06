@@ -3920,3 +3920,189 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 20121.571420 seconds.
+  path: Assets/Sprites/UI/Chat/UIChatTabBarIcon02_Active.png
+  artifactKey: Guid(2dd245a19a9b9994eadbf500c0fcc693) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/Chat/UIChatTabBarIcon02_Active.png using Guid(2dd245a19a9b9994eadbf500c0fcc693) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8abebd0cb8edc79435726b4f17e55b96') in 0.082900 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4044.817919 seconds.
+  path: Assets/Sprites/UI/Chat/UIChatInputType01.png
+  artifactKey: Guid(a1eb68e5afd44c544982017b78058a60) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/Chat/UIChatInputType01.png using Guid(a1eb68e5afd44c544982017b78058a60) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e372dcf884de2d85cfcc97f8a1f2222') in 0.021994 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 174.981078 seconds.
+  path: Assets/Sprites/UI/Chat_OLD
+  artifactKey: Guid(25d06d059cec6a344808ede5833f0452) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/Chat_OLD using Guid(25d06d059cec6a344808ede5833f0452) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '10d4921b55275eb1b8f67cd78cbf5c43') in 0.005931 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.127769 seconds.
+  path: Assets/Sprites/UI/chat
+  artifactKey: Guid(fc2e4c298e586304cb59ca77c2146b93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat using Guid(fc2e4c298e586304cb59ca77c2146b93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '736225e739ddc652e0ca67350010fbb9') in 0.006234 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.079975 seconds.
+  path: Assets/Sprites/UI/chat/UIChatInputType02.png
+  artifactKey: Guid(810ae67e6c631bd498a479bdae97130e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatInputType02.png using Guid(810ae67e6c631bd498a479bdae97130e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6fa082590c01a110c8cc524e02048e83') in 0.017106 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.439103 seconds.
+  path: Assets/Sprites/UI/chat/UIChatInputType01.png
+  artifactKey: Guid(56e48e406c85a5e49a011558e4fa373d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatInputType01.png using Guid(56e48e406c85a5e49a011558e4fa373d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '61517b3eae953774dcbfec04c86378a7') in 0.655698 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.017382 seconds.
+  path: Assets/Sprites/UI/chat/UIChatTabBarIcon01_Active.png
+  artifactKey: Guid(d80c6c27ffed65546b6e3e3783118798) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatTabBarIcon01_Active.png using Guid(d80c6c27ffed65546b6e3e3783118798) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2b90790fca52881226881d11ad8164a8') in 0.031006 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.270004 seconds.
+  path: Assets/Sprites/UI/chat/UIChatTabBarIcon01_Active.png
+  artifactKey: Guid(d80c6c27ffed65546b6e3e3783118798) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatTabBarIcon01_Active.png using Guid(d80c6c27ffed65546b6e3e3783118798) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '72d98506b94467d9ebed61f37d766321') in 0.022632 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 10.119185 seconds.
+  path: Assets/Sprites/UI/chat/UIChatInputType01.png
+  artifactKey: Guid(56e48e406c85a5e49a011558e4fa373d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatInputType01.png using Guid(56e48e406c85a5e49a011558e4fa373d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91daa3447d45bb96de6ff75b8e6862f7') in 0.019995 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.238961 seconds.
+  path: Assets/Sprites/UI/chat/UIChatInputType02.png
+  artifactKey: Guid(810ae67e6c631bd498a479bdae97130e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/UI/chat/UIChatInputType02.png using Guid(810ae67e6c631bd498a479bdae97130e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4947eecf295fd017dbd4c83b23e18fbf') in 0.019004 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.022147 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image D:\unity\SsafyThirdProject\S08P31B304\ssafy-star-unity\SsafyStar\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image D:\unity\SsafyThirdProject\S08P31B304\ssafy-star-unity\SsafyStar\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.38 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.120 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2120ms)
+		BeginReloadAssembly (273ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (49ms)
+		EndReloadAssembly (1707ms)
+			LoadAssemblies (232ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (347ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (56ms)
+			SetupLoadedEditorAssemblies (1065ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (22ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (156ms)
+				ProcessInitializeOnLoadAttributes (720ms)
+				ProcessInitializeOnLoadMethodAttributes (136ms)
+				AfterProcessingInitializeOnLoad (29ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (16ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 15.00 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 4654 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 88 unused Assets / (101.9 KB). Loaded Objects now: 6099.
+Memory consumption went from 165.4 MB to 165.3 MB.
+Total: 8.406400 ms (FindLiveObjects: 0.540400 ms CreateObjectMapping: 0.403000 ms MarkObjects: 7.392600 ms  DeleteObjects: 0.069400 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 256.267517 seconds.
+  path: Assets/PreFabs/UI/TextChat.prefab
+  artifactKey: Guid(fe9d5e90625935b4882f45cf19e4e01a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/PreFabs/UI/TextChat.prefab using Guid(fe9d5e90625935b4882f45cf19e4e01a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2dbd775a944501798bbe9dd26e0d4cde') in 0.566732 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.025829 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image D:\unity\SsafyThirdProject\S08P31B304\ssafy-star-unity\SsafyStar\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image D:\unity\SsafyThirdProject\S08P31B304\ssafy-star-unity\SsafyStar\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 2.09 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.443 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2443ms)
+		BeginReloadAssembly (290ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (54ms)
+		EndReloadAssembly (2013ms)
+			LoadAssemblies (257ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (433ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (65ms)
+			SetupLoadedEditorAssemblies (1234ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (30ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (197ms)
+				ProcessInitializeOnLoadAttributes (794ms)
+				ProcessInitializeOnLoadMethodAttributes (184ms)
+				AfterProcessingInitializeOnLoad (26ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (16ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 16.65 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 4654 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 88 unused Assets / (101.9 KB). Loaded Objects now: 6114.
+Memory consumption went from 165.4 MB to 165.3 MB.
+Total: 7.184600 ms (FindLiveObjects: 0.529200 ms CreateObjectMapping: 0.316200 ms MarkObjects: 6.254900 ms  DeleteObjects: 0.083200 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 69.122903 seconds.
+  path: Assets/PreFabs/UI/TextChat.prefab
+  artifactKey: Guid(fe9d5e90625935b4882f45cf19e4e01a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/PreFabs/UI/TextChat.prefab using Guid(fe9d5e90625935b4882f45cf19e4e01a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41b4e17a6ee36745a400c3a511a15586') in 0.380185 seconds 
