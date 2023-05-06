@@ -55,6 +55,9 @@ public class ChatController : NetworkBehaviour
             {
                 ChatOnClicked();
             }
+
+            //대화 입력창 포커스 활성화;
+            inputChat.ActivateInputField();
         }
     }
 
