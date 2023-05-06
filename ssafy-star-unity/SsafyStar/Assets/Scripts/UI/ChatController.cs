@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UIElements;
@@ -15,6 +16,8 @@ public class ChatController : NetworkBehaviour
     private VisualElement chat;
     public PlayerMovement player;
 
+    public string username = "Guest";
+
     [Header("GUI chatting")]
     [SerializeField]
     private GameObject chatContent;
@@ -28,6 +31,7 @@ public class ChatController : NetworkBehaviour
     private GameObject textChatPrefab;
     [SerializeField]
     private Transform parentContent;
+    private bool chatboxVisibility = false;
 
     [Header("chat type")]
     [SerializeField]
@@ -36,16 +40,19 @@ public class ChatController : NetworkBehaviour
     private UnityEngine.UI.Image imageChatInputType; // 대화 속성 이미지
     [SerializeField]
     private TextMeshProUGUI textInput;
+
     private ChatType currentInputType; // 현재 대화 속성
     private Color currentTextColor; // 입력에 따라 색상 변환
 
-    private bool chatboxVisibility = false;
-    public string username = "Guest";
+    private List<ChatCell> chatList; //대화창에 출력되는 모든 대화를 보관
+    private ChatType currentViewType; //현재 대화 보기 속성
 
     private void Awake()
     {
+        chatList = new List<ChatCell>();
+
         currentInputType = ChatType.Normal;
-        currentTextColor = Color.white;
+        currentTextColor = Color.black;
     }
 
     private void Start()
@@ -128,6 +135,8 @@ public class ChatController : NetworkBehaviour
 
         //clone.GetComponent<TextMeshProUGUI>().text = $"{username}: {message}\n";
         cell.SetUp(currentInputType, currentTextColor, $"{username}: {message}\n");
+
+        chatList.Add(cell);
     }
 
     private Color ChatTypeToColor(ChatType type)
@@ -149,5 +158,28 @@ public class ChatController : NetworkBehaviour
         currentTextColor = ChatTypeToColor(currentInputType);
         //대화 입력창의 텍스트 생상 변경
         textInput.color = currentTextColor;
+    }
+
+    public void SetCurrentViewType(int newType)
+    {
+        //Button UI의 OnClick 이벤트에 열거형은 매개변수로 처리가 안되서 int로 받아온다.
+        currentViewType = (ChatType)newType;
+
+        if(currentViewType == ChatType.Normal)
+        {
+            //모든 대화 목록 활성화
+            for(int i = 0; i<chatList.Count; ++i)
+            {
+                chatList[i].gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            //현재 대화 보기 설정만 활성화
+            for(int i = 0; i<chatList.Count; ++i)
+            {
+                chatList[i].gameObject.SetActive(chatList[i].ChatType == currentViewType);
+            }
+        }
     }
 }
