@@ -11,6 +11,9 @@ public class ChatCell : MonoBehaviour
     {
         TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
 
+        Debug.Log("type:" + type);
+        Debug.Log("color:" + color);
+
         ChatType = type;
         text.color = color;
         text.text = textData;

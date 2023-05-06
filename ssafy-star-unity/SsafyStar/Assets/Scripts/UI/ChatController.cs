@@ -48,7 +48,6 @@ public class ChatController : NetworkBehaviour
     private ChatType currentViewType; //현재 대화 보기 속성
 
     [Header("whisper")]
-    private string lastChatData = ""; //마지막 대화 내용
     private string lastWhisperID = ""; // 마지막 귓말 대상
     private string friendID = "Friend";//친구 아이디;
 
@@ -125,54 +124,41 @@ public class ChatController : NetworkBehaviour
     public void SendMessage()
     {
         Debug.Log(inputChat.text);
-        RPCSendMessage(username, inputChat.text);
+        RPCSendMessage(username, inputChat.text, currentInputType);
         inputChat.Select();
         inputChat.text = "";
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPCSendMessage(string username, string message, RpcInfo rpcInfo = default)
+    public void RPCSendMessage(string username, string message, ChatType senderInputType, RpcInfo rpcInfo = default)
     {
         Debug.Log("<=" + message);
+        Debug.Log("sender input type:" + senderInputType);
 
-        UpdateChatWithCommand(username, message);
+        UpdateChatWithCommand(username, message, senderInputType);
     }
 
-    public void PrintChatData(string username, string message, ChatType type, Color color, RpcInfo rpcInfo = default)
+    public void PrintChatData(string username, string message, ChatType type, Color color)
     {
         GameObject clone = Instantiate(textChatPrefab, parentContent);
         ChatCell cell = clone.GetComponent<ChatCell>();
 
-        //clone.GetComponent<TextMeshProUGUI>().text = $"{username}: {message}\n";
         cell.SetUp(type, color, $"{username}: {message}\n");
 
         chatList.Add(cell);
     }
 
-    public void UpdateChatWithCommand(string username, string message)
+    public void UpdateChatWithCommand(string username, string message, ChatType senderInputType)
     {
         if(!message.StartsWith('/'))
         {
-            //lastChatData = message;
-            PrintChatData(username, message, currentInputType, currentTextColor);
+            PrintChatData(username, message, senderInputType, ChatTypeToColor(senderInputType));
             return;
         }
 
-        //// 마지막에 작성한 내용 다시 출력
-        //if(message.StartsWith("/re"))
-        //{
-        //    if(lastChatData.Equals(""))
-        //    {
-        //        inputChat.text = "";
-        //        return;
-        //    }
-
-        //    UpdateChatWithCommand(lastChatData, message);
-        //}
         //귓말
         if(message.StartsWith("/w"))
         {
-            //lastChatData = message;
 
             //명령어, 귓말대상, 내용
             string[] whisper = message.Split(' ', 3);
@@ -198,8 +184,6 @@ public class ChatController : NetworkBehaviour
                 inputChat.text = "";
                 return;
             }
-
-            //lastChatData = message;
 
             string[] whisper = message.Split(' ', 2);
 
