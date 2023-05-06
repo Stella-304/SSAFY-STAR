@@ -23,9 +23,13 @@ public class ChatController : NetworkBehaviour
     private TMP_Text outputChat;
     [SerializeField]
     private UnityEngine.UI.Button sendChat;
+    [SerializeField]
+    private GameObject textChatPrefab;
+    [SerializeField]
+    private Transform parentContent;
 
     private bool chatboxVisibility = false;
-    public string username = "Default";
+    public string username = "Guest";
 
     private void Start()
     {
@@ -96,6 +100,10 @@ public class ChatController : NetworkBehaviour
     public void RPCSendMessage(string username, string message, RpcInfo rpcInfo = default)
     {
         Debug.Log("<=" + message);
-        outputChat.text += $"{username}: {message}\n";
+
+        GameObject clone = Instantiate(textChatPrefab, parentContent);
+        clone.GetComponent<TextMeshProUGUI>().text = $"{username}: {message}\n";
+
+        //outputChat.text += $"{username}: {message}\n";
     }
 }
