@@ -12,6 +12,7 @@ import goOauth from "../../apis/user/oAuth";
 import { loginidReg } from "../../utils/regex";
 import { LoginType } from "../../types/LoginType";
 import useLogin from "../../apis/user/useLogin";
+import { setPath } from "../../stores/page/path";
 
 export default function Login() {
   const { loginid, password } = useSelector((state: RootState) => state.login);
@@ -19,7 +20,11 @@ export default function Login() {
   const [passwordWarning, setPasswordWarning] = useState("");
   const loginMutate = useLogin();
   useEffect(() => {
-    dispatch(resetLogin());
+    dispatch(resetLogin());//로그인 했던 정보 리셋
+    dispatch(setPath("login"));//현 위치 표시
+    return () => {
+      dispatch(setPath(""));//나갈땐 리셋
+    };
   }, []);
   const navigate = useNavigate();
 

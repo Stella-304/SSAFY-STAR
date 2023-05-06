@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SmallButton from "../../../components/Button/SmallButton";
 import EarthLayout from "../../../components/Layout/EarthLayout";
 import InfoModi from "./InfoModi";
 import Certify from "./Certify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../stores/store";
+import { setPath } from "../../../stores/page/path";
 export default function Mypage() {
   const [page, setPage] = useState(0);
   const { nickname } = useSelector((state: RootState) => state.user);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setPath("mypage")); //현 위치 표시
+    return () => {
+      dispatch(setPath("")); //나갈땐 리셋
+    };
+  }, []);
   return (
     <EarthLayout>
       <div className="flex h-full flex-col justify-around">

@@ -18,6 +18,7 @@ import useSignup from "../../apis/user/useSignup";
 import { SignupType } from "../../types/SignupType";
 import useEmailCheck from "../../apis/user/useEmailCheck";
 import useSendMailCheck from "../../apis/user/useSendMailCheck";
+import { setPath } from "../../stores/page/path";
 
 export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
@@ -63,6 +64,10 @@ export default function Signup() {
 
   useEffect(() => {
     dispatch(resetUser());
+    dispatch(setPath("signup")); //현 위치 표시
+    return () => {
+      dispatch(setPath("")); //나갈땐 리셋
+    };
   }, []);
 
   useEffect(() => {
