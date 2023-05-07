@@ -22,6 +22,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Camera")]
     public Camera Camera;
+    //public Camera MinimapCamera;
     private CameraControl cameraControl;
 
     [Header("Jump")]
@@ -50,6 +51,8 @@ public class PlayerMovement : NetworkBehaviour
 
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
+            GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
+            //MinimapCamera = GameObject.Find("MinimapCamera").GetComponent<Camera>();
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
