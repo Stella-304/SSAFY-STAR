@@ -17,12 +17,13 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Ground from "../../components/Ground/Ground";
 import Star from "../../components/Star/Star";
 import Filter from "../../components/Filter/Filter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
 import useMyCard from "../../apis/card/useMyCard";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
+import { setViewCard } from "../../stores/star/starInfo";
 
 // const userInfo: User = {
 //   name: "이아현",
@@ -88,6 +89,8 @@ export default function Universe() {
     (state: RootState) => state.starInfo.filterOpen,
   );
 
+  const dispatch = useDispatch();
+
   //const myCard = useMyCard();
   useEffect(() => {
     //myCard.refetch();
@@ -121,7 +124,7 @@ export default function Universe() {
 
   return (
     <>
-      <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
+      <div className="relative w-full h-screen overflow-hidden bg-black perspective-9">
         <Canvas
           dpr={[1, 2]}
           camera={{
@@ -183,10 +186,23 @@ export default function Universe() {
           />
         </Canvas>
         <Filter />
+        <div
+          className="fixed left-0 flex items-center justify-center w-40 h-40 bg-white cursor-pointer top-125 rounded-50"
+          onClick={() => dispatch(setViewCard(false))}
+        >
+          <img src="/icons/star.svg" className="h-30 w-30" />
+        </div>
+        <div
+          className="fixed left-0 flex items-center justify-center w-40 h-40 bg-white cursor-pointer top-175 rounded-50"
+          onClick={() => dispatch(setViewCard(true))}
+        >
+          <img src="/icons/card.svg" className="h-30 w-30" />
+        </div>
+
         {selectedUserInfo && (
           <>
             <div
-              className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"
+              className="absolute top-0 left-0 z-20 w-full h-full bg-black opacity-30"
               onClick={() => {
                 setEndAnim(false);
                 setSelectedUserInfo(undefined);
@@ -198,7 +214,7 @@ export default function Universe() {
                 (endAnim
                   ? "opacity-100 transition duration-[1200ms]"
                   : "invisible opacity-0") +
-                " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
+                " group absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
               }
             >
               <div
@@ -210,7 +226,8 @@ export default function Universe() {
                   setCardFront(!isCardFront);
                 }}
               >
-                <div className="absolute h-full w-full backface-hidden">
+                <div className="absolute top-0 right-0 z-20 w-0 h-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div>
+                <div className="absolute w-full h-full backface-hidden">
                   <CardFront
                     generation={selectedUserInfo.generation}
                     name={selectedUserInfo.name}
@@ -218,7 +235,7 @@ export default function Universe() {
                     isSsafyVerified={selectedUserInfo.authorized}
                   />
                 </div>
-                <div className="absolute h-full w-full backface-hidden rotate-y-180">
+                <div className="absolute w-full h-full backface-hidden rotate-y-180">
                   <CardBack user={selectedUserInfo} />
                 </div>
               </div>
@@ -236,7 +253,7 @@ export default function Universe() {
           >
             {starFilterInfo?.map((item: User, index: number) => (
               <div
-                className="h-200 w-150 cursor-pointer hover:brightness-125"
+                className="cursor-pointer h-200 w-150 hover:brightness-125"
                 key={index}
                 onClick={() => {
                   setStarPos(
@@ -250,6 +267,8 @@ export default function Universe() {
               >
                 <CardPreviewFront
                   generation={item.generation}
+                  campus={item.campus}
+                  ban={item.ban}
                   name={item.name}
                 />
               </div>

@@ -8,7 +8,7 @@ interface Iprops {
 export default function CardBack({ user }: Iprops) {
   return (
     <div className="box-border h-640 w-480 rounded-2xl border-5 border-white bg-black bg-opacity-70 px-20 py-20 shadow-neon">
-      <div className="absolute left-0 top-0 h-0 w-0 border-r-30 border-t-30 border-r-transparent border-t-white hover:border-t-blue-900"></div>
+
       <div className="from-opacity-70 to-opacity-38 relative h-full w-full rounded-lg border-5 border-white bg-gradient-to-b from-black to-darkblue shadow-neon">
         <div className="absolute top-25 flex w-full flex-col pl-20">
           <div className="mb-10 text-40 font-bold text-white">{user.name}</div>

@@ -21,7 +21,18 @@ export default function Star(props: any) {
       } else if (hovered) {
         c = "yellow";
       }
-      starRef.current.material.color.lerp(color.set(c), 0.1);
+      starRef.current.material.color.lerp(color.set(c), 0.5);
+      if (hovered) {
+        starRef.current.scale.x = 1.2;
+        starRef.current.scale.y = 1.2;
+        starRef.current.scale.z = 1.2;
+        dispatch(setStarInfoPreview(props.item));
+      } else {
+        starRef.current.scale.x = 0.5;
+        starRef.current.scale.y = 0.5;
+        starRef.current.scale.z = 0.5;
+        dispatch(setStarInfoPreview(null));
+      }
     }
   });
 
@@ -53,19 +64,19 @@ export default function Star(props: any) {
     }
   }, [props.starPos]);
 
-  useLayoutEffect(() => {
-    if (hovered) {
-      starRef.current.scale.x = 1.2;
-      starRef.current.scale.y = 1.2;
-      starRef.current.scale.z = 1.2;
-      dispatch(setStarInfoPreview(props.item));
-    } else {
-      starRef.current.scale.x = 0.5;
-      starRef.current.scale.y = 0.5;
-      starRef.current.scale.z = 0.5;
-      dispatch(setStarInfoPreview(null));
-    }
-  }, [hovered]);
+  // useLayoutEffect(() => {
+  //   if (hovered) {
+  //     starRef.current.scale.x = 1.2;
+  //     starRef.current.scale.y = 1.2;
+  //     starRef.current.scale.z = 1.2;
+  //     dispatch(setStarInfoPreview(props.item));
+  //   } else {
+  //     starRef.current.scale.x = 0.5;
+  //     starRef.current.scale.y = 0.5;
+  //     starRef.current.scale.z = 0.5;
+  //     dispatch(setStarInfoPreview(null));
+  //   }
+  // }, [hovered]);
 
   return (
     <>

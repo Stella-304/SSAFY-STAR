@@ -16,12 +16,12 @@ module.exports = {
       borderRadius: px_to_rem(100),
       fontSize: px_to_rem(100),
       lineHeight: px_to_rem(100),
-      width: px_to_rem(1500),
-      height: px_to_rem(1500),
+      width: px_to_rem(1000),
+      height: px_to_rem(1000),
       margin: px_to_rem(100),
       padding: px_to_rem(100),
-      minWidth: px_to_rem(1500),
-      minHeight: px_to_rem(1500),
+      minWidth: px_to_rem(1000),
+      minHeight: px_to_rem(1000),
       spacing: px_to_rem(300),
       zIndex: num(300),
       colors: {
@@ -29,13 +29,15 @@ module.exports = {
         current: "currentColor",
         black: "#000000",
         white: "#ffffff",
-        darkblue: 'rgba(0, 21, 134, 0.54)',
-        dblue:'rgba(0, 21, 134, 1)',
+        darkblue: "rgba(0, 21, 134, 0.54)",
+        dblue: "rgba(0, 21, 134, 1)",
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
       },
-      boxShadow:{
-        'neon': '0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)',
+      boxShadow: {
+        neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",
+        blackcard:
+          " 20px 20px 0 0 rgba(0,0,0,0.7), inset 20px 20px 0 0 rgba(0,0,0,0.7), inset",
       },
       keyframes: {
         wave: {
@@ -103,7 +105,7 @@ module.exports = {
         wave: "wave 5s ease-in-out infinite",
         blob: "blob 15s ease-in-out infinite",
         typing: "typing 3s steps(25) infinite",
-        wiggle: "wiggle 1s ease-in-out infinite",
+        wiggle: "wiggle 1.2s ease-in-out",
         shine: "shine 3s ease-in-out",
         dropdownSlideIn: "dropdownSlideIn 1s ease-in-out",
         dropdownSlideOut: "dropdownSlideOut 1s ease-in-out",
