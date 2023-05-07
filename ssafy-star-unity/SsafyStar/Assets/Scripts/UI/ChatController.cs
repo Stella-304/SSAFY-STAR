@@ -8,7 +8,7 @@ using TMPro;
 using System.Security.Cryptography;
 using WebGLSupport;
 
-public enum ChatType { Normal = 0, Party, Guild, Whisper, System, Count}
+public enum ChatType { Normal = 0, Party, Guild, Whisper, System, Count }
 public class ChatController : NetworkBehaviour
 {
     [SerializeField]
@@ -32,6 +32,8 @@ public class ChatController : NetworkBehaviour
     [SerializeField]
     private Transform parentContent;
     private bool chatboxVisibility = false;
+    private GameObject speechBubble;
+    private TMP_Text speechBubbleText;
 
     [Header("chat type")]
     [SerializeField]
@@ -92,7 +94,7 @@ public class ChatController : NetworkBehaviour
             inputChat.ActivateInputField();
         }
 
-        if(Input.GetKeyDown(KeyCode.Tab)&&chatboxVisibility)
+        if (Input.GetKeyDown(KeyCode.Tab) && chatboxVisibility)
         {
             SetCurrentInputType();
         }
@@ -125,8 +127,13 @@ public class ChatController : NetworkBehaviour
     {
         Debug.Log(inputChat.text);
         RPCSendMessage(username, inputChat.text, currentInputType);
+        if (currentInputType == ChatType.Normal)
+        {
+            ActiveSpeechBubble(inputChat.text);
+        }
         inputChat.Select();
         inputChat.text = "";
+
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -136,6 +143,18 @@ public class ChatController : NetworkBehaviour
         Debug.Log("sender input type:" + senderInputType);
 
         UpdateChatWithCommand(username, message, senderInputType);
+    }
+
+    public void ActiveSpeechBubble(string message)
+    {
+        if(!speechBubble)
+        {
+            speechBubble = player.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
+            speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
+        }
+
+        speechBubble.SetActive(true);
+        speechBubbleText.text = message;
     }
 
     public void PrintChatData(string username, string message, ChatType type, Color color)
@@ -150,14 +169,14 @@ public class ChatController : NetworkBehaviour
 
     public void UpdateChatWithCommand(string username, string message, ChatType senderInputType)
     {
-        if(!message.StartsWith('/'))
+        if (!message.StartsWith('/'))
         {
             PrintChatData(username, message, senderInputType, ChatTypeToColor(senderInputType));
             return;
         }
 
         //귓말
-        if(message.StartsWith("/w"))
+        if (message.StartsWith("/w"))
         {
 
             //명령어, 귓말대상, 내용
@@ -165,7 +184,7 @@ public class ChatController : NetworkBehaviour
 
             //모든 유저의 아이디를 검색에 동일한 아이디가 있는지 검사 후
             //대상이 있으면 보내고 없으면 시스템 메세지 출력
-            if (whisper[1]==friendID)
+            if (whisper[1] == friendID)
             {
                 lastWhisperID = whisper[1];
 
@@ -177,9 +196,9 @@ public class ChatController : NetworkBehaviour
             }
         }
         //마지막에 귓말을 보낸 대상에게 다시 귓말 보내기
-        else if(message.StartsWith("/r"))
+        else if (message.StartsWith("/r"))
         {
-            if(lastWhisperID.Equals(""))
+            if (lastWhisperID.Equals(""))
             {
                 inputChat.text = "";
                 return;
@@ -217,10 +236,10 @@ public class ChatController : NetworkBehaviour
         //Button UI의 OnClick 이벤트에 열거형은 매개변수로 처리가 안되서 int로 받아온다.
         currentViewType = (ChatType)newType;
 
-        if(currentViewType == ChatType.Normal)
+        if (currentViewType == ChatType.Normal)
         {
             //모든 대화 목록 활성화
-            for(int i = 0; i<chatList.Count; ++i)
+            for (int i = 0; i < chatList.Count; ++i)
             {
                 chatList[i].gameObject.SetActive(true);
             }
@@ -228,7 +247,7 @@ public class ChatController : NetworkBehaviour
         else
         {
             //현재 대화 보기 설정만 활성화
-            for(int i = 0; i<chatList.Count; ++i)
+            for (int i = 0; i < chatList.Count; ++i)
             {
                 chatList[i].gameObject.SetActive(chatList[i].ChatType == currentViewType);
             }
