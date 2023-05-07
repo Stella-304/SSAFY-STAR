@@ -155,6 +155,13 @@ public class ChatController : NetworkBehaviour
 
         speechBubble.SetActive(true);
         speechBubbleText.text = message;
+
+        Invoke("UnActiveSpeechBubble", 1f);
+    }
+
+    void UnActiveSpeechBubble()
+    {
+        speechBubble.SetActive(false);
     }
 
     public void PrintChatData(string username, string message, ChatType type, Color color)
