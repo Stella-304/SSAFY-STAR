@@ -9,10 +9,10 @@ import {
   resetFind,
 } from "../../stores/user/find";
 import { RootState } from "../../stores/store";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { emailReg, loginidReg } from "../../utils/regex";
 import useEmailFindCheck from "../../apis/user/useEmailFindCheck";
-import useEmailFindCheck2 from "../../apis/user/useEmailFindCheck2";
+import useFindId from "../../apis/user/useFindId";
 
 export default function Find() {
   const [idWarning, setIdWarning] = useState("");
@@ -26,8 +26,8 @@ export default function Find() {
 
   //이메일 아이디, 아이디, 이메일, 성공했을때
   //api
-  const emailfindcheckQuery = useEmailFindCheck(email);
-  const emailfindcheckQuery2 = useEmailFindCheck2(email2, loginid);
+  const findidQuery = useFindId(email);
+  const emailfindcheckQuery = useEmailFindCheck(email2, loginid);
 
   useEffect(() => {
     dispatch(resetFind());
@@ -73,7 +73,7 @@ export default function Find() {
     if (!email.match(emailReg)) {
       return;
     }
-    emailfindcheckQuery.refetch();
+    findidQuery.refetch();
     //전송
     //연속으로 전송 안되게 막기
   }
@@ -94,7 +94,7 @@ export default function Find() {
       return;
     }
     //이메일 전송
-    emailfindcheckQuery2.refetch();
+    emailfindcheckQuery.refetch();
     //연속 안되게 막기
   }
   return (

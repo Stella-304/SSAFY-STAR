@@ -7,7 +7,8 @@ const fetcher = (email: string) =>
     .get(FIND_ID_URL, {
       params: { email: email },
     })
-    .then(({ data }) => data);
+    .then(({ data }) => data)
+    .catch(({ response }) => response.data);
 
 /**
  * 이메일로 아이디정보를 전송한다.
@@ -18,6 +19,13 @@ const useFindId = (email: string) => {
   return useQuery(["/findid", email], () => fetcher(email), {
     enabled: false,
     retry: 0,
+    onSuccess: (data) => {
+      if (data.status === "NOT_FOUND") {
+        return alert(data.message);
+      }
+
+      alert(`해당 이메일에 등록된 아이디는 \n ${data.value}`);
+    },
   });
 };
 

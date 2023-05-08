@@ -8,6 +8,7 @@ import cardSlice from "./card/cardsubmit";
 import findSlice from "./user/find";
 import userSlice from "./user/user";
 import starInfoSlice from "./star/starInfo";
+import pathSlice from "./page/path";
 const reducers = combineReducers({
   login: loginSlice,
   signup: signupSlice,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   find: findSlice,
   user: userSlice,
   starInfo: starInfoSlice,
+  path: pathSlice,
 });
 
 const persistConfig = {

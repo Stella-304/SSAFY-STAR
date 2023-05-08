@@ -39,11 +39,11 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
-	final UserRepository userRepository;
-	final CompanyRepository companyRepository;
-	final CardRepository cardRepository;
-	final CoordinateRepository coordinateRepository;
-	final AuthProvider authProvider;
+	private final UserRepository userRepository;
+	private final CompanyRepository companyRepository;
+	private final CardRepository cardRepository;
+	private final CoordinateRepository coordinateRepository;
+	private final AuthProvider authProvider;
 
 	@Override
 	@Transactional

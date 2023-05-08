@@ -92,8 +92,8 @@ export default function CardBack({ user, onClick }: Iprops) {
             </div>
           )}
           {user.etc && (
-            <div className="flex h-36 items-center gap-10">
-              <div className="text-24 font-bold text-white">기타사항</div>
+            <div className="flex items-center gap-10">
+              <div className="w-100 text-24 font-bold text-white">기타사항</div>
               <div className="whitespace-pre-wrap text-22 text-white">
                 {user.etc}
               </div>

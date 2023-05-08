@@ -4,26 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { logout } from "../../stores/user/user";
 
+/**
+ * 로그인을 안한 유저만 거른다.
+ * @returns
+ */
 export default function NoneAuthLayout() {
   const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    //로그인 안하면 true
-    //로그인 하면 false
-    if (email !== "") {
-      //로그인함
-      if (sessionStorage.getItem("accessToken") !== null) {
-        navigate("/"); //진짜 로그인하면 메인으로
-      } else {
-        alert(sessionStorage.getItem("accessToken"));
-        //세션이 없다? 로그아웃 진행
-        dispatch(logout());
-        setLoginCheck(true);
-      }
+    if (email !== "" && sessionStorage.getItem("accessToken")) {
+      //둘다 있으면 로그인한 유저
+      navigate("/");
     } else {
-      //로그인 안함
+      dispatch(logout()); //유저정보 초기화
       setLoginCheck(true);
     }
   }, []);

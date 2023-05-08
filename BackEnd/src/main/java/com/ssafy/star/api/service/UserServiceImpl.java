@@ -14,7 +14,6 @@ import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,54 +27,55 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserServiceImpl implements UserService {
 
 	// SecurityConfig에 BCryptPasswordEncoder를 반환하도록 Bean등록 되어있음
-	final PasswordEncoder passwordEncoder;
-	final RandValueMaker randValueMaker;
-	final TokenProvider tokenProvider;
-	final RedisProvider redisProvider;
-	final S3Provider s3Provider;
-	final AuthProvider authProvider;
-	final SmtpProvider smtpProvider;
-	final UserRepository userRepository;
-	final AuthStatusRepository authStatusRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final RandValueMaker randValueMaker;
+	private final TokenProvider tokenProvider;
+	private final RedisProvider redisProvider;
+	private final S3Provider s3Provider;
+	private final AuthProvider authProvider;
+	private final SmtpProvider smtpProvider;
+	private final UserRepository userRepository;
+	private final AuthStatusRepository authStatusRepository;
 
 	@Override
 	@Transactional
 	public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
-		if (userRepository.existsByAccountId(userRegistReqDto.getAccountId())) {
-			return false;
-		}
+
+		String nickname = userRegistReqDto.getNickname();
+
+		if (userRepository.existsByNickname(nickname)) { return false; }
 
 		User user = User.builder()
 			.email(userRegistReqDto.getEmail())
 			.name(userRegistReqDto.getName())
-			.nickname(String.valueOf(userRegistReqDto.getNickname()))
+			.nickname(nickname)
 			.loginType(LoginTypeEnum.custom)
-			.accountId(userRegistReqDto.getAccountId())
 			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 			.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
-
 		userRepository.save(user);
+
 		return true;
 	}
 
 	@Override
 	@Transactional
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
-		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
+		Optional<User> userOptional = userRepository.findByEmail(userLoginReqDto.getEmail());
+
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			if (passwordEncoder.matches(userLoginReqDto.getAccountPwd(), user.getAccountPwd()) &&
-				userLoginReqDto.getAccountId().equals(user.getAccountId())) {
+				userLoginReqDto.getEmail().equals(user.getEmail())) {
 				return tokenProvider.createTokenById(user.getId());
 			}
 		}
+
 		return null;
 	}
 
@@ -131,6 +131,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void modifyNameUser(String newName) {
+		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
+				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
+		user.setName(newName);
+	}
+
+	@Override
 	@Transactional
 	public void deleteUser() {
 		userRepository.deleteById(authProvider.getUserIdFromPrincipal());
@@ -159,41 +166,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public String findIdUser(String email) {
+	public boolean findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
+
+		String email = userFindPwdReqDto.getEmail();
 
 		Optional<User> userOptional = userRepository.findByEmail(email);
 
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			String accountId = user.getAccountId();
-			// 아이디 길이는 보장되어있음
-			return accountId.substring(0, accountId.length() - 3) + "**";
-		}
-
-		return null;
-	}
-
-	@Override
-	@Transactional
-	public int findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
-
-		String accountId = userFindPwdReqDto.getAccountiId();
-		String email = userFindPwdReqDto.getEmail();
-
-		Optional<User> userOptional = userRepository.findByAccountIdOrEmail(accountId, email);
-
-		if(userOptional.isEmpty()) { return 1; }
+		if(userOptional.isEmpty()) { return false; }
 
 		User user = userOptional.get();
-
-		if(!accountId.equals(user.getAccountId())) { return 2; }
-		if(!email.equals(user.getEmail())) { return 3; }
-
 		String newPwd = randValueMaker.makeRandPwd();
+
 		smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
 		user.setAccountPwd(passwordEncoder.encode(newPwd));
-		userRepository.save(user);
-		return 4;
+
+		return true;
 	}
 
 	@Override

@@ -17,12 +17,12 @@ public interface UserService {
     String getUser();
     void modifyUser(UserModifyReqDto userModifyReqDto);
     void modifyPwdUser(String newPwd);
+    void modifyNameUser(String newName);
     void deleteUser();
     boolean duplicateEmailCheck(String email);
     void sendVerificationCodeEmail(String email);
     boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto);
-    String findIdUser(String email);
-    int findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
+    boolean findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
     BadgeStatusDto searchBadgeStatus(String type);
 	boolean searchCardIsRegist();

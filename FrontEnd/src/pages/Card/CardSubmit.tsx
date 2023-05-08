@@ -12,23 +12,25 @@ import {
 } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
-import { isNumber } from "../../utils/regex";
+import { githubIdReg, isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
 import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
 import { useNavigate, useParams } from "react-router-dom";
+import { setUser } from "../../stores/user/user";
+import { setPath } from "../../stores/page/path";
 
 export default function CardSubmit() {
   const navigate = useNavigate();
   const { type } = useParams();
   const { card } = useSelector((state: RootState) => state.card);
-  const { cardRegistered } = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
@@ -52,13 +54,18 @@ export default function CardSubmit() {
   useEffect(() => {
     dispatch(resetCard());
     if (type === "modify") {
+      dispatch(setPath("cardmodify")); //현 위치 표시
       myCardQuery.refetch();
     } else {
-      if (cardRegistered) {
+      if (user.cardRegistered) {
         alert("등록하신 카드가 존재합니다.");
         navigate("/");
       }
+      dispatch(setPath("cardsubmit")); //현 위치 표시
     }
+    return () => {
+      dispatch(setPath("")); //나갈땐 리셋
+    };
   }, [type]);
 
   useEffect(() => {
@@ -112,6 +119,10 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
+    //
+    if (!input.match(githubIdReg)) {
+      return;
+    }
     dispatch(setCard({ ...card, githubId: input }));
   }
   function onBlog(input: string) {
@@ -208,11 +219,13 @@ export default function CardSubmit() {
     if (type === "modify") {
       cardModifyMutate.mutate(cardsubmit);
     } else {
+      dispatch(setUser({ ...user, cardRegistered: true }));
       cardSubmitMutate.mutate(cardsubmit);
     }
   }
 
   function deleteCard() {
+    dispatch(setUser({ ...user, cardRegistered: false }));
     cardDeleteMutate.mutate();
   }
   return (
@@ -303,7 +316,7 @@ export default function CardSubmit() {
           <Input
             id="github"
             type="text"
-            label="Github 링크"
+            label="Github아이디"
             onChange={onGithub}
             value={card.githubId}
           />

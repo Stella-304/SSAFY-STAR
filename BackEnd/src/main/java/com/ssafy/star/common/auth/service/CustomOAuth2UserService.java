@@ -1,19 +1,21 @@
 package com.ssafy.star.common.auth.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-import com.ssafy.star.common.auth.enumeration.RoleEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
+import com.ssafy.star.common.auth.enumeration.RoleEnum;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
-import com.ssafy.star.common.auth.info.*;
+import com.ssafy.star.common.auth.info.GoogleOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.KakaoOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.NaverOAuth2UserInfo;
+import com.ssafy.star.common.auth.info.OAuth2UserInfo;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
+import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.common.util.constant.ErrorCode;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -23,7 +25,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Log4j2
 @Service
@@ -31,6 +35,7 @@ import java.util.*;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	private RandValueMaker randValueMaker;
 
 	@Override
 	@Transactional
@@ -50,9 +55,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	}
 
 	private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-
-		//        Map<String, Object> mapForLog = oAuth2User.getAttributes();
-		//        mapForLog.forEach((k, v) -> log.info("{} : {}", k,v));
 
 		OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(),
 			oAuth2User.getAttributes()
@@ -96,12 +98,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private User registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
 
-		String nickName = oAuth2UserInfo.getName();
+		String oauth2Name = oAuth2UserInfo.getName();
+		String nickName = oauth2Name.substring(0, Math.min(oauth2Name.length(), 9));
+
+		nickName = userRepository.existsByNickname(nickName) ? makeRandomNickName(0) : nickName;
 
 		return userRepository.save(User.builder()
 			.email(oAuth2UserInfo.getEmail())
 			.name("익명")
-			.nickname(nickName.substring(0, Math.min(nickName.length(), 9)))
+			.nickname(nickName)
 			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 			.providerId(oAuth2UserInfo.getId())
 			.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
@@ -118,6 +123,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
 
 		return userRepository.save(user);
+	}
+
+	private String makeRandomNickName(int depth) {
+
+		String randomNickname = randValueMaker.makeNicknameCode();
+
+		if(!userRepository.existsByNickname(randomNickname)) {
+			return randomNickname;
+		} else if(depth < 1000){
+			makeRandomNickName(depth + 1);
+		}
+
+		throw new CustomOAuth2Exception(CommonErrorCode.INSANE_USER);
 	}
 
 }

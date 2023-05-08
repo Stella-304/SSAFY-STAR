@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
 import { SIGNUP_URL } from "../../utils/urls";
 import { SignupType } from "../../types/SignupType";
-import { useNavigate } from "react-router-dom";
 import { api } from "../api";
+import useLogin from "./useLogin";
 
 const fetcher = (payload: SignupType) =>
   api
@@ -16,17 +16,28 @@ const fetcher = (payload: SignupType) =>
     .then(({ data }) => data);
 
 /**
- * 회원가입을 진행한다.
+ *  회원가입을 진행한다.
  * 성공시 메인으로
  * 실패시 알림
+ * @param accountId
+ * @param accountPwd
+ * @param setIdWarning
  * @returns
  */
-const useSignup = (setIdWarning: (params: string) => void) => {
-  const navigate = useNavigate();
+const useSignup = (
+  accountId: string,
+  accountPwd: string,
+  setIdWarning: (params: string) => void,
+) => {
+  const loginMutate = useLogin();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
-      navigate("/");
+      //로그인 진행
+      loginMutate.mutate({
+        accountId: accountId,
+        accountPwd: accountPwd,
+      });
     },
     onError: (e: any) => {
       if (e.response.status === 409) {

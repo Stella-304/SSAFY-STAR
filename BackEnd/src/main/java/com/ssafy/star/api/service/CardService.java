@@ -29,4 +29,5 @@ public interface CardService {
     CardDetailDto getMyCard();
 
 	void deleteMyCard();
+
 }

@@ -1,7 +1,9 @@
 import FloatingMenu from "../components/Layout/FloatingMenu";
 import { useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
+import { useDispatch } from "react-redux";
+import { setPath } from "../stores/page/path";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ export default function MainPage() {
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
+
+  const dispatch = useDispatch();
   //react query
   const userNumCheckquery = useUserNum();
 
@@ -26,6 +30,12 @@ export default function MainPage() {
     userNumCheckquery.error,
     userNumCheckquery.data,
   ]);
+  useEffect(() => {
+    dispatch(setPath("home"));
+    return () => {
+      dispatch(setPath(""));
+    };
+  }, []);
 
   return (
     <div>

@@ -4,12 +4,10 @@ import com.ssafy.star.api.service.UserService;
 import com.ssafy.star.common.db.dto.request.*;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -34,10 +31,12 @@ public class UserController {
 	@PermitAll
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
-		if (userService.registUser(userRegistReqDto)) {
-			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+
+		if(userService.registUser(userRegistReqDto)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
 		}
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
+
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@PostMapping("/login")
@@ -86,6 +85,13 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
 
+	@PutMapping("/name")
+	@ApiOperation(value = "이름 수정")
+	public ResponseEntity<ResponseDto> userModifyName(@RequestParam String name) {
+		userService.modifyNameUser(name);
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+
 	@DeleteMapping
 	@ApiOperation(value = "탈퇴")
 	public ResponseEntity<ResponseDto> userDelete() {
@@ -124,36 +130,16 @@ public class UserController {
 			.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE));
 	}
 
-	@GetMapping("/email/find-id")
-	@PermitAll
-	@ApiOperation(value = "이메일로 아이디 찾기")
-	public ResponseEntity<ResponseDto> userFindId(@RequestParam String email) {
-
-		Optional<String> idOptional = Optional.ofNullable(userService.findIdUser(email));
-
-		return idOptional.map(id -> ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, id)))
-			.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND)));
-	}
-
 	@PostMapping("/email/find-pwd")
 	@PermitAll
 	@ApiOperation(value = "아이디와 이메일 체크 후 비밀번호 이메일 전송")
 	public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
-		int state = userService.findPwdUser(userFindPwdReqDto);
 
-		if (state == 1) {
+		if(userService.findPwdUser(userFindPwdReqDto)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_AND_ACCOUNT_ID_NOT_FOUND));
+					.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
 		}
-		if (state == 2) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.ACCOUNT_ID_NOT_FOUND));
-		}
-		if (state == 3) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
-		}
+
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
 	}
 
