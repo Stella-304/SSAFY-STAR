@@ -32,9 +32,8 @@ public class CameraMovement : MonoBehaviour
         }
 
         mousePos = Input.mousePosition;
-        Debug.Log(mousePos);
 
-        if (mousePos.y < 780 && mousePos.y > 180)
+        if (mousePos.y < 650 && mousePos.y > 180)
         {
             if (mousePos.x < 200)
             {
