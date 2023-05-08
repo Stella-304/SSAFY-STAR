@@ -4,10 +4,12 @@ import com.ssafy.star.api.service.UserService;
 import com.ssafy.star.common.db.dto.request.*;
 import com.ssafy.star.common.util.constant.Msg;
 import com.ssafy.star.common.util.dto.ResponseDto;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -32,10 +35,7 @@ public class UserController {
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
 
-		if(userService.registUser(userRegistReqDto)) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
-		}
-
+		userService.registUser(userRegistReqDto);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
@@ -135,11 +135,11 @@ public class UserController {
 	@ApiOperation(value = "아이디와 이메일 체크 후 비밀번호 이메일 전송")
 	public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
 
-		if(userService.findPwdUser(userFindPwdReqDto)) {
+		if (userService.findPwdUser(userFindPwdReqDto)) {
 			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
 		}
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+			.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
 
 	}
 
