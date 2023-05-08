@@ -31,6 +31,7 @@ import useMyCard from "../../apis/card/useMyCard";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
 import { setViewCard } from "../../stores/star/starInfo";
 import { setPath } from "../../stores/page/path";
+import bubbleChat from "../../assets/icons/bubble-chat.png";
 
 // const userInfo: User = {
 //   name: "이아현",
@@ -63,6 +64,7 @@ export default function Universe() {
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [isCardOpen, setCardOpen] = useState<boolean>(false);
+  const [openReply, setOpenReply] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -175,13 +177,10 @@ export default function Universe() {
         </Canvas>
         <Filter />
         <div
-          className="group hover:brightness-90 fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white"
+          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
           onClick={() => dispatch(setViewCard(false))}
         >
-          <img
-            src="/icons/star.svg"
-            className="h-30 w-30"
-          />
+          <img src="/icons/star.svg" className="h-30 w-30" />
           <div className="invisible absolute -right-130 top-5 flex h-30 w-120 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
             별자리로 보기
           </div>
@@ -223,7 +222,7 @@ export default function Universe() {
                   setCardFront(!isCardFront);
                 }}
               >
-                <div className="absolute right-0 top-0 z-20 h-0 w-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div>
+                {/* <div className="absolute right-0 top-0 z-20 h-0 w-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div> */}
                 <div className="absolute h-full w-full backface-hidden">
                   <CardFront
                     generation={selectedUserInfo.generation}
@@ -236,6 +235,16 @@ export default function Universe() {
                   <CardBack user={selectedUserInfo} />
                 </div>
               </div>
+              <img
+                src={bubbleChat}
+                className="absolute -right-50 -top-30 h-40 w-40 cursor-pointer"
+                onClick={() => setOpenReply(!openReply)}
+              />
+              {openReply && (
+                <div className="absolute -right-[320px] top-20 h-500 w-300 rounded-10 bg-white">
+                  <div className="m-10 h-130 w-[calc(100%-20px)] rounded-10 border-1 border-black p-10"></div>
+                </div>
+              )}
             </div>
           </>
         )}
