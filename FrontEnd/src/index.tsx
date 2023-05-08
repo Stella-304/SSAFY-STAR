@@ -27,6 +27,12 @@ import Metaverse from "./pages/test/Metaverse";
 import MainPage from "./pages/MainPage";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+  const Kakao: any;
+}
 const router = createBrowserRouter([
   {
     // 로그인시만 이용가능

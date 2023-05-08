@@ -10,7 +10,6 @@ export default function FloatingMenu() {
     (state: RootState) => state.user,
   );
   const { path } = useSelector((state: RootState) => state.path);
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const logoutMutate = useLogout();
   const logout = () => {
@@ -32,12 +31,23 @@ export default function FloatingMenu() {
   }
   return (
     <>
-      {open ? (
-        <div className="fixed bottom-78 right-16 flex flex-col justify-around gap-8 font-['nemo030']">
+      <div className="fixed left-0 top-0 flex w-full justify-between gap-8 bg-black font-['nemo030']">
+        <div
+          className="cursor-pointer select-none text-center font-['RocaOne'] text-4xl text-[#02C7FE]"
+          onClick={() => navigate("/")}
+        >
+          SSAFY-STAR
+        </div>
+        <div className="flex justify-end gap-8">
           <FloatButton
-            onClick={() => navigate("/")}
-            path={path === "home"}
-            value="홈으로"
+            onClick={() => navigate("/universe")}
+            value="유니버스"
+            path={path === "universe"}
+          />
+          <FloatButton
+            onClick={() => navigate("/metaverse")}
+            value="메타버스"
+            path={path === "metaverse"}
           />
           {email ? (
             <>
@@ -75,34 +85,15 @@ export default function FloatingMenu() {
               />
             </>
           )}
-          <FloatButton
-            onClick={() => navigate("/universe")}
-            value="유니버스"
-            path={path === "universe"}
-          />
-          <FloatButton
-            onClick={() => navigate("/metaverse")}
-            value="메타버스"
-            path={path === "metaverse"}
-          />
-          <button className="h-40" onClick={addChannel}>
-            <img
-              className="h-40"
-              src="/kakao/channel_add_small_3X.png"
-              alt="카카오플러스친구"
-            />
-          </button>
         </div>
-      ) : (
-        <></>
-      )}
-
-      <div
-        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center leading-50 text-white"
-        onClick={() => setOpen(!open)}
-      >
-        메뉴
       </div>
+      <button className="fixed bottom-16 right-16 h-40" onClick={addChannel}>
+        <img
+          className="h-40"
+          src="/kakao/channel_add_small_3X.png"
+          alt="카카오플러스친구"
+        />
+      </button>
     </>
   );
 }

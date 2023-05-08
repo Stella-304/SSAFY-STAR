@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import FloatingMenu from "./FloatingMenu";
+import HeaderMenu from "./HeaderMenu";
 
 interface props {
   children: ReactNode;
@@ -15,7 +15,7 @@ export default function EarthLayout(props: props) {
           <div className="h-550 w-400">{props.children}</div>
         </div>
       </div>
-      <FloatingMenu />
+      <HeaderMenu />
     </div>
   );
 }
