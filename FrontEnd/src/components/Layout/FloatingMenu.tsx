@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import FloatButton from "../Button/FloatButton";
+import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
 
 declare global {
   interface Window {
@@ -94,7 +95,7 @@ export default function FloatingMenu() {
           <button className="h-40" onClick={addChannel}>
             <img
               className="h-40"
-              src="./kakao/channel_add_small_3X.png"
+              src={kakaoPlusFriend}
               alt="카카오플러스친구"
             />
           </button>
