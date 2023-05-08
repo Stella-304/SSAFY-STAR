@@ -52,9 +52,9 @@ public class NumberServiceImpl implements NumberService {
                 cardList.add(user.getCard());
             else
                 System.out.println("null!!!");
-            System.out.println(user.getCard());
+            // System.out.println(user.getCard());
         }
-        System.out.println(userList.size());
+        // System.out.println(userList.size());
 
 
         return new MainNumberDto(cardList, userList);

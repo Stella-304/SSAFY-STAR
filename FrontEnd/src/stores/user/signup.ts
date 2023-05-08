@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 interface signupState {
   user: {
     email: string;
-    loginid: string;
     name: string;
     nickname: string;
     password: string;
@@ -15,7 +14,6 @@ const initialState: signupState = {
   user: {
     email: "",
     nickname: "",
-    loginid: "",
     name: "",
     password: "",
     password2: "",
@@ -30,7 +28,6 @@ const signupSlice = createSlice({
       state.user = action.payload;
     },
     resetUser(state) {
-      state.user.loginid = "";
       state.user.email = "";
       state.user.name = "";
       state.user.nickname = "";

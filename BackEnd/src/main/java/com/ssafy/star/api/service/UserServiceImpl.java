@@ -13,13 +13,16 @@ import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +82,6 @@ public class UserServiceImpl implements UserService {
 				tokenProvider.getExpireTime(token).getTime() - new Date().getTime(), TimeUnit.MICROSECONDS);
 		}
 
-
 	}
 
 	@Override
@@ -87,8 +89,9 @@ public class UserServiceImpl implements UserService {
 	public UserDetailDto getDetailUser() {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
-		boolean isCardRegistered= (user.getCard())!=null;
-		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAuthorized(),isCardRegistered);
+		boolean isCardRegistered = (user.getCard()) != null;
+		return new UserDetailDto(user.getName(), user.getNickname(), user.getEmail(), user.isAuthorized(),
+			isCardRegistered);
 	}
 
 	@Override
@@ -125,7 +128,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void modifyNameUser(String newName) {
 		User user = userRepository.findById(authProvider.getUserIdFromPrincipal())
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
 		user.setName(newName);
 	}
 
@@ -164,7 +167,9 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> userOptional = userRepository.findByEmail(email);
 
-		if(userOptional.isEmpty()) { return false; }
+		if (userOptional.isEmpty()) {
+			return false;
+		}
 
 		User user = userOptional.get();
 		String newPwd = randValueMaker.makeRandPwd();
@@ -179,7 +184,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class)
 	public void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException {
 		String fileContentType = file.getContentType();
-		System.out.println(fileContentType);
 		if (!fileContentType.startsWith("image"))
 			throw new CommonApiException(CommonErrorCode.FILE_NOT_VAILD);
 		// 유저 정보 얻어옴.
@@ -206,26 +210,34 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BadgeStatusDto searchBadgeStatus(String type) {
-		BadgeEnum enumType = BadgeEnum.valueOf(type);
+		BadgeEnum enumType = BadgeEnum.valueOf(type.toUpperCase());
 		long userId = authProvider.getUserIdFromPrincipal();
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 		List<AuthStatus> authStatusList = authStatusRepository.findByUserAndBadgeType(user, enumType);
 
-		// 인증이 마쳐진 경우.
-		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAuthorized())
-			return new BadgeStatusDto("FINISHED");
-		if (enumType == BadgeEnum.SSAFY && user.isAuthorized())
-			return new BadgeStatusDto("FINISHED");
+		// 항상 마지막 요청이 최신이므로 계속 갱신해주자~
+		String imageUrl = null;
 
 		// 보낸 요청중에 하나라도 진행중인게 있으면.
-		if (authStatusList.size() > 0)
-			for (AuthStatus authStatus : authStatusList)
+		if (authStatusList.size() > 0) {
+			for (AuthStatus authStatus : authStatusList) {
+				imageUrl = authStatus.getImageUrl();
 				if (!authStatus.isProcessStatus())
-					return new BadgeStatusDto("IN_PROGRESS");
+					return new BadgeStatusDto("IN_PROGRESS", imageUrl);
+			}
+		}
+
+		// 인증이 마쳐진 경우.
+		if (enumType == BadgeEnum.COMPANY && user.isCompanyIsAuthorized())
+			return new BadgeStatusDto("FINISHED", imageUrl);
+		if (enumType == BadgeEnum.SSAFY && user.isAuthorized())
+			return new BadgeStatusDto("FINISHED", imageUrl);
 
 		// 모든 요청이 거절당한경우(요청을 하나도 안보냈거나).
-		return new BadgeStatusDto("NO_REQUEST");
+		// imageUrl이 null이면 요청을 하나도 안보낸거.
+		// imageUrl이 있으면, 마지막 요청까지 거절당한거.
+		return new BadgeStatusDto("NO_REQUEST", imageUrl);
 	}
 
 	@Override
@@ -236,10 +248,9 @@ public class UserServiceImpl implements UserService {
 		return user.getCard() != null;
 	}
 
-
 	@Override
 	public List<String> getRoleListUser() {
 		return userRepository.findAllRolesById(authProvider.getUserIdFromPrincipal())
-				.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 	}
 }
