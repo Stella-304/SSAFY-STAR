@@ -1,4 +1,4 @@
-FROM node:18.12.1-alpine
+FROM node:18.12.1-alpine AS build
 
 WORKDIR /app_f
 
@@ -11,10 +11,12 @@ RUN npm install --force
 
 COPY . .
 
-ENV NODE_ENV=production
+ARG REACT_APP_NAME
+ENV REACT_APP_NAME=${REACT_APP_NAME}
+ARG REACT_APP_TITLE
+ENV REACT_APP_TITLE=${REACT_APP_TITLE}
 
 RUN npm run build
 
-EXPOSE 3000
-
-ENTRYPOINT ["npm", "run", "start"]
+FROM nginx
+COPY --from=build /app/build/usr/share/nginx/html
