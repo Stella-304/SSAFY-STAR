@@ -10,49 +10,31 @@ import {
 import { RootState } from "../../stores/store";
 import useStarFilterInfo from "../../apis/star/useStarFilterInfo";
 import { StarFilterType } from "../../types/StarFilterType";
+import useStarFilter from "../../hooks/useStarFilter";
 
-const Generation = Array.from(Array(9), (_, i) => String(i + 1));
-const Region = ["서울", "대전", "구미", "광주", "부울경"];
-const Ban = Array.from(Array(16), (_, i) => String(i + 1));
+const Generation: string[] = Array.from(Array(9), (_, i) => String(i + 1));
+const Region: string[] = ["서울", "대전", "구미", "광주", "부울경"];
+const Ban: string[] = Array.from(Array(16), (_, i) => String(i + 1));
+const BojTier: string[] = ["Platinum"];
+const Company: string[] = [];
+const Major: string[] = [];
+const SwTier: string[] = [];
+const Track: string[] = [];
+const GroupFlag: string = "";
 
 export default function Filter() {
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [generation, setGeneration] = useState<number>();
-  const [region, setRegion] = useState<string>("");
-  const [ban, setBan] = useState<number>();
-  const [filter, setFilter] = useState<StarFilterType>({
-    ban: [],
-    bojTier: [],
-    campus: [],
-    company: [],
-    generation: [],
-    major: [],
-    role: [],
-    swTier: [],
-    track: [],
-    groupFlag: "campus",
-  });
-  const [generationTabOpen, setGenerationTabOpen] = useState<boolean>(false);
-  const [regionTabOpen, setRegionTabOpen] = useState<boolean>(false);
-  const [banTabOpen, setBanTabOpen] = useState<boolean>(false);
+  const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
   const [openAnimation, setOpenAnimation] = useState<boolean>(false);
-
-  const starFilterInfo = useStarFilterInfoQuery(
-    searchValue,
-    generation !== undefined ? String(generation) : "",
-    region,
-    ban !== undefined ? String(ban) : "",
-  );
+  const [type, setType] = useState<string>("");
+  const [info, setInfo] = useState<string>("");
 
   const { mutate, data } = useStarFilterInfo();
+
+  const { filter } = useStarFilter(type, info);
 
   const dispatch = useDispatch();
 
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
-
-  const clickFilterBtn = () => {
-    starFilterInfo.refetch();
-  };
 
   useEffect(() => {
     mutate({
@@ -93,14 +75,14 @@ export default function Filter() {
           (openAnimation
             ? "translate-x-300 opacity-100 transition duration-700 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
-          " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+          " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
         }
       >
         <div className="flex h-48 w-full items-center pb-10 shadow-sm ">
           <img src="/icons/blue-star.svg" className="ml-28 h-16 w-16" />
           <div className="ml-12 text-18 font-bold">SSAFY STAR</div>
           <div className="ml-30 h-24 w-56 rounded-6 bg-[#E5E9EB] text-center leading-24">
-            v1.0.0
+            v1.0.1
           </div>
           <img
             src="/icons/exit.svg"
@@ -131,23 +113,19 @@ export default function Filter() {
         <div className="mt-10 flex w-full flex-col gap-10 pl-18">
           <div className="flex">
             <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
-            {generation && (
-              <div className="ml-16 text-12 text-blue-400">{generation}기</div>
-            )}
-            {region && (
-              <div className="ml-16 text-12 text-blue-400">{region}</div>
-            )}
-            {ban && <div className="ml-16 text-12 text-blue-400">{ban}반</div>}
           </div>
-
           <div
             className="flex cursor-pointer items-center"
-            onClick={() => setGenerationTabOpen(!generationTabOpen)}
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[0] = !temp[0];
+              setTabOpen(temp);
+            }}
           >
             <img
               src="icons/right-vector-gray.svg"
               className={
-                (generationTabOpen ? "rotate-90" : "") +
+                (tabOpen[0] ? "rotate-90" : "") +
                 " h-12 w-12 transition duration-500"
               }
             />
@@ -155,7 +133,7 @@ export default function Filter() {
           </div>
           <div
             className={
-              (generationTabOpen ? "opacity-100" : "invisible h-0 opacity-0") +
+              (tabOpen[0] ? "opacity-100" : "invisible h-0 opacity-0") +
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
@@ -163,17 +141,8 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => {
-                  filter.generation.includes(item)
-                    ? setFilter((state) => ({
-                        ...state,
-                        generation: filter.generation.filter(
-                          (e: string) => e !== item,
-                        ),
-                      }))
-                    : setFilter((state) => ({
-                        ...state,
-                        generation: [...state.generation, item],
-                      }));
+                  setType("generation");
+                  setInfo(item);
                 }}
                 className={
                   filter.generation.includes(item) ? "text-blue-400" : ""
@@ -186,12 +155,16 @@ export default function Filter() {
 
           <div
             className="flex cursor-pointer items-center"
-            onClick={() => setRegionTabOpen(!regionTabOpen)}
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[1] = !temp[1];
+              setTabOpen(temp);
+            }}
           >
             <img
               src="icons/right-vector-gray.svg"
               className={
-                (regionTabOpen ? "rotate-90" : "") +
+                (tabOpen[1] ? "rotate-90" : "") +
                 " h-12 w-12 transition duration-500"
               }
             />
@@ -199,7 +172,7 @@ export default function Filter() {
           </div>
           <div
             className={
-              (regionTabOpen ? "opacity-100" : "invisible h-0 opacity-0") +
+              (tabOpen[1] ? "opacity-100" : "invisible h-0 opacity-0") +
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
@@ -207,15 +180,8 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => {
-                  filter.campus.includes(item)
-                    ? setFilter((state) => ({
-                        ...state,
-                        campus: filter.campus.filter((e: string) => e !== item),
-                      }))
-                    : setFilter((state) => ({
-                        ...state,
-                        campus: [...state.campus, item],
-                      }));
+                  setType("campus");
+                  setInfo(item);
                 }}
                 className={filter.campus.includes(item) ? "text-blue-400" : ""}
               >
@@ -225,12 +191,16 @@ export default function Filter() {
           </div>
           <div
             className="flex cursor-pointer items-center"
-            onClick={() => setBanTabOpen(!banTabOpen)}
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[2] = !temp[2];
+              setTabOpen(temp);
+            }}
           >
             <img
               src="icons/right-vector-gray.svg"
               className={
-                (banTabOpen ? "rotate-90" : "") +
+                (tabOpen[2] ? "rotate-90" : "") +
                 " h-12 w-12 transition duration-500"
               }
             />
@@ -238,7 +208,7 @@ export default function Filter() {
           </div>
           <div
             className={
-              (banTabOpen ? "opacity-100" : "invisible h-0 opacity-0") +
+              (tabOpen[2] ? "opacity-100" : "invisible h-0 opacity-0") +
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
@@ -246,15 +216,8 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => {
-                  filter.ban.includes(item)
-                    ? setFilter((state) => ({
-                        ...state,
-                        ban: filter.ban.filter((e: string) => e !== item),
-                      }))
-                    : setFilter((state) => ({
-                        ...state,
-                        ban: [...state.ban, item],
-                      }));
+                  setType("ban");
+                  setInfo(item);
                 }}
                 className={filter.ban.includes(item) ? "text-blue-400" : ""}
               >
@@ -262,12 +225,82 @@ export default function Filter() {
               </div>
             ))}
           </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[3] = !temp[3];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[3] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">회사</div>
+          </div>
+          <div
+            className={
+              (tabOpen[3] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {Company.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  setType("company");
+                  setInfo(item);
+                }}
+                className={filter.ban.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[4] = !temp[4];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[4] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">전공</div>
+          </div>
+          <div
+            className={
+              (tabOpen[4] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {Major.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  setType("major");
+                  setInfo(item);
+                }}
+                className={filter.ban.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
-        <div></div>
-        <div></div>
       </div>
 
-      <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer bg-white">
+      <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer bg-white hover:brightness-90">
         <img
           src="/icons/sidebar-opener.svg"
           onClick={() => setOpenAnimation(true)}
