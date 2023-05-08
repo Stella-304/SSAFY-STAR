@@ -1,4 +1,3 @@
-import BigButton from "../../components/Button/BigButton";
 import LinkButton from "../../components/Button/LinkButton";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
@@ -9,7 +8,7 @@ import { setLoginid, setPassword, resetLogin } from "../../stores/user/login";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
-import { loginidReg } from "../../utils/regex";
+import { emailReg } from "../../utils/regex";
 import { LoginType } from "../../types/LoginType";
 import useLogin from "../../apis/user/useLogin";
 import { setPath } from "../../stores/page/path";
@@ -20,10 +19,10 @@ export default function Login() {
   const [passwordWarning, setPasswordWarning] = useState("");
   const loginMutate = useLogin();
   useEffect(() => {
-    dispatch(resetLogin());//로그인 했던 정보 리셋
-    dispatch(setPath("login"));//현 위치 표시
+    dispatch(resetLogin()); //로그인 했던 정보 리셋
+    dispatch(setPath("login")); //현 위치 표시
     return () => {
-      dispatch(setPath(""));//나갈땐 리셋
+      dispatch(setPath("")); //나갈땐 리셋
     };
   }, []);
   const navigate = useNavigate();
@@ -31,6 +30,11 @@ export default function Login() {
   const dispatch = useDispatch();
 
   function onLoginid(input: string) {
+    if (!input.match(emailReg)) {
+      setIdWarning("이메일 형식을 맞춰주세요");
+    } else {
+      setIdWarning("");
+    }
     dispatch(setLoginid(input));
   }
   function onPassword(input: string) {
@@ -44,8 +48,8 @@ export default function Login() {
       return;
     } else {
       //아이디 확인
-      if (!loginid.match(loginidReg)) {
-        setIdWarning("아이디 형식을 맞춰주세요");
+      if (!loginid.match(emailReg)) {
+        setIdWarning("이메일 형식을 맞춰주세요");
         return;
       }
       setIdWarning("");
@@ -85,7 +89,7 @@ export default function Login() {
           <Input
             id="loginId"
             type="textfield"
-            label="아이디"
+            label="이메일"
             onChange={onLoginid}
             value={loginid}
             warning={idWarning}
@@ -110,14 +114,7 @@ export default function Login() {
         </div>
 
         <div className="flex flex-col gap-4">
-          {/* oauth */}
-          {/* <div className="flex justify-center gap-16"> */}
-          {/* <MidButton value="구글 로그인" onClick={() => goOauth("google")} /> */}
-          {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
-          {/* <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} /> */}
-
           <div className="flex flex-col items-center">
-            {/*
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
@@ -128,7 +125,7 @@ export default function Login() {
                 alt="google 로그인"
               />
             </button>
-             <button
+            <button
               className="flex justify-center"
               onClick={() => goOauth("kakao")}
             >
@@ -137,7 +134,7 @@ export default function Login() {
                 src="./background/login_kakao.png"
                 alt="kakao 로그인"
               />
-            </button> */}
+            </button>
           </div>
           {/* </div> */}
           <div className="mb-14 py-10 text-right font-bold">

@@ -24,7 +24,6 @@ export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
   const dispatch = useDispatch();
   //경고
-  const [idWarning, setIdWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
   const [nicknameWarning, setNickameWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
@@ -41,7 +40,6 @@ export default function Signup() {
   const [timer, setTimer] = useState(-1); //3분 타이머
 
   //포커스용
-  const idRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
@@ -49,7 +47,7 @@ export default function Signup() {
   const nicknameRef = useRef<HTMLInputElement>(null);
 
   //회원가입 요청
-  const signupMutate = useSignup(user.loginid, user.password, setIdWarning);
+  const signupMutate = useSignup(user.loginid, user.password);
 
   //이메일 중복 확인
   const [emailCheckSave, setEmailCheckSave] = useState("");
@@ -86,16 +84,6 @@ export default function Signup() {
     }, 1000);
     return () => clearInterval(timeId);
   }, [timer]);
-
-  //아이디 입력
-  function onId(input: string) {
-    if (!input.match(loginidReg)) {
-      setIdWarning("아이디는 16글자이내 영문+숫자로 해주세요.");
-    } else {
-      setIdWarning("");
-    }
-    dispatch(setUser({ ...user, loginid: input }));
-  }
 
   //이메일 입력
   function onEmail(input: string) {
@@ -212,10 +200,6 @@ export default function Signup() {
       alert("인증을 완료해주세요");
       return;
     }
-    //아이디 확인
-    if (!user.loginid.match(loginidReg)) {
-      return idRef?.current?.focus();
-    }
     //비밀번호 규칙 확인
     if (!user.password.match(passwordReg)) {
       return passwordRef?.current?.focus();
@@ -226,7 +210,6 @@ export default function Signup() {
     }
     //회원가입 진행
     const payload: SignupType = {
-      userId: user.loginid,
       userPwd: user.password,
       nickname: user.nickname,
       name: user.name,
@@ -244,15 +227,6 @@ export default function Signup() {
           </span>
         </div>
         <div>
-          <Input
-            inputRef={idRef}
-            id="loginid"
-            type="input"
-            label="아이디"
-            onChange={onId}
-            value={user?.loginid}
-            warning={idWarning}
-          />
           <Input
             inputRef={nameRef}
             id="name"
