@@ -25,6 +25,7 @@ import useMyCard from "../../apis/card/useMyCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { setUser } from "../../stores/user/user";
 import { setPath } from "../../stores/page/path";
+import { USER_NONAME } from "../../constants/default";
 
 export default function CardSubmit() {
   const navigate = useNavigate();
@@ -63,6 +64,11 @@ export default function CardSubmit() {
         navigate("/");
       }
       dispatch(setPath("cardsubmit")); //현 위치 표시
+      //카드 등록하지 않은 경우
+      //유저 정보의 이름을 불러서 입력해준다.
+      if (user.name !== USER_NONAME) {
+        dispatch(setCard({ ...card, name: user.name }));
+      }
     }
     return () => {
       dispatch(setPath("")); //나갈땐 리셋
@@ -174,6 +180,7 @@ export default function CardSubmit() {
   }
   function checkNecessary() {
     if (
+      card.name === "" ||
       card.campus === "" ||
       card.generation === "" ||
       card.ban === "" ||
@@ -187,6 +194,7 @@ export default function CardSubmit() {
   function submit() {
     //필수 입력 확인
     if (
+      card.name === "" &&
       card.campus === "" &&
       card.generation === "" &&
       card.ban === "" &&
