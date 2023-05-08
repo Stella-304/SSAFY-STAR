@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Api(tags = {"데이터 초기화 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/init-data")
-// @RolesAllowed("ROLE_ADMIN")
+//@RolesAllowed("ROLE_ADMIN")
 public class InitDataController {
 
 	private final InitDataService initDataService;
@@ -55,14 +55,14 @@ public class InitDataController {
 	}
 
 	@GetMapping("/polygon")
-	@ApiOperation(value = "coordinate data init")
+	@ApiOperation(value = "polygon data init")
 	public ResponseEntity<ResponseDto> polygon() {
 		initDataService.initPolygon();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@GetMapping("/all")
-	@ApiOperation(value = "coordinate data init")
+	@ApiOperation(value = "all data init")
 	public ResponseEntity<ResponseDto> all() {
 		initDataService.initAll();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));

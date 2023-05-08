@@ -136,11 +136,11 @@ public class UserController {
 	public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
 
 		if(userService.findPwdUser(userFindPwdReqDto)) {
+			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
+		}
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
 					.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
-		}
 
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
 	}
 
 	@PostMapping("/badge")
