@@ -1,4 +1,5 @@
 export interface CardSubmitType {
+  name: string; //이름 없으면 이름으로
   ban: string; //1학기 기준 반
   blogAddr: string; //블로그
   bojId: string; //백준아이디

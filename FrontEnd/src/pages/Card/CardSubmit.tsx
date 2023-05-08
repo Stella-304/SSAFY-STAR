@@ -35,6 +35,7 @@ export default function CardSubmit() {
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
+
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
   const cardModifyMutate = useCardModify();
@@ -85,6 +86,10 @@ export default function CardSubmit() {
   }, [card.campus, card.generation, card.ban, card.content]);
 
   //input
+  function onName(input: string) {
+    dispatch(setCard({ ...card, name: input }));
+  }
+
   function onBan(input: string) {
     if (input !== "" && !input.match(isNumber)) {
       setBanWaring("숫자만 입력 해주세요");
@@ -119,7 +124,6 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, company: input }));
   }
   function onGithub(input: string) {
-    //
     if (!input.match(githubIdReg)) {
       return;
     }
@@ -155,9 +159,6 @@ export default function CardSubmit() {
   function onContent(input: string) {
     dispatch(setCard({ ...card, content: input }));
   }
-  // function onContent2(input: string) {
-  //   dispatch(setCard({ ...card, content2: input }));
-  // }
   function onEtc(input: string) {
     dispatch(setCard({ ...card, etc: input }));
   }
@@ -200,6 +201,7 @@ export default function CardSubmit() {
       return;
     }
     const cardsubmit: CardSubmitType = {
+      name: card.name,
       ban: card.ban,
       blogAddr: card.blogAddr,
       bojId: card.bojId,
@@ -236,6 +238,13 @@ export default function CardSubmit() {
       <div className="mb-8 h-500 overflow-y-auto pr-8">
         <div className="flex flex-col gap-4">
           {/* <div className="flex justify-between"> */}
+          <Input
+            id="name"
+            type="text"
+            label="이름*"
+            onChange={onName}
+            value={card.name}
+          />
           <div className="flex justify-between">
             <Select
               id="campus"

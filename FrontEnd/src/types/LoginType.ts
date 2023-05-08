@@ -1,4 +1,4 @@
 export interface LoginType {
-  accountId: string;
+  email: string;
   accountPwd: string;
 }
