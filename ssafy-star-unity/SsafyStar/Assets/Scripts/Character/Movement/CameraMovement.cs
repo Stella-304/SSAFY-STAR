@@ -32,17 +32,20 @@ public class CameraMovement : MonoBehaviour
         }
 
         mousePos = Input.mousePosition;
-        if(mousePos.x<100)
+        Debug.Log(mousePos);
+
+        if (mousePos.y < 780 && mousePos.y > 180)
         {
-            Debug.Log("왼쪽으로 회전");
-            lookOffset.x -= rotationSpeed * Time.deltaTime;
-            lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
-        }
-        if(mousePos.x>1800)
-        {
-            Debug.Log("오른쪽으로 회전");
-            lookOffset.x += rotationSpeed * Time.deltaTime;
-            lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+            if (mousePos.x < 200)
+            {
+                lookOffset.x -= rotationSpeed * Time.deltaTime;
+                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+            }
+            if (mousePos.x > 1500)
+            {
+                lookOffset.x += rotationSpeed * Time.deltaTime;
+                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+            }
         }
 
         float scroollWheel = Input.GetAxis("Mouse ScrollWheel");
