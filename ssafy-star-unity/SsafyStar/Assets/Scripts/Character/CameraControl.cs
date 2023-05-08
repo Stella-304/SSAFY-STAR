@@ -14,9 +14,11 @@ public class CameraControl : MonoBehaviour
 
     public void InitiateCamera(Transform transform)
     {
+        Debug.Log("initiate camera");
         Camera = Camera.main;
         cineCamera = Camera.GetComponent<CinemachineVirtualCamera>();
         Camera.GetComponent<CameraMovement>().Target = transform;
+        Debug.Log("is working?");
         cineCamera.Follow = transform;
         cineCamera.LookAt = transform;
     }

@@ -27,7 +27,6 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Camera")]
     public Camera Camera;
-    //public Camera MinimapCamera;
     private CameraControl cameraControl;
 
     [Header("Jump")]
@@ -54,12 +53,13 @@ public class PlayerMovement : NetworkBehaviour
 
         if (HasStateAuthority)
         {
+            Debug.Log("spawned");
+
             playerSpeed = playerwalkSpeed;
 
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
-            //MinimapCamera = GameObject.Find("MinimapCamera").GetComponent<Camera>();
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -72,7 +72,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (stop)
         {
-            //anim.SetBool("Walk", false);
             return;
         }
 
@@ -95,8 +94,6 @@ public class PlayerMovement : NetworkBehaviour
         {
             Debug.Log("r ´©¸§");
             doRespawn = true;
-            //transform.position = respawnPos.position;
-            //interpolationPos.position = respawnPos.position;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -134,12 +131,10 @@ public class PlayerMovement : NetworkBehaviour
 
         if (horizontal != 0 || vertical != 0)
         {
-            //anim.SetBool("Walk", true);
             networkAnimator.Animator.SetBool("Walk", true);
         }
         else
         {
-            //anim.SetBool("Walk", false);
             networkAnimator.Animator.SetBool("Walk", false);
         }
 
