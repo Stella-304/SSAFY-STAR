@@ -94,11 +94,6 @@ public class UserServiceImpl implements UserService {
 			isCardRegistered);
 	}
 
-	@Override
-	@Transactional
-	public String getUser() {
-		return userRepository.findNicknameById(authProvider.getUserIdFromPrincipal());
-	}
 
 	@Override
 	@Transactional
@@ -143,7 +138,11 @@ public class UserServiceImpl implements UserService {
 	public boolean duplicateEmailCheck(String email) {
 		return userRepository.existsByEmail(email);
 	}
-
+	@Override
+	@Transactional
+	public boolean duplicateNickNameCheck(String nickName) {
+		return userRepository.existsByEmail(nickName);
+	}
 	@Override
 	@Transactional
 	public void sendVerificationCodeEmail(String email) {
