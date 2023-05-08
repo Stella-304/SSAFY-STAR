@@ -9,6 +9,7 @@ import {
   fieldList,
   trackList,
   majorList,
+  generationList,
 } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
@@ -50,7 +51,6 @@ export default function CardSubmit() {
   const dispatch = useDispatch();
 
   //경고
-  const [cardinalWarning, setCardinalWaring] = useState("");
   const [banWarning, setBanWaring] = useState("");
   const [githubWarning, setGithubWarning] = useState("");
 
@@ -69,7 +69,7 @@ export default function CardSubmit() {
       //카드 등록하지 않은 경우
       //유저 정보의 이름을 불러서 입력해준다.
       if (user.name !== USER_NONAME) {
-        dispatch(setCard({ ...card, name: user.name }));
+        dispatch(setCard({ name: user.name }));
       }
     }
     return () => {
@@ -110,14 +110,6 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, ban: input }));
   }
   function onCardinal(input: string) {
-    if (input !== "" && !input.match(isNumber)) {
-      setCardinalWaring("숫자만 입력 해주세요");
-      setTimeout(() => {
-        setCardinalWaring("");
-      }, 1000);
-      return;
-    }
-    setCardinalWaring("");
     dispatch(setCard({ ...card, generation: input }));
   }
 
@@ -223,7 +215,7 @@ export default function CardSubmit() {
       company: card.company,
       content: card.content,
       etc: card.etc,
-      generation: card.generation,
+      generation: card.generation === "비싸피인" ? "0" : card.generation,
       githubId: card.githubId,
       major: card.major,
       role: card.role,
@@ -267,13 +259,12 @@ export default function CardSubmit() {
               onChange={onCampus}
               value={card.campus}
             />
-            <Input
-              id="cardinal"
-              type="text"
+            <Select
+              id="generation"
               label="기수*"
+              options={generationList}
               onChange={onCardinal}
               value={card.generation}
-              warning={cardinalWarning}
             />
           </div>
           <Input

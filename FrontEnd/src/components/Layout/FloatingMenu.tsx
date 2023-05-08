@@ -57,13 +57,13 @@ export default function FloatingMenu() {
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/modify")}
                   value="카드 수정"
-                  path={path === "cardsubmit"}
+                  path={path === "cardmodify"}
                 />
               ) : (
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/submit")}
                   value="카드 등록"
-                  path={path === "cardmodify"}
+                  path={path === "cardsubmit"}
                 />
               )}
             </>
@@ -94,7 +94,7 @@ export default function FloatingMenu() {
           <button className="h-40" onClick={addChannel}>
             <img
               className="h-40"
-              src="./kakao/channel_add_small_3X.png"
+              src="/kakao/channel_add_small_3X.png"
               alt="카카오플러스친구"
             />
           </button>
