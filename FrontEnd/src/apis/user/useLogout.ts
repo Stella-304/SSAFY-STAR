@@ -28,13 +28,15 @@ const useLogout = () => {
     retry: 0,
     onSuccess: () => {
       //성공시 삭제
-      sessionStorage.removeItem("accessToken"); //토큰제거
-      dispatch(logout()); //유저정보 제거
-      navigate("/");
       alert("로그아웃 완료되었습니다.");
     },
     onError: () => {
       alert("잠시후 시도해주세요.");
+    },
+    onSettled: () => {
+      //오류가 나더라도 로컬에서의 정보를 제거해서 완전 초기화를 진행
+      dispatch(logout()); //유저정보 제거
+      navigate("/");
     },
   });
 };

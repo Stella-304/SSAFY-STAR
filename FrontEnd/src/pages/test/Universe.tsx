@@ -17,12 +17,13 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Ground from "../../components/Ground/Ground";
 import Star from "../../components/Star/Star";
 import Filter from "../../components/Filter/Filter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
 import useMyCard from "../../apis/card/useMyCard";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
+import { setPath } from "../../stores/page/path";
 
 // const userInfo: User = {
 //   name: "이아현",
@@ -56,6 +57,8 @@ export default function Universe() {
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [isCardOpen, setCardOpen] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
     new THREE.Vector3(25, -25, 0),
@@ -87,7 +90,12 @@ export default function Universe() {
   const isFilterOpen = useSelector(
     (state: RootState) => state.starInfo.filterOpen,
   );
-
+  useEffect(() => {
+    dispatch(setPath("universe")); //현위치 지정
+    return () => {
+      setPath(""); //나올땐 리셋
+    };
+  }, []);
   //const myCard = useMyCard();
   useEffect(() => {
     if (controls.current) {

@@ -12,7 +12,7 @@ import {
 } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
@@ -24,6 +24,7 @@ import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { setUser } from "../../stores/user/user";
+import { setPath } from "../../stores/page/path";
 
 export default function CardSubmit() {
   const navigate = useNavigate();
@@ -53,13 +54,18 @@ export default function CardSubmit() {
   useEffect(() => {
     dispatch(resetCard());
     if (type === "modify") {
+      dispatch(setPath("cardmodify")); //현 위치 표시
       myCardQuery.refetch();
     } else {
       if (user.cardRegistered) {
         alert("등록하신 카드가 존재합니다.");
         navigate("/");
       }
+      dispatch(setPath("cardsubmit")); //현 위치 표시
     }
+    return () => {
+      dispatch(setPath("")); //나갈땐 리셋
+    };
   }, [type]);
 
   useEffect(() => {
