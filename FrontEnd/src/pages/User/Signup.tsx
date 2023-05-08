@@ -24,8 +24,6 @@ export default function Signup() {
   const { user } = useSelector((state: RootState) => state.signup);
   const dispatch = useDispatch();
   //경고
-  const [nameWarning, setNameWarning] = useState("");
-  const [nicknameWarning, setNickameWarning] = useState("");
   const [emailWarning, setEmailWarning] = useState("");
   const [passwordWarning, setPasswordWarning] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
@@ -43,8 +41,6 @@ export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const nicknameRef = useRef<HTMLInputElement>(null);
 
   //회원가입 요청
   const signupMutate = useSignup(user.email, user.password);
@@ -101,7 +97,7 @@ export default function Signup() {
     if (!input.match(passwordReg)) {
       setPasswordWarning(
         //8~16자 사이 대문자, 특수문자 한개씩 필수 포함 가능한 특수문자 목록 '!', '@', '?', '#'
-        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이",
+        "알파벳 대소문자, 숫자 !@?#로 8글자 16글자 사이",
       );
     } else {
       setPasswordWarning("");
@@ -122,26 +118,6 @@ export default function Signup() {
       setPassword2Warning("");
     }
     dispatch(setUser({ ...user, password2: input }));
-  }
-
-  //이름 입력
-  function onName(input: string) {
-    if (!input.match(nameReg)) {
-      setNameWarning("이름은 5글자 이내로 해주세요");
-    } else {
-      //이메일 중복 확인요청
-      setNameWarning("");
-    }
-    dispatch(setUser({ ...user, name: input }));
-  }
-  //닉네임 입력
-  function onNickname(input: string) {
-    if (!input.match(nicknameReg)) {
-      setNickameWarning("닉네임은 10글자 이내로 해주세요");
-    } else {
-      setNickameWarning("");
-    }
-    dispatch(setUser({ ...user, nickname: input }));
   }
 
   //이메일 인증
@@ -175,22 +151,6 @@ export default function Signup() {
 
   //회원가입 진행
   function submit() {
-    //이름 확인
-    if (user.name === "") {
-      return;
-    }
-    if (!user.name.match(nameReg)) {
-      return nameRef?.current?.focus();
-    }
-
-    //닉네임 확인
-    if (user.nickname === "") {
-      return;
-    }
-    if (!user.nickname.match(nicknameReg)) {
-      return nicknameRef?.current?.focus();
-    }
-
     //이메일 확인
     if (!user.email.match(emailReg)) {
       return emailRef?.current?.focus();
@@ -211,7 +171,6 @@ export default function Signup() {
     //회원가입 진행
     const payload: SignupType = {
       userPwd: user.password,
-      nickname: user.nickname,
       name: user.name,
       email: user.email,
     };
@@ -227,24 +186,6 @@ export default function Signup() {
           </span>
         </div>
         <div>
-          <Input
-            inputRef={nameRef}
-            id="name"
-            type="input"
-            label="이름"
-            onChange={onName}
-            value={user?.name}
-            warning={nameWarning}
-          />
-          <Input
-            inputRef={nicknameRef}
-            id="nickname"
-            type="input"
-            label="닉네임"
-            onChange={onNickname}
-            value={user?.nickname}
-            warning={nicknameWarning}
-          />
           <div className="flex">
             <div className="flex-grow">
               <Input

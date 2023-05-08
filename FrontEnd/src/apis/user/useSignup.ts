@@ -8,8 +8,6 @@ const fetcher = (payload: SignupType) =>
   api
     .post(SIGNUP_URL, {
       email: payload.email,
-      name: payload.name,
-      nickname: payload.nickname,
       accountPwd: payload.userPwd,
     })
     .then(({ data }) => data);
