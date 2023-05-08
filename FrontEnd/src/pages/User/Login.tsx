@@ -44,7 +44,7 @@ export default function Login() {
   function submit() {
     // 로그인 진행
     if (loginid === "") {
-      setIdWarning("아이디를 입력해주세요");
+      setIdWarning("이메일을 입력해주세요");
       return;
     } else {
       //아이디 확인
@@ -63,7 +63,7 @@ export default function Login() {
     }
 
     const payload: LoginType = {
-      accountId: loginid,
+      email: loginid,
       accountPwd: password,
     };
     loginMutate.mutate(payload);

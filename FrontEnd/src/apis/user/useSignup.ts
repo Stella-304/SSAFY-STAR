@@ -18,24 +18,28 @@ const fetcher = (payload: SignupType) =>
  *  회원가입을 진행한다.
  * 성공시 메인으로
  * 실패시 알림
- * @param accountId
+ * @param email
  * @param accountPwd
  * @param setIdWarning
  * @returns
  */
-const useSignup = (accountId: string, accountPwd: string) => {
+const useSignup = (email: string, accountPwd: string) => {
   const loginMutate = useLogin();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
       //로그인 진행
       const payload: LoginType = {
-        accountId: accountId,
+        email: email,
         accountPwd: accountPwd,
       };
       loginMutate.mutate(payload);
     },
-    onError: (e: any) => {},
+    onError: (e: any) => {
+      if (e.response.status === 409) {
+        alert("닉네임이 중복입니다.");
+      }
+    },
   });
 };
 
