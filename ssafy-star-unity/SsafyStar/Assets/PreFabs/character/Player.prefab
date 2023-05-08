@@ -2559,6 +2559,7 @@ GameObject:
   - component: {fileID: 5104436320831623929}
   - component: {fileID: 979491788336185845}
   - component: {fileID: 8715797041370392576}
+  - component: {fileID: 247968543894585195}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2620,12 +2621,14 @@ MonoBehaviour:
   playerwalkSpeed: 3
   playerRunSpeed: 6
   run: 0
+  doRespawn: 0
   respawnPos: {fileID: 0}
   interpolationPos: {fileID: 5198462825006742622}
   Camera: {fileID: 0}
   JumpForce: 5
   GravityValue: -3
   anim: {fileID: 2217049409586488868}
+  networkAnimator: {fileID: 247968543894585195}
 --- !u!143 &5104436320831623929
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2704,7 +2707,38 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 4414130147913388255}
   - {fileID: 979491788336185845}
+  - {fileID: 247968543894585195}
   SimulationBehaviours: []
+--- !u!114 &247968543894585195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6467038624446371112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  Animator: {fileID: 2217049409586488868}
+  TotalWords: 1
+  SyncSettings: 79
+  FloatAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: -814817977
+  TimeAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: 1061325578
+  WeightAccuracy:
+    _value: 0
+    _inverse: 0
+    _hash: -814817977
+  StateHashes: 000000002b1a167c7940695520e23b685928a8ce5cb682a7257c1101608a618d8b49e9706bd5a32d398fdc04967d8788efb7142e2638cb43a21b1dac
+  TriggerHashes: 00000000
 --- !u!1 &6530874019712062360
 GameObject:
   m_ObjectHideFlags: 0

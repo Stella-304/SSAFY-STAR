@@ -36,6 +36,8 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Anim")]
     public Animator anim;
+    [SerializeField]
+    private NetworkMecanimAnimator networkAnimator;
 
     private bool _jumpPressed = false;
 
@@ -70,7 +72,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (stop)
         {
-            anim.SetBool("Walk", false);
+            //anim.SetBool("Walk", false);
             return;
         }
 
@@ -132,21 +134,23 @@ public class PlayerMovement : NetworkBehaviour
 
         if (horizontal != 0 || vertical != 0)
         {
-            anim.SetBool("Walk", true);
+            //anim.SetBool("Walk", true);
+            networkAnimator.Animator.SetBool("Walk", true);
         }
         else
         {
-            anim.SetBool("Walk", false);
+            //anim.SetBool("Walk", false);
+            networkAnimator.Animator.SetBool("Walk", false);
         }
 
         if (run)
         {
-            anim.SetBool("Run", true);
+            networkAnimator.Animator.SetBool("Run", true);
             playerSpeed = playerRunSpeed;
         }
         else
         {
-            anim.SetBool("Run", false);
+            networkAnimator.Animator.SetBool("Run", false);
             playerSpeed = playerwalkSpeed;
         }
 
@@ -155,7 +159,7 @@ public class PlayerMovement : NetworkBehaviour
         if (_jumpPressed)
         {
             controller.Jump();
-            anim.SetBool("Jump", true);
+            networkAnimator.Animator.SetBool("Jump", true);
             _jumpPressed = false;
         }
 
