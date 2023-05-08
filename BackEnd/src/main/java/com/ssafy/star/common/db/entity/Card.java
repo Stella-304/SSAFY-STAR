@@ -1,5 +1,6 @@
 package com.ssafy.star.common.db.entity;
 
+import com.ssafy.star.common.auth.enumeration.GroupFlagEnum;
 import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 
 import lombok.*;
@@ -104,6 +105,26 @@ public class Card {
 		Optional.ofNullable(cardUpdateReqDto.getSwTier()).ifPresent(x -> this.swTier = x);
 		Optional.ofNullable(cardUpdateReqDto.getMajor()).ifPresent(x -> this.major = x);
 		Optional.ofNullable(cardUpdateReqDto.getTrack()).ifPresent(x -> this.track = x);
+	}
+
+	public String getGroupFlag(GroupFlagEnum flagEnum) {
+		if (flagEnum == GroupFlagEnum.CAMPUS) {
+			return Optional.ofNullable(this.campus).orElse("NULL");
+		}
+
+		if (flagEnum == GroupFlagEnum.GENERATION) {
+			return Optional.ofNullable(this.generation).orElse("NULL");
+		}
+
+		if (flagEnum == GroupFlagEnum.BOJTIER) {
+			return Optional.ofNullable(this.bojTier).orElse("NULL");
+		}
+
+		if (flagEnum == GroupFlagEnum.SWTIER) {
+			return Optional.ofNullable(this.swTier).orElse("NULL");
+		}
+		return "NULL";
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.ssafy.star.api.service;
 
+import com.ssafy.star.common.auth.enumeration.GroupFlagEnum;
 import com.ssafy.star.common.db.dto.request.CardRegistReqDto;
 import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
@@ -8,10 +9,12 @@ import com.ssafy.star.common.db.dto.response.ConstellationListDto;
 import com.ssafy.star.common.db.dto.response.EdgeDto;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.Coordinate;
+import com.ssafy.star.common.db.entity.Polygon;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.CardRepository;
 import com.ssafy.star.common.db.repository.CompanyRepository;
 import com.ssafy.star.common.db.repository.CoordinateRepository;
+import com.ssafy.star.common.db.repository.PolygonRepository;
 import com.ssafy.star.common.db.repository.UserRepository;
 import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.AuthProvider;
@@ -19,11 +22,9 @@ import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -44,6 +46,12 @@ public class CardServiceImpl implements CardService {
 	private final CardRepository cardRepository;
 	private final CoordinateRepository coordinateRepository;
 	private final AuthProvider authProvider;
+	private final PolygonRepository polygonRepository;
+
+	// 반구의 반지름
+	private final int RADIUS = 100;
+	// Polygon Matrix의 행,열의 크기
+	private final int SIZE = 81;
 
 	@Override
 	@Transactional
@@ -74,7 +82,7 @@ public class CardServiceImpl implements CardService {
 		List<Card> cardList = cardRepository.getAllCardListWithUser();
 		// 바꿔야함
 		// List<CardDetailDto> detailDtoList = setCoordinates(cardList, searchConditionReqDto.getStarCloudFlag());
-		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+		List<CardDetailDto> detailDtoList = setCoordinatesV1(cardList, "CAMPUS");
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
@@ -121,18 +129,67 @@ public class CardServiceImpl implements CardService {
 		} else {
 			cardList = cardRepository.getAllCardListWithUser();
 		}
-		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
+		List<CardDetailDto> detailDtoList = setCoordinatesV1(cardList, "CAMPUS");
 
 		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
 	}
 
+	// 이게 찐 최종본이고, 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
-		List<CardDetailDto> detailDtoList = setCoordinates(cardList, "CAMPUS");
-		List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
-		return new ConstellationListDto(detailDtoList, edgeDtoList);
+		GroupFlagEnum groupFlag;
+		try {
+			groupFlag = GroupFlagEnum.valueOf(searchConditionReqDto.getGroupFlag().toUpperCase());
+		} catch (Exception e) {
+			throw new CommonApiException(CommonErrorCode.FAIL_TO_PARSE);
+		}
+
+		// 로그인한 유저의 아이디.
+		long userId = -1L;
+		try {
+			userId = authProvider.getUserIdFromPrincipal();
+		} catch (Exception e) {
+		}
+
+		// long userId = authProvider.getUserIdFromPrincipal();
+
+		// 반구의 반지름
+		List<Polygon> polygonList = polygonRepository.findAll();
+		List<CardDetailDto> cardDetailDtoList = new ArrayList<>();
+
+		// 1차원 polygionList를 2차원 polygonMatrix로 변경.
+		Polygon[][] polygonMatrix = new Polygon[SIZE][SIZE];
+		List<Integer> temp = new ArrayList<>();
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
+				if (polygonList.get(i * SIZE + j).getX() != null)
+					temp.add(i * SIZE + j);
+			}
+		}
+
+		Map<String, List<Card>> cardGroupMap = cardList.stream()
+			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
+
+		for (String key :
+			cardGroupMap.keySet()) {
+			System.out.println(key);
+			System.out.println(cardGroupMap.get(key));
+		}
+
+		for (int i = 0; i < cardList.size(); i++) {
+			Card card = cardList.get(i);
+			Polygon polygon = polygonList.get(temp.get(i));
+
+			cardDetailDtoList.add(
+				new CardDetailDto(card, polygon.getX() * RADIUS, polygon.getY() * RADIUS, polygon.getZ() * RADIUS,
+					false));
+		}
+
+		// List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+		return new ConstellationListDto(cardDetailDtoList, null);
 	}
 
 	private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
@@ -141,8 +198,13 @@ public class CardServiceImpl implements CardService {
 		return edgeList;
 	}
 
+	public List<CardDetailDto> setCoordinatesV2(List<Card> cardList, String groupFlag) {
+		System.out.println(groupFlag);
+		return null;
+	}
+
 	// starCloudFlag -> ENUM으로 바꿔야함.
-	public List<CardDetailDto> setCoordinates(List<Card> cardList, String starCloudFlag) {
+	public List<CardDetailDto> setCoordinatesV1(List<Card> cardList, String starCloudFlag) {
 		int cardCnt = cardList.size();
 		//기본 천구
 		int level;
@@ -207,7 +269,6 @@ public class CardServiceImpl implements CardService {
 		try {
 			userId = authProvider.getUserIdFromPrincipal();
 		} catch (Exception e) {
-
 		}
 
 		for (int i = 0; i < cardCnt; i++) {
