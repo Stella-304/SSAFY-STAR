@@ -13,9 +13,11 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     {
         if (player == Runner.LocalPlayer)
         {
+
             loadingUI.SetActive(false);
 
             Runner.Spawn(PlayerPrefab, SpawnPos.position, Quaternion.identity, player);
         }
     }
+
 }

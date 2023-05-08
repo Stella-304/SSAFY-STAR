@@ -2620,6 +2620,8 @@ MonoBehaviour:
   playerwalkSpeed: 3
   playerRunSpeed: 6
   run: 0
+  respawnPos: {fileID: 0}
+  interpolationPos: {fileID: 5198462825006742622}
   Camera: {fileID: 0}
   JumpForce: 5
   GravityValue: -3

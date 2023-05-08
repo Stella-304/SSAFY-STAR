@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -19,6 +20,10 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField]
     private bool run = false;
     private float chatDistance = 3f;
+
+    public bool doRespawn = false;
+    public Transform respawnPos;
+    public Transform interpolationPos;
 
     [Header("Camera")]
     public Camera Camera;
@@ -55,8 +60,9 @@ public class PlayerMovement : NetworkBehaviour
             //MinimapCamera = GameObject.Find("MinimapCamera").GetComponent<Camera>();
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
-            GameObject.Find("UIMenu").GetComponent<MapController>().player = this.gameObject;
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
+
+            respawnPos = GameObject.Find("SpawnPos").transform;
         }
     }
 
@@ -72,18 +78,23 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (!controller.IsGrounded) return;
             _jumpPressed = true;
-            //anim.SetBool("Jump", true);
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
-            anim.SetBool("Run", true);
         }
         else
         {
             run = false;
-            anim.SetBool("Run", false);
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("r ´©¸§");
+            doRespawn = true;
+            //transform.position = respawnPos.position;
+            //interpolationPos.position = respawnPos.position;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -130,12 +141,12 @@ public class PlayerMovement : NetworkBehaviour
 
         if (run)
         {
-            //anim.SetBool("Run", true);
+            anim.SetBool("Run", true);
             playerSpeed = playerRunSpeed;
         }
         else
         {
-            //anim.SetBool("Run", false);
+            anim.SetBool("Run", false);
             playerSpeed = playerwalkSpeed;
         }
 
@@ -150,5 +161,11 @@ public class PlayerMovement : NetworkBehaviour
 
         controller.maxSpeed = playerSpeed;
         controller.Move(move + velocity * Runner.DeltaTime);
+
+        if (doRespawn)
+        {
+            transform.position = respawnPos.position;
+            doRespawn = false;
+        }
     }
 }
