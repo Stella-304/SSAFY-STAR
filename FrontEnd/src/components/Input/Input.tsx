@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface props {
   id: string;
   type: string;
@@ -25,6 +27,14 @@ export default function Input({
   queryResult,
   querySelect,
 }: props) {
+  const [inputType, setInputType] = useState(type);
+  const convert = () => {
+    if (inputType === "password") {
+      setInputType("input");
+    } else {
+      setInputType("password");
+    }
+  };
   return (
     <div className="relative flex flex-col">
       <label htmlFor={id}>
@@ -40,15 +50,36 @@ export default function Input({
           value={value}
         ></textarea>
       ) : (
-        <input
-          ref={inputRef}
-          className="border-b-1 border-gray-500 text-gray-500"
-          id={id}
-          type={type}
-          onChange={(e) => onChange(e.target.value)}
-          value={value}
-          disabled={disable}
-        ></input>
+        <>
+          <input
+            ref={inputRef}
+            className="border-b-1 border-gray-500 text-gray-500"
+            id={id}
+            type={inputType}
+            onChange={(e) => onChange(e.target.value)}
+            value={value}
+            disabled={disable}
+          ></input>
+          {type === "password" && (
+            <div className="absolute bottom-4 right-20 h-16 w-16">
+              {inputType === "password" ? (
+                <img
+                  src="/icons/eye.svg"
+                  className="ml-15 h-16 w-16 cursor-pointer"
+                  onClick={convert}
+                  alt="비밀번호 보기"
+                />
+              ) : (
+                <img
+                  src="/icons/eye-slash.svg"
+                  className="ml-15 h-16 w-16 cursor-pointer"
+                  onClick={convert}
+                  alt="비밀번호"
+                />
+              )}
+            </div>
+          )}
+        </>
       )}
       {querySelect !== undefined &&
       queryResult !== undefined &&

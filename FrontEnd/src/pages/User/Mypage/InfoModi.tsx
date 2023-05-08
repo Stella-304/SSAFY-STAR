@@ -17,7 +17,6 @@ export default function InfoModi() {
   const usermodifyMutate = useUserModify();
   const userpwdmodifyMutate = useUserPwdModify();
   //백준
-  // const [bojid, setBojid] = useState("");
   const bojCheck = userBojUpdate();
   const [bojTier, setBojTier] = useState("");
 
@@ -150,7 +149,7 @@ export default function InfoModi() {
             <Input
               id="nickname"
               type="input"
-              label="닉네임 수정"
+              label="메타버스 닉네임 수정"
               onChange={onNickname}
               value={nickname}
               warning={nicknameWarning}

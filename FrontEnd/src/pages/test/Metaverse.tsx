@@ -4,7 +4,12 @@ import { CSSProperties, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setPath } from "../../stores/page/path";
 export default function Metaverse() {
-  const { unityProvider, isLoaded, loadingProgression } = useUnityContext({
+  const {
+    unityProvider,
+    isLoaded,
+    loadingProgression,
+    UNSAFE__detachAndUnloadImmediate: detachAndUnloadImmediate,
+  } = useUnityContext({
     loaderUrl: "Build/WebGLFile.loader.js",
     dataUrl: "Build/WebGLFile.data",
     frameworkUrl: "Build/WebGLFile.framework.js",
@@ -12,12 +17,28 @@ export default function Metaverse() {
   });
   const dispatch = useDispatch();
 
+  //닉네임 유무 확인
+  //비로그인
+  /////직접 닉네임 입력
+
+  //로그인
+  /////닉네임 안등록됨
+  ////////닉네임 등록진행
   useEffect(() => {
     dispatch(setPath("metaverse"));
     return () => {
       setPath("");
     };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      detachAndUnloadImmediate().catch((reason) => {
+        console.warn(reason);
+      });
+    };
+  }, [detachAndUnloadImmediate]);
+
   const loadingPercentage = Math.round(loadingProgression * 100);
   const style: CSSProperties = {
     width: loadingPercentage + "%",
