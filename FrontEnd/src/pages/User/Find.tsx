@@ -7,12 +7,15 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import { emailReg } from "../../utils/regex";
 import useFindPwd from "../../apis/user/useFindPwd";
+import BigButton from "../../components/Button/BigButton";
+import { useNavigate } from "react-router-dom";
 
 export default function Find() {
   const [emailWarning, setEmailWarning] = useState("");
   const { email } = useSelector((state: RootState) => state.find);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //이메일 아이디, 아이디, 이메일, 성공했을때
   //api
@@ -70,6 +73,12 @@ export default function Find() {
                 onClick={findPassword}
               ></MidButton>
             </div>
+          </div>
+          <div className="flex justify-center">
+            <BigButton
+              value="로그인 하러 가기"
+              onClick={() => navigate("/login")}
+            />
           </div>
         </div>
       </div>
