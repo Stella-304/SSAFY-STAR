@@ -28,7 +28,7 @@ public class ChangeCharacter : MonoBehaviour
         {
             if (characterList.Count <= 0) return;
             Debug.Log(characterList.Count);
-            DoChange(1);
+            DoChange(10);
         }
     }
 
@@ -43,9 +43,9 @@ public class ChangeCharacter : MonoBehaviour
         networkMecanimAnimator.Animator = anim;
 
         characterList[0].model.SetActive(false);
-        characterList[1].model.SetActive(true);
+        characterList[playerNum].model.SetActive(true);
 
-        Camera.main.GetComponent<CameraMovement>().Target = characterList[1].model.transform;
+        Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
 
     }
 }
