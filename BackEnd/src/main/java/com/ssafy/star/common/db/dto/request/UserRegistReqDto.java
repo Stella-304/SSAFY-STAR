@@ -9,7 +9,5 @@ public class UserRegistReqDto {
 
     private String name;
 
-    private String nickname;
-
     private String accountPwd;
 }
