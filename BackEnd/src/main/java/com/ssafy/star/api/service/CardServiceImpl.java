@@ -29,6 +29,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,6 @@ public class CardServiceImpl implements CardService {
 	private final CoordinateRepository coordinateRepository;
 	private final AuthProvider authProvider;
 	private final PolygonRepository polygonRepository;
-
 	// 반구의 반지름
 	private final int RADIUS = 100;
 	// Polygon Matrix의 행,열의 크기
@@ -138,6 +139,7 @@ public class CardServiceImpl implements CardService {
 	// 이게 찐 최종본이고, 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
+
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
 		GroupFlagEnum groupFlag;
 		try {
@@ -169,7 +171,7 @@ public class CardServiceImpl implements CardService {
 					temp.add(i * SIZE + j);
 			}
 		}
-
+		Collections.shuffle(temp);
 		Map<String, List<Card>> cardGroupMap = cardList.stream()
 			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
 
@@ -177,12 +179,20 @@ public class CardServiceImpl implements CardService {
 			cardGroupMap.keySet()) {
 			System.out.println(key);
 			System.out.println(cardGroupMap.get(key));
+			System.out.println(cardGroupMap.get(key).size());
 		}
+		System.out.println(cardGroupMap.keySet().size());
+		System.out.println("============================================");
 
+		temp.sort(new Comparator<Integer>() {
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return 0;
+			}
+		});
 		for (int i = 0; i < cardList.size(); i++) {
 			Card card = cardList.get(i);
 			Polygon polygon = polygonList.get(temp.get(i));
-
 			cardDetailDtoList.add(
 				new CardDetailDto(card, polygon.getX() * RADIUS, polygon.getY() * RADIUS, polygon.getZ() * RADIUS,
 					false));
