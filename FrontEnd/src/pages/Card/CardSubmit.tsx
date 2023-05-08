@@ -319,6 +319,7 @@ export default function CardSubmit() {
               value={search}
               queryResult={searchList}
               querySelect={selectCompany}
+              queryValue={card.company}
             />
             <div className="flex justify-between">
               <Select

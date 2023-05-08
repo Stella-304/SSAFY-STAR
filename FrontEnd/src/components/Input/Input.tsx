@@ -12,6 +12,7 @@ interface props {
   disable?: boolean;
   queryResult?: string[];
   querySelect?: (params: string) => void;
+  queryValue?: string;
 }
 
 export default function Input({
@@ -26,6 +27,7 @@ export default function Input({
   disable,
   queryResult,
   querySelect,
+  queryValue,
 }: props) {
   const [inputType, setInputType] = useState(type);
   const convert = () => {
@@ -81,20 +83,28 @@ export default function Input({
           )}
         </>
       )}
-      {querySelect !== undefined &&
-      queryResult !== undefined &&
-      queryResult?.length !== 0 ? (
-        <div className="absolute top-50 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white">
-          {queryResult?.map((ele) => (
-            <div
-              key={ele}
-              onClick={() => querySelect(ele)}
-              className="cursor-pointer"
-            >
-              {ele}
-            </div>
-          ))}
-        </div>
+      {value !== "" &&
+      querySelect !== undefined &&
+      queryResult !== undefined ? (
+        queryResult?.length !== 0 ? (
+          <div className="absolute top-50 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white">
+            {queryResult?.map((ele) => (
+              <div
+                key={ele}
+                onClick={() => querySelect(ele)}
+                className="cursor-pointer"
+              >
+                {ele}
+              </div>
+            ))}
+          </div>
+        ) : queryValue !== value ? (
+          <div className="absolute top-50 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white">
+            <div>검색된 결과가 없습니다.</div>
+          </div>
+        ) : (
+          <></>
+        )
       ) : (
         <></>
       )}
