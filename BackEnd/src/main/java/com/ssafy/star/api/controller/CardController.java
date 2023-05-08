@@ -32,13 +32,13 @@ public class CardController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE,cardService.updateBojTier()));
 	}
 
-
 	@GetMapping("/boj/{bojId}")
 	@ApiOperation(value = "BOJ 티어 가져오기")
 	public ResponseEntity<?> bojTierGet(@PathVariable("bojId") String bojId) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
 	}
+
 	@GetMapping("/mycard")
 	@ApiOperation(value = "로그인한 유저의 카드 정보 가져오기")
 	public ResponseEntity<?> myCardGet() {
