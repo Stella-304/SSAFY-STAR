@@ -86,10 +86,6 @@ export default function Universe() {
     (state: RootState) => state.starInfo.starEdgeList,
   );
 
-  const userInfoPreview = useSelector(
-    (state: RootState) => state.starInfo.userInfoPreview,
-  );
-
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
   const isFilterOpen = useSelector(
