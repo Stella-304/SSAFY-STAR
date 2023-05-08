@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByEmail(String email);
 
 	boolean existsByEmail(String email);
+	boolean existsByNickName(String nickName);
 
 	@Query(value = "select authority_set from user_authority_set where user_id = :id", nativeQuery = true)
 	Optional<List<String>> findAllRolesById(long id);

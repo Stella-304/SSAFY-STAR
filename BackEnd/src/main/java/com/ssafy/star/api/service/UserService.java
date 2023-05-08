@@ -20,6 +20,7 @@ public interface UserService {
     void modifyNameUser(String newName);
     void deleteUser();
     boolean duplicateEmailCheck(String email);
+    boolean duplicateNickNameCheck(String nickName);
     void sendVerificationCodeEmail(String email);
     boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto);
     boolean findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
