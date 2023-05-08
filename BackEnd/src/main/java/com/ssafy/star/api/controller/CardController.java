@@ -23,7 +23,7 @@ import javax.annotation.security.RolesAllowed;
 @Api(tags = {"카드 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/card")
-@RolesAllowed("ROLE_CLIENT")
+// @RolesAllowed("ROLE_CLIENT")
 public class CardController {
 	private final CardService cardService;
 

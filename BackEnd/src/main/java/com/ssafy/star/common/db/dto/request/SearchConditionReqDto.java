@@ -24,7 +24,7 @@ public class SearchConditionReqDto {
 	private List<String> major;
 	private List<String> role;
 	private List<String> swTier;
-	private List<String> groupFlag;
+	private String groupFlag;
 
 	public Map<String, List<String>> getlists() {
 		HashMap<String, List<String>> map = new HashMap<>();
@@ -37,7 +37,6 @@ public class SearchConditionReqDto {
 		map.put("major", major);
 		map.put("role", role);
 		map.put("swTier", swTier);
-		map.put("groupFlag", groupFlag);
 		return map;
 	}
 }
