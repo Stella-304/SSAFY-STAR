@@ -33,10 +33,8 @@ const useSignup = (email: string, accountPwd: string) => {
       };
       loginMutate.mutate(payload);
     },
-    onError: (e: any) => {
-      if (e.response.status === 409) {
-        alert("닉네임이 중복입니다.");
-      }
+    onError: () => {
+      alert("잠시후 다시 시도해 주세요.");
     },
   });
 };
