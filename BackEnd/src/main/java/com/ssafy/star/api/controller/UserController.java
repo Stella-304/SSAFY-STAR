@@ -32,15 +32,11 @@ public class UserController {
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
 
-		int result = userService.registUser(userRegistReqDto);
+		if(userService.registUser(userRegistReqDto)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
+		}
 
-		if(result == 1) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
-		}
-		if(result == 2) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.BAD_REQUEST, Msg.DUPLICATED_NICKNAME));
-		}
-			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@PostMapping("/login")
@@ -134,18 +130,6 @@ public class UserController {
 			.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE));
 	}
 
-	@GetMapping("/email/find-id")
-	@PermitAll
-	@ApiOperation(value = "이메일로 아이디 찾기")
-	public ResponseEntity<ResponseDto> userFindId(@RequestParam String email) {
-
-		Optional<String> idOptional = Optional.ofNullable(userService.findIdUser(email));
-
-		return idOptional.map(id -> ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, id)))
-			.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND)));
-	}
-
 	@PostMapping("/email/find-pwd")
 	@PermitAll
 	@ApiOperation(value = "아이디와 이메일 체크 후 비밀번호 이메일 전송")
@@ -153,10 +137,10 @@ public class UserController {
 
 		if(userService.findPwdUser(userFindPwdReqDto)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_OR_ACCOUNT_ID_NOT_FOUND));
+					.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
 		}
 
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
 	}
 
 	@PostMapping("/badge")

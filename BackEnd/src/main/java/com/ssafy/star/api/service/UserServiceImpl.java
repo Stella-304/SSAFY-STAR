@@ -42,40 +42,40 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public int registUser(UserRegistReqDto userRegistReqDto) {
+	public boolean registUser(UserRegistReqDto userRegistReqDto) {
 
-		String accountId = userRegistReqDto.getAccountId();
+
 		String nickname = userRegistReqDto.getNickname();
 
-		if (userRepository.existsByAccountId(accountId)) { return 1; }
-		if (userRepository.existsByNickname(nickname)) { return 2; }
+		if (userRepository.existsByNickname(nickname)) { return false; }
 
 		User user = User.builder()
 			.email(userRegistReqDto.getEmail())
 			.name(userRegistReqDto.getName())
 			.nickname(nickname)
 			.loginType(LoginTypeEnum.custom)
-			.accountId(accountId)
 			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 			.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
 		userRepository.save(user);
 
-		return 3;
+		return true;
 	}
 
 	@Override
 	@Transactional
 	public String loginUser(UserLoginReqDto userLoginReqDto) {
-		Optional<User> userOptional = userRepository.findByAccountId(userLoginReqDto.getAccountId());
+		Optional<User> userOptional = userRepository.findByEmail(userLoginReqDto.getEmail());
+
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			if (passwordEncoder.matches(userLoginReqDto.getAccountPwd(), user.getAccountPwd()) &&
-				userLoginReqDto.getAccountId().equals(user.getAccountId())) {
+				userLoginReqDto.getEmail().equals(user.getEmail())) {
 				return tokenProvider.createTokenById(user.getId());
 			}
 		}
+
 		return null;
 	}
 
@@ -166,28 +166,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public String findIdUser(String email) {
-
-		Optional<User> userOptional = userRepository.findByEmail(email);
-
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			String accountId = user.getAccountId();
-			// 아이디 길이는 보장되어있음
-			return accountId.substring(0, accountId.length() - 3) + "**";
-		}
-
-		return null;
-	}
-
-	@Override
-	@Transactional
 	public boolean findPwdUser(UserFindPwdReqDto userFindPwdReqDto) {
 
-		String accountId = userFindPwdReqDto.getAccountId();
 		String email = userFindPwdReqDto.getEmail();
 
-		Optional<User> userOptional = userRepository.findByAccountIdAndEmail(accountId, email);
+		Optional<User> userOptional = userRepository.findByEmail(email);
 
 		if(userOptional.isEmpty()) { return false; }
 

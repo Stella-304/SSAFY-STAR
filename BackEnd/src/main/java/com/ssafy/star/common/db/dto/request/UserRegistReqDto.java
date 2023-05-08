@@ -11,7 +11,5 @@ public class UserRegistReqDto {
 
     private String nickname;
 
-    private String accountId;
-
     private String accountPwd;
 }

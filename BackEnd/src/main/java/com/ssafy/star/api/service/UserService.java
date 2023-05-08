@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    int registUser(UserRegistReqDto userRegistReqDto);
+    boolean registUser(UserRegistReqDto userRegistReqDto);
     String loginUser(UserLoginReqDto userLoginReqDto);
     void logoutUser(String token);
     UserDetailDto getDetailUser();
@@ -22,7 +22,6 @@ public interface UserService {
     boolean duplicateEmailCheck(String email);
     void sendVerificationCodeEmail(String email);
     boolean compareVerificationCodeEmail(EmailCompareReqDto emailCompareReqDto);
-    String findIdUser(String email);
     boolean findPwdUser(UserFindPwdReqDto userFindPwdReqDto);
     void registBadge(BadgeRegistReqDto dto, MultipartFile file) throws IOException;
     BadgeStatusDto searchBadgeStatus(String type);
