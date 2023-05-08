@@ -31,11 +31,7 @@ public class UserController {
 	@PermitAll
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
-
-		if(userService.registUser(userRegistReqDto)) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
-		}
-
+		userService.registUser(userRegistReqDto);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
