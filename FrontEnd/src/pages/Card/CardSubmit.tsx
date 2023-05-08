@@ -37,7 +37,7 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(0);
 
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
@@ -52,6 +52,7 @@ export default function CardSubmit() {
   //경고
   const [cardinalWarning, setCardinalWaring] = useState("");
   const [banWarning, setBanWaring] = useState("");
+  const [githubWarning, setGithubWarning] = useState("");
 
   //리셋
   useEffect(() => {
@@ -132,7 +133,10 @@ export default function CardSubmit() {
   }
   function onGithub(input: string) {
     if (!input.match(githubIdReg)) {
+      setGithubWarning("영문과 숫자 하이픈으로 20자 이내");
       return;
+    } else {
+      setGithubWarning("");
     }
     dispatch(setCard({ ...card, githubId: input }));
   }
@@ -338,6 +342,7 @@ export default function CardSubmit() {
               label="Github아이디"
               onChange={onGithub}
               value={card.githubId}
+              warning={githubWarning}
             />
             <div className="flex">
               <div className="flex-grow">
