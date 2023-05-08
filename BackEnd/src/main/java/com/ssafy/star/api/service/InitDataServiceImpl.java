@@ -118,7 +118,6 @@ public class InitDataServiceImpl implements InitDataService {
 			}
 			polygonRepository.saveAll(polygonList);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new CommonParseException(CommonErrorCode.FAIL_TO_PARSE);
 		}
 	}
