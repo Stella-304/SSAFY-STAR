@@ -13,6 +13,8 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @ToString
 public class CardRegistReqDto {
+    @Schema(description = "이름", example = "장재욱")
+    private String name;
     @Schema(description = "한마디", example = "여러분 힘내서 취업해봅시다!!!")
     private String content;
     @Schema(description = "기수", example = "8")

@@ -297,6 +297,7 @@ public class CardServiceImpl implements CardService {
 		if (user.getCard() != null) {
 			throw new CommonApiException(CommonErrorCode.ALEADY_EXIST_CARD);
 		}
+		user.setName(cardRegistReqDto.getName());
 		Card card = cardRegistReqDto.of(user);
 		cardRepository.save(card);
 		user.setCard(card);
@@ -312,6 +313,7 @@ public class CardServiceImpl implements CardService {
 
 		Card card = Optional.ofNullable(user.getCard())
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
+		user.setName(cardUpdateReqDto.getName());
 		card.of(cardUpdateReqDto);
 	}
 
