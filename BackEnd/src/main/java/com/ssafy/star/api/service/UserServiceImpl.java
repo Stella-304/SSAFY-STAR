@@ -78,8 +78,6 @@ public class UserServiceImpl implements UserService {
 			redisProvider.setBlackList(token, tokenProvider.getUserIdFromToken(token),
 				tokenProvider.getExpireTime(token).getTime() - new Date().getTime(), TimeUnit.MICROSECONDS);
 		}
-
-
 	}
 
 	@Override
@@ -89,12 +87,6 @@ public class UserServiceImpl implements UserService {
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
 		boolean isCardRegistered= (user.getCard())!=null;
 		return new UserDetailDto(user.getName(),user.getNickname() ,user.getEmail(), user.isAuthorized(),isCardRegistered);
-	}
-
-	@Override
-	@Transactional
-	public String getUser() {
-		return userRepository.findNicknameById(authProvider.getUserIdFromPrincipal());
 	}
 
 	@Override
@@ -169,7 +161,7 @@ public class UserServiceImpl implements UserService {
 		User user = userOptional.get();
 		String newPwd = randValueMaker.makeRandPwd();
 
-		smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
+		smtpProvider.sendPwd(email, newPwd);
 		user.setAccountPwd(passwordEncoder.encode(newPwd));
 
 		return true;
