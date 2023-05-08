@@ -124,6 +124,7 @@ public class Card {
 			return Optional.ofNullable(this.swTier).orElse("NULL");
 		}
 		return "NULL";
+
 	}
 
 }
