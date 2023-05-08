@@ -36,7 +36,7 @@ public class CardDetailDto {
 	boolean isMine;
 
 	public CardDetailDto(Card card, double x, double y, double z, boolean isMine) {
-		System.out.println(card.getUser());
+		// System.out.println(card.getUser());
 		this.cardId = card.getId();
 		this.x = x;
 		this.y = y;

@@ -33,6 +33,7 @@ const userSlice = createSlice({
       state.email = "";
       state.authorized = false;
       state.cardRegistered = false;
+      sessionStorage.removeItem("accessToken"); //토큰제거
     },
   },
 });

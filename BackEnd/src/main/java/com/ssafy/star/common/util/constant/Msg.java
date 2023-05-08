@@ -25,6 +25,7 @@ public interface Msg {
     final String DUPLICATED_NICKNAME = "중복된 닉네임입니다.";
     final String DUPLICATED_EMAIL = "중복된 이메일입니다.";
     final String VALID_EMAIL = "사용 가능한 이메일입니다.";
+    final String VALID_NICKNAME = "사용 가능한 닉네임입니다.";
     final String SUCCESS_SEND_EMAIL = "이메일 전송에 성공했습니다.";
 }
 

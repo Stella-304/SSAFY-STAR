@@ -1,5 +1,11 @@
 import * as THREE from "three";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Canvas,
   createRoot,
@@ -17,12 +23,14 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Ground from "../../components/Ground/Ground";
 import Star from "../../components/Star/Star";
 import Filter from "../../components/Filter/Filter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
 import useMyCard from "../../apis/card/useMyCard";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
+import { setViewCard } from "../../stores/star/starInfo";
+import { setPath } from "../../stores/page/path";
 
 // const userInfo: User = {
 //   name: "이아현",
@@ -56,6 +64,8 @@ export default function Universe() {
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [isCardOpen, setCardOpen] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+
   const position: THREE.Vector3[] = [
     new THREE.Vector3(25, 25, 0),
     new THREE.Vector3(25, -25, 0),
@@ -68,8 +78,6 @@ export default function Universe() {
     new THREE.Vector3(-15, 30, 20),
   ];
 
-  const controls = useRef<any>(null);
-
   const starFilterInfo = useSelector(
     (state: RootState) => state.starInfo.userInfoList,
   );
@@ -78,49 +86,33 @@ export default function Universe() {
     (state: RootState) => state.starInfo.starEdgeList,
   );
 
-  const userInfoPreview = useSelector(
-    (state: RootState) => state.starInfo.userInfoPreview,
-  );
-
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
   const isFilterOpen = useSelector(
     (state: RootState) => state.starInfo.filterOpen,
   );
 
-  //const myCard = useMyCard();
   useEffect(() => {
-    if (controls.current) {
-      controls.current.object.position.x = 0;
-      controls.current.object.position.y = -10;
-      controls.current.object.position.z = 0;
-    }
-  }, [controls.current]);
+    dispatch(setPath("universe")); //현위치 지정
+    return () => {
+      setPath(""); //나올땐 리셋
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   if (userInfoPreview) {
-  //     setMousePosX(userInfoPreview.x * 2 - 1)
-  //     setMousePosY(userInfoPreview.y * 2 - 1);
-  //   }
-  // }, [userInfoPreview]);
-
-  useEffect(() => {
-    if (controls.current) {
-      controls.current.object.position.x = 0;
-      controls.current.object.position.y = -10;
-      controls.current.object.position.z = 0;
-    }
-  }, [starFilterInfo]);
-
-  // useEffect(() => {
-  //   if (myCard?.data) {
-  //     console.log("hi");
-  //   }
-  // }, [myCard]);
+  const controls = useCallback(
+    (node: any) => {
+      if (node) {
+        node.object.position.x = 0;
+        node.object.position.y = -10;
+        node.object.position.z = 0;
+      }
+    },
+    [starFilterInfo],
+  );
 
   return (
     <>
-      <div className=" relative h-screen w-full overflow-hidden bg-black perspective-9">
+      <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
         <Canvas
           dpr={[1, 2]}
           camera={{
@@ -182,48 +174,61 @@ export default function Universe() {
           />
         </Canvas>
         <Filter />
+        <div
+          className="fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white"
+          onClick={() => dispatch(setViewCard(false))}
+        >
+          <img src="/icons/star.svg" className="h-30 w-30" />
+        </div>
+        <div
+          className="fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white"
+          onClick={() => dispatch(setViewCard(true))}
+        >
+          <img src="/icons/card.svg" className="h-30 w-30" />
+        </div>
+
         {selectedUserInfo && (
-          <div
-            className={
-              (endAnim
-                ? "opacity-100 transition duration-[1200ms]"
-                : "invisible opacity-0") +
-              " absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
-            }
-          >
+          <>
+            <div
+              className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"
+              onClick={() => {
+                setEndAnim(false);
+                setSelectedUserInfo(undefined);
+              }}
+            ></div>
+
             <div
               className={
-                (isCardFront ? "" : "rotate-y-180") +
-                " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
+                (endAnim
+                  ? "opacity-100 transition duration-[1200ms]"
+                  : "invisible opacity-0") +
+                " group absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
               }
-              onClick={() => setCardFront(!isCardFront)}
             >
-              <div className="absolute h-full w-full backface-hidden">
-                <CardFront
-                  generation={selectedUserInfo.generation}
-                  name={selectedUserInfo.name}
-                  text={selectedUserInfo.content}
-                  isSsafyVerified={selectedUserInfo.authorized}
-                  onClick={() => {
-                    setEndAnim(false);
-                    setCardOpen(false);
-                  }}
-                />
-              </div>
-              <div className="absolute h-full w-full backface-hidden rotate-y-180">
-                <CardBack
-                  user={selectedUserInfo}
-                  onClick={() => {
-                    setEndAnim(false);
-                    setCardOpen(false);
-                  }}
-                />
+              <div
+                className={
+                  (isCardFront ? "" : "rotate-y-180") +
+                  " absolute h-full w-full transition-transform duration-1000 transform-style-3d"
+                }
+                onClick={() => {
+                  setCardFront(!isCardFront);
+                }}
+              >
+                <div className="absolute right-0 top-0 z-20 h-0 w-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div>
+                <div className="absolute h-full w-full backface-hidden">
+                  <CardFront
+                    generation={selectedUserInfo.generation}
+                    name={selectedUserInfo.name}
+                    text={selectedUserInfo.content}
+                    isSsafyVerified={selectedUserInfo.authorized}
+                  />
+                </div>
+                <div className="absolute h-full w-full backface-hidden rotate-y-180">
+                  <CardBack user={selectedUserInfo} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        {isCardOpen && (
-          <div className="absolute left-0 top-0 z-20 h-full w-full bg-black opacity-30"></div>
+          </>
         )}
         {viewCard && (
           <div
@@ -250,6 +255,8 @@ export default function Universe() {
               >
                 <CardPreviewFront
                   generation={item.generation}
+                  campus={item.campus}
+                  ban={item.ban}
                   name={item.name}
                 />
               </div>

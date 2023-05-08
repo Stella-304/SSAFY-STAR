@@ -23,7 +23,7 @@ import java.util.Optional;
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
-@RolesAllowed("ROLE_CLIENT")
+// @RolesAllowed("ROLE_CLIENT")
 public class UserController {
 	private final UserService userService;
 
@@ -61,11 +61,6 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
 	}
 
-	@GetMapping
-	@ApiOperation(value = "메인화면 유저 정보 조회")
-	public ResponseEntity<ResponseDto> userGet() {
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getUser()));
-	}
 
 	@PutMapping
 	@ApiOperation(value = "유저정보 수정")
@@ -104,6 +99,16 @@ public class UserController {
 				.body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_EMAIL));
 		}
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_EMAIL));
+	}
+	@GetMapping("/nickname/check-duplicate")
+	@PermitAll
+	@ApiOperation(value = "이메일 중복 여부 확인")
+	public ResponseEntity<ResponseDto> checkDuplicateNickName(@RequestParam String nickName) {
+		if (userService.duplicateNickNameCheck(nickName)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
+		}
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_NICKNAME));
 	}
 
 	@PostMapping("/email/send-verification")
