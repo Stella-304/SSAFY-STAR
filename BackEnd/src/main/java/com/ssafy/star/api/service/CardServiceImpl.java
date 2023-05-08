@@ -211,9 +211,11 @@ public class CardServiceImpl implements CardService {
 		}
 
 		for (int i = 0; i < cardCnt; i++) {
+
 			int selected = result.get(i);
 			int rr = rs.get(i);
 			Card curCard = cardList.get(i);
+			System.out.println(curCard.getUser().getId() + " " + userId);
 			detailDtoList.add(new CardDetailDto(curCard, (r + rr) * coordinateList.get(selected).getX()
 				, (r + rr) * coordinateList.get(selected).getY(), (r + rr) * coordinateList.get(selected).getZ(),
 				curCard.getUser().getId() == userId
