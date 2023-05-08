@@ -14,7 +14,6 @@ public interface UserService {
     String loginUser(UserLoginReqDto userLoginReqDto);
     void logoutUser(String token);
     UserDetailDto getDetailUser();
-    String getUser();
     void modifyUser(UserModifyReqDto userModifyReqDto);
     void modifyPwdUser(String newPwd);
     void modifyNameUser(String newName);

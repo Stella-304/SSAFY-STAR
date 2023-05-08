@@ -58,18 +58,21 @@ public class CardCommentServiceImpl implements CardCommentService {
 	}
 
 	@Override
+	@Transactional
 	public void registCommentReply(CommentReplyRegistReqDto commentReplyRegistReqDto) {
 		CardComment cardComment = cardCommentRepository.findById(commentReplyRegistReqDto.getCommentId()).orElseThrow(()->new CommonApiException(CommonErrorCode.NO_COMMENT_PROVIDED));
 		cardComment.setReply(commentReplyRegistReqDto.getContent());
 	}
 
 	@Override
+	@Transactional
 	public void updateCommentReply(CommentReplyUpdateReqDto commentReplyUpdateReqDto) {
 		CardComment cardComment = cardCommentRepository.findById(commentReplyUpdateReqDto.getCommentId()).orElseThrow(()->new CommonApiException(CommonErrorCode.NO_COMMENT_PROVIDED));
 		cardComment.setReply(commentReplyUpdateReqDto.getContent());
 	}
 
 	@Override
+	@Transactional
 	public void deleteCommentReply(Long cardCommentId) {
 		CardComment cardComment = cardCommentRepository.findById(cardCommentId).orElseThrow(()->new CommonApiException(CommonErrorCode.NO_COMMENT_PROVIDED));
 		cardComment.setReply(null);

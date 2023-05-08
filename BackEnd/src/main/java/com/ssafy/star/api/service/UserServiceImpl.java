@@ -103,11 +103,6 @@ public class UserServiceImpl implements UserService {
 			isCardRegistered);
 	}
 
-	@Override
-	@Transactional
-	public String getUser() {
-		return userRepository.findNicknameById(authProvider.getUserIdFromPrincipal());
-	}
 
 	@Override
 	@Transactional
