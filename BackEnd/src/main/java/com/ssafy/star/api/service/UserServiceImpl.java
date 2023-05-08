@@ -45,26 +45,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public boolean registUser(UserRegistReqDto userRegistReqDto) {
-
-		String nickname = userRegistReqDto.getNickname();
-
-		if (userRepository.existsByNickname(nickname)) {
-			return false;
-		}
+	public void registUser(UserRegistReqDto userRegistReqDto) {
 
 		User user = User.builder()
 			.email(userRegistReqDto.getEmail())
 			.name(userRegistReqDto.getName())
-			.nickname(nickname)
 			.loginType(LoginTypeEnum.custom)
 			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 			.build();
 
 		user.getAuthoritySet().add("ROLE_CLIENT");
 		userRepository.save(user);
-
-		return true;
 	}
 
 	@Override
