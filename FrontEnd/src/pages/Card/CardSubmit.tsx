@@ -177,11 +177,11 @@ export default function CardSubmit() {
   }
   function checkNecessary() {
     if (
-      card.name === "" ||
-      card.campus === "" ||
-      card.generation === "" ||
-      card.ban === "" ||
-      card.content === ""
+      !card.name ||
+      !card.campus ||
+      !card.generation ||
+      !card.ban ||
+      !card.content
     ) {
       return false;
     }
@@ -190,13 +190,7 @@ export default function CardSubmit() {
   //등록 진행
   function submit() {
     //필수 입력 확인
-    if (
-      card.name === "" &&
-      card.campus === "" &&
-      card.generation === "" &&
-      card.ban === "" &&
-      card.content === ""
-    ) {
+    if (!checkNecessary()) {
       alert("필수 정보를 입력해주세요");
       return;
     }

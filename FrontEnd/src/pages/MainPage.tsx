@@ -2,11 +2,14 @@ import FloatingMenu from "../components/Layout/FloatingMenu";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
+import { RootState } from "../stores/store";
 
 export default function MainPage() {
   const navigate = useNavigate();
+
+  const user = useSelector((state: RootState) => state.user);
 
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
@@ -65,10 +68,10 @@ export default function MainPage() {
               인증된 사용자 : {useSiteSsafyCount}
             </div>
           </div>
-          <div className="-mt-50 flex justify-center">
+          <div className="-mt-50 flex justify-center gap-50">
             <button
               onClick={() => navigate("/metaverse")}
-              className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
+              className="rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
             >
               메타버스
             </button>

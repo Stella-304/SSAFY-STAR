@@ -24,7 +24,6 @@ const useUserDetail = () => {
     retry: 0,
     enabled: false,
     onSuccess: (data) => {
-      alert(data.value.name);
       dispatch(
         setUser({
           email: data.value.email,
