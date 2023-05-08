@@ -1,5 +1,11 @@
 import * as THREE from "three";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Canvas,
   createRoot,
@@ -72,8 +78,6 @@ export default function Universe() {
     new THREE.Vector3(-15, 30, 20),
   ];
 
-  const controls = useRef<any>(null);
-
   const starFilterInfo = useSelector(
     (state: RootState) => state.starInfo.userInfoList,
   );
@@ -98,36 +102,17 @@ export default function Universe() {
       setPath(""); //나올땐 리셋
     };
   }, []);
-  //const myCard = useMyCard();
-  useEffect(() => {
-    //myCard.refetch();
-    if (controls.current) {
-      controls.current.object.position.x = 0;
-      controls.current.object.position.y = -10;
-      controls.current.object.position.z = 0;
-    }
-  }, [controls.current]);
 
-  // useEffect(() => {
-  //   if (userInfoPreview) {
-  //     setMousePosX(userInfoPreview.x * 2 - 1)
-  //     setMousePosY(userInfoPreview.y * 2 - 1);
-  //   }
-  // }, [userInfoPreview]);
-
-  useEffect(() => {
-    if (controls.current) {
-      controls.current.object.position.x = 0;
-      controls.current.object.position.y = -10;
-      controls.current.object.position.z = 0;
-    }
-  }, [starFilterInfo]);
-
-  // useEffect(() => {
-  //   if (myCard?.data) {
-  //     console.log("hi");
-  //   }
-  // }, [myCard]);
+  const controls = useCallback(
+    (node: any) => {
+      if (node) {
+        node.object.position.x = 0;
+        node.object.position.y = -10;
+        node.object.position.z = 0;
+      }
+    },
+    [starFilterInfo],
+  );
 
   return (
     <>

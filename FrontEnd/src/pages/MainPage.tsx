@@ -95,7 +95,7 @@ export default function MainPage() {
             SSAFY-STAR
           </div>
           <div className="-mt-80">
-            <div className="select-none text-center font-['nemo030'] text-3xl text-white">
+            <div className="animate-typing select-none overflow-hidden whitespace-nowrap text-center font-['nemo030'] text-3xl text-white">
               전체 싸피생 : {allSsafyCount}
             </div>
             <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
