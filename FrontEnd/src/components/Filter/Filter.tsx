@@ -225,6 +225,9 @@ export default function Filter() {
               </div>
             ))}
           </div>
+          <div className="flex">
+            <div className="ml-16 text-12 text-[#84919A]">상세 검색</div>
+          </div>
           <div
             className="flex cursor-pointer items-center"
             onClick={() => {
