@@ -46,7 +46,7 @@ public class Card {
 	@Column(length = 20)
 	private String githubId;
 
-	@Column(length = 20)
+	@Column(length = 40)
 	private String bojId;
 
 	@Column(length = 20)
@@ -108,22 +108,23 @@ public class Card {
 	}
 
 	public String getGroupFlag(GroupFlagEnum flagEnum) {
+		String value = "";
 		if (flagEnum == GroupFlagEnum.CAMPUS) {
-			return Optional.ofNullable(this.campus).orElse("NULL");
+			value = Optional.ofNullable(this.campus).orElse("NULL");
 		}
 
 		if (flagEnum == GroupFlagEnum.GENERATION) {
-			return Optional.ofNullable(this.generation).orElse("NULL");
+			value = Optional.ofNullable(this.generation).orElse("NULL");
 		}
 
 		if (flagEnum == GroupFlagEnum.BOJTIER) {
-			return Optional.ofNullable(this.bojTier).orElse("NULL");
+			value = Optional.ofNullable(this.bojTier).orElse("Unrated");
 		}
 
 		if (flagEnum == GroupFlagEnum.SWTIER) {
-			return Optional.ofNullable(this.swTier).orElse("NULL");
+			value = Optional.ofNullable(this.swTier).orElse("NULL");
 		}
-		return "NULL";
+		return value.isBlank() ? "NULL" : value;
 
 	}
 
