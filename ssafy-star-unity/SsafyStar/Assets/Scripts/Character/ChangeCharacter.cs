@@ -21,14 +21,17 @@ public class ChangeCharacter : MonoBehaviour
     private NetworkMecanimAnimator networkMecanimAnimator;
     [SerializeField]
     private List<Character> characterList;
+    private int beforeCharacterNum = 0;
+
+
+    public int testChangeNum = 2;
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.C))
         {
             if (characterList.Count <= 0) return;
-            Debug.Log(characterList.Count);
-            DoChange(10);
+            DoChange(testChangeNum);
         }
     }
 
@@ -42,10 +45,11 @@ public class ChangeCharacter : MonoBehaviour
         characterControllerPrototype.InterpolationTarget = transform;
         networkMecanimAnimator.Animator = anim;
 
-        characterList[0].model.SetActive(false);
+        characterList[beforeCharacterNum].model.SetActive(false);
         characterList[playerNum].model.SetActive(true);
 
         Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
+        beforeCharacterNum = playerNum;
 
     }
 }
