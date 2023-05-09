@@ -5,6 +5,7 @@ import write from "@/assets/icons/writing.png";
 import trash from "@/assets/icons/trash.png";
 import { User } from "@/types/User";
 import { useEffect, useState } from "react";
+import useCommentDelete from "@/apis/comment/useCommentDelete";
 
 interface Iprops {
   selectedUserInfo: User;
@@ -20,7 +21,10 @@ export default function Comment({ selectedUserInfo }: Iprops) {
   // 카드 코멘트 쓰기
   const submitComment = useCommentSubmit();
 
-  // 엔터 클릭 변환
+  // 카드 코멘트 삭제
+  const deleteComment = useCommentDelete();
+
+  // 카드 코멘트 제출 핸들러
   const handleSubmit = () => {
     selectedUserInfo &&
       submitComment.mutate({
@@ -29,6 +33,14 @@ export default function Comment({ selectedUserInfo }: Iprops) {
       });
     setWriteReply(false);
   };
+
+  // 카드 코멘트 삭제 핸들러
+  // const handleDelete = () => {
+  //   selectedUserInfo &&
+  //     deleteComment.mutate({
+  //       cardCommentId:
+  //     });
+  // }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReplyContent(e.target.value);
@@ -45,7 +57,16 @@ export default function Comment({ selectedUserInfo }: Iprops) {
           className="m-10 w-[calc(100%-20px)] rounded-10 border-3 border-white p-10"
           key={index}
         >
-          <div className="h-30">{item.writer}</div>
+          <div className="flex h-30">
+            <div>{item.writer}</div>
+            {item.mine && (
+              <img
+                src={trash}
+                className="ml-3 h-25 w-25 cursor-pointer"
+                onClick={() => {}}
+              />
+            )}
+          </div>
           <div>{item.content}</div>
           {item.reply && (
             <div className="mt-5 flex gap-8">
