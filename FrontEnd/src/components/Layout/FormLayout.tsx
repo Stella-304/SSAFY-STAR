@@ -6,14 +6,9 @@ interface props {
 }
 export default function FormLayout(props: props) {
   return (
-    <div className="flex h-screen w-full items-center bg-[url('/public/background/form_background.png')] bg-cover bg-center">
-      <div className="m-auto flex h-650 w-1200 rounded-35">
-        {/* 왼쪽 배경 */}
-        <div className="h-650 w-600  rounded-l-35 bg-[url('/public/background/earth_back1.png')]    bg-cover bg-center"></div>
-        {/* 오른쪽 영역 */}
-        <div className="flex h-650 w-600 items-center justify-center rounded-r-35 bg-slate-50">
-          <div className="h-550 w-400">{props.children}</div>
-        </div>
+    <div className="flex h-screen items-center bg-[url('/public/background/main_background.png')] bg-cover bg-center">
+      <div className="m-auto from-opacity-70 to-opacity-38 relative h-4/5 w-1/3 rounded-lg border-5 border-white bg-gradient-to-b from-black to-darkblue shadow-neon">
+        {props.children}
       </div>
       <HeaderMenu />
     </div>
