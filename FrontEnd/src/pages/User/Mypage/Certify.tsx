@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import EarthLayout from "../../../components/Layout/EarthLayout";
+import FormLayout from "../../../components/Layout/FormLayout";
 import { useDispatch } from "react-redux";
 import { setPath } from "../../../stores/page/path";
 import ImageInput from "../../../components/Input/ImageInput";
@@ -15,7 +15,7 @@ export default function Certify() {
     };
   }, []);
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex h-full flex-col justify-around">
         <div>
           <span className="block text-4xl font-bold">Certify</span>
@@ -43,6 +43,6 @@ export default function Certify() {
           </div>
         </div>
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }
