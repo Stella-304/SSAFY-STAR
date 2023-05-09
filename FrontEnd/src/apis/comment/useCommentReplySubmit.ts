@@ -1,26 +1,26 @@
 import { useMutation, useQueryClient } from "react-query";
-import { COMMENT_URL } from "../../utils/urls";
+import { REPLY_URL } from "../../utils/urls";
 import { api } from "../api";
-import { CommentType } from "@/types/CommentType";
 import { COMMENT_LIST } from "@/constants/queryKeys";
-const fetcher = (payload: CommentType) =>
+import { ReplyType } from "@/types/ReplyType";
+const fetcher = (payload: ReplyType) =>
   api
-    .post(COMMENT_URL, payload, {
+    .post(REPLY_URL, payload, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => data);
 
-const useCommentSubmit = () => {
+const useCommentReplySubmit = () => {
   const queryClient = useQueryClient();
   return useMutation(fetcher, {
     onSuccess: (data) => {
-      console.log("카드 코멘트 등록 성공!", data);
+      console.log("카드 코멘트 답글 등록 성공!", data);
       return queryClient.invalidateQueries(COMMENT_LIST);
     },
     onError: (e: any) => {
-      console.log("카드 코멘트 등록 에러!", e);
+      console.log("카드 코멘트 답글 등록 에러!", e);
     },
   });
 };
 
-export default useCommentSubmit;
+export default useCommentReplySubmit;

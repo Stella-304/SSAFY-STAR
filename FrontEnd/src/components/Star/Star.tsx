@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Html, Sphere, Text } from "@react-three/drei";
+import { Html, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";

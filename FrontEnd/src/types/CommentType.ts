@@ -1,4 +1,5 @@
 export interface CommentType {
   content: string;
-  id: number;
+  id?: number;
+  cardId?: number;
 }

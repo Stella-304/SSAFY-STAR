@@ -1,4 +1,4 @@
-const SERVER_API = "http://localhost:8080";
+const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
@@ -70,3 +70,6 @@ export const ADMIN_ACCEPT = SERVER_API + "/app/admin/badge";
 
 // 카드 코멘트 API
 export const COMMENT_URL = SERVER_API + "/app/comment";
+
+// 카드 코멘트 답글 API
+export const REPLY_URL = SERVER_API + "/app/comment/reply";
