@@ -20,6 +20,10 @@ public class MenuController : MonoBehaviour
     //private VisualTreeAsset btnSettingTemplate;
     //private VisualElement btnSettings;
 
+    [Header("WebGL")]
+    private string nickname;
+    private bool isLogin;
+
     private UIDocument doc;
     private Button btnPlay;
     //private Button btnExit;
@@ -49,9 +53,22 @@ public class MenuController : MonoBehaviour
         //btnBack.clicked += BtnBackOnClickec;
     }
 
+    public void SetNickName(string nickname)
+    {
+        this.nickname = nickname.Trim();
+        Debug.Log("nickname:" + this.nickname);
+    }
+
+    public void SetLogin(string result)
+    {
+        isLogin = result=="true" ? true : false;
+        Debug.Log("login:" + isLogin);
+    }
+
     private void BtnPlayOnClicked()
     {
         Debug.Log("play");
+        if(nickname == null) { Debug.Log("로그인하지 않음"); }
         //SceneManager.LoadScene("Lobby");
     }
 
