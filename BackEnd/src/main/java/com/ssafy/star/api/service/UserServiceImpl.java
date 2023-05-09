@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
 		User user = User.builder()
 			.email(userRegistReqDto.getEmail())
-			.name(userRegistReqDto.getName())
 			.loginType(LoginTypeEnum.custom)
 			.accountPwd(passwordEncoder.encode(userRegistReqDto.getAccountPwd()))
 			.build();

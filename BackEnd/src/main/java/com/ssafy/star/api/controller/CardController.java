@@ -29,28 +29,28 @@ public class CardController {
 
 	@PostMapping("/boj")
 	@ApiOperation(value = "BOJ 티어 업데이트")
-	public ResponseEntity<?> bojTierUpdate() {
+	public ResponseEntity<ResponseDto> bojTierUpdate() {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE, cardService.updateBojTier()));
 	}
 
 	@GetMapping("/boj/{bojId}")
 	@ApiOperation(value = "BOJ 티어 가져오기")
-	public ResponseEntity<?> bojTierGet(@PathVariable("bojId") String bojId) {
+	public ResponseEntity<ResponseDto> bojTierGet(@PathVariable("bojId") String bojId) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getBojTier(bojId)));
 	}
 
 	@GetMapping("/mycard")
 	@ApiOperation(value = "로그인한 유저의 카드 정보 가져오기")
-	public ResponseEntity<?> myCardGet() {
+	public ResponseEntity<ResponseDto> myCardGet() {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.getMyCard()));
 	}
 
 	@GetMapping("/company")
 	@ApiOperation(value = "기업명 입력하면, 관련된 기업명 보여주기")
-	public ResponseEntity<?> companySearch(@RequestParam("query") String query) {
+	public ResponseEntity<ResponseDto> companySearch(@RequestParam("query") String query) {
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, cardService.searchCompany(query)));
 	}
