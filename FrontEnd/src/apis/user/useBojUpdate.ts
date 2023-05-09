@@ -4,9 +4,13 @@ import { BOJ_URL } from "../../utils/urls";
 
 const fetcher = () =>
   api
-    .get(BOJ_URL, {
-      headers: { Authorization: sessionStorage.getItem("accessToken") },
-    })
+    .post(
+      BOJ_URL,
+      {},
+      {
+        headers: { Authorization: sessionStorage.getItem("accessToken") },
+      },
+    )
     .then(({ data }) => data);
 
 /**
@@ -20,8 +24,8 @@ const useBojcheck = () => {
     onError: (e: any) => {
       if (e.response.status === 403) {
         alert("카드에서 백준아이디를 등록해주세요.");
-      }else{
-        alert("잠시후에 시도해주세요")
+      } else {
+        alert("잠시후에 시도해주세요");
       }
     },
   });

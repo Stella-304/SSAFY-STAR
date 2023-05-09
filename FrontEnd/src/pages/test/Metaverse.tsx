@@ -10,6 +10,7 @@ export default function Metaverse() {
     isLoaded,
     loadingProgression,
     UNSAFE__detachAndUnloadImmediate: detachAndUnloadImmediate,
+    sendMessage, //오브젝트, 메소드, 파라메터
   } = useUnityContext({
     loaderUrl: "Build/WebGLFile.loader.js",
     dataUrl: "Build/WebGLFile.data",
@@ -47,7 +48,7 @@ export default function Metaverse() {
   return (
     <>
       {isLoaded === false && (
-        <div className="flex h-screen w-full items-center justify-center bg-blue-500">
+        <div className="fixed left-0 top-0 flex h-screen w-full items-center justify-center bg-blue-500">
           <div className="flex flex-col ">
             <span className="mb-8 block text-7xl font-bold">Loading...</span>
             <div className="h-10 w-full rounded-full bg-gray-200 dark:bg-gray-700">
