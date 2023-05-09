@@ -45,7 +45,9 @@ export default function FloatingMenu() {
             path={path === "universe"}
           />
           <HeaderButton
-            onClick={() => navigate("/metaverse")}
+            onClick={() =>
+              window.open(`${process.env.REACT_APP_API}/metaverse`)
+            }
             value="메타버스"
             path={path === "metaverse"}
           />

@@ -1,8 +1,9 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
 import { CSSProperties, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../../stores/page/path";
+import { RootState } from "../../stores/store";
 export default function Metaverse() {
   const {
     unityProvider,
@@ -16,7 +17,7 @@ export default function Metaverse() {
     codeUrl: "Build/WebGLFile.wasm",
   });
   const dispatch = useDispatch();
-
+  const user = useSelector((state: RootState) => state.user);
   //닉네임 유무 확인
   //비로그인
   /////직접 닉네임 입력
