@@ -1,11 +1,9 @@
-import FloatingMenu from "../components/Layout/FloatingMenu";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPath } from "../stores/page/path";
-import { RootState } from "../stores/store";
-import useLogout from "../apis/user/useLogout";
+import HeaderMenu from "../components/Layout/HeaderMenu";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -15,14 +13,10 @@ export default function MainPage() {
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
 
   const dispatch = useDispatch();
-  const logoutMutate = useLogout();
-  const logout = () => {
-    logoutMutate.mutate();
-  };
+
   //react query
   const userNumCheckquery = useUserNum();
 
-  const { email } = useSelector((state: RootState) => state.user);
   //api호출
   //백준티어 가져오기
   useMemo(() => {
@@ -47,39 +41,6 @@ export default function MainPage() {
   return (
     <div className="relative h-screen w-full overflow-x-hidden overflow-y-scroll  scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400">
       <div className="h-full w-full items-center bg-[url('/public/background/landing_stars_background.png')] bg-cover bg-local bg-center bg-no-repeat">
-        <div className="absolute right-10 top-15 flex w-200 justify-around">
-          {email ? (
-            <>
-              <button
-                className="h-36 w-90 rounded-5 border-1 border-white text-18 font-semibold text-white hover:bg-white hover:text-black"
-                onClick={logout}
-              >
-                로그아웃
-              </button>
-              <button
-                className="h-36 w-90 rounded-5 border-1 border-white text-18 font-semibold text-white hover:bg-white hover:text-black"
-                onClick={() => navigate("/mypage")}
-              >
-                마이페이지
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="h-36 w-90 rounded-5 border-1 border-white text-18 font-semibold text-white hover:bg-white hover:text-black"
-                onClick={() => navigate("/login")}
-              >
-                로그인
-              </button>
-              <button
-                className="h-36 w-90 rounded-5 border-1 border-white text-18 font-semibold text-white hover:bg-white hover:text-black"
-                onClick={() => navigate("/signup")}
-              >
-                회원가입
-              </button>
-            </>
-          )}
-        </div>
         <div className="flex h-screen flex-col items-center justify-around">
           <div>
             <img
@@ -95,7 +56,7 @@ export default function MainPage() {
             SSAFY-STAR
           </div>
           <div className="-mt-80">
-            <div className="animate-typing select-none overflow-hidden whitespace-nowrap text-center font-['nemo030'] text-3xl text-white">
+            <div className="select-none overflow-hidden whitespace-nowrap text-center font-['nemo030'] text-3xl text-white">
               전체 싸피생 : {allSsafyCount}
             </div>
             <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
@@ -136,14 +97,14 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_2.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_3.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_5.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="flex h-screen w-screen items-center justify-start bg-[url('/public/background/landing_temp_6.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_7.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_8.png')] bg-cover bg-center bg-no-repeat"></div>
-      <FloatingMenu />
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_2.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_3.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_5.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="flex h-screen w-full items-center justify-start bg-[url('/public/background/landing_temp_6.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_7.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_8.png')] bg-cover bg-center bg-no-repeat"></div>
+      <HeaderMenu />
     </div>
   );
 }

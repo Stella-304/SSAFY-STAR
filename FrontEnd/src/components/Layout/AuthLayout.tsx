@@ -21,6 +21,7 @@ export default function AuthLayout() {
       dispatch(logout());
       navigate("/login");
     }
+    setLoginCheck(true);
   }, []);
 
   return <>{loginCheck ? <Outlet /> : <></>}</>;

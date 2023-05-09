@@ -102,19 +102,4 @@ public class CardController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
 
-	@DeleteMapping
-	@ApiOperation(value = "카드 지우기")
-	public ResponseEntity<ResponseDto> cardDelete(@RequestParam Long cardId) {
-		cardService.deleteCard(cardId);
-		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
-	}
-
-	@DeleteMapping("mycard")
-	@ApiOperation(value = "내 카드 지우기")
-	public ResponseEntity<ResponseDto> myCardDelete() {
-		cardService.deleteMyCard();
-		return ResponseEntity.ok()
-			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
-	}
 }
