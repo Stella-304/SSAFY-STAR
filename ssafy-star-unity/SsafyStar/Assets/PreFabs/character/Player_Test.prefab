@@ -4664,7 +4664,7 @@ GameObject:
   - component: {fileID: 7387474243823742133}
   m_Layer: 6
   m_Name: Player_Test
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4934,6 +4934,7 @@ MonoBehaviour:
     model: {fileID: 971654017712838377}
   - anim: {fileID: 2068414868602224577}
     model: {fileID: 4692610233898794753}
+  testChangeNum: 2
 --- !u!1 &7466376786025179652
 GameObject:
   m_ObjectHideFlags: 0

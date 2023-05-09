@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 [System.Serializable]
-public class Log
+public class LogText
 {
     [TextArea]
     public string log;
@@ -15,6 +15,7 @@ public class Log
 public class Dialogue : MonoBehaviour
 {
     static private string[] dialogue;
+    bool firstTalk = false;
 
     [Header("질문 버튼")]
     [SerializeField]
@@ -108,6 +109,26 @@ public class Dialogue : MonoBehaviour
 
     private void Update()
     {
-        
+        if(npcTalkCnt == 1 & firstTalk == false)
+        {
+            TalkNPC();
+            firstTalk = true;
+        }
+        else if(npcTalkCnt == 2 )
+        {
+            QuestionSetActive(false);
+            firstTalk = false;
+        }
+
+        if(isDialogue && count != 3)
+        {
+            if (dialogue[count].Equals("end"))
+            {
+                if(count<dialogue.Length)
+                {
+                    NextDialogue();
+                }
+            }
+        }
     }
 }

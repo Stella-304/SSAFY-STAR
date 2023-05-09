@@ -33,7 +33,6 @@ public class NPC : MonoBehaviour
     {
         if(doChat)
         {
-            Debug.Log("chat......!");
             GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
             chatUI.SetActive(true);
 
