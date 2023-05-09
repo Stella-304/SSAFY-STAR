@@ -31,6 +31,7 @@ const useUserBadgeSubmit = (
       //등록 완료
       //상태 업데이트
       statusQuery.refetch();
+      alert("이미지 등록 완료")
     },
     onError: () => {
       alert("이미지 등록 에러");
