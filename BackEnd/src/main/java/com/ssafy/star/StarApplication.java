@@ -1,6 +1,8 @@
 package com.ssafy.star;
 
 import com.ssafy.star.common.auth.property.AppProperties;
+import com.ssafy.star.constellation.Icosphere;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

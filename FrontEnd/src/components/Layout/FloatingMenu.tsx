@@ -4,17 +4,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import FloatButton from "../Button/FloatButton";
+import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-  const Kakao: any;
-}
 export default function FloatingMenu() {
   const { email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );
+  const { path } = useSelector((state: RootState) => state.path);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const logoutMutate = useLogout();
@@ -36,46 +32,66 @@ export default function FloatingMenu() {
     });
   }
   return (
-    <div>
+    <>
       {open ? (
-        <div className="fixed bottom-78 right-16 flex flex-col justify-around gap-8">
+        <div className="fixed bottom-78 right-16 flex flex-col justify-around gap-8 font-['nemo030']">
+          <FloatButton
+            onClick={() => navigate("/")}
+            path={path === "home"}
+            value="홈으로"
+          />
           {email ? (
             <>
-              <FloatButton onClick={logout} value="로그아웃" />
+              <FloatButton onClick={logout} value="로그아웃" path={false} />
               <FloatButton
                 onClick={() => navigate("/mypage")}
                 value="마이페이지"
+                path={path === "mypage"}
               />
               {cardRegistered ? (
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/modify")}
                   value="카드 수정"
+                  path={path === "cardmodify"}
                 />
               ) : (
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/submit")}
                   value="카드 등록"
+                  path={path === "cardsubmit"}
                 />
               )}
             </>
           ) : (
             <>
-              <FloatButton onClick={() => navigate("/login")} value="로그인" />
+              <FloatButton
+                onClick={() => navigate("/login")}
+                value="로그인"
+                path={path === "login"}
+              />
               <FloatButton
                 onClick={() => navigate("/signup")}
                 value="회원가입"
+                path={path === "signup"}
               />
             </>
           )}
-          <FloatButton onClick={() => navigate("/universe")} value="유니버스" />
           <FloatButton
-            onClick={() => navigate("/metaverse")}
+            onClick={() => navigate("/universe")}
+            value="유니버스"
+            path={path === "universe"}
+          />
+          <FloatButton
+            onClick={() =>
+              window.open(`${process.env.REACT_APP_API}/metaverse`)
+            }
             value="메타버스"
+            path={path === "metaverse"}
           />
           <button className="h-40" onClick={addChannel}>
             <img
               className="h-40"
-              src="./kakao/channel_add_small_3X.png"
+              src={kakaoPlusFriend}
               alt="카카오플러스친구"
             />
           </button>
@@ -85,11 +101,11 @@ export default function FloatingMenu() {
       )}
 
       <div
-        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center leading-50 text-white"
+        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center font-semibold leading-50 text-white hover:bg-white hover:text-black"
         onClick={() => setOpen(!open)}
       >
         메뉴
       </div>
-    </div>
+    </>
   );
 }

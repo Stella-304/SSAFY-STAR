@@ -26,7 +26,7 @@ import java.util.Optional;
 @Api(tags = {"유저 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/user")
-@RolesAllowed("ROLE_CLIENT")
+// @RolesAllowed("ROLE_CLIENT")
 public class UserController {
 	private final UserService userService;
 
@@ -34,10 +34,9 @@ public class UserController {
 	@PermitAll
 	@ApiOperation(value = "회원가입")
 	public ResponseEntity<ResponseDto> userRegist(@RequestBody UserRegistReqDto userRegistReqDto) {
-		if (userService.registUser(userRegistReqDto)) {
-			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
-		}
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_ID));
+
+		userService.registUser(userRegistReqDto);
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@PostMapping("/login")
@@ -66,12 +65,6 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
 	}
 
-	@GetMapping
-	@ApiOperation(value = "메인화면 유저 정보 조회")
-	public ResponseEntity<ResponseDto> userGet() {
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getUser()));
-	}
-
 	@PutMapping
 	@ApiOperation(value = "유저정보 수정")
 	public ResponseEntity<ResponseDto> userModify(@RequestBody UserModifyReqDto userModifyReqDto) {
@@ -83,6 +76,13 @@ public class UserController {
 	@ApiOperation(value = "비밀번호 수정")
 	public ResponseEntity<ResponseDto> userModifyPwd(@RequestParam String newPwd) {
 		userService.modifyPwdUser(newPwd);
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
+	}
+
+	@PutMapping("/name")
+	@ApiOperation(value = "이름 수정")
+	public ResponseEntity<ResponseDto> userModifyName(@RequestParam String name) {
+		userService.modifyNameUser(name);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_UPDATE));
 	}
 
@@ -124,37 +124,17 @@ public class UserController {
 			.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.DIFFERENT_AUTH_CODE));
 	}
 
-	@GetMapping("/email/find-id")
-	@PermitAll
-	@ApiOperation(value = "이메일로 아이디 찾기")
-	public ResponseEntity<ResponseDto> userFindId(@RequestParam String email) {
-
-		Optional<String> idOptional = Optional.ofNullable(userService.findIdUser(email));
-
-		return idOptional.map(id -> ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, id)))
-			.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND)));
-	}
-
 	@PostMapping("/email/find-pwd")
 	@PermitAll
 	@ApiOperation(value = "아이디와 이메일 체크 후 비밀번호 이메일 전송")
 	public ResponseEntity<ResponseDto> userFindPwd(@RequestBody UserFindPwdReqDto userFindPwdReqDto) {
-		int state = userService.findPwdUser(userFindPwdReqDto);
 
-		if (state == 1) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_AND_ACCOUNT_ID_NOT_FOUND));
+		if (userService.findPwdUser(userFindPwdReqDto)) {
+			return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
 		}
-		if (state == 2) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.ACCOUNT_ID_NOT_FOUND));
-		}
-		if (state == 3) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
-		}
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_SEND_EMAIL));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+			.body(ResponseDto.of(HttpStatus.NOT_FOUND, Msg.EMAIL_NOT_FOUND));
+
 	}
 
 	@PostMapping("/badge")

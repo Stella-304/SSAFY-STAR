@@ -11,6 +11,7 @@ import com.ssafy.star.common.auth.info.OAuth2UserInfo;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.db.entity.User;
 import com.ssafy.star.common.db.repository.UserRepository;
+import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.common.util.constant.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 @Log4j2
@@ -35,6 +35,7 @@ import java.util.Set;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+//	private RandValueMaker randValueMaker;
 
 	@Override
 	@Transactional
@@ -97,15 +98,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private User registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
 
-		String oauth2Name = oAuth2UserInfo.getName();
-		String nickName = oauth2Name.substring(0, Math.min(oauth2Name.length(), 9));
-
-		nickName = userRepository.existsByNickname(nickName) ? makeRandomNickName(0) : nickName;
+//		String oauth2Name = oAuth2UserInfo.getName();
+//		String nickName = oauth2Name.substring(0, Math.min(oauth2Name.length(), 9));
+//
+//		nickName = userRepository.existsByNickname(nickName) ? makeRandomNickName(0) : nickName;
 
 		return userRepository.save(User.builder()
 			.email(oAuth2UserInfo.getEmail())
 			.name("익명")
-			.nickname(nickName)
+//			.nickname(nickName)
 			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 			.providerId(oAuth2UserInfo.getId())
 			.authoritySet(Set.of("ROLE_" + RoleEnum.CLIENT))
@@ -124,22 +125,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		return userRepository.save(user);
 	}
 
-	private String makeRandomNickName(int depth) {
-
-		Random rd = new Random();
-		StringBuilder sb = new StringBuilder("중복닉네임");
-
-		for(int i=0; i<5; i++) {
-			sb.append((char) (rd.nextInt(75) + 48));
-		}
-
-		if(!userRepository.existsByNickname(sb.toString())) {
-			return sb.toString();
-		} else if(depth < 1000){
-			makeRandomNickName(depth + 1);
-		}
-
-		throw new CustomOAuth2Exception(CommonErrorCode.INSANE_USER);
-	}
+//	private String makeRandomNickName(int depth) {
+//
+//		String randomNickname = randValueMaker.makeNicknameCode();
+//
+//		if(!userRepository.existsByNickname(randomNickname)) {
+//			return randomNickname;
+//		} else if(depth < 1000){
+//			makeRandomNickName(depth + 1);
+//		}
+//
+//		throw new CustomOAuth2Exception(CommonErrorCode.INSANE_USER);
+//	}
 
 }

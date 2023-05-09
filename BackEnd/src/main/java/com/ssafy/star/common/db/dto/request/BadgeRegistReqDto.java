@@ -10,5 +10,5 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class BadgeRegistReqDto {
-	BadgeEnum badgeType;
+	private BadgeEnum badgeType;
 }

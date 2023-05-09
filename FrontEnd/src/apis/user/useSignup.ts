@@ -1,38 +1,40 @@
 import { useMutation } from "react-query";
 import { SIGNUP_URL } from "../../utils/urls";
 import { SignupType } from "../../types/SignupType";
-import { useNavigate } from "react-router-dom";
 import { api } from "../api";
-
+import useLogin from "./useLogin";
+import { LoginType } from "../../types/LoginType";
 const fetcher = (payload: SignupType) =>
   api
     .post(SIGNUP_URL, {
       email: payload.email,
-      name: payload.name,
-      nickname: payload.nickname,
-      accountId: payload.userId,
       accountPwd: payload.userPwd,
     })
     .then(({ data }) => data);
 
 /**
- * 회원가입을 진행한다.
+ *  회원가입을 진행한다.
  * 성공시 메인으로
  * 실패시 알림
+ * @param email
+ * @param accountPwd
+ * @param setIdWarning
  * @returns
  */
-const useSignup = (setIdWarning: (params: string) => void) => {
-  const navigate = useNavigate();
+const useSignup = (email: string, accountPwd: string) => {
+  const loginMutate = useLogin();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
-      navigate("/login");
+      //로그인 진행
+      const payload: LoginType = {
+        email: email,
+        accountPwd: accountPwd,
+      };
+      loginMutate.mutate(payload);
     },
-    onError: (e: any) => {
-      if (e.response.status === 409) {
-        alert("존재하는 아이디입니다.");
-        setIdWarning("존재하는 아이디입니다.");
-      }
+    onError: () => {
+      alert("잠시후 다시 시도해 주세요.");
     },
   });
 };

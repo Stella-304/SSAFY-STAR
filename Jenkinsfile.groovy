@@ -15,7 +15,8 @@ pipeline {
         sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
         sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
         sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
-
+        sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
+        sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
       }
     }
 

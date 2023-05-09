@@ -5,7 +5,5 @@ import lombok.Getter;
 @Getter
 public class UserFindPwdReqDto {
 
-    String accountiId;
-
-    String email;
+    private String email;
 }

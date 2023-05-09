@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Html, Sphere, Text } from "@react-three/drei";
+import { Html, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
@@ -16,11 +16,23 @@ export default function Star(props: any) {
     let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
       if (props.item.mine) {
+        console.log("mine!");
         c = "red";
       } else if (hovered) {
         c = "yellow";
       }
-      starRef.current.material.color.lerp(color.set(c), 0.1);
+      starRef.current.material.color.lerp(color.set(c), 0.5);
+      if (hovered) {
+        starRef.current.scale.x = 1.2;
+        starRef.current.scale.y = 1.2;
+        starRef.current.scale.z = 1.2;
+        dispatch(setStarInfoPreview(props.item));
+      } else {
+        starRef.current.scale.x = 0.5;
+        starRef.current.scale.y = 0.5;
+        starRef.current.scale.z = 0.5;
+        dispatch(setStarInfoPreview(null));
+      }
     }
   });
 
@@ -52,19 +64,19 @@ export default function Star(props: any) {
     }
   }, [props.starPos]);
 
-  useLayoutEffect(() => {
-    if (hovered) {
-      starRef.current.scale.x = 1.2;
-      starRef.current.scale.y = 1.2;
-      starRef.current.scale.z = 1.2;
-      dispatch(setStarInfoPreview(props.item));
-    } else {
-      starRef.current.scale.x = 0.5;
-      starRef.current.scale.y = 0.5;
-      starRef.current.scale.z = 0.5;
-      dispatch(setStarInfoPreview(null));
-    }
-  }, [hovered]);
+  // useLayoutEffect(() => {
+  //   if (hovered) {
+  //     starRef.current.scale.x = 1.2;
+  //     starRef.current.scale.y = 1.2;
+  //     starRef.current.scale.z = 1.2;
+  //     dispatch(setStarInfoPreview(props.item));
+  //   } else {
+  //     starRef.current.scale.x = 0.5;
+  //     starRef.current.scale.y = 0.5;
+  //     starRef.current.scale.z = 0.5;
+  //     dispatch(setStarInfoPreview(null));
+  //   }
+  // }, [hovered]);
 
   return (
     <>
@@ -74,7 +86,7 @@ export default function Star(props: any) {
           props.onClick();
         }}
         key={props.item.cardId}
-        scale={2}
+        scale={2.5}
         onPointerOver={() => {
           setHovered(true);
         }}
@@ -89,7 +101,7 @@ export default function Star(props: any) {
       />
       {hovered && (
         <Html position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}>
-          <div className="h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
+          <div className="ml-8 mt-8 h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
             {props.item.generation}기 {props.item.name}
           </div>
         </Html>

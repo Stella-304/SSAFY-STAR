@@ -20,28 +20,28 @@ import lombok.RequiredArgsConstructor;
 @Api(tags = {"데이터 초기화 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/init-data")
-@RolesAllowed("ROLE_ADMIN")
+//@RolesAllowed("ROLE_ADMIN")
 public class InitDataController {
 
-	final InitDataService initDataService;
+	private final InitDataService initDataService;
 
 	@GetMapping("/company")
 	@ApiOperation(value = "company data init")
-	public ResponseEntity<?> company() {
+	public ResponseEntity<ResponseDto> company() {
 		initDataService.initCompany();
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 	@GetMapping("/company-additional")
 	@ApiOperation(value = "company data init")
-	public ResponseEntity<?> companyAdditional() {
+	public ResponseEntity<ResponseDto> companyAdditional() {
 		initDataService.initCompanyAdditional();
 		return ResponseEntity.ok()
 				.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 	@GetMapping("/user")
 	@ApiOperation(value = "user data init")
-	public ResponseEntity<?> user() throws Exception {
+	public ResponseEntity<ResponseDto> user() throws Exception {
 		initDataService.initUser();
 		return ResponseEntity.ok()
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
@@ -49,21 +49,21 @@ public class InitDataController {
 
 	@GetMapping("/coordinate")
 	@ApiOperation(value = "coordinate data init")
-	public ResponseEntity<?> coordinate() {
+	public ResponseEntity<ResponseDto> coordinate() {
 		initDataService.initCoordinate();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@GetMapping("/polygon")
-	@ApiOperation(value = "coordinate data init")
-	public ResponseEntity<?> polygon() {
+	@ApiOperation(value = "polygon data init")
+	public ResponseEntity<ResponseDto> polygon() {
 		initDataService.initPolygon();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 
 	@GetMapping("/all")
-	@ApiOperation(value = "coordinate data init")
-	public ResponseEntity<?> all() {
+	@ApiOperation(value = "all data init")
+	public ResponseEntity<ResponseDto> all() {
 		initDataService.initAll();
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
