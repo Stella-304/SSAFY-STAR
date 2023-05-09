@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class EmailCompareReqDto {
 
-    String email;
-    String userCode;
+    private String email;
+    private String userCode;
 }

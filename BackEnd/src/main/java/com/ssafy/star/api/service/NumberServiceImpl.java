@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NumberServiceImpl implements NumberService {
 
-    final UserRepository userRepository;
-    final CardRepository cardRepository;
-    final int ALL_SSAFY_COUNT = 7350;
+    private final UserRepository userRepository;
+    private final CardRepository cardRepository;
+    private final int ALL_SSAFY_COUNT = 7350;
 
     @Override
     public LandingNumberDto getLandingNumber() {
@@ -52,9 +52,9 @@ public class NumberServiceImpl implements NumberService {
                 cardList.add(user.getCard());
             else
                 System.out.println("null!!!");
-            System.out.println(user.getCard());
+            // System.out.println(user.getCard());
         }
-        System.out.println(userList.size());
+        // System.out.println(userList.size());
 
 
         return new MainNumberDto(cardList, userList);
