@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 using TMPro;
 using Ink.Runtime;
+using UnityEngine.Monetization;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,8 +14,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI dialogueText;
 
+    [Header("NPC info")]
+    public GameObject NPC;
+
     private Story currentStory;
     private bool dialogueIsPlaying;
+    public bool finishChat = false;
 
     private static DialogueManager instance;
 
@@ -66,6 +71,8 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        NPC.GetComponent<NPC>().FinishChat();
+        NPC = null;
     }
 
     public void ContinueStory()

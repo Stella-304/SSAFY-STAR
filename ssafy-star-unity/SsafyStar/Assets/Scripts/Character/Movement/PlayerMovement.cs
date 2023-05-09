@@ -124,7 +124,11 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
 
-        if (stop) return;
+        if (stop)
+        {
+            ResetAnimation();
+            return;
+        }
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -166,5 +170,11 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = respawnPos.position;
             doRespawn = false;
         }
+    }
+
+    private void ResetAnimation()
+    {
+        networkAnimator.Animator.SetBool("Walk", false);
+        networkAnimator.Animator.SetBool("Run", false);
     }
 }
