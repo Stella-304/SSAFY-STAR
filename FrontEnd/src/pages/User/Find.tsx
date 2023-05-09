@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import { setEmail, resetFind } from "../../stores/user/find";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export default function Find() {
     findpwdMutate.mutate({ email: email });
   }
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex h-full flex-col justify-around">
         <div>
           <span className="block text-4xl font-bold">아이디/비밀번호 찾기</span>
@@ -82,6 +82,6 @@ export default function Find() {
           </div>
         </div>
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }

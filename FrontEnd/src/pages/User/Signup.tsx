@@ -1,6 +1,6 @@
 import BigButton from "../../components/Button/BigButton";
 import Input from "../../components/Input/Input";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setUser, resetUser } from "../../stores/user/signup";
@@ -171,7 +171,7 @@ export default function Signup() {
     signupMutate.mutate(payload);
   }
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex h-full flex-col justify-around">
         <div>
           <span className="block text-4xl font-bold">Register</span>
@@ -250,6 +250,6 @@ export default function Signup() {
           </div>
         </div>
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }

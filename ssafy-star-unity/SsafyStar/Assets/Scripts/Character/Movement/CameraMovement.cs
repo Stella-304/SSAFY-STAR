@@ -18,12 +18,33 @@ public class CameraMovement : MonoBehaviour
     public float minZoomDistance = 1f;
     public float maxZoomDistance = 10f;
 
+    [Header("È¸Àü")]
+    private Vector2 mousePos;
+    public float rotationSpeed = 5f;
+    public float minRotateDistance = -20f;
+    public float maxRotateDistance = 20f;
 
     void LateUpdate()
     {
         if (Target == null)
         {
             return;
+        }
+
+        mousePos = Input.mousePosition;
+
+        if (mousePos.y < 650 && mousePos.y > 180)
+        {
+            if (mousePos.x < 200)
+            {
+                lookOffset.x -= rotationSpeed * Time.deltaTime;
+                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+            }
+            if (mousePos.x > 1500)
+            {
+                lookOffset.x += rotationSpeed * Time.deltaTime;
+                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistance, maxRotateDistance);
+            }
         }
 
         float scroollWheel = Input.GetAxis("Mouse ScrollWheel");

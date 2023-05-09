@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface CardCommentRepository extends JpaRepository<CardComment, Long> {
     @Query("select co From CardComment co join fetch co.user where co.card.id = :cardId")
-    List<CardCommentDto> getCommentList(@Param("cardId")Long cardId);
+    List<CardComment> getCommentList(@Param("cardId")Long cardId);
+
 }

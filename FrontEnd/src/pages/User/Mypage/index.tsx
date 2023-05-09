@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import EarthLayout from "../../../components/Layout/EarthLayout";
+import FormLayout from "../../../components/Layout/FormLayout";
 import InfoModi from "./InfoModi";
 import { useDispatch } from "react-redux";
 import { setPath } from "../../../stores/page/path";
@@ -12,13 +12,13 @@ export default function Mypage() {
     };
   }, []);
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex h-full flex-col justify-around">
         <div>
           <span className="block text-4xl font-bold">Mypage</span>
         </div>
         <InfoModi />
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }
