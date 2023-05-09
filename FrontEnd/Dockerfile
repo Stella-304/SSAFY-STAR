@@ -1,8 +1,8 @@
-FROM node:18.12.1-alpine AS build
+FROM nginx:latest AS build
 
-WORKDIR /app_f
+WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm install --force
 
@@ -11,12 +11,10 @@ RUN npm install --force
 
 COPY . .
 
-ARG REACT_APP_NAME
-ENV REACT_APP_NAME=${REACT_APP_NAME}
-ARG REACT_APP_TITLE
-ENV REACT_APP_TITLE=${REACT_APP_TITLE}
-
 RUN npm run build
 
+
+
 FROM nginx
-COPY --from=build /app_f/build /usr/share/nginx/html
+
+COPY --from=build /app/build /usr/share/nginx/html
