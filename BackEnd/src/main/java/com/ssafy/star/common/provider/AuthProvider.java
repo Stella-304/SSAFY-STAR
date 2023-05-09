@@ -7,5 +7,6 @@ public interface AuthProvider {
 
     UserPrincipal getUserPricipalFromAuthentication(Authentication authentication);
     long getUserIdFromPrincipal();
+    long getUserIdFromPrincipalDefault();
 
 }
