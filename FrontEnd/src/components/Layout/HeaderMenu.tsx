@@ -31,9 +31,9 @@ export default function FloatingMenu() {
   }
   return (
     <>
-      <div className="fixed left-0 top-0 flex w-full h-44 justify-between items-center gap-8 bg-black font-['nemo030']">
+      <div className="fixed left-0 top-0 flex h-44 w-full min-w-880 items-center justify-between gap-8 bg-black font-['nemo030']">
         <div
-          className="ml-8 cursor-pointer select-none text-center font-['RocaOne'] text-4xl text-[#02C7FE]"
+          className="ml-8 h-44 cursor-pointer select-none text-center font-['RocaOne'] text-4xl leading-38 text-[#02C7FE]"
           onClick={() => navigate("/")}
         >
           SSAFY-STAR
