@@ -18,6 +18,7 @@ public class UserDetailDto {
     public UserDetailDto(String name,String nickname, String email, boolean isAuthorized,boolean isCardRegistered) {
 
         this.name = name.equals("익명") ? "이름을 입력하세요." : name;
+        this.nickname=nickname;
         this.email = email;
         this.isAuthorized = isAuthorized;
         this.isCardRegistered = isCardRegistered;

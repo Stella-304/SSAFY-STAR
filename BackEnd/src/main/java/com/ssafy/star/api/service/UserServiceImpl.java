@@ -13,16 +13,13 @@ import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.provider.*;
 import com.ssafy.star.common.util.RandValueMaker;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +78,6 @@ public class UserServiceImpl implements UserService {
 			redisProvider.setBlackList(token, tokenProvider.getUserIdFromToken(token),
 				tokenProvider.getExpireTime(token).getTime() - new Date().getTime(), TimeUnit.MICROSECONDS);
 		}
-
 	}
 
 	@Override
@@ -92,12 +88,6 @@ public class UserServiceImpl implements UserService {
 		boolean isCardRegistered = (user.getCard()) != null;
 		return new UserDetailDto(user.getName(), user.getNickname(), user.getEmail(), user.isAuthorized(),
 			isCardRegistered);
-	}
-
-	@Override
-	@Transactional
-	public String getUser() {
-		return userRepository.findNicknameById(authProvider.getUserIdFromPrincipal());
 	}
 
 	@Override
@@ -146,6 +136,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
+	public boolean duplicateNickNameCheck(String nickName) {
+		return userRepository.existsByEmail(nickName);
+	}
+
+	@Override
+	@Transactional
 	public void sendVerificationCodeEmail(String email) {
 		String authCode = randValueMaker.makeVerificationCode();
 		redisProvider.set(email, authCode, 3L, TimeUnit.MINUTES);
@@ -174,7 +170,7 @@ public class UserServiceImpl implements UserService {
 		User user = userOptional.get();
 		String newPwd = randValueMaker.makeRandPwd();
 
-		smtpProvider.sendPwd(email, randValueMaker.makeRandPwd());
+		smtpProvider.sendPwd(email, newPwd);
 		user.setAccountPwd(passwordEncoder.encode(newPwd));
 
 		return true;
@@ -247,6 +243,7 @@ public class UserServiceImpl implements UserService {
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
 		return user.getCard() != null;
 	}
+
 
 	@Override
 	public List<String> getRoleListUser() {

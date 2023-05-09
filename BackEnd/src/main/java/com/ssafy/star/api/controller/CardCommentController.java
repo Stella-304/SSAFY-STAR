@@ -54,7 +54,7 @@ public class CardCommentController {
 	}
 	@PostMapping("/reply")
 	@Secured({"ROLE_CLIENT"})
-	@ApiOperation(value = "코멘트 등록하기")
+	@ApiOperation(value = "답글 등록하기")
 	public ResponseEntity<ResponseDto> commentReplyRegist(@RequestBody CommentReplyRegistReqDto commentReplyRegistReqDto) {
 		cardCommentService.registCommentReply(commentReplyRegistReqDto);
 		return ResponseEntity.ok()
@@ -62,7 +62,7 @@ public class CardCommentController {
 	}
 
 	@PutMapping("/reply")
-	@ApiOperation(value = "코멘트 수정하기")
+	@ApiOperation(value = "답글 수정하기")
 	public ResponseEntity<ResponseDto> commentReplyUpdate(@RequestBody CommentReplyUpdateReqDto commentReplyUpdateReqDto) throws Exception {
 		cardCommentService.updateCommentReply(commentReplyUpdateReqDto);
 		return ResponseEntity.ok()
@@ -70,7 +70,7 @@ public class CardCommentController {
 	}
 
 	@DeleteMapping("/reply")
-	@ApiOperation(value = "코멘트 지우기")
+	@ApiOperation(value = "답글 지우기")
 	public ResponseEntity<ResponseDto> commentReplyDelete(@RequestParam Long cardCommentId) {
 		cardCommentService.deleteCommentReply(cardCommentId);
 		return ResponseEntity.ok()

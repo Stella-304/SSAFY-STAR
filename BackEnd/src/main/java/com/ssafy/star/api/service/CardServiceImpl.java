@@ -386,10 +386,6 @@ public class CardServiceImpl implements CardService {
 		card.of(cardUpdateReqDto);
 	}
 
-	@Override
-	public void deleteCard(Long cardId) {
-		cardRepository.deleteById(cardId);
-	}
 
 	@Override
 	public CardDetailDto getMyCard() {
@@ -404,16 +400,5 @@ public class CardServiceImpl implements CardService {
 		return cardDetailDto;
 	}
 
-	@Override
-	public void deleteMyCard() {
-		long userId = authProvider.getUserIdFromPrincipal();
-
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_NOT_FOUND));
-
-		Card card = Optional.ofNullable(user.getCard())
-			.orElseThrow(() -> new CommonApiException(CommonErrorCode.NO_CARD_PROVIDED));
-		cardRepository.deleteById(card.getId());
-	}
 
 }

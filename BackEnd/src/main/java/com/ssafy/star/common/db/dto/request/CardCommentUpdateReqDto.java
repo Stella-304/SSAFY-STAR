@@ -17,7 +17,5 @@ public class CardCommentUpdateReqDto {
     private Long id;
     @Schema(description = "코멘트 내용", example = "역시!! 수정된 코멘트 내용입니다!!")
     private String content;
-    @Schema(description = "카드번호")
-    private Long cardId;
 
 }
