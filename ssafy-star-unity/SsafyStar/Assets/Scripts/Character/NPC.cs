@@ -22,6 +22,10 @@ public class NPC : MonoBehaviour
     public bool doChat = false;
     public GameObject player;
 
+    [Header("Ink Json")]
+    [SerializeField]
+    private TextAsset inkJSON;
+
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -35,6 +39,8 @@ public class NPC : MonoBehaviour
         {
             GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
             chatUI.SetActive(true);
+            //Debug.Log(inkJSON.text);
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
 
             transform.LookAt(player.transform);
             navMeshAgent.isStopped = true;
