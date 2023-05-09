@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Input/Select";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import {
   campusList,
   gradeList,
@@ -229,7 +229,7 @@ export default function CardSubmit() {
   }
 
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex justify-center">
         <span className="block text-4xl font-bold">별 등록</span>
       </div>
@@ -382,6 +382,6 @@ export default function CardSubmit() {
           <></>
         )}
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }

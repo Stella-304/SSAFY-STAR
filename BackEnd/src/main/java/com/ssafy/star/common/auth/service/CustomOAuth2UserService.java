@@ -105,7 +105,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 		return userRepository.save(User.builder()
 			.email(oAuth2UserInfo.getEmail())
-			.name("익명")
 //			.nickname(nickName)
 			.loginType(LoginTypeEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
 			.providerId(oAuth2UserInfo.getId())

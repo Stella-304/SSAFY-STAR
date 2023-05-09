@@ -7,7 +7,5 @@ public class UserRegistReqDto {
 
     private String email;
 
-    private String name;
-
     private String accountPwd;
 }
