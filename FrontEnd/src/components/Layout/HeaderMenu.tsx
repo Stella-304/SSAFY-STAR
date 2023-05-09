@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
+import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
 
 export default function FloatingMenu() {
   const { nickname, email, cardRegistered } = useSelector(
@@ -95,11 +96,7 @@ export default function FloatingMenu() {
         </div>
       </div>
       <button className="fixed bottom-16 right-16 h-40" onClick={addChannel}>
-        <img
-          className="h-40"
-          src="/kakao/channel_add_small_3X.png"
-          alt="카카오플러스친구"
-        />
+        <img className="h-40" src={kakaoPlusFriend} alt="카카오플러스친구" />
       </button>
     </>
   );

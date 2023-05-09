@@ -1,10 +1,24 @@
 import { useMutation } from "react-query";
 import axios from "axios";
-import { BADGE_SUBMIT_URL } from "../../utils/urls";
+import { STAR_FILTER_INFO_URL2 } from "../../utils/urls";
+import { StarFilterType } from "../../types/StarFilterType";
 
 //이미지 파일을 입력하기
-const fetcher = (payload: any) =>
-  axios.post(BADGE_SUBMIT_URL, payload.formdata, {}).then(({ data }) => data);
+const fetcher = (payload: StarFilterType) =>
+  axios
+    .post(STAR_FILTER_INFO_URL2, {
+      ban: payload.ban,
+      bojTier: payload.bojTier,
+      campus: payload.campus,
+      company: payload.company,
+      generation: payload.generation,
+      major: payload.major,
+      role: payload.role,
+      swTier: payload.swTier,
+      track: payload.track,
+      groupFlag: payload.groupFlag,
+    })
+    .then(({ data }) => data.value);
 
 const useStarFilterInfo = () => {
   return useMutation(fetcher, {
