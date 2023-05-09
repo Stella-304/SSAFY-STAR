@@ -103,7 +103,7 @@ public class PlayerMovement : NetworkBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.name == "NPC")
+                if (hit.collider.gameObject.tag == "NPC")
                 {
                     if (Vector3.Distance(transform.position, hit.collider.transform.position) > chatDistance) return;
 

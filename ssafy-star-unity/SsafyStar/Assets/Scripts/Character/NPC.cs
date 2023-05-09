@@ -40,8 +40,8 @@ public class NPC : MonoBehaviour
             GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
             chatUI.SetActive(true);
             //Debug.Log(inkJSON.text);
-            DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
             DialogueManager.GetInstance().NPC = gameObject;
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
 
             transform.LookAt(player.transform);
             navMeshAgent.isStopped = true;

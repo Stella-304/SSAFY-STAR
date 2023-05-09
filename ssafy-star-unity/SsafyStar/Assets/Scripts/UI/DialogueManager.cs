@@ -15,12 +15,10 @@ public class DialogueManager : MonoBehaviour
     private GameObject dialoguePanel;
     [SerializeField]
     private TextMeshProUGUI dialogueText;
+    [SerializeField]
+    private TMP_Text NPCname;
 
     [Header("Question UI")]
-    [SerializeField]
-    private GameObject[] choices;
-    [SerializeField]
-    private TextMeshProUGUI[] choiceText;
     [SerializeField]
     private GridLayoutGroup choiceButtonContainer;
     [SerializeField]
@@ -53,15 +51,6 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
-
-        choiceText = new TextMeshProUGUI[choices.Length];
-        int index = 0;
-
-        foreach(GameObject question in choices)
-        {
-            choiceText[index] = question.GetComponentInChildren<TextMeshProUGUI>();
-            index++;
-        }
     }
 
     private void Update()
@@ -80,6 +69,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJson)
     {
+        NPCname.text = NPC.gameObject.name;
+
         currentStory = new Story(inkJson.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
