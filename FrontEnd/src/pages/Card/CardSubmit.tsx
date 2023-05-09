@@ -21,7 +21,6 @@ import { CardSubmitType } from "../../types/CardSubmit";
 import { githubIdReg, isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
-import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { setUser } from "../../stores/user/user";
@@ -43,7 +42,6 @@ export default function CardSubmit() {
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
   const cardModifyMutate = useCardModify();
-  const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
   const companySearchQuery = useCompanySearch(search, setSearchList);
   const myCardQuery = useMyCard(setSearch);
@@ -194,7 +192,7 @@ export default function CardSubmit() {
       alert("필수 정보를 입력해주세요");
       return;
     }
-    if (card.bojId !== "" && bojTier === "") {
+    if (card.bojId !== undefined && card.bojId !== "" && bojTier === "") {
       //티어 확인
       alert("백준 티어 확인해주세요");
       return;
@@ -225,9 +223,9 @@ export default function CardSubmit() {
     }
   }
 
-  function deleteCard() {
-    dispatch(setUser({ ...user, cardRegistered: false }));
-    cardDeleteMutate.mutate();
+  function reset() {
+    setSearch("");
+    dispatch(resetCard());
   }
 
   return (
@@ -366,7 +364,7 @@ export default function CardSubmit() {
           </>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-16">
         {active ? (
           <MidButton
             value={type === "modify" ? "별 수정" : "별 등록"}
@@ -379,7 +377,7 @@ export default function CardSubmit() {
           ></MidButton>
         )}
         {type === "modify" ? (
-          <MidButton value="별 삭제" onClick={deleteCard}></MidButton>
+          <MidButton value="별 초기화" onClick={reset}></MidButton>
         ) : (
           <></>
         )}
