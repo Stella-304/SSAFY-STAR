@@ -19,6 +19,7 @@ public class StarApplication {
 //		System.out.println(Icosphere2.list_8);
 //		System.out.println(Icosphere.list_32_center);
 //		System.out.println(Icosphere.list_32);
+		//muyaho
 		SpringApplication.run(StarApplication.class, args);
 	}
 
