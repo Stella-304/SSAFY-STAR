@@ -4,22 +4,22 @@
         <ui:VisualElement name="LeftSection" style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;" />
         <ui:VisualElement name="MiddleSection" style="background-color: rgba(56, 56, 56, 0); width: 50%; height: 100%; margin-left: 0;">
             <ui:Label text="SSAFY STAR" display-tooltip-when-elided="true" style="height: auto; width: 100%; font-size: 60px; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(255, 255, 255); letter-spacing: -6px; word-spacing: -8px; -unity-paragraph-spacing: 0; margin-top: 20%; margin-bottom: 0;" />
-            <ui:Label text="&quot;싸피 스타의 메타버스 세계가 당신을 기다립니다&quot;" display-tooltip-when-elided="true" style="height: auto; width: 100%; -unity-text-align: upper-center; margin-top: 0; color: rgb(255, 255, 255); margin-bottom: 30px; font-size: 26px;" />
-            <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: center; padding-bottom: 15%; width: 100%; align-items: center; flex-direction: row; margin-top: 5%;">
+            <ui:Label text="&quot;Welcome to Ssafystar Metaverse&quot;" display-tooltip-when-elided="true" style="height: auto; width: 100%; -unity-text-align: upper-center; margin-top: 0; color: rgb(255, 255, 255); margin-bottom: 30px; font-size: 30px;" />
+            <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: center; padding-bottom: 15%; width: 100%; align-items: center; flex-direction: row; margin-top: 5%; -unity-font-style: bold; font-size: 69px;">
                 <ui:VisualElement name="CardPlay" class="menu-card">
                     <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/UI/cards.jpg?fileID=2800000&amp;guid=e3eaf997a13a52a4f8e047393be4e291&amp;type=3#cards&apos;); width: 50%; height: 50%; -unity-background-scale-mode: scale-to-fit;" />
-                    <ui:Button text="Play" display-tooltip-when-elided="true" name="ButtonPlay" class="menu-button button" style="width: 100%;" />
-                    <ui:Button text="메타버스 세계로 입장하세요!" display-tooltip-when-elided="true" name="text" style="width: 100%; background-color: rgba(88, 88, 88, 0); font-size: 18px; -unity-font-style: bold-and-italic; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255);" />
+                    <ui:Label text="PLAY" display-tooltip-when-elided="true" class="menu-text" />
+                    <ui:Label text="Login to play" display-tooltip-when-elided="true" style="height: 17px; font-size: 30px; color: rgba(255, 255, 255, 255); -unity-text-align: middle-center; -unity-font-style: bold-and-italic; margin-top: 10px;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="CardOther" class="menu-card" style="width: 100%;">
+                <ui:VisualElement name="CardGuest" class="menu-card">
                     <ui:VisualElement style="background-image: url(&apos;project://database/Assets/Sprites/UI/keys.jpg?fileID=2800000&amp;guid=857b382b1f4f04f47a939c1ca1c1eff3&amp;type=3#keys&apos;); width: 50%; height: 50%; -unity-background-scale-mode: scale-to-fit;" />
-                    <ui:Button text="Setting" display-tooltip-when-elided="true" name="ButtonSetting" class="menu-button button" style="-unity-text-align: lower-center; width: 100%;" />
-                    <ui:Button text="Exit" display-tooltip-when-elided="true" name="ButtonExit" class="menu-button button" style="width: 100%;" />
+                    <ui:Label text="GUEST" display-tooltip-when-elided="true" class="menu-text" />
+                    <ui:Label text="play as Guest" display-tooltip-when-elided="true" style="height: 15px; font-size: 30px; color: rgb(255, 255, 255); -unity-text-align: middle-center; -unity-font-style: bold-and-italic; margin-top: 10px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="RightSection" style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; padding-left: 1%; padding-right: 1%; padding-top: 1%; padding-bottom: 1%;">
-            <ui:Button display-tooltip-when-elided="true" name="ButtonMute" class="menu-button button" style="background-image: url(&apos;project://database/Assets/Sprites/UI/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); -unity-background-scale-mode: scale-to-fit; width: 10%; justify-content: space-between; align-items: flex-end;" />
+            <ui:Button display-tooltip-when-elided="true" name="ButtonMute" class="menu-button button" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); -unity-background-scale-mode: scale-to-fit; width: 10%; justify-content: space-between; align-items: flex-end;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
