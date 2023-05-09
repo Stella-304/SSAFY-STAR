@@ -24,9 +24,5 @@ public class JSONParsingUtil {
 		List<LinkedHashMap> jsonList = (List<LinkedHashMap>)getJSONParser(path).parse();
 		return jsonList;
 	}
-	public static List<List<?>> getListFromJson2(String path) throws Exception {
-		System.out.println("yaho");
-		List<List<?>> jsonList = (List<List<?>>) getJSONParser(path).parse();
-		return jsonList;
-	}
+
 }
