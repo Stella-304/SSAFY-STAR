@@ -15,12 +15,12 @@ export default function AuthLayout() {
   const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    // if (email !== "" && sessionStorage.getItem("accessToken")) {
-    //   setLoginCheck(true);
-    // } else {
-    //   dispatch(logout());
-    //   navigate("/login");
-    // }
+    if (email !== "" && sessionStorage.getItem("accessToken")) {
+      setLoginCheck(true);
+    } else {
+      dispatch(logout());
+      navigate("/login");
+    }
     setLoginCheck(true);
   }, []);
 
