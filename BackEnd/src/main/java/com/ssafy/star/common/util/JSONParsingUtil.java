@@ -3,6 +3,7 @@ package com.ssafy.star.common.util;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.core.io.ClassPathResource;
@@ -23,5 +24,9 @@ public class JSONParsingUtil {
 		List<LinkedHashMap> jsonList = (List<LinkedHashMap>)getJSONParser(path).parse();
 		return jsonList;
 	}
-
+	public static List<List<?>> getListFromJson2(String path) throws Exception {
+		System.out.println("yaho");
+		List<List<?>> jsonList = (List<List<?>>) getJSONParser(path).parse();
+		return jsonList;
+	}
 }
