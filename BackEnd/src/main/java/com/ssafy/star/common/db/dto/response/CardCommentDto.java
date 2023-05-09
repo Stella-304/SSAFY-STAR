@@ -10,10 +10,12 @@ public class CardCommentDto {
 	String content;
 	String reply;
 	String writer;
+	boolean mine;
 
-	public CardCommentDto(CardComment cardComment) {
+	public CardCommentDto(CardComment cardComment,Long userId) {
 		this.content=cardComment.getContent();
 		this.reply=cardComment.getReply();
 		this.writer=cardComment.getUser().getName();
+		this.mine=(cardComment.getUser().getId()-userId)==0;
 	}
 }

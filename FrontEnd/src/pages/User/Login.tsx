@@ -1,7 +1,7 @@
 import LinkButton from "../../components/Button/LinkButton";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setLoginid, setPassword, resetLogin } from "../../stores/user/login";
@@ -74,7 +74,7 @@ export default function Login() {
     }
   };
   return (
-    <EarthLayout>
+    <FormLayout>
       <div
         className="flex h-full flex-col justify-around"
         onKeyDown={handleOnKeyPress}
@@ -144,6 +144,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }
