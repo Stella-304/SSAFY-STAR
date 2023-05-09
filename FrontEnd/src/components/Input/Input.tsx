@@ -3,7 +3,7 @@ import { useState } from "react";
 interface props {
   id: string;
   type: string;
-  label: string;
+  label?: string;
   onChange: (params: string) => void;
   warning?: string;
   confirm?: string;
@@ -13,6 +13,7 @@ interface props {
   queryResult?: string[];
   querySelect?: (params: string) => void;
   queryValue?: string;
+  placeholder?: string;
 }
 
 export default function Input({
@@ -28,6 +29,7 @@ export default function Input({
   queryResult,
   querySelect,
   queryValue,
+  placeholder
 }: props) {
   const [inputType, setInputType] = useState(type);
   const convert = () => {
@@ -55,10 +57,11 @@ export default function Input({
         <>
           <input
             ref={inputRef}
-            className="border-b-1 border-gray-500 text-gray-500"
+            className="border-3 rounded-16 text-white border-white my-12 bg-black bg-opacity-70 px-16 py-16 shadow-neon2"
             id={id}
             type={inputType}
             onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
             value={value}
             disabled={disable}
           ></input>

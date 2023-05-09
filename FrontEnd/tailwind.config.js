@@ -30,6 +30,7 @@ module.exports = {
         black: "#000000",
         white: "#ffffff",
         darkblue: "rgba(0, 21, 134, 0.54)",
+        darkblue2: "rgba(0, 18, 110, 0.6)",
         dblue: "rgba(0, 21, 134, 1)",
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
@@ -38,6 +39,7 @@ module.exports = {
       },
       boxShadow: {
         neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",
+        neon2: "0 0 20px 10px rgba(0,21,134,0.7)",
         blackcard:
           " 20px 20px 0 0 rgba(0,0,0,0.7), inset 20px 20px 0 0 rgba(0,0,0,0.7), inset",
       },
