@@ -65,12 +65,6 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getDetailUser()));
 	}
 
-	@GetMapping
-	@ApiOperation(value = "메인화면 유저 정보 조회")
-	public ResponseEntity<ResponseDto> userGet() {
-		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, userService.getUser()));
-	}
-
 	@PutMapping
 	@ApiOperation(value = "유저정보 수정")
 	public ResponseEntity<ResponseDto> userModify(@RequestBody UserModifyReqDto userModifyReqDto) {

@@ -29,13 +29,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -79,6 +82,7 @@ public class CardServiceImpl implements CardService {
 
 		String tier = CallAPIUtil.getUserTier(bojId);
 		card.updateBojTier(tier);
+
 		return tier;
 	}
 
@@ -176,9 +180,10 @@ public class CardServiceImpl implements CardService {
 		List<CardDetailDto> test2 = new ArrayList<>();
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
 				if (polygonList.get(i * SIZE + j).getX() != null && polygonList.get(i * SIZE + j).getZ() >= 0.03) {
+					polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
 					temp.add(i * SIZE + j);
+
 					// test2.add(new CardDetailDto(cardList.get(0), polygonMatrix[i][j].getX()*RADIUS,
 					// 	polygonMatrix[i][j].getZ()*RADIUS, polygonMatrix[i][j].getY()*RADIUS, false));
 				}
@@ -199,6 +204,8 @@ public class CardServiceImpl implements CardService {
 		List<String> keyList = cardGroupMap.keySet().stream().collect(Collectors.toList());
 		int groupSize = keyList.size();
 
+		boolean[][] visited = new boolean[SIZE][SIZE];
+
 		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
 		for (int i = 0; i < groupSize; i++) {
 			String key = keyList.remove(0);
@@ -207,6 +214,8 @@ public class CardServiceImpl implements CardService {
 			int startX = startXList[choice];
 			int convPos = startY * SIZE + startX;
 			Polygon polygon = polygonList.get(convPos);
+
+			// x,y,z에 표시할 그룹 이름
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
@@ -215,50 +224,87 @@ public class CardServiceImpl implements CardService {
 					.y(polygon.getY() * RADIUS)
 					.z(polygon.getZ() * RADIUS)
 					.build());
-		}
 
-		for (int i = 0; i < cardList.size(); i++) {
-			Card card = cardList.get(i);
-			int idx = temp.get(i);
-			Polygon polygon = polygonList.get(idx);
-			int y = idx / SIZE;
-			int x = idx % SIZE;
+			// x,y,z를 중심으로 그룹 내의 모든 카드를 배치
 
-			double myX = polygon.getX();
-			double myY = polygon.getY();
-			double myZ = polygon.getZ();
-			double minX = polygon.getX();
-			double minY = polygon.getY();
-			double minZ = polygon.getZ();
-			double maxX = polygon.getX();
-			double maxY = polygon.getY();
-			double maxZ = polygon.getZ();
+			List<Card> curGroupCardList = cardGroupMap.get(key);
+			int willChooseCardCnt = curGroupCardList.size();
+			Queue<int[]> queue = new ArrayDeque<>();
+			List<int[]> choosePosList = new ArrayList<>();
+			queue.add(new int[] {startY, startX});
+			visited[startY][startX] = true;
 
-			for (int k = 0; k < 4; k++) {
-				int ny = y + dy[k];
-				int nx = x + dx[k];
-				if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE) {
-					Polygon tempPolygon = polygonList.get(ny * SIZE + nx);
-					if (tempPolygon.getX() == null)
-						continue;
-					minX = Math.min(minX, (tempPolygon.getX() + myX * 3) / 4);
-					minY = Math.min(minY, (tempPolygon.getY() + myY * 3) / 4);
-					minZ = Math.min(minZ, (tempPolygon.getZ() + myZ * 3) / 4);
-					maxX = Math.max(maxX, (tempPolygon.getX() + myX * 3) / 4);
-					maxY = Math.max(maxY, (tempPolygon.getY() + myY * 3) / 4);
-					maxZ = Math.max(maxZ, (tempPolygon.getZ() + myZ * 3) / 4);
+			while (!queue.isEmpty() && choosePosList.size() < willChooseCardCnt) {
+				int[] cur = queue.poll();
+				choosePosList.add(cur);
+				int cy = cur[0];
+				int cx = cur[1];
+				for (int k = 0; k < 4; k++) {
+					int ny = cy + dy[k];
+					int nx = cx + dx[k];
+					if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE && polygonMatrix[ny][nx] != null
+						&& !visited[ny][nx]) {
+						queue.add(new int[] {ny, nx});
+						visited[ny][nx] = true;
+					}
 				}
 			}
 
-			double finalX = random.nextDouble() * (maxX - minX) + minX;
-			double finalY = random.nextDouble() * (maxY - minY) + minY;
-			double finalZ = random.nextDouble() * (maxZ - minZ) + minZ;
-			cardDetailDtoList.add(
-				new CardDetailDto(card, finalX * RADIUS, finalZ * RADIUS, finalY * RADIUS,
-					false));
+			// for (int[] a:choosePosList){
+			// 	System.out.println(Arrays.toString(a));
+			// }
+			System.out.println(choosePosList.size());
+			System.out.println(willChooseCardCnt);
+
+			for (int j = 0; j < willChooseCardCnt; j++) {
+				Card card = curGroupCardList.get(j);
+				int[] choocePos = choosePosList.get(j);
+				int idx = choocePos[0] * SIZE + choocePos[1];
+				polygon = polygonList.get(idx);
+				int y = idx / SIZE;
+				int x = idx % SIZE;
+
+				double myX = polygon.getX();
+				double myY = polygon.getY();
+				double myZ = polygon.getZ();
+				double minX = polygon.getX();
+				double minY = polygon.getY();
+				double minZ = polygon.getZ();
+				double maxX = polygon.getX();
+				double maxY = polygon.getY();
+				double maxZ = polygon.getZ();
+
+				for (int k = 0; k < 4; k++) {
+					int ny = y + dy[k];
+					int nx = x + dx[k];
+					if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE) {
+						Polygon tempPolygon = polygonList.get(ny * SIZE + nx);
+						if (tempPolygon.getX() == null)
+							continue;
+						minX = Math.min(minX, (tempPolygon.getX() + myX * 3) / 4);
+						minY = Math.min(minY, (tempPolygon.getY() + myY * 3) / 4);
+						minZ = Math.min(minZ, (tempPolygon.getZ() + myZ * 3) / 4);
+						maxX = Math.max(maxX, (tempPolygon.getX() + myX * 3) / 4);
+						maxY = Math.max(maxY, (tempPolygon.getY() + myY * 3) / 4);
+						maxZ = Math.max(maxZ, (tempPolygon.getZ() + myZ * 3) / 4);
+					}
+				}
+
+				double finalX = random.nextDouble() * (maxX - minX) + minX;
+				double finalY = random.nextDouble() * (maxY - minY) + minY;
+				double finalZ = random.nextDouble() * (maxZ - minZ) + minZ;
+				cardDetailDtoList.add(
+					new CardDetailDto(card, finalX * RADIUS, finalZ * RADIUS, finalY * RADIUS,
+						false));
+			}
+
 		}
+
 		// List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
-		return new ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
+		return new
+
+			ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
+
 	}
 
 	private List<EdgeDto> setEdges(List<CardDetailDto> detailDtoList) {
