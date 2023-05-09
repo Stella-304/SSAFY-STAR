@@ -1,14 +1,16 @@
-import FloatingMenu from "../components/Layout/FloatingMenu";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
 import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
 import { RootState } from "../stores/store";
+import HeaderMenu from "../components/Layout/HeaderMenu";
 import useLogout from "../apis/user/useLogout";
 
 export default function MainPage() {
   const navigate = useNavigate();
+
+  const user = useSelector((state: RootState) => state.user);
 
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
@@ -136,14 +138,14 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_2.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_3.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_5.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="flex h-screen w-screen items-center justify-start bg-[url('/public/background/landing_temp_6.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_7.png')] bg-cover bg-center bg-no-repeat"></div>
-      <div className="h-screen w-screen items-center bg-[url('/public/background/landing_temp_8.png')] bg-cover bg-center bg-no-repeat"></div>
-      <FloatingMenu />
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_2.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_3.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_4.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_5.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="flex h-screen w-full items-center justify-start bg-[url('/public/background/landing_temp_6.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_7.png')] bg-cover bg-center bg-no-repeat"></div>
+      <div className="h-screen w-full items-center bg-[url('/public/background/landing_temp_8.png')] bg-cover bg-center bg-no-repeat"></div>
+      <HeaderMenu />
     </div>
   );
 }

@@ -7,9 +7,8 @@ import useUserBadgeStatus from "../../apis/user/useUserBadgeStatus";
 
 interface Props {
   id: string;
-  children: ReactNode;
 }
-export default function ImageInput({ id, children }: Props) {
+export default function ImageInput({ id }: Props) {
   const imgRef = useRef(null);
   const [imgsrc, setImgsrc] = useState("" as any);
   const submitMutate = useUserBadgeSubmit(id);
@@ -63,7 +62,6 @@ export default function ImageInput({ id, children }: Props) {
           />
           <label htmlFor={id}>
             <div className="flex h-150 w-300 flex-col items-center justify-center bg-slate-400 text-center">
-              {/* {children} */}
               <div className="flex flex-col">
                 <img
                   src={
