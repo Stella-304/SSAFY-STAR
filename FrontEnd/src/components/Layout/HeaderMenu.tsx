@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
 
 export default function FloatingMenu() {
-  const { email, cardRegistered } = useSelector(
+  const { nickname, email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );
   const { path } = useSelector((state: RootState) => state.path);
@@ -51,11 +51,10 @@ export default function FloatingMenu() {
           />
           {email ? (
             <>
-              <HeaderButton onClick={logout} value="로그아웃" path={false} />
               <HeaderButton
-                onClick={() => navigate("/mypage")}
-                value="마이페이지"
-                path={path === "mypage"}
+                onClick={() => navigate("/certify")}
+                value="인증하기"
+                path={path === "certify"}
               />
               {cardRegistered ? (
                 <HeaderButton
@@ -70,6 +69,12 @@ export default function FloatingMenu() {
                   path={path === "cardsubmit"}
                 />
               )}
+              <HeaderButton
+                onClick={() => navigate("/mypage")}
+                value="마이페이지"
+                path={path === "mypage"}
+              />
+              <HeaderButton onClick={logout} value="로그아웃" path={false} />
             </>
           ) : (
             <>

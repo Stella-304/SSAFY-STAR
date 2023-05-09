@@ -25,6 +25,7 @@ import AdminLayout from "./components/Layout/AdminLayout";
 import Universe from "./pages/test/Universe";
 import Metaverse from "./pages/test/Metaverse";
 import MainPage from "./pages/MainPage";
+import Certify from "./pages/User/Mypage/Certify";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 declare global {
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
         element: <CardSubmit />,
       },
       { path: "/mypage", element: <Mypage /> },
+      { path: "/certify", element: <Certify /> },
     ],
   },
   {

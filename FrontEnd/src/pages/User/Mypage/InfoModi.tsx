@@ -180,12 +180,6 @@ export default function InfoModi() {
           <SmallButton value="갱신" onClick={checkBoj}></SmallButton>
         </div>
       </div>
-
-      {/* 카드수정 */}
-      <BigButton
-        value="카드 수정하러 가기"
-        onClick={() => navigate("/cardsubmit/modify")}
-      />
     </>
   );
 }
