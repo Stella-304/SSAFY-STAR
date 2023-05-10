@@ -175,7 +175,50 @@ export default function ImageInput({ id }: Props) {
         </div>
       </div>
       {modalOpen ? (
-        <ModalLayout onClose={() => setModalOpen(false)}>test</ModalLayout>
+        <ModalLayout onClose={() => setModalOpen(false)} modalWidth="600px">
+          <div className="flex h-full flex-col gap-32 overflow-auto p-16">
+            <div>
+              <span className="text-3xl font-bold">인증을 하는방법 </span>
+              <br />
+              <span className="text-sm font-bold">
+                카드를 등록했는데, 실제 싸피인이라고 알리고 싶나요?
+                <br />
+                그럼 인증을 해서 카드에 뱃지를 달아 봅시다!
+              </span>
+              <div>
+                <img src="./help/badgecheck.png" alt="뱃지확인" />
+              </div>
+            </div>
+            <hr />
+            <div>
+              <div>
+                <span className="text-3xl font-bold">싸피인증 방법</span>
+              </div>
+              <div>
+                <span className="text-sm font-bold">
+                  1. edu.ssafy.com에 로그인 후 로그인 화면 캡쳐
+                </span>
+                <img src="./help/edussafy.png" alt="edu싸피화면" />
+                <span className="text-sm font-bold">2. 수료증 찍기</span>
+                <div className="flex justify-center">
+                  <img src="./help/edu.png" className="h-300" alt="수료증" />
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <div>
+                <span className="text-3xl font-bold">회사 인증 방법</span>
+              </div>
+              <div>
+                <span className="text-sm font-bold">1. 사원증 찍기</span>
+              </div>
+              <div className="flex justify-center">
+                <img src="./help/company.png" alt="사원증" />
+              </div>
+            </div>
+          </div>
+        </ModalLayout>
       ) : (
         <></>
       )}
