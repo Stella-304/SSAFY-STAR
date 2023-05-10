@@ -46,6 +46,8 @@ pipeline {
 
           docker.build("springboot-image", "-f ${dockerfile} ${backendDir}")
         }
+
+        sh 'docker inspect --format='{{.GraphDriver.Data.UpperDir}}' react-image -q | xargs --no-run-if-empty -r'
       }
     }
 
@@ -57,6 +59,8 @@ pipeline {
 
           docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
         }
+
+        sh 'cp -r $(docker inspect --format='{{.GraphDriver.Data.UpperDir}}/app' react-image)/* /usr/host/share/nginx/html'
       }
     }
 
