@@ -111,7 +111,7 @@ export default function InfoModi() {
   }
 
   return (
-    <>
+    <div className="w-4/5">
       {/* 비밀번호 변경 */}
       <div>
         <div>
@@ -121,22 +121,22 @@ export default function InfoModi() {
           <Input
             id="password1"
             type="password"
-            label="비밀번호 입력"
             onChange={onPass1}
             value={password1}
             warning={password1Warning}
+            placeholder="비밀번호 입력"
           />
           <Input
             id="password2"
             type="password"
-            label="비밀번호 확인"
             onChange={onPass2}
             value={password2}
             warning={password2Warning}
+            placeholder="비밀번호 확인"
           />
         </div>
         <div className="flex justify-end">
-          <MidButton value="비밀번호 수정" onClick={modiPassword}></MidButton>
+          <MidButton value="수정" onClick={modiPassword}></MidButton>
         </div>
       </div>
       {/* 닉네임 변경 */}
@@ -144,42 +144,42 @@ export default function InfoModi() {
         <div>
           <span className="block text-2xl font-bold">닉네임 수정</span>
         </div>
-        <div className="flex">
+        <div className="flex flex-row gap-24">
           <div className="flex-grow">
             <Input
               id="nickname"
               type="input"
-              label="메타버스 닉네임 수정"
               onChange={onNickname}
               value={nickname}
               warning={nicknameWarning}
+              placeholder="메타버스 닉네임 수정"
             />
           </div>
-          <div className="flex items-end">
-            <SmallButton value="수정" onClick={modiNickname}></SmallButton>
+          <div className="flex items-end mb-16">
+            <SmallButton value="수정" onClick={modiNickname}></SmallButton> 
           </div>
         </div>
       </div>
       {/* 백준업데이트 */}
-      <div className="flex">
+      <div className="flex items-center flex-row gap-24">
         <div className="flex-grow">
           <Input
             id="boj"
             type="input"
-            label="백준아이디"
             onChange={() => {}}
             value={
               bojTier === "Unrated"
-                ? bojTier + " *solved.ac에 등록해주세요"
-                : bojTier
+              ? bojTier + " *solved.ac에 등록해주세요"
+              : bojTier
             }
+            placeholder="백준아이디"
             disable={true}
           />
         </div>
-        <div className="flex items-end">
+        <div className="flex items-end mb-16">
           <SmallButton value="갱신" onClick={checkBoj}></SmallButton>
         </div>
       </div>
-    </>
+    </div>
   );
 }

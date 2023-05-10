@@ -236,7 +236,7 @@ export default function CardSubmit() {
           <span className="mt-80 mb-40 block text-5xl font-bold">별 등록</span>
         </div>
         <div className="mb-8 h-full w-4/5">
-          <div className="">
+          <div>
             {/* <div className="flex justify-between"> */}
             <Input
               id="name"
