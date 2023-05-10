@@ -3,11 +3,12 @@ import { COMPANY_SEARCH_URL } from "../../utils/urls";
 import { api } from "../api";
 
 const fetcher = (input: string) =>
-  api.get(COMPANY_SEARCH_URL+"?query="+input, {
+  api
+    .get(COMPANY_SEARCH_URL + "?query=" + input, {
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => {
-      return data
+      return data;
     });
 
 /**
@@ -16,9 +17,12 @@ const fetcher = (input: string) =>
  * @param setSearchList
  * @returns
  */
-const useCompanySearch = (searchName: string,setSearchList:(params:any)=>void) => {
+const useCompanySearch = (
+  searchName: string,
+  setSearchList: (params: any) => void,
+) => {
   return useQuery(["/companyname", searchName], () => fetcher(searchName), {
-    onSuccess:(data)=>{
+    onSuccess: (data) => {
       setSearchList(data.value);
     },
     enabled: false,

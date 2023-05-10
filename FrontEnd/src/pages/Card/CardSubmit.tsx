@@ -2,13 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Input/Select";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import {
   campusList,
   gradeList,
   fieldList,
   trackList,
   majorList,
+  generationList,
 } from "../../constants/categories";
 import { RootState } from "../../stores/store";
 import { resetCard, setCard } from "../../stores/card/cardsubmit";
@@ -20,11 +21,11 @@ import { CardSubmitType } from "../../types/CardSubmit";
 import { githubIdReg, isNumber } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
-import useCardDelete from "../../apis/card/useCardDelete";
 import useMyCard from "../../apis/card/useMyCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { setUser } from "../../stores/user/user";
 import { setPath } from "../../stores/page/path";
+import { USER_NONAME } from "../../constants/default";
 
 export default function CardSubmit() {
   const navigate = useNavigate();
@@ -35,21 +36,21 @@ export default function CardSubmit() {
   const [bojTier, setBojTier] = useState("");
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
+  const [searchList, setSearchList] = useState([]); //회사명 검색결과
+  const [page, setPage] = useState(0);
 
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
   const cardModifyMutate = useCardModify();
-  const cardDeleteMutate = useCardDelete();
   const cardSubmitMutate = useCardSubmit();
-  const [searchList, setSearchList] = useState([]); //회사명 검색결과
   const companySearchQuery = useCompanySearch(search, setSearchList);
   const myCardQuery = useMyCard(setSearch);
 
   const dispatch = useDispatch();
 
   //경고
-  const [cardinalWarning, setCardinalWaring] = useState("");
   const [banWarning, setBanWaring] = useState("");
+  const [githubWarning, setGithubWarning] = useState("");
 
   //리셋
   useEffect(() => {
@@ -63,6 +64,11 @@ export default function CardSubmit() {
         navigate("/");
       }
       dispatch(setPath("cardsubmit")); //현 위치 표시
+      //카드 등록하지 않은 경우
+      //유저 정보의 이름을 불러서 입력해준다.
+      if (user.name !== USER_NONAME) {
+        dispatch(setCard({ name: user.name }));
+      }
     }
     return () => {
       dispatch(setPath("")); //나갈땐 리셋
@@ -102,14 +108,6 @@ export default function CardSubmit() {
     dispatch(setCard({ ...card, ban: input }));
   }
   function onCardinal(input: string) {
-    if (input !== "" && !input.match(isNumber)) {
-      setCardinalWaring("숫자만 입력 해주세요");
-      setTimeout(() => {
-        setCardinalWaring("");
-      }, 1000);
-      return;
-    }
-    setCardinalWaring("");
     dispatch(setCard({ ...card, generation: input }));
   }
 
@@ -125,7 +123,10 @@ export default function CardSubmit() {
   }
   function onGithub(input: string) {
     if (!input.match(githubIdReg)) {
+      setGithubWarning("영문과 숫자 하이픈으로 20자 이내");
       return;
+    } else {
+      setGithubWarning("");
     }
     dispatch(setCard({ ...card, githubId: input }));
   }
@@ -174,10 +175,11 @@ export default function CardSubmit() {
   }
   function checkNecessary() {
     if (
-      card.campus === "" ||
-      card.generation === "" ||
-      card.ban === "" ||
-      card.content === ""
+      !card.name ||
+      !card.campus ||
+      !card.generation ||
+      !card.ban ||
+      !card.content
     ) {
       return false;
     }
@@ -186,16 +188,11 @@ export default function CardSubmit() {
   //등록 진행
   function submit() {
     //필수 입력 확인
-    if (
-      card.campus === "" &&
-      card.generation === "" &&
-      card.ban === "" &&
-      card.content === ""
-    ) {
+    if (!checkNecessary()) {
       alert("필수 정보를 입력해주세요");
       return;
     }
-    if (card.bojId !== "" && bojTier === "") {
+    if (card.bojId !== undefined && card.bojId !== "" && bojTier === "") {
       //티어 확인
       alert("백준 티어 확인해주세요");
       return;
@@ -210,7 +207,7 @@ export default function CardSubmit() {
       company: card.company,
       content: card.content,
       etc: card.etc,
-      generation: card.generation,
+      generation: card.generation === "비싸피인" ? "0" : card.generation,
       githubId: card.githubId,
       major: card.major,
       role: card.role,
@@ -226,12 +223,13 @@ export default function CardSubmit() {
     }
   }
 
-  function deleteCard() {
-    dispatch(setUser({ ...user, cardRegistered: false }));
-    cardDeleteMutate.mutate();
+  function reset() {
+    setSearch("");
+    dispatch(resetCard());
   }
+
   return (
-    <EarthLayout>
+    <FormLayout>
       <div className="flex justify-center">
         <span className="block text-4xl font-bold">별 등록</span>
       </div>
@@ -253,13 +251,12 @@ export default function CardSubmit() {
               onChange={onCampus}
               value={card.campus}
             />
-            <Input
-              id="cardinal"
-              type="text"
+            <Select
+              id="generation"
               label="기수*"
+              options={generationList}
               onChange={onCardinal}
               value={card.generation}
-              warning={cardinalWarning}
             />
           </div>
           <Input
@@ -279,99 +276,95 @@ export default function CardSubmit() {
             value={card.content}
           />
           <hr />
-
-          <div className="flex justify-between">
-            <Select
-              id="track"
-              label="트랙"
-              options={trackList}
-              onChange={onTrack}
-              value={card.track}
-            />
-            <Select
-              id="major"
-              label="전공유무"
-              options={majorList}
-              onChange={onMajor}
-              value={card.major}
-            />
-          </div>
-
-          <Input
-            id="company"
-            type="text"
-            label="회사"
-            onChange={onCompany}
-            value={search}
-            queryResult={searchList}
-            querySelect={selectCompany}
-          />
-          <div className="flex justify-between">
-            <Select
-              id="grade"
-              label="역량테스트등급"
-              options={gradeList}
-              onChange={onGrade}
-              value={card.swTier}
-            />
-            <Select
-              id="field"
-              label="분야"
-              options={fieldList}
-              onChange={onField}
-              value={card.role}
-            />
-          </div>
-          <Input
-            id="github"
-            type="text"
-            label="Github아이디"
-            onChange={onGithub}
-            value={card.githubId}
-          />
-          <div className="flex">
-            <div className="flex-grow">
-              <Input
-                id="boj"
-                type="input"
-                label="백준아이디"
-                onChange={onBoj}
-                value={card?.bojId}
-                confirm={
-                  bojTier === "Unrated"
-                    ? bojTier + " *solved.ac에 등록해주세요"
-                    : bojTier
-                }
+          <>
+            <div className="flex justify-between">
+              <Select
+                id="track"
+                label="트랙"
+                options={trackList}
+                onChange={onTrack}
+                value={card.track}
+              />
+              <Select
+                id="major"
+                label="전공유무"
+                options={majorList}
+                onChange={onMajor}
+                value={card.major}
               />
             </div>
-            <div className="flex items-end">
-              <SmallButton value="확인" onClick={checkBoj}></SmallButton>
+
+            <Input
+              id="company"
+              type="text"
+              label="회사"
+              onChange={onCompany}
+              value={search}
+              queryResult={searchList}
+              querySelect={selectCompany}
+              queryValue={card.company}
+            />
+            <div className="flex justify-between">
+              <Select
+                id="grade"
+                label="역량테스트등급"
+                options={gradeList}
+                onChange={onGrade}
+                value={card.swTier}
+              />
+              <Select
+                id="field"
+                label="분야"
+                options={fieldList}
+                onChange={onField}
+                value={card.role}
+              />
             </div>
-          </div>
-          <Input
-            id="blog"
-            type="text"
-            label="기술 블로그"
-            onChange={onBlog}
-            value={card.blogAddr}
-          />
-          {/* <Input
-            id="content2"
-            type="textarea"
-            label="후배기수에게 전하는 조언"
-            onChange={onContent2}
-            value={card.content2}
-          /> */}
-          <Input
-            id="etc"
-            type="textarea"
-            label="기타 경력 사항"
-            onChange={onEtc}
-            value={card.etc}
-          />
+            <Input
+              id="github"
+              type="text"
+              label="Github아이디"
+              onChange={onGithub}
+              value={card.githubId}
+              warning={githubWarning}
+            />
+            <div className="flex">
+              <div className="flex-grow">
+                <Input
+                  id="boj"
+                  type="input"
+                  label="백준아이디"
+                  onChange={onBoj}
+                  value={card?.bojId}
+                  confirm={
+                    bojTier === "Unrated"
+                      ? bojTier + " *solved.ac에 등록해주세요"
+                      : bojTier
+                  }
+                />
+              </div>
+              <div className="flex items-end">
+                <SmallButton value="확인" onClick={checkBoj}></SmallButton>
+              </div>
+            </div>
+            <Input
+              id="blog"
+              type="text"
+              label="기술 블로그"
+              onChange={onBlog}
+              value={card.blogAddr}
+            />
+            <Input
+              id="etc"
+              type="textarea"
+              label="기타 경력 사항"
+              onChange={onEtc}
+              value={card.etc}
+            />
+          </>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-16">
         {active ? (
           <MidButton
             value={type === "modify" ? "별 수정" : "별 등록"}
@@ -384,11 +377,11 @@ export default function CardSubmit() {
           ></MidButton>
         )}
         {type === "modify" ? (
-          <MidButton value="별 삭제" onClick={deleteCard}></MidButton>
+          <MidButton value="별 초기화" onClick={reset}></MidButton>
         ) : (
           <></>
         )}
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }

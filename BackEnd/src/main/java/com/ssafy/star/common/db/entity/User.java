@@ -5,7 +5,6 @@ import com.ssafy.star.common.auth.enumeration.BadgeEnum;
 import com.ssafy.star.common.auth.enumeration.LoginTypeEnum;
 import com.ssafy.star.common.util.entity.BaseTime;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class User extends BaseTime {
     @Column(length = 5)
     private String name;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = true)
     private String nickname;
 
     @Column(nullable = false)

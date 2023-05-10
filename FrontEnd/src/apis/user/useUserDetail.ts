@@ -24,7 +24,6 @@ const useUserDetail = () => {
     retry: 0,
     enabled: false,
     onSuccess: (data) => {
-      // alert(data.value.email);
       dispatch(
         setUser({
           email: data.value.email,
@@ -33,11 +32,13 @@ const useUserDetail = () => {
           cardRegistered: data.value.cardRegistered,
         }),
       );
-      navigate("/"); //메인으로 이동
+      if (!data.value.cardRegistered) {
+        navigate("/cardsubmit/submit");
+      } else {
+        navigate("/"); //메인으로 이동
+      }
     },
     onError: () => {
-      // alert("뭐지");
-      // alert("토큰이 확인이 안됩니다.");
       navigate("/login");
     },
   });

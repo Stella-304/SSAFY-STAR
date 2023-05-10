@@ -1,19 +1,7 @@
 import * as THREE from "three";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  Canvas,
-  createRoot,
-  extend,
-  events,
-  useThree,
-} from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
+import { useCallback, useEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Stars } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -27,70 +15,60 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import CardPreviewFront from "../../components/Card/CardPreviewFront";
 import StarLine from "../../components/Star/StarLine";
-import useMyCard from "../../apis/card/useMyCard";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
 import { setViewCard } from "../../stores/star/starInfo";
 import { setPath } from "../../stores/page/path";
-
-// const userInfo: User = {
-//   name: "이아현",
-//   generation: 7,
-//   ban: 5,
-//   x: 25,
-//   y: 25,
-//   z: 25,
-//   cardId: 1,
-//   campus: "대전",
-//   major: "전공",
-//   track: "자바",
-//   company: "삼성전자",
-//   githubId: "skylove308",
-//   bojId: "skylove650",
-//   blogAddr: "https://daily-programmers-diary.tistory.com",
-//   email: "skylove0911@naver.com",
-//   nickname: "블루베리",
-//   role: "BackEnd",
-//   bojTier: "Platinum",
-//   algoTest: "B형",
-//   authorized: false,
-//   prize: `자율 1등\n특화 2등\n공통 1등`,
-//   content: `얼마 전 당신의 입장이 되었던 기억이 나고, \n 얼마나 힘든 일인지 압니다. \n 하지만 노력과 헌신, 인내를 통해 \n 목표를 달성할 수 있다는 것도 알고 있습니다. \n 포기하지 말고 계속 탁월함을 위해 노력합시다.`,
-// };
+import bubbleChat from "../../assets/icons/bubble-chat.png";
+import useCommentListQuery from "../../apis/comment/useCommentListQuery";
+import reply from "@/assets/icons/reply.svg";
+import write from "@/assets/icons/writing.png";
+import useCommentSubmit from "@/apis/comment/useCommentSubmit";
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
   const [endAnim, setEndAnim] = useState<boolean>(false);
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
-  const [isCardOpen, setCardOpen] = useState<boolean>(false);
+  const [openReply, setOpenReply] = useState<boolean>(false);
+  const [writeReply, setWriteReply] = useState<boolean>(false);
+  const [replyContent, setReplyContent] = useState<string>("");
 
   const dispatch = useDispatch();
 
-  const position: THREE.Vector3[] = [
-    new THREE.Vector3(25, 25, 0),
-    new THREE.Vector3(25, -25, 0),
-    new THREE.Vector3(-25, 25, 0),
-    new THREE.Vector3(25, 0, 25),
-    new THREE.Vector3(-25, 0, -25),
-    new THREE.Vector3(-25, 10, 0),
-    new THREE.Vector3(-10, 30, 0),
-    new THREE.Vector3(-10, 15, 10),
-    new THREE.Vector3(-15, 30, 20),
-  ];
-
+  // 별자리 유저 정보리스트
   const starFilterInfo = useSelector(
     (state: RootState) => state.starInfo.userInfoList,
   );
 
+  // 별자리 선 리스트
   const starFilterEdgeList = useSelector(
     (state: RootState) => state.starInfo.starEdgeList,
   );
 
+  // 카드 보기 / 닫기
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
+  // 검색 필터 열고 닫기
   const isFilterOpen = useSelector(
     (state: RootState) => state.starInfo.filterOpen,
   );
+
+  // 카드 코멘트 리스트 불러오기
+  const comment = useCommentListQuery(selectedUserInfo?.cardId);
+
+  const submitComment = useCommentSubmit();
+  // 엔터 클릭 변환
+  const handleSubmit = () => {
+    selectedUserInfo &&
+      submitComment.mutate({
+        cardId: selectedUserInfo.cardId,
+        content: replyContent,
+      });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReplyContent(e.target.value);
+  };
 
   useEffect(() => {
     dispatch(setPath("universe")); //현위치 지정
@@ -175,16 +153,22 @@ export default function Universe() {
         </Canvas>
         <Filter />
         <div
-          className="fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white"
+          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
           onClick={() => dispatch(setViewCard(false))}
         >
           <img src="/icons/star.svg" className="h-30 w-30" />
+          <div className="invisible absolute -right-130 top-5 flex h-30 w-120 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
+            별자리로 보기
+          </div>
         </div>
         <div
-          className="fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white"
+          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
           onClick={() => dispatch(setViewCard(true))}
         >
           <img src="/icons/card.svg" className="h-30 w-30" />
+          <div className="invisible absolute -right-110 top-5 flex h-30 w-100 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
+            카드로 보기
+          </div>
         </div>
 
         {selectedUserInfo && (
@@ -214,7 +198,7 @@ export default function Universe() {
                   setCardFront(!isCardFront);
                 }}
               >
-                <div className="absolute right-0 top-0 z-20 h-0 w-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div>
+                {/* <div className="absolute right-0 top-0 z-20 h-0 w-0 group-hover:rounded-bl-16 group-hover:border-b-60 group-hover:border-r-60 group-hover:border-b-white group-hover:border-r-transparent"></div> */}
                 <div className="absolute h-full w-full backface-hidden">
                   <CardFront
                     generation={selectedUserInfo.generation}
@@ -227,6 +211,44 @@ export default function Universe() {
                   <CardBack user={selectedUserInfo} />
                 </div>
               </div>
+              <img
+                src={bubbleChat}
+                className="absolute -right-50 -top-30 h-40 w-40 cursor-pointer"
+                onClick={() => setOpenReply(!openReply)}
+              />
+              {openReply && (
+                <div className="absolute -right-[320px] top-20 h-500 w-300 rounded-10 border-3 border-white bg-gradient-to-b from-[#0C1445] to-[#471E54] text-18 text-white ">
+                  {comment?.data.map((item: any, index: number) => (
+                    <div
+                      className="m-10 w-[calc(100%-20px)] rounded-10 border-3 border-white p-10"
+                      key={index}
+                    >
+                      <div className="h-30">{item.writer}</div>
+                      <div>{item.content}</div>
+                      {item.reply && (
+                        <div className="mt-5 flex gap-8">
+                          <img src={reply} className="h-20 w-20" />
+                          <div>{item.reply}</div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {writeReply && (
+                    <div>
+                      <textarea
+                        className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-black"
+                        onChange={handleChange}
+                      ></textarea>
+                      <button onClick={handleSubmit}>댓글달기</button>
+                    </div>
+                  )}
+                  <img
+                    src={write}
+                    className="absolute -right-5 -top-50 h-40 w-40 cursor-pointer"
+                    onClick={() => setWriteReply(!writeReply)}
+                  />
+                </div>
+              )}
             </div>
           </>
         )}
@@ -250,7 +272,6 @@ export default function Universe() {
                   setSelectedUserInfo(item);
                   setCardFront(true);
                   setEndAnim(false);
-                  setCardOpen(true);
                 }}
               >
                 <CardPreviewFront

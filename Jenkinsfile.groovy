@@ -15,10 +15,16 @@ pipeline {
         sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
         sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
         sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
       }
     }
+
+    stage('Remove Images') {
+      steps {
+        sh 'docker images springboot-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+        sh 'docker images react-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+      }
+    }
+
 
     stage('Build Springboot Image') {
       steps {

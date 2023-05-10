@@ -21,7 +21,8 @@ const useCardSubmit = () => {
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
-      navigate("/");
+      //입력에 성공하면 수정된 이름을 로컬의 user를 업데이트 해준다.
+      navigate("/universe");
     },
     onError: (e: any) => {
       if (e.response.status === 403) {

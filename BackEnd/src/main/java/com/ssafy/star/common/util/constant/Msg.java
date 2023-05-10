@@ -14,6 +14,8 @@ public interface Msg {
     final String SUCCESS_DELETE = "삭제에 성공했습니다.";
     final String SUCCESS_UPDATE = "수정에 성공했습니다.";
 
+    final String FAULURE_GET = "조회에 실패했습니다.";
+
     //ETC
     final String SUCCESS_LOGIN = "로그인에 성공했습니다.";
     final String FAULURE_LOGIN = "로그인에 실패했습니다.";
