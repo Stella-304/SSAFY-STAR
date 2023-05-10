@@ -63,8 +63,8 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image-master').run("--name springboot -p 8080:8080")
-          docker.image('react-image-master').run("-v ssafy-star-volume:/usr/share/nginx/html --name react -p 3000:3000")
+          docker.image('springboot-image').run("--name springboot -p 8080:8080")
+          docker.image('react-image').run("-v ssafy-star-volume:/usr/share/nginx/html --name react -p 3000:3000")
         }
       }
     }
