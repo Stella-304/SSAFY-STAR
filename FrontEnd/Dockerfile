@@ -13,8 +13,8 @@ COPY . .
 
 RUN npm run build
 
-
-
 FROM nginx
 
 COPY --from=build /app/build /usr/share/nginx/html
+
+docker images -a -f name=springboot-image -q
