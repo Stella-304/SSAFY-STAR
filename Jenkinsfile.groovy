@@ -37,11 +37,10 @@ pipeline {
       }
     }
 
-    dir('FrontEnd') {
       stage('Build React.JS Image') {
         steps {
           script {
-
+            sh "cd ${env.WORKSPACE}/FrontEnd
             sh 'npm install'
             sh 'CI=false npm run build'
 
@@ -52,8 +51,7 @@ pipeline {
           }
         }
       }
-    }
-
+    
     stage('Run Containers') {
       steps {
         script {
