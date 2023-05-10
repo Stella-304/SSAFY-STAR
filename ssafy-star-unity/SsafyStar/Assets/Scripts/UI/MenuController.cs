@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,7 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private Sprite unmuteSprite;
     private bool muted;
-    
+
     [Header("Setting Button")]
     private VisualElement btnWrapper;
     //[SerializeField]
@@ -31,6 +32,16 @@ public class MenuController : MonoBehaviour
     private Button btnMute;
     private VisualElement cardPlay;
     private VisualElement cardGuest;
+
+    [DllImport("__Internal")]
+    private static extern void GetNickName(int accessNumber);
+
+    public void SomeMethod()
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    GetNickName (100);
+#endif
+    }
 
 
     private void Awake()
@@ -61,14 +72,47 @@ public class MenuController : MonoBehaviour
 
     public void SetLogin(string result)
     {
-        isLogin = result=="true" ? true : false;
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    GetNickName (100);
+    Debug.Log("보냄");
+#endif
+
+        isLogin = result == "true" ? true : false;
         Debug.Log("login:" + isLogin);
+    }
+
+    public void GetLogin(int isLogin)
+    {
+        if (isLogin == 1)
+        {
+            Debug.Log("로그인 함");
+        }
+        else if (isLogin == 0)
+        {
+            Debug.Log("로그인 하지 않음");
+        }
+        else
+        {
+            Debug.Log("이상한 값이 들어왔어");
+        }
+    }
+
+    public void GetNickname(string nickname = "")
+    {
+        if (nickname == "")
+        {
+            Debug.Log("닉네임이 없음");
+        }
+        else
+        {
+            Debug.Log("닉네임:" + nickname);
+        }
     }
 
     private void BtnPlayOnClicked()
     {
         Debug.Log("play");
-        if(nickname == null) { Debug.Log("로그인하지 않음"); }
+        if (nickname == null) { Debug.Log("로그인하지 않음"); }
         //SceneManager.LoadScene("Lobby");
     }
 
@@ -82,7 +126,7 @@ public class MenuController : MonoBehaviour
     {
         muted = !muted;
         var bg = btnMute.style.backgroundImage;
-        bg.value = Background.FromSprite(muted?muteSprite:unmuteSprite);
+        bg.value = Background.FromSprite(muted ? muteSprite : unmuteSprite);
         btnMute.style.backgroundImage = bg;
 
         AudioListener.volume = muted ? 0 : 1;
