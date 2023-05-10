@@ -3,7 +3,9 @@
 # Unity generated #
  
 # =============== #
- 
+
+Logs/*
+
 Temp/
  
 Obj/
@@ -69,3 +71,5 @@ GraphicsSettings.asset
 ProjectSettings.asset
  
 ProjectVersion.txt
+
+.vs/
