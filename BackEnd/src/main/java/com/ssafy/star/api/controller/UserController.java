@@ -104,6 +104,17 @@ public class UserController {
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_EMAIL));
 	}
 
+	@GetMapping("/nickname/check-duplicate")
+	@PermitAll
+	@ApiOperation(value = "닉네임 중복 여부 확인")
+	public ResponseEntity<ResponseDto> checkDuplicateNickname(@RequestParam String nickname) {
+		if (userService.duplicateNickNameCheck(nickname)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(ResponseDto.of(HttpStatus.CONFLICT, Msg.DUPLICATED_NICKNAME));
+		}
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.VALID_NICKNAME));
+	}
+
 	@PostMapping("/email/send-verification")
 	@PermitAll
 	@ApiOperation(value = "인증메일 전송")

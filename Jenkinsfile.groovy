@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('Build Backend') {
       steps {
-        sh "echo build"
-        sh "cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build"
+        sh 'echo build'
+        sh 'cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build'
       }
     }
 
@@ -45,10 +45,9 @@ pipeline {
             sh 'npm install'
             sh 'CI=false npm run build'
 
-
-            # def frontendDir = "${env.WORKSPACE}/FrontEnd"
-            # def dockerfile = "${frontendDir}/Dockerfile"
-            # docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
+            // def frontendDir = "${env.WORKSPACE}/FrontEnd"
+            // def dockerfile = "${frontendDir}/Dockerfile"
+            // docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
           }
         }
       }
