@@ -80,6 +80,9 @@ export default function ImageInput({ id }: Props) {
     setDrag(false);
     e.preventDefault(); //중요
     let file = e.dataTransfer && e.dataTransfer.files[0];
+    if (!file) {
+      return;
+    }
     if (file.type.indexOf("image") === 0) {
       const reader = new FileReader();
       reader.onload = function () {

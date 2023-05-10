@@ -11,7 +11,6 @@ const fetcher = () =>
 
 const useAdminReport = (setReportList: (params: any) => void) => {
   return useQuery("/adminreportlist", fetcher, {
-    enabled: false,
     retry: 0,
     onSuccess: (data) => {
       //신고항목, 신고내용, 처리내용, 누가핸ㅆ는지
