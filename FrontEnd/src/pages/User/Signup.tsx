@@ -172,17 +172,14 @@ export default function Signup() {
   }
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div className="flex items-center h-full flex-col gap-24 text-white font-bold">
         <div>
-          <span className="block text-4xl font-bold">Register</span>
-          <span className="block text-sm">
-            SsafyStar를 사용하기 위해 회원가입 해 주세요
-          </span>
+          <span className="mt-80 mb-40 block text-5xl font-bold">회원가입</span>
         </div>
         {!openCheck && (
-          <div>
+          <div className="w-4/5">
             <div className="flex">
-              <div className="flex-grow">
+              <div className="w-full">
                 <Input
                   inputRef={emailRef}
                   id="email"
@@ -245,7 +242,16 @@ export default function Signup() {
                 <BigButton value="이전" onClick={() => setOpenCheck(false)} />
               )
             ) : (
-              <BigButton value="다음" onClick={sendEmail} />
+              <button
+              className="flex justify-center mt-48"
+              onClick={sendEmail}
+            >
+              <img
+                className="h-140"
+                src="./background/next.png"
+                alt="로그인"
+              />
+            </button>
             )}
           </div>
         </div>

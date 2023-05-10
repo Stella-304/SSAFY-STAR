@@ -80,7 +80,7 @@ export default function Login() {
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="mt-80 mb-40 block text-6xl font-bold text-white">로그인</span>
+          <span className="mt-80 mb-40 block text-5xl font-bold text-white">로그인</span>
         </div>
         <div className="w-4/5 block font-bold">
           <Input
