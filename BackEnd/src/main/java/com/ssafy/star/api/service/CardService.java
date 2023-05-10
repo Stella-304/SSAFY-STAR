@@ -16,8 +16,8 @@ public interface CardService {
 
 	List<String> searchCompany(String query);
 
-	ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
-	ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3);
+	// ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
+	// ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3);
     ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto);
 
 	void registCard(CardRegistReqDto cardRegistReqDto);

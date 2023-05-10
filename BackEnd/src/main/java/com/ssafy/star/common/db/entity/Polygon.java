@@ -35,7 +35,7 @@ public class Polygon {
 
 	public Polygon(int idx, Object positions) {
 		if (positions != null) {
-			System.out.println(positions);
+			// System.out.println(positions);
 			List<BigDecimal> positionArray = (List<BigDecimal>)positions;
 			// System.out.println(positions.getClass());
 			this.x = (positionArray.get(0)).doubleValue();

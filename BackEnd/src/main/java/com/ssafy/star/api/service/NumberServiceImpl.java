@@ -50,8 +50,6 @@ public class NumberServiceImpl implements NumberService {
             // 여기 DB 없는지 확인해봐야함..
             if (card != null)
                 cardList.add(user.getCard());
-            else
-                System.out.println("null!!!");
             // System.out.println(user.getCard());
         }
         // System.out.println(userList.size());
