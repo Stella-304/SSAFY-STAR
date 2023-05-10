@@ -20,6 +20,10 @@ import {
   majorList,
   trackList,
 } from "@/constants/categories";
+import swTierIcon from "@/assets/icons/swTier.png";
+import bojTierIcon from "@/assets/icons/boj.png";
+import generationIcon from "@/assets/icons/generation.png";
+import campusIcon from "@/assets/icons/map.png";
 
 export default function Filter() {
   const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
@@ -141,7 +145,29 @@ export default function Filter() {
             카드 보기
           </div>
         </div>
+
         <div className="mt-10 flex w-full flex-col gap-10 pl-18">
+          <div className="mt-10 flex">
+            <div className="ml-16 text-12 text-[#84919A]">그룹화</div>
+          </div>
+          <div className="mb-10 flex gap-15 pl-25">
+            <img
+              src={generationIcon}
+              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+            />
+            <img
+              src={campusIcon}
+              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+            />
+            <img
+              src={swTierIcon}
+              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+            />
+            <img
+              src={bojTierIcon}
+              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+            />
+          </div>
           <div className="flex">
             <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
           </div>
@@ -173,8 +199,9 @@ export default function Filter() {
                 key={index}
                 onClick={() => handleClick("generation", item)}
                 className={
-                  (filter.generation.includes(item) ? "text-blue-400" : "") +
-                  " w-60 text-center"
+                  (filter.generation.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "") + " w-60 text-center hover:text-blue-400"
                 }
               >
                 {item}기
@@ -209,7 +236,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("campus", item)}
-                className={filter.campus.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.campus.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -243,8 +274,9 @@ export default function Filter() {
                 key={index}
                 onClick={() => handleClick("ban", item)}
                 className={
-                  (filter.ban.includes(item) ? "text-blue-400" : "") +
-                  " w-60 text-center"
+                  (filter.ban.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "") + " w-60 text-center hover:text-blue-400"
                 }
               >
                 {item}반
@@ -287,7 +319,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("company", item)}
-                className={filter.company.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.company.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -320,7 +356,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("major", item)}
-                className={filter.major.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.major.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -353,7 +393,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("role", item)}
-                className={filter.ban.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.ban.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -386,7 +430,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("track", item)}
-                className={filter.track.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.track.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -419,7 +467,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("swTier", item)}
-                className={filter.swTier.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.swTier.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>
@@ -452,7 +504,11 @@ export default function Filter() {
               <div
                 key={index}
                 onClick={() => handleClick("bojTier", item)}
-                className={filter.track.includes(item) ? "text-blue-400" : ""}
+                className={
+                  filter.track.includes(item)
+                    ? "font-semibold text-blue-400"
+                    : "hover:text-blue-400"
+                }
               >
                 {item}
               </div>

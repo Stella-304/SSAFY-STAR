@@ -66,6 +66,28 @@ export default function useStarFilter(
               company: [...state.company, item],
             }));
         break;
+      case "major":
+        filter.major.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              major: filter.major.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              major: [...state.major, item],
+            }));
+        break;
+      case "role":
+        filter.role.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              role: filter.role.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              role: [...state.role, item],
+            }));
+        break;
       case "track":
         filter.track.includes(item)
           ? setFilter((state) => ({

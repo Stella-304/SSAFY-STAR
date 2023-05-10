@@ -41,3 +41,4 @@ export const bojTierList = [
   "Diamond",
   "Ruby",
 ];
+export const groupFlagList = ["CAMPUS", "GENERATION", "SWTIER", "BOJTIER"];
