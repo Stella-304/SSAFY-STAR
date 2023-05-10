@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 using System;
 
 public class MenuController : MonoBehaviour
@@ -15,19 +17,20 @@ public class MenuController : MonoBehaviour
     private Sprite unmuteSprite;
     private bool muted;
 
-    [Header("Setting Button")]
-    private VisualElement btnWrapper;
-    //[SerializeField]
-    //private VisualTreeAsset btnSettingTemplate;
-    //private VisualElement btnSettings;
-
     [Header("WebGL")]
-    private string nickname;
-    private bool isLogin;
+    private string _nickname;
+    private bool _isLogin;
+
+    [Header("NickNameUI")]
+    [SerializeField]
+    private GameObject panelNickname;
+    [SerializeField]
+    private TMP_Text textNickname;
+    [SerializeField]
+    private TMP_Text textResult;
 
     private UIDocument doc;
-    private Button btnPlay;
-    private Button btnMute;
+    private UnityEngine.UIElements.Button btnMute;
     private VisualElement cardPlay;
     private VisualElement cardGuest;
 
@@ -38,16 +41,29 @@ public class MenuController : MonoBehaviour
     {
         doc = GetComponent<UIDocument>();
 
-        btnPlay = doc.rootVisualElement.Q<Button>("ButtonPlay");
-        btnMute = doc.rootVisualElement.Q<Button>("ButtonMute");
+        btnMute = doc.rootVisualElement.Q<UnityEngine.UIElements.Button>("ButtonMute");
         cardPlay = doc.rootVisualElement.Q<VisualElement>("CardPlay");
         cardGuest = doc.rootVisualElement.Q<VisualElement>("CardGuest");
-
-        btnWrapper = doc.rootVisualElement.Q<VisualElement>("Buttons");
 
         cardPlay.AddManipulator(new Clickable(BtnPlayOnClicked));
         cardGuest.AddManipulator(new Clickable(BtnGuestOnClicked));
         btnMute.clicked += BtnMuteOnClicked;
+    }
+
+    //Unity에서 플레이 버튼을 눌렀을때 실행되는 함수
+    private void BtnPlayOnClicked()
+    {
+//webGL에서 react로 값을 보냄
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    GetUser(100);
+    Debug.Log("Unity -> React 보냄");
+#endif
+    }
+
+    //Unity에서 게스트로 플레이 버튼을 눌렀을때 실행되는 함수
+    private void BtnGuestOnClicked()
+    {
+        OpenNickNamePanel();
     }
 
     //React에서 로그인 정보를 보내주기 위해 실행하는 함수
@@ -56,10 +72,12 @@ public class MenuController : MonoBehaviour
         if (isLogin == 1)
         {
             Debug.Log("로그인 함");
+            _isLogin = true;
         }
         else if (isLogin == 0)
         {
             Debug.Log("로그인 하지 않음");
+            _isLogin = false;
         }
         else
         {
@@ -73,31 +91,34 @@ public class MenuController : MonoBehaviour
         if (nickname == "")
         {
             Debug.Log("닉네임이 없음");
+            OpenNickNamePanel();
         }
         else
         {
             Debug.Log("닉네임:" + nickname);
+            _nickname = nickname;
+            SceneManager.LoadScene("Lobby");
         }
     }
 
-    //Unity에서 플레이 버튼을 눌렀을때 실행되는 함수
-    private void BtnPlayOnClicked()
+    public void OpenNickNamePanel()
     {
-//webGL에서 react로 값을 보냄
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
-    GetUser(100);
-    Debug.Log("보냄");
-#endif
-        Debug.Log("play");
-        if (nickname == null) { Debug.Log("로그인하지 않음"); }
-        //SceneManager.LoadScene("Lobby");
+        panelNickname.SetActive(true);
     }
 
-    //Unity에서 게스트로 플레이 버튼을 눌렀을때 실행되는 함수
-    private void BtnGuestOnClicked()
+    public void SetNickName()
     {
-        Debug.Log("guest");
-        SceneManager.LoadScene("Lobby");
+        _nickname = textNickname.text;
+
+        if(_nickname.Length>10)
+        {
+            textResult.gameObject.SetActive(true);
+            textResult.text = "10글자 이내로 입력해주세요";
+        }
+        else
+        {
+            SceneManager.LoadScene("Lobby");
+        }
     }
 
     private void BtnMuteOnClicked()
