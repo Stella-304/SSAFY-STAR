@@ -129,7 +129,7 @@ export default function Filter() {
           <div
             className={
               (!viewCard && "bg-[#DDE2E4] font-bold") +
-              " h-32 w-112 text-center leading-32 "
+              " h-32 w-112 text-center leading-32 hover:opacity-70"
             }
             onClick={() => dispatch(setViewCard(false))}
           >
@@ -138,7 +138,7 @@ export default function Filter() {
           <div
             className={
               (viewCard && "bg-[#DDE2E4] font-bold") +
-              " h-32 w-112 text-center leading-32 "
+              " h-32 w-112 text-center leading-32 hover:opacity-70 "
             }
             onClick={() => dispatch(setViewCard(true))}
           >
