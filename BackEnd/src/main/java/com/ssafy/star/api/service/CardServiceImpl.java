@@ -270,12 +270,12 @@ public class CardServiceImpl implements CardService {
 			// 작은 섹션일때
 			if (allocatedSectionIdx > 0) {
 				allocatedSectionIdx -= 1;
-				shuffledPointList = Icosphere.list_32.get(allocatedSectionIdx);
+				shuffledPointList = new ArrayList<>(Icosphere.list_32.get(allocatedSectionIdx));
 				centerPoint = Icosphere.list_32_center.get(allocatedSectionIdx);
 			} else {
 				// 큰 섹션일때
 				allocatedSectionIdx *= -1;
-				shuffledPointList = Icosphere2.list_8.get(allocatedSectionIdx);
+				shuffledPointList = new ArrayList<>(Icosphere2.list_8.get(allocatedSectionIdx));
 				centerPoint = Icosphere.list_8_center.get(allocatedSectionIdx);
 			}
 
@@ -288,26 +288,33 @@ public class CardServiceImpl implements CardService {
 					.z(centerPoint.getY() * RADIUS)
 					.build());
 
-			Collections.sort(shuffledPointList);
-
+			Collections.shuffle(shuffledPointList);
 			for (int i = 0; i < curCardGroupCnt; i++) {
+
 				Point3D curPoint = shuffledPointList.get(i);
 				Card curCard = curCardGroupList.get(i);
-				// cardDetailDtoList.add(
-				// new CardDetailDto(curCard, curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
-				// 	curPoint.getY() * RADIUS,
-				// 	curCard.getUser().getId().longValue() == userId));
-			}
+				CardDetailDto dto = new CardDetailDto(curCard, curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
+					curPoint.getY() * RADIUS,
+					curCard.getUser().getId().longValue() == userId);
+				// System.out.println(dto);
+				cardDetailDtoList.add(dto);
 
-		}
-		for (int i = 0; i < 4; i++) {
-			for (Point3D curPoint : Icosphere2.list_8.get(i)) {
-				cardDetailDtoList.add(
-					new CardDetailDto(cardList.get(0), curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
-						curPoint.getY() * RADIUS,
-						false));
 			}
 		}
+
+		// int cnt = 0;
+		// for (int i = 0; i < 9; i++) {
+		// 	for (Point3D curPoint : Icosphere.list_32.get(i)) {
+		// 		if(random.nextBoolean())
+		// 			continue;
+		// 		cnt++;
+		// 		cardDetailDtoList.add(
+		// 			new CardDetailDto(cardList.get(0), curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
+		// 				curPoint.getY() * RADIUS,
+		// 				false));
+		// 	}
+		// }
+		// System.out.println(cnt);
 		// List<EdgeDto> edgeDtoList = setEdges(cardDetailDtoList);
 		return new ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
 

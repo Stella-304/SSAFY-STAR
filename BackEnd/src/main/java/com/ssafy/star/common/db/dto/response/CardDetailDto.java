@@ -4,10 +4,12 @@ import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.Coordinate;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 
 @Getter
+@ToString
 public class CardDetailDto {
 
 	long cardId;
