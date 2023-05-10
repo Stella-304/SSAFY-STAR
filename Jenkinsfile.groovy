@@ -37,13 +37,19 @@ pipeline {
       }
     }
 
-    stage('Build React.JS Image') {
-      steps {
-        script {
-          def frontendDir = "${env.WORKSPACE}/FrontEnd"
-          def dockerfile = "${frontendDir}/Dockerfile"
+    dir('FrontEnd') {
+      stage('Build React.JS Image') {
+        steps {
+          script {
 
-          docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
+            sh 'npm install'
+            sh 'CI=false npm run build'
+
+
+            # def frontendDir = "${env.WORKSPACE}/FrontEnd"
+            # def dockerfile = "${frontendDir}/Dockerfile"
+            # docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
+          }
         }
       }
     }
