@@ -5,7 +5,7 @@ import { COMMENT_LIST } from "@/constants/queryKeys";
 const fetcher = (cardCommentId: number) =>
   api
     .delete(COMMENT_URL, {
-      params: { cardCommentId },
+      params: { cardCommentId: cardCommentId },
       headers: { Authorization: sessionStorage.getItem("accessToken") },
     })
     .then(({ data }) => data);

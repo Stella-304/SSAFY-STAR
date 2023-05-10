@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import useStarFilterInfoQuery from "../../apis/star/useStarFilterInfoQuery";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilterTabOpen,
@@ -9,32 +8,63 @@ import {
 } from "../../stores/star/starInfo";
 import { RootState } from "../../stores/store";
 import useStarFilterInfo from "../../apis/star/useStarFilterInfo";
-import { StarFilterType } from "../../types/StarFilterType";
 import useStarFilter from "../../hooks/useStarFilter";
-
-const Generation: string[] = Array.from(Array(9), (_, i) => String(i + 1));
-const Region: string[] = ["서울", "대전", "구미", "광주", "부울경"];
-const Ban: string[] = Array.from(Array(16), (_, i) => String(i + 1));
-const BojTier: string[] = ["Platinum"];
-const Company: string[] = [];
-const Major: string[] = [];
-const SwTier: string[] = [];
-const Track: string[] = [];
-const GroupFlag: string = "";
+import useCompanySearch from "@/apis/company/useCompanySearch";
+import {
+  banList,
+  bojTierList,
+  campusList,
+  fieldList,
+  generationList,
+  gradeList,
+  majorList,
+  trackList,
+} from "@/constants/categories";
 
 export default function Filter() {
   const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
   const [openAnimation, setOpenAnimation] = useState<boolean>(false);
   const [type, setType] = useState<string>("");
   const [info, setInfo] = useState<string>("");
-
-  const { mutate, data } = useStarFilterInfo();
-
-  const { filter } = useStarFilter(type, info);
+  const [filterChange, setFilterChange] = useState<boolean>(false);
+  const [searchCompany, setSearchCompany] = useState<string>("");
+  const [searchCompanyList, setSearchCompanyList] = useState<string[]>();
 
   const dispatch = useDispatch();
 
+  // 필터에 따른 유저 정보 검색(리스트)
+  const { mutate, data } = useStarFilterInfo();
+
+  // 필터 선택 커스텀 훅
+  const { filter } = useStarFilter(type, info, filterChange);
+
+  // 카드보기
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
+
+  // 회사 필터 검색
+  const company = useCompanySearch(searchCompany, setSearchCompanyList);
+
+  // 회사 검색 핸들러
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchCompany(e.target.value);
+  };
+
+  // 필터 클릭 핸들러
+  const handleClick = (type: string, info: string) => {
+    setType(type);
+    setInfo(info);
+    setFilterChange(true);
+  };
+
+  useEffect(() => {
+    setFilterChange(false);
+  }, [filterChange]);
+
+  useEffect(() => {
+    if (searchCompany) {
+      company.refetch();
+    }
+  }, [searchCompany]);
 
   useEffect(() => {
     mutate({
@@ -49,6 +79,7 @@ export default function Filter() {
       track: filter.track,
       groupFlag: filter.groupFlag,
     });
+    console.log(filter);
   }, [filter]);
 
   useEffect(() => {
@@ -134,18 +165,16 @@ export default function Filter() {
           <div
             className={
               (tabOpen[0] ? "opacity-100" : "invisible h-0 opacity-0") +
-              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+              " flex w-full cursor-pointer flex-wrap gap-y-10 text-14 transition duration-500"
             }
           >
-            {Generation.map((item, index) => (
+            {generationList.map((item, index) => (
               <div
                 key={index}
-                onClick={() => {
-                  setType("generation");
-                  setInfo(item);
-                }}
+                onClick={() => handleClick("generation", item)}
                 className={
-                  filter.generation.includes(item) ? "text-blue-400" : ""
+                  (filter.generation.includes(item) ? "text-blue-400" : "") +
+                  " w-60 text-center"
                 }
               >
                 {item}기
@@ -176,13 +205,10 @@ export default function Filter() {
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
-            {Region.map((item: string, index: number) => (
+            {campusList.map((item, index) => (
               <div
                 key={index}
-                onClick={() => {
-                  setType("campus");
-                  setInfo(item);
-                }}
+                onClick={() => handleClick("campus", item)}
                 className={filter.campus.includes(item) ? "text-blue-400" : ""}
               >
                 {item}
@@ -209,17 +235,17 @@ export default function Filter() {
           <div
             className={
               (tabOpen[2] ? "opacity-100" : "invisible h-0 opacity-0") +
-              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+              " flex w-full cursor-pointer flex-wrap gap-y-10 text-14 transition duration-500"
             }
           >
-            {Ban.map((item, index) => (
+            {banList.map((item, index) => (
               <div
                 key={index}
-                onClick={() => {
-                  setType("ban");
-                  setInfo(item);
-                }}
-                className={filter.ban.includes(item) ? "text-blue-400" : ""}
+                onClick={() => handleClick("ban", item)}
+                className={
+                  (filter.ban.includes(item) ? "text-blue-400" : "") +
+                  " w-60 text-center"
+                }
               >
                 {item}반
               </div>
@@ -245,20 +271,23 @@ export default function Filter() {
             />
             <div className="ml-5 text-14 font-semibold">회사</div>
           </div>
+
           <div
             className={
               (tabOpen[3] ? "opacity-100" : "invisible h-0 opacity-0") +
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
-            {Company.map((item, index) => (
+            <input
+              className="h-30 w-200 border-1 border-black p-10"
+              placeholder="회사명을 검색하세요."
+              onChange={handleChange}
+            ></input>
+            {searchCompanyList?.map((item: any, index: number) => (
               <div
                 key={index}
-                onClick={() => {
-                  setType("company");
-                  setInfo(item);
-                }}
-                className={filter.ban.includes(item) ? "text-blue-400" : ""}
+                onClick={() => handleClick("company", item)}
+                className={filter.company.includes(item) ? "text-blue-400" : ""}
               >
                 {item}
               </div>
@@ -287,14 +316,143 @@ export default function Filter() {
               " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
             }
           >
-            {Major.map((item, index) => (
+            {majorList.map((item, index) => (
               <div
                 key={index}
-                onClick={() => {
-                  setType("major");
-                  setInfo(item);
-                }}
+                onClick={() => handleClick("major", item)}
+                className={filter.major.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[5] = !temp[5];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[5] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">FE/BE</div>
+          </div>
+          <div
+            className={
+              (tabOpen[5] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {fieldList.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick("role", item)}
                 className={filter.ban.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[6] = !temp[6];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[6] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">트랙</div>
+          </div>
+          <div
+            className={
+              (tabOpen[6] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {trackList.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick("track", item)}
+                className={filter.track.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[7] = !temp[7];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[7] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">역량테스트 등급</div>
+          </div>
+          <div
+            className={
+              (tabOpen[7] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {gradeList.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick("swTier", item)}
+                className={filter.swTier.includes(item) ? "text-blue-400" : ""}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => {
+              let temp = [...tabOpen];
+              temp[8] = !temp[8];
+              setTabOpen(temp);
+            }}
+          >
+            <img
+              src="icons/right-vector-gray.svg"
+              className={
+                (tabOpen[8] ? "rotate-90" : "") +
+                " h-12 w-12 transition duration-500"
+              }
+            />
+            <div className="ml-5 text-14 font-semibold">백준 티어</div>
+          </div>
+          <div
+            className={
+              (tabOpen[8] ? "opacity-100" : "invisible h-0 opacity-0") +
+              " flex w-full cursor-pointer flex-col gap-8 pl-25 text-14 transition duration-500"
+            }
+          >
+            {bojTierList.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick("bojTier", item)}
+                className={filter.track.includes(item) ? "text-blue-400" : ""}
               >
                 {item}
               </div>
@@ -302,7 +460,6 @@ export default function Filter() {
           </div>
         </div>
       </div>
-
       <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer bg-white hover:brightness-90">
         <img
           src="/icons/sidebar-opener.svg"

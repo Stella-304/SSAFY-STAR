@@ -72,7 +72,6 @@ export default function Universe() {
     }
   }, [clickOnce]);
 
-  console.log(selectedUserInfo);
   const controls = useCallback(
     (node: any) => {
       if (node) {

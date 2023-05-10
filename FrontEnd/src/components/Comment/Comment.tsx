@@ -63,7 +63,9 @@ export default function Comment({ selectedUserInfo }: Iprops) {
               <img
                 src={trash}
                 className="ml-3 h-25 w-25 cursor-pointer"
-                onClick={() => {}}
+                onClick={() => {
+                  deleteComment.mutate(item.id);
+                }}
               />
             )}
           </div>
