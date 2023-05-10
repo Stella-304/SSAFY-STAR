@@ -22,6 +22,9 @@ import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
+import com.ssafy.star.constellation.Icosphere;
+import com.ssafy.star.constellation.Icosphere2;
+import com.ssafy.star.constellation.Point3D;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -60,10 +63,17 @@ public class CardServiceImpl implements CardService {
 	private final int RADIUS = 100;
 	// Polygon Matrix의 행,열의 크기
 	private final int SIZE = 91;
-	private final int[] startYList = {30, 30, 30, 30, 40, 40, 40, 40, 50, 50, 50, 50, 60, 60, 60, 60};
-	private final int[] startXList = {30, 40, 50, 60, 30, 40, 50, 60, 30, 40, 50, 60, 30, 40, 50, 60};
+	// private final int[] startYList = {30, 30, 30, 30, 40, 40, 40, 40, 50, 50, 50, 50, 60, 60, 60, 60};
+	// private final int[] startXList = {30, 40, 50, 60, 30, 40, 50, 60, 30, 40, 50, 60, 30, 40, 50, 60};
 	private final int[] dy = {1, -1, 0, 0};
 	private final int[] dx = {0, 0, 1, -1};
+
+	// section의 크기
+	private final int SECTION_SIZE = 32;
+	// 최대로 들어갈수 있는 개수
+	private final int PER_SECTION_CNT = 465;
+	// 섹션 몇개가 모이면 큰 섹션이 되지?
+	private final int NEED_MAKE_LARGE_SECTION_CNT = 4;
 	private final Random random = new Random();
 
 	@Override
@@ -149,11 +159,11 @@ public class CardServiceImpl implements CardService {
 		return new ConstellationListDto(detailDtoList, edgeDtoList);
 	}
 
-	// 이게 찐 최종본이고, 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
+	// 찐 최종본. 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
-
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
+
 		GroupFlagEnum groupFlag;
 		try {
 			groupFlag = GroupFlagEnum.valueOf(searchConditionReqDto.getGroupFlag().toUpperCase());
@@ -162,148 +172,151 @@ public class CardServiceImpl implements CardService {
 		}
 
 		// 로그인한 유저의 아이디.
-		long userId = -1L;
-		try {
-			userId = authProvider.getUserIdFromPrincipal();
-		} catch (Exception e) {
-		}
+		long userId = authProvider.getUserIdFromPrincipalDefault();
 
-		// long userId = authProvider.getUserIdFromPrincipal();
-
-		// 반구의 반지름
-		List<Polygon> polygonList = polygonRepository.findAll();
+		// ConstellationDto를 만들기 위해 필요한 친구들.
 		List<CardDetailDto> cardDetailDtoList = new ArrayList<>();
+		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
 
-		// 1차원 polygionList를 2차원 polygonMatrix로 변경.
-		Polygon[][] polygonMatrix = new Polygon[SIZE][SIZE];
-		List<Integer> temp = new ArrayList<>();
-		List<CardDetailDto> test2 = new ArrayList<>();
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				if (polygonList.get(i * SIZE + j).getX() != null && polygonList.get(i * SIZE + j).getZ() >= 0.03) {
-					polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
-					temp.add(i * SIZE + j);
+		////////////////////////////////////////////////////////////////////////////
 
-					// test2.add(new CardDetailDto(cardList.get(0), polygonMatrix[i][j].getX()*RADIUS,
-					// 	polygonMatrix[i][j].getZ()*RADIUS, polygonMatrix[i][j].getY()*RADIUS, false));
+		Map<String, List<Card>> cardGroupMap = cardList.stream()
+			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
+		int totalGroupSize = cardGroupMap.keySet().size();
+
+		// 어떤 이유로든, 만들어진 그룹이 32개가 넘어가면 에러.
+		if (totalGroupSize > SECTION_SIZE)
+			throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
+
+		boolean[] visited = new boolean[SECTION_SIZE];
+
+		List<Integer> randomIdxList = IntStream.rangeClosed(0, SECTION_SIZE - 1)
+			.boxed()
+			.collect(Collectors.toList());
+		Collections.shuffle(randomIdxList);
+
+		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
+		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
+
+		for (String key : cardGroupMap.keySet()) {
+			List<Card> curGroupList = cardGroupMap.get(key);
+			int curGroupListCnt = curGroupList.size();
+
+			// 섹션을 최대 4개까지 묶었는데도, 그룹에 속한 별자리가 많으면 에러.
+			if (curGroupListCnt > PER_SECTION_CNT * 4)
+				throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
+
+			// 섹션의 2/3 이상이 채워진다면, 섹션 네개를 모아주자.
+			if (curGroupListCnt * 2 / 3 > PER_SECTION_CNT) {
+				// 연속 네개 모을수 있는 시작 인덱스.
+				List<Integer> canPutList = new ArrayList<>();
+				for (int i = 0; i < SECTION_SIZE / NEED_MAKE_LARGE_SECTION_CNT; i++) {
+					boolean isCanPut = true;
+					for (int j = 0; j < NEED_MAKE_LARGE_SECTION_CNT; j++) {
+						if (visited[i * NEED_MAKE_LARGE_SECTION_CNT + j]) {
+							isCanPut = false;
+							break;
+						}
+					}
+
+					// 네개 연속해서 놓을수 있으면, 시작 인덱스를 넣어주자
+					if (isCanPut)
+						canPutList.add(i * NEED_MAKE_LARGE_SECTION_CNT);
+
+				}
+
+				// 놓을수 있는 공간이 하나도 없으면 에러.
+				if (canPutList.isEmpty())
+					throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
+
+				// 섞고 나서 첫번째 인덱스 Get.
+				Collections.shuffle(canPutList);
+				int canPutStartIdx = canPutList.get(0);
+
+				// 일단 방문처리 하고 할당한 섹션의 정보들을 넣어주자
+				// List<Integer> allocatedLargeSection = new ArrayList<>();
+				for (int j = 0; j < NEED_MAKE_LARGE_SECTION_CNT; j++) {
+					visited[canPutStartIdx + j] = true;
+					// allocatedLargeSection.add(canPutStartIdx + j);
+				}
+				allocatedSectionsMap.put(key, -canPutStartIdx);
+
+			} else {
+				// 충분히 작아서 한 섹션에 들어가도 된다면.
+				while (true) {
+					// 하나 뽑고.
+					int peek = randomIdxList.remove(0);
+
+					// 방문 안한 원소를 뽑을때까지 무!한!반!복!
+					if (!visited[peek]) {
+						visited[peek] = true;
+						allocatedSectionsMap.put(key, peek);
+						break;
+					}
 				}
 			}
 		}
-		// if (true) {
-		// 	return new ConstellationListDto(test2, null);
-		// }
+		// {대전=6, 서울=8, 부울경=7, 구미=27, 광주=30}
+		// {Unrated=-16, Gold1=1}
+		// 여기까지 왔으면 위와 같은 데이터들이 allocatedSectionMap에 들어있다.
+		for (String key : allocatedSectionsMap.keySet()) {
+			List<Card> curCardGroupList = cardGroupMap.get(key);
+			int curCardGroupCnt = curCardGroupList.size();
+			int allocatedSectionIdx = allocatedSectionsMap.get(key);
 
-		Collections.shuffle(temp);
-		Map<String, List<Card>> cardGroupMap = cardList.stream()
-			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
-		List<Integer> startPointIdx = new ArrayList<>();
-		for (int i = 0; i < startYList.length; i++)
-			startPointIdx.add(i);
-		Collections.shuffle(startPointIdx);
+			List<Point3D> shuffledPointList = null;
+			Point3D centerPoint = null;
 
-		List<String> keyList = cardGroupMap.keySet().stream().collect(Collectors.toList());
-		int groupSize = keyList.size();
+			// 작은 섹션일때
+			if (allocatedSectionIdx > 0) {
+				allocatedSectionIdx -= 1;
+				shuffledPointList = new ArrayList<>(Icosphere.list_32.get(allocatedSectionIdx));
+				centerPoint = Icosphere.list_32_center.get(allocatedSectionIdx);
+			} else {
+				// 큰 섹션일때
+				allocatedSectionIdx *= -1;
+				shuffledPointList = new ArrayList<>(Icosphere2.list_8.get(allocatedSectionIdx));
+				centerPoint = Icosphere.list_8_center.get(allocatedSectionIdx);
+			}
 
-		boolean[][] visited = new boolean[SIZE][SIZE];
-
-		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
-		for (int i = 0; i < groupSize; i++) {
-			String key = keyList.remove(0);
-			int choice = startPointIdx.remove(0);
-			int startY = startYList[choice];
-			int startX = startXList[choice];
-			int convPos = startY * SIZE + startX;
-			Polygon polygon = polygonList.get(convPos);
-
-			// x,y,z에 표시할 그룹 이름
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
 					.groupName(key + groupFlag)
-					.x(polygon.getX() * RADIUS)
-					.y(polygon.getY() * RADIUS)
-					.z(polygon.getZ() * RADIUS)
+					.x(centerPoint.getX() * RADIUS)
+					.y(centerPoint.getZ() * RADIUS)
+					.z(centerPoint.getY() * RADIUS)
 					.build());
 
-			// x,y,z를 중심으로 그룹 내의 모든 카드를 배치
+			Collections.shuffle(shuffledPointList);
+			for (int i = 0; i < curCardGroupCnt; i++) {
 
-			List<Card> curGroupCardList = cardGroupMap.get(key);
-			int willChooseCardCnt = curGroupCardList.size();
-			Queue<int[]> queue = new ArrayDeque<>();
-			List<int[]> choosePosList = new ArrayList<>();
-			queue.add(new int[] {startY, startX});
-			visited[startY][startX] = true;
+				Point3D curPoint = shuffledPointList.get(i);
+				Card curCard = curCardGroupList.get(i);
+				CardDetailDto dto = new CardDetailDto(curCard, curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
+					curPoint.getY() * RADIUS,
+					curCard.getUser().getId().longValue() == userId);
+				// System.out.println(dto);
+				cardDetailDtoList.add(dto);
 
-			while (!queue.isEmpty() && choosePosList.size() < willChooseCardCnt) {
-				int[] cur = queue.poll();
-				choosePosList.add(cur);
-				int cy = cur[0];
-				int cx = cur[1];
-				for (int k = 0; k < 4; k++) {
-					int ny = cy + dy[k];
-					int nx = cx + dx[k];
-					if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE && polygonMatrix[ny][nx] != null
-						&& !visited[ny][nx]) {
-						queue.add(new int[] {ny, nx});
-						visited[ny][nx] = true;
-					}
-				}
 			}
-
-			// for (int[] a:choosePosList){
-			// 	System.out.println(Arrays.toString(a));
-			// }
-			System.out.println(choosePosList.size());
-			System.out.println(willChooseCardCnt);
-
-			for (int j = 0; j < willChooseCardCnt; j++) {
-				Card card = curGroupCardList.get(j);
-				int[] choocePos = choosePosList.get(j);
-				int idx = choocePos[0] * SIZE + choocePos[1];
-				polygon = polygonList.get(idx);
-				int y = idx / SIZE;
-				int x = idx % SIZE;
-
-				double myX = polygon.getX();
-				double myY = polygon.getY();
-				double myZ = polygon.getZ();
-				double minX = polygon.getX();
-				double minY = polygon.getY();
-				double minZ = polygon.getZ();
-				double maxX = polygon.getX();
-				double maxY = polygon.getY();
-				double maxZ = polygon.getZ();
-
-				for (int k = 0; k < 4; k++) {
-					int ny = y + dy[k];
-					int nx = x + dx[k];
-					if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE) {
-						Polygon tempPolygon = polygonList.get(ny * SIZE + nx);
-						if (tempPolygon.getX() == null)
-							continue;
-						minX = Math.min(minX, (tempPolygon.getX() + myX * 3) / 4);
-						minY = Math.min(minY, (tempPolygon.getY() + myY * 3) / 4);
-						minZ = Math.min(minZ, (tempPolygon.getZ() + myZ * 3) / 4);
-						maxX = Math.max(maxX, (tempPolygon.getX() + myX * 3) / 4);
-						maxY = Math.max(maxY, (tempPolygon.getY() + myY * 3) / 4);
-						maxZ = Math.max(maxZ, (tempPolygon.getZ() + myZ * 3) / 4);
-					}
-				}
-
-				double finalX = random.nextDouble() * (maxX - minX) + minX;
-				double finalY = random.nextDouble() * (maxY - minY) + minY;
-				double finalZ = random.nextDouble() * (maxZ - minZ) + minZ;
-				cardDetailDtoList.add(
-					new CardDetailDto(card, finalX * RADIUS, finalZ * RADIUS, finalY * RADIUS,
-						false));
-			}
-
 		}
 
-		// List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
-		return new
-
-			ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
+		// int cnt = 0;
+		// for (int i = 0; i < 9; i++) {
+		// 	for (Point3D curPoint : Icosphere.list_32.get(i)) {
+		// 		if(random.nextBoolean())
+		// 			continue;
+		// 		cnt++;
+		// 		cardDetailDtoList.add(
+		// 			new CardDetailDto(cardList.get(0), curPoint.getX() * RADIUS, curPoint.getZ() * RADIUS,
+		// 				curPoint.getY() * RADIUS,
+		// 				false));
+		// 	}
+		// }
+		// System.out.println(cnt);
+		// List<EdgeDto> edgeDtoList = setEdges(cardDetailDtoList);
+		return new ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
 
 	}
 
@@ -311,11 +324,6 @@ public class CardServiceImpl implements CardService {
 		List<EdgeDto> edgeList = new ArrayList<>();
 		edgeList = GeometryUtil.getEdgeList(detailDtoList);
 		return edgeList;
-	}
-
-	public List<CardDetailDto> setCoordinatesV2(List<Card> cardList, String groupFlag) {
-		System.out.println(groupFlag);
-		return null;
 	}
 
 	// starCloudFlag -> ENUM으로 바꿔야함.
@@ -432,7 +440,6 @@ public class CardServiceImpl implements CardService {
 		card.of(cardUpdateReqDto);
 	}
 
-
 	@Override
 	public CardDetailDto getMyCard() {
 		long userId = authProvider.getUserIdFromPrincipal();
@@ -446,5 +453,151 @@ public class CardServiceImpl implements CardService {
 		return cardDetailDto;
 	}
 
-
 }
+
+// // 찐 최종본. 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
+// @Override
+// public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
+//
+// 	List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
+// 	GroupFlagEnum groupFlag;
+// 	try {
+// 		groupFlag = GroupFlagEnum.valueOf(searchConditionReqDto.getGroupFlag().toUpperCase());
+// 	} catch (Exception e) {
+// 		throw new CommonApiException(CommonErrorCode.FAIL_TO_PARSE);
+// 	}
+//
+// 	// 로그인한 유저의 아이디.
+// 	long userId = -1L;
+// 	try {
+// 		userId = authProvider.getUserIdFromPrincipal();
+// 	} catch (Exception e) {
+// 	}
+//
+// 	// long userId = authProvider.getUserIdFromPrincipal();
+//
+// 	// 반구의 반지름
+// 	List<Polygon> polygonList = polygonRepository.findAll();
+// 	List<CardDetailDto> cardDetailDtoList = new ArrayList<>();
+//
+// 	// 1차원 polygionList를 2차원 polygonMatrix로 변경.
+// 	Polygon[][] polygonMatrix = new Polygon[SIZE][SIZE];
+// 	List<Integer> temp = new ArrayList<>();
+// 	for (int i = 0; i < SIZE; i++) {
+// 		for (int j = 0; j < SIZE; j++) {
+// 			if (polygonList.get(i * SIZE + j).getX() != null && polygonList.get(i * SIZE + j).getZ() >= 0.03) {
+// 				polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
+// 				temp.add(i * SIZE + j);
+// 			}
+// 		}
+// 	}
+//
+// 	Collections.shuffle(temp);
+// 	Map<String, List<Card>> cardGroupMap = cardList.stream()
+// 		.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
+// 	List<Integer> startPointIdx = new ArrayList<>();
+// 	for (int i = 0; i < startYList.length; i++)
+// 		startPointIdx.add(i);
+// 	Collections.shuffle(startPointIdx);
+//
+// 	List<String> keyList = cardGroupMap.keySet().stream().collect(Collectors.toList());
+// 	int groupSize = keyList.size();
+//
+// 	boolean[][] visited = new boolean[SIZE][SIZE];
+//
+// 	List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
+// 	for (int i = 0; i < groupSize; i++) {
+// 		String key = keyList.remove(0);
+// 		int choice = startPointIdx.remove(0);
+// 		int startY = startYList[choice];
+// 		int startX = startXList[choice];
+// 		int convPos = startY * SIZE + startX;
+// 		Polygon polygon = polygonList.get(convPos);
+//
+// 		// x,y,z에 표시할 그룹 이름
+// 		groupInfoDtoList.add(
+// 			GroupInfoDto
+// 				.builder()
+// 				.groupName(key + groupFlag)
+// 				.x(polygon.getX() * RADIUS)
+// 				.y(polygon.getY() * RADIUS)
+// 				.z(polygon.getZ() * RADIUS)
+// 				.build());
+//
+// 		// x,y,z를 중심으로 그룹 내의 모든 카드를 배치
+// 		List<Card> curGroupCardList = cardGroupMap.get(key);
+// 		int willChooseCardCnt = curGroupCardList.size();
+// 		Queue<int[]> queue = new ArrayDeque<>();
+// 		List<int[]> choosePosList = new ArrayList<>();
+// 		queue.add(new int[] {startY, startX});
+// 		visited[startY][startX] = true;
+//
+// 		while (!queue.isEmpty() && choosePosList.size() < willChooseCardCnt) {
+// 			int[] cur = queue.poll();
+// 			choosePosList.add(cur);
+// 			int cy = cur[0];
+// 			int cx = cur[1];
+// 			for (int k = 0; k < 4; k++) {
+// 				int ny = cy + dy[k];
+// 				int nx = cx + dx[k];
+// 				if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE && polygonMatrix[ny][nx] != null
+// 					&& !visited[ny][nx]) {
+// 					queue.add(new int[] {ny, nx});
+// 					visited[ny][nx] = true;
+// 				}
+// 			}
+// 		}
+//
+// 		// for (int[] a:choosePosList){
+// 		// 	System.out.println(Arrays.toString(a));
+// 		// }
+// 		System.out.println(choosePosList.size());
+// 		System.out.println(willChooseCardCnt);
+//
+// 		for (int j = 0; j < willChooseCardCnt; j++) {
+// 			Card card = curGroupCardList.get(j);
+// 			int[] choocePos = choosePosList.get(j);
+// 			int idx = choocePos[0] * SIZE + choocePos[1];
+// 			polygon = polygonList.get(idx);
+// 			int y = idx / SIZE;
+// 			int x = idx % SIZE;
+//
+// 			double myX = polygon.getX();
+// 			double myY = polygon.getY();
+// 			double myZ = polygon.getZ();
+// 			double minX = polygon.getX();
+// 			double minY = polygon.getY();
+// 			double minZ = polygon.getZ();
+// 			double maxX = polygon.getX();
+// 			double maxY = polygon.getY();
+// 			double maxZ = polygon.getZ();
+//
+// 			for (int k = 0; k < 4; k++) {
+// 				int ny = y + dy[k];
+// 				int nx = x + dx[k];
+// 				if (0 <= ny && ny < SIZE && 0 <= nx && nx < SIZE) {
+// 					Polygon tempPolygon = polygonList.get(ny * SIZE + nx);
+// 					if (tempPolygon.getX() == null)
+// 						continue;
+// 					minX = Math.min(minX, (tempPolygon.getX() + myX * 3) / 4);
+// 					minY = Math.min(minY, (tempPolygon.getY() + myY * 3) / 4);
+// 					minZ = Math.min(minZ, (tempPolygon.getZ() + myZ * 3) / 4);
+// 					maxX = Math.max(maxX, (tempPolygon.getX() + myX * 3) / 4);
+// 					maxY = Math.max(maxY, (tempPolygon.getY() + myY * 3) / 4);
+// 					maxZ = Math.max(maxZ, (tempPolygon.getZ() + myZ * 3) / 4);
+// 				}
+// 			}
+//
+// 			double finalX = random.nextDouble() * (maxX - minX) + minX;
+// 			double finalY = random.nextDouble() * (maxY - minY) + minY;
+// 			double finalZ = random.nextDouble() * (maxZ - minZ) + minZ;
+// 			cardDetailDtoList.add(
+// 				new CardDetailDto(card, finalX * RADIUS, finalZ * RADIUS, finalY * RADIUS,
+// 					false));
+// 		}
+// 	}
+//
+// 	// List<EdgeDto> edgeDtoList = setEdges(detailDtoList);
+// 	return new ConstellationListDto(cardDetailDtoList, null, groupInfoDtoList);
+//
+// }

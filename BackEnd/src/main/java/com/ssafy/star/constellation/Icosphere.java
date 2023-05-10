@@ -77,7 +77,7 @@ public class Icosphere {
 					stk.add(vertices.get(key));
 				}
 			}
-			System.out.println(stk.size());
+			// System.out.println(stk.size());
 			while(!stk.isEmpty()){
 				list_32.get(i).add(stk.pop());
 			}
