@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('Build Backend') {
       steps {
-        sh 'echo build'
-        sh 'cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build'
+        sh "echo build"
+        sh "cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build"
       }
     }
 
