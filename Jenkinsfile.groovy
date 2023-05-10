@@ -11,10 +11,10 @@ pipeline {
 
     stage('Remove Containers') {
       steps {
-        sh 'docker ps -f name=springboot-master -q | xargs --no-run-if-empty -r docker container stop'
-        sh 'docker ps -f name=react-master -q | xargs --no-run-if-empty -r docker container stop'
-        sh 'docker container ls -a -f name=springboot-master -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=react-master -q | xargs --no-run-if-empty -r docker container rm'
+        sh 'docker ps -f name=springboot -q | xargs --no-run-if-empty -r docker container stop'
+        sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
+        sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
+        sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
 
       }
     }
@@ -63,8 +63,8 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image-master').run("--name springboot -p 8080:8080")
-          docker.image('react-image-master').run("--name react -p 3000:80")
+          docker.image('springboot-image').run("--name springboot -p 8080:8080")
+          docker.image('react-image').run("--name react -p 3000:80")
         }
       }
     }
