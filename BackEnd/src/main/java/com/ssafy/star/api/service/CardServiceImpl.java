@@ -289,7 +289,6 @@ public class CardServiceImpl implements CardService {
 					.build());
 
 			Collections.sort(shuffledPointList);
-			;
 
 			for (int i = 0; i < curCardGroupCnt; i++) {
 				Point3D curPoint = shuffledPointList.get(i);
