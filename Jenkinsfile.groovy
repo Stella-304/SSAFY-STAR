@@ -46,9 +46,9 @@ pipeline {
             sh 'CI=false npm run build'
 
 
-            # def frontendDir = "${env.WORKSPACE}/FrontEnd"
-            # def dockerfile = "${frontendDir}/Dockerfile"
-            # docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
+            // def frontendDir = "${env.WORKSPACE}/FrontEnd"
+            // def dockerfile = "${frontendDir}/Dockerfile"
+            // docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
           }
         }
       }
