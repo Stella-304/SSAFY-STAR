@@ -21,8 +21,10 @@ public class PlayerMovement : NetworkBehaviour
     private bool run = false;
     private float chatDistance = 3f;
 
+    public bool goMuseum = false;
     public bool doRespawn = false;
     public Transform respawnPos;
+    public Transform museumPos;
     public Transform interpolationPos;
 
     [Header("Camera")]
@@ -65,6 +67,7 @@ public class PlayerMovement : NetworkBehaviour
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
 
             respawnPos = GameObject.Find("SpawnPos").transform;
+            museumPos = GameObject.Find("MuseumPos").transform;
         }
     }
 
@@ -170,8 +173,24 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = respawnPos.position;
             doRespawn = false;
         }
+
+        if (goMuseum)
+        {
+            transform.position = museumPos.position;
+            goMuseum = false;
+        }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("goMuseum"))
+        {
+            goMuseum = true;
+        }else if (other.gameObject.tag.Equals("goMuseum"))
+        {
+            doRespawn = true;
+        }
+    }
     private void ResetAnimation()
     {
         networkAnimator.Animator.SetBool("Walk", false);

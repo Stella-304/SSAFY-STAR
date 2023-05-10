@@ -72,4 +72,6 @@ ProjectVersion.txt
 
 .vs/
 
-/Logs/*
+./Logs/*
+Logs/
+*.log
