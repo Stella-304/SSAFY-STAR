@@ -1,5 +1,5 @@
 mergeInto(LibraryManager.library, {
-  GetNickName: function (accessNumber) {
-    window.dispatchReactUnityEvent("GetNickName", accessNumber);
+  GetUser: function (accessNumber) {
+    window.dispatchReactUnityEvent("GetUser", accessNumber);
   },
 });

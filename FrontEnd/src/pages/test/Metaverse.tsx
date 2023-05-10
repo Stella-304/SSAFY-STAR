@@ -23,25 +23,27 @@ export default function Metaverse() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [accessNumber, setAccessNumber] = useState(0);
-  const { nickname, email } = useSelector((state: RootState) => state.user);
+  // const { nickname, email } = useSelector((state: RootState) => state.user);
+  const nickname = "nickName_test";
+  const email = "email_test";
   const handleNickname = useCallback((accessNumber: number) => {
     setAccessNumber(accessNumber);
   }, []);
 
   useEffect(() => {
-    addEventListener("GetNickName", handleNickname);
+    addEventListener("GetUser", handleNickname);
     return () => {
-      removeEventListener("GetNickName", handleNickname);
+      removeEventListener("GetUser", handleNickname);
     };
   }, [addEventListener, removeEventListener, handleNickname]);
 
-  function handleSendLogin() {
-    sendMessage("GameController", "GetLogin", email ? 1 : 0);
-  }
+  // function handleSendLogin() {
+  //   sendMessage("GameController", "GetLogin", email ? 1 : 0);
+  // }
 
-  function handleSendNickName() {
-    sendMessage("GameController", "GetNickname", nickname);
-  }
+  // function handleSendNickName() {
+  //   sendMessage("GameController", "GetNickname", nickname);
+  // }
 
   useEffect(() => {
     dispatch(setPath("metaverse"));
@@ -60,11 +62,12 @@ export default function Metaverse() {
 
   useEffect(() => {
     if (accessNumber === 100) {
-      handleSendLogin();
+      sendMessage("GameController", "GetLogin", email ? 1 : 0);
+      sendMessage("GameController", "GetNickname", nickname);
     } else {
       console.log("이상한 값이야...");
     }
-  }, [accessNumber, handleSendLogin]);
+  }, [accessNumber, sendMessage]);
 
   const loadingPercentage = Math.round(loadingProgression * 100);
   const style: CSSProperties = {

@@ -27,22 +27,12 @@ public class MenuController : MonoBehaviour
 
     private UIDocument doc;
     private Button btnPlay;
-    //private Button btnExit;
-    //private Button btnSetting;
     private Button btnMute;
     private VisualElement cardPlay;
     private VisualElement cardGuest;
 
     [DllImport("__Internal")]
-    private static extern void GetNickName(int accessNumber);
-
-    public void SomeMethod()
-    {
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
-    GetNickName (100);
-#endif
-    }
-
+    private static extern void GetUser(int accessNumber);
 
     private void Awake()
     {
@@ -58,29 +48,9 @@ public class MenuController : MonoBehaviour
         cardPlay.AddManipulator(new Clickable(BtnPlayOnClicked));
         cardGuest.AddManipulator(new Clickable(BtnGuestOnClicked));
         btnMute.clicked += BtnMuteOnClicked;
-
-        //btnSettings = btnSettingTemplate.CloneTree();
-        //var btnBack = btnSettings.Q<Button>("ButtonBack");
-        //btnBack.clicked += BtnBackOnClickec;
     }
 
-    public void SetNickName(string nickname)
-    {
-        this.nickname = nickname.Trim();
-        Debug.Log("nickname:" + this.nickname);
-    }
-
-    public void SetLogin(string result)
-    {
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
-    GetNickName (100);
-    Debug.Log("보냄");
-#endif
-
-        isLogin = result == "true" ? true : false;
-        Debug.Log("login:" + isLogin);
-    }
-
+    //React에서 로그인 정보를 보내주기 위해 실행하는 함수
     public void GetLogin(int isLogin)
     {
         if (isLogin == 1)
@@ -97,6 +67,7 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    //React에서 닉네임 정보를 보내주기 위해 실행하는 함수
     public void GetNickname(string nickname = "")
     {
         if (nickname == "")
@@ -109,17 +80,24 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    //Unity에서 플레이 버튼을 눌렀을때 실행되는 함수
     private void BtnPlayOnClicked()
     {
+//webGL에서 react로 값을 보냄
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    GetUser(100);
+    Debug.Log("보냄");
+#endif
         Debug.Log("play");
         if (nickname == null) { Debug.Log("로그인하지 않음"); }
         //SceneManager.LoadScene("Lobby");
     }
 
+    //Unity에서 게스트로 플레이 버튼을 눌렀을때 실행되는 함수
     private void BtnGuestOnClicked()
     {
         Debug.Log("guest");
-        //SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene("Lobby");
     }
 
     private void BtnMuteOnClicked()
@@ -131,22 +109,4 @@ public class MenuController : MonoBehaviour
 
         AudioListener.volume = muted ? 0 : 1;
     }
-
-    //private void BtnSettingOnClicked()
-    //{
-    //    btnWrapper.Clear();
-    //    btnWrapper.Add(btnSettings);
-    //}
-
-    //private void BtnBackOnClickec()
-    //{
-    //    btnWrapper.Clear();
-
-    //    btnWrapper.Add(cardPlay);
-    //    btnWrapper.Add(cardOther);
-
-    //    //btnWrapper.Add(btnPlay);
-    //    //btnWrapper.Add(btnSetting);
-    //    //btnWrapper.Add(btnExit);
-    //}
 }
