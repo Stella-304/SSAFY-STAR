@@ -19,6 +19,25 @@ pipeline {
       }
     }
 
+    stage('Remove Images') {
+      steps {
+        sh 'docker images springboot-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+        sh 'docker images react-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+      }
+    }
+
+    stage('Remove Volume') {
+      steps {
+        sh 'docker volume ssafy-star-volume -q | xargs --no-run-if-empty -r docker volume rm'
+      }
+    }
+
+    stage('Create Volume') {
+      steps {
+        sh 'docker volume create --name ssafy-star-volume -d local --opt type=none --opt device=/usr/share/nginx/html --opt o=bind'
+      }
+    }
+
     stage('Build Springboot Image') {
       steps {
         script {
