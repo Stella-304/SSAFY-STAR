@@ -171,7 +171,11 @@ export default function ImageInput({ id }: Props) {
           />
         </div>
       </div>
-      {modalOpen ? <ModalLayout>test</ModalLayout> : <></>}
+      {modalOpen ? (
+        <ModalLayout onClose={() => setModalOpen(false)}>test</ModalLayout>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

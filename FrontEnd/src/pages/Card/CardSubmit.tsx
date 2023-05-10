@@ -211,7 +211,7 @@ export default function CardSubmit() {
       githubId: card.githubId,
       major: card.major,
       role: card.role,
-      swTier: card.swTier,
+      swTier: card.swTier === "미공개" ? "" : card.swTier,
       track: card.track,
     };
 
