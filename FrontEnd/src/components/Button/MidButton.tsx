@@ -30,7 +30,7 @@ export default function MidButton({ type, value, disable, onClick }: props) {
         </div>
       ) : (
         <div
-          className="h-32 w-172 cursor-pointer rounded-5 border-solid bg-blue-400 text-center leading-32 text-white"
+          className="border-3 rounded-16 text-24 w-160 cursor-pointer text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neob text-center"
           onClick={onClick}
         >
           {value}
