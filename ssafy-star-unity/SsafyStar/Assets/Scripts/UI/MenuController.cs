@@ -31,6 +31,10 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private TMP_Text textResult;
 
+    [Header("Warning")]
+    [SerializeField]
+    private GameObject panelWarning;
+
     private UIDocument doc;
     private UnityEngine.UIElements.Button btnMute;
     private VisualElement cardPlay;
@@ -66,6 +70,9 @@ public class MenuController : MonoBehaviour
     GetUser(100);
     Debug.Log("Unity -> React 보냄");
 #endif
+#if UNITY_EDITOR == true
+        panelWarning.SetActive(true);
+#endif
     }
 
     //Unity에서 게스트로 플레이 버튼을 눌렀을때 실행되는 함수
@@ -86,6 +93,7 @@ public class MenuController : MonoBehaviour
         else
         {
             Debug.Log("로그인 하지 않음");
+            panelWarning.SetActive(true);
             _token = "";
         }
     }
@@ -116,7 +124,12 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("CheckDuplicate");
         _nickname = textNickname.text;
-        if (_nickname.Length > 10)
+        if (_nickname == "")
+        {
+            textResult.gameObject.SetActive(true);
+            textResult.text = "닉네임을 입력해주세요";
+        }
+        else if (_nickname.Length > 10)
         {
             textResult.gameObject.SetActive(true);
             textResult.text = "10글자 이내로 입력해주세요";
@@ -134,10 +147,12 @@ public class MenuController : MonoBehaviour
     {
         if (message == "중복")
         {
+            textResult.gameObject.SetActive(true);
             textResult.text = "중복된 닉네임입니다.";
         }
         else if (message == "실패")
         {
+            textResult.gameObject.SetActive(true);
             textResult.text = "닉네임 등록에 실패했습니다.";
         }
     }
@@ -156,6 +171,16 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    private void SetText(string message)
+    {
+        if (!textResult.IsActive())
+        {
+            textResult.gameObject.SetActive(true);
+        }
+
+        textResult.text = message;
+    }
+
     private void BtnMuteOnClicked()
     {
         muted = !muted;
@@ -164,5 +189,10 @@ public class MenuController : MonoBehaviour
         btnMute.style.backgroundImage = bg;
 
         AudioListener.volume = muted ? 0 : 1;
+    }
+
+    public void CloseGameObject(GameObject go)
+    {
+        go.SetActive(false);
     }
 }
