@@ -46,8 +46,6 @@ pipeline {
 
           docker.build("springboot-image", "-f ${dockerfile} ${backendDir}")
         }
-
-        sh 'docker inspect --format='{{.GraphDriver.Data.UpperDir}}' react-image -q | xargs --no-run-if-empty -r'
       }
     }
 
