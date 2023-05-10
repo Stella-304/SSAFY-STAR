@@ -59,7 +59,7 @@ pipeline {
 
           docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
         }
-
+        sh 'sudo rm -rf /usr/host/share/nginx/html/*'
         sh 'cp -r $(docker inspect --format='{{.GraphDriver.Data.UpperDir}}/app' react-image)/* /usr/host/share/nginx/html'
       }
     }
