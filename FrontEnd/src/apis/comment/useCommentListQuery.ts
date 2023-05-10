@@ -1,11 +1,14 @@
 import { COMMENT_LIST } from "@/constants/queryKeys";
 import { COMMENT_URL } from "@/utils/urls";
-import axios from "axios";
+import { api } from "../api";
 import { useQuery } from "react-query";
 
 const fetcher = (cardId?: number) =>
-  axios
-    .get(COMMENT_URL, { params: { cardId: cardId } })
+  api
+    .get(COMMENT_URL, {
+      params: { cardId: cardId },
+      headers: { Authorization: sessionStorage.getItem("accessToken") },
+    })
     .then(({ data }) => data.value);
 
 const useCommentListQuery = (cardId?: number) => {
