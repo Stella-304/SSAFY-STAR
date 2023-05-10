@@ -8,11 +8,11 @@ interface props {
 
 export default function Select({ id, value, label, options, onChange }: props) {
   return (
-    <div className="flex flex-col">
-      <label htmlFor={id}>{label}</label>
+    <div className="flex flex-col text-white font-neo w-full">
+      <label htmlFor={id} className="relative h-8 right-0 text-white text-bold font-neo">{label}</label>
       <select
         id={id}
-        className="w-160 border-2"
+        className="border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2"
         onChange={(e) => onChange(e.target.value)}
         value={value}
       >

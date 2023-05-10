@@ -30,12 +30,18 @@ module.exports = {
         black: "#000000",
         white: "#ffffff",
         darkblue: "rgba(0, 21, 134, 0.54)",
-        darkblue2: "rgba(0, 18, 110, 0.6)",
+        darkblue2: "rgba(0, 18, 110, 0.4)",
         dblue: "rgba(0, 21, 134, 1)",
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
+        red2:"rgba(207,62,149,1)",
         comment:
           "linear-gradient(89.7deg, rgb(0, 0, 0) -10.7%, rgb(53, 92, 125) 88.8%)",
+      },
+      fontFamily:{
+        nemo:["nemo030"],
+        neo:["neo"],
+        neob:["neob"],
       },
       boxShadow: {
         neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",

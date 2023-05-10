@@ -14,6 +14,7 @@ interface props {
   querySelect?: (params: string) => void;
   queryValue?: string;
   placeholder?: string;
+  cardRegist?:boolean;
 }
 
 export default function Input({
@@ -29,7 +30,8 @@ export default function Input({
   queryResult,
   querySelect,
   queryValue,
-  placeholder
+  placeholder,
+  cardRegist
 }: props) {
   const [inputType, setInputType] = useState(type);
   const convert = () => {
@@ -40,12 +42,13 @@ export default function Input({
     }
   };
   return (
+    
     <div className="relative flex flex-col">
-      <label htmlFor={id}>
+      {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo">
         {label}
-        {warning && <span className="text-12 text-red-500"> *{warning}</span>}
-        {confirm && <span className="text-12 text-blue-500"> *{confirm}</span>}
-      </label>
+        {warning && <span className="text-12 text-red2 "> *{warning}</span>}
+        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+      </div>:<></>}
       {type === "textarea" ? (
         <textarea
           id={id}
@@ -57,7 +60,7 @@ export default function Input({
         <>
           <input
             ref={inputRef}
-            className="border-3 rounded-16 text-white border-white my-12 bg-black bg-opacity-70 px-16 py-16 shadow-neon2"
+            className="border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
             id={id}
             type={inputType}
             onChange={(e) => onChange(e.target.value)}
@@ -86,6 +89,12 @@ export default function Input({
           )}
         </>
       )}
+      {cardRegist?<></>:<div className="relative h-16 right-0 text-end text-bold font-neo">
+        {label}
+        {warning && <span className="text-12 text-red2"> *{warning}</span>}
+        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+      </div>}
+      
       {value !== "" &&
       querySelect !== undefined &&
       queryResult !== undefined ? (

@@ -80,7 +80,7 @@ export default function Login() {
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold text-white">로그인</span>
+          <span className="mt-80 mb-40 block text-5xl font-bold text-white font-neob">로그인</span>
         </div>
         <div className="w-4/5 block font-bold">
           <Input
@@ -95,7 +95,7 @@ export default function Login() {
             type="password"
             onChange={onPassword}
             value={password}
-            warning={passwordWarning}
+            // warning={passwordWarning}
             placeholder="비밀번호"
           />
         </div>
@@ -133,12 +133,12 @@ export default function Login() {
               />
             </button>
 
-          <div className="flex flex-col py-10 font-bold">
+          <div className="flex flex-col py-10 font-bold font-neob">
             <LinkButton onClick={() => navigate("/idpwfind")}>
               로그인이 안 되시나요?
             </LinkButton>
           </div>
-          <div className="mb-14 py-10 font-bold">
+          <div className="mb-14 py-10 font-bold font-neob">
             <LinkButton onClick={() => navigate("/signup")}>
               계정 생성하기
             </LinkButton>
