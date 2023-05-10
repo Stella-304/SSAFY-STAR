@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 
 interface props {
   id: string;
@@ -13,6 +13,9 @@ interface props {
   queryResult?: string[];
   querySelect?: (params: string) => void;
   queryValue?: string;
+  textareaHeight?: string;
+  inputHeight?: string;
+  inputWidth?: string;
 }
 
 export default function Input({
@@ -28,6 +31,9 @@ export default function Input({
   queryResult,
   querySelect,
   queryValue,
+  textareaHeight,
+  inputHeight,
+  inputWidth,
 }: props) {
   const [inputType, setInputType] = useState(type);
   const convert = () => {
@@ -37,8 +43,16 @@ export default function Input({
       setInputType("password");
     }
   };
+
+  const textAreaStyle: CSSProperties = {
+    height: textareaHeight,
+  };
+  const inputStyle: CSSProperties = {
+    height: inputHeight,
+    width: inputWidth,
+  };
   return (
-    <div className="relative flex flex-col">
+    <div className="relative flex flex-col" style={inputStyle}>
       <label htmlFor={id}>
         {label}
         {warning && <span className="text-12 text-red-500"> *{warning}</span>}
@@ -50,6 +64,7 @@ export default function Input({
           className="resize-none border-1 border-gray-500 text-gray-500"
           onChange={(e) => onChange(e.target.value)}
           value={value}
+          style={textAreaStyle}
         ></textarea>
       ) : (
         <>

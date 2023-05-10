@@ -15,16 +15,23 @@ const fetcher = (payload: BadgeSubmitType) =>
 /**
  * 뱃지 인증을 위해 관련 이미지를 전송한다.
  * @param type [SSAFY, COMPANY]
+ * @param setStatus 상태 적용 함수
+ * @param setImgsrc 이미지 적용 함수
  * @returns
  */
-const useUserBadgeSubmit = (type: string) => {
-  const statusQuery = useUserBadgeStatus(type);
+const useUserBadgeSubmit = (
+  type: string,
+  setStatus: (params: string) => void,
+  setImgsrc: (params: string) => void,
+) => {
+  const statusQuery = useUserBadgeStatus(type, setStatus, setImgsrc);
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
       //등록 완료
       //상태 업데이트
       statusQuery.refetch();
+      alert("이미지 등록 완료")
     },
     onError: () => {
       alert("이미지 등록 에러");

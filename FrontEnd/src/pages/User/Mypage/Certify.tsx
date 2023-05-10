@@ -34,9 +34,6 @@ export default function Certify() {
         </div>
         <div className="flex h-400 flex-col justify-around">
           <div>
-            <div>
-              <span className="text-1xl font-bold">인증</span>
-            </div>
             <div className="flex justify-center  gap-16">
               <ImageInput id={page} />
             </div>

@@ -13,14 +13,26 @@ const fetcher = (type: string) =>
  * 뱃지 상태를 확인한다.
  * 싸피, 회사 인증중인지 확인한다.
  * @param type SSAFY, COMPANY
+ * @param setStatus 상태 적용 함수
+ * @param setImgsrc 이미지 적용 함수
  * @returns NO_REQUEST,IN_PROGRESS,FINISH
  */
-const useUserBadgeStatus = (type: string) => {
+const useUserBadgeStatus = (
+  type: string,
+  setStatus: (params: any) => void,
+  setImgsrc: (params: string) => void,
+) => {
   return useQuery(["/userbadgestatus", type], () => fetcher(type), {
     enabled: false,
     retry: 0,
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: (data) => {
+      setStatus(data.value.badgeStatus);
+      setImgsrc(data.value.imageUrl);
+    },
+    onError: () => {
+      setStatus("");
+      setImgsrc("");
+    },
   });
 };
 

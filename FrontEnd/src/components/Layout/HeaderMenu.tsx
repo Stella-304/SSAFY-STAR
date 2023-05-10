@@ -5,11 +5,14 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
 import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
+import SmallButton from "../Button/SmallButton";
+import Report from "@/pages/Report";
 
 export default function FloatingMenu() {
   const { nickname, email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );
+  const [reportOpen, setReportOpen] = useState(false);
   const { path } = useSelector((state: RootState) => state.path);
   const navigate = useNavigate();
   const logoutMutate = useLogout();
@@ -95,9 +98,13 @@ export default function FloatingMenu() {
           )}
         </div>
       </div>
+      <button className="fixed bottom-56 right-16 h-40">
+        <SmallButton value="📢신고" onClick={() => setReportOpen(true)} />
+      </button>
       <button className="fixed bottom-16 right-16 h-40" onClick={addChannel}>
         <img className="h-40" src={kakaoPlusFriend} alt="카카오플러스친구" />
       </button>
+      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
     </>
   );
 }
