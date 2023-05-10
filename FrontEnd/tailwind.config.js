@@ -35,6 +35,7 @@ module.exports = {
         cardTop: "#F4DFA2",
         cardBottom: "#EFF6EE",
         red2:"rgba(207,62,149,1)",
+        darkgray:"rgba(80,80,80,1)",
         comment:
           "linear-gradient(89.7deg, rgb(0, 0, 0) -10.7%, rgb(53, 92, 125) 88.8%)",
       },

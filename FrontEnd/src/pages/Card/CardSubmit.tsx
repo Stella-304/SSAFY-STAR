@@ -27,6 +27,7 @@ import { setUser } from "../../stores/user/user";
 import { setPath } from "../../stores/page/path";
 import { USER_NONAME } from "../../constants/default";
 
+
 export default function CardSubmit() {
   const navigate = useNavigate();
   const { type } = useParams();
@@ -232,7 +233,7 @@ export default function CardSubmit() {
     <FormLayout>
       <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="mt-40 mb-20 block text-5xl font-bold">별 등록</span>
+          <span className="mt-80 mb-40 block text-5xl font-bold">별 등록</span>
         </div>
         <div className="mb-8 h-full w-4/5">
           <div className="">
@@ -279,7 +280,7 @@ export default function CardSubmit() {
               value={card.content}
               cardRegist={true}
             />
-            <hr />
+            <div className="mt-30 border-b-3 font-neob text-white text-24 text-center py-10">선택사항</div>
             <>
               <div className="flex flex-row gap-24">
                 <Select
@@ -334,7 +335,7 @@ export default function CardSubmit() {
                 warning={githubWarning}
                 cardRegist={true}
               />
-              <div className="flex">
+              <div className="flex flex-row gap-24">
                 <div className="flex-grow">
                   <Input
                     id="boj"
@@ -372,24 +373,25 @@ export default function CardSubmit() {
               />
             </>
           </div>
-        </div>
-        <div className="flex justify-center gap-16">
-          {active ? (
-            <MidButton
-              value={type === "modify" ? "별 수정" : "별 등록"}
-              onClick={submit}
-            ></MidButton>
-          ) : (
-            <MidButton
-              value={type === "modify" ? "별 수정" : "별 등록"}
-              disable={true}
-            ></MidButton>
-          )}
-          {type === "modify" ? (
-            <MidButton value="별 초기화" onClick={reset}></MidButton>
-          ) : (
-            <></>
-          )}
+          <div className="flex justify-center gap-16 mt-40 mb-80 pb-80">
+            {active ? (
+              <MidButton
+                value={type === "modify" ? "수정" : "등록"}
+                onClick={submit}
+                disable={false}
+              ></MidButton>
+            ) : (
+              <MidButton
+                value={type === "modify" ? "수정" : "등록"}
+                disable={true}
+              ></MidButton>
+            )}
+            {type === "modify" ? (
+              <MidButton value="초기화" onClick={reset}></MidButton>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
     </FormLayout>

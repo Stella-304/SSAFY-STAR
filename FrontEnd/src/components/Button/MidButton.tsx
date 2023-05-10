@@ -14,7 +14,7 @@ export default function MidButton({ type, value, disable, onClick }: props) {
     <>
       {disable ? (
         <div
-          className="h-32 w-172 cursor-pointer rounded-5 border-solid bg-gray-500 text-center leading-32 text-white"
+          className="border-3 rounded-16 w-160 text-24 text-darkgray border-darkgray mt-20 bg-black bg-opacity-70 px-16 py-16 font-neob text-center"
           onClick={() => {
             alert("필수값을 입력해주세요");
           }}
@@ -23,7 +23,7 @@ export default function MidButton({ type, value, disable, onClick }: props) {
         </div>
       ) : type === "outline" ? (
         <div
-          className="h-32 w-172	cursor-pointer rounded-5 border-2 border-solid border-blue-400 text-center leading-32 text-blue-400"
+          className="border-3 rounded-16 text-24 w-160 cursor-pointer text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neob text-center"
           onClick={onClick}
         >
           {value}

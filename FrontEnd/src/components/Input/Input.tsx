@@ -44,7 +44,7 @@ export default function Input({
   return (
     
     <div className="relative flex flex-col">
-      {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo">
+      {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo mt-20">
         {label}
         {warning && <span className="text-12 text-red2 "> *{warning}</span>}
         {confirm && <span className="text-12 text-white"> *{confirm}</span>}
@@ -52,7 +52,7 @@ export default function Input({
       {type === "textarea" ? (
         <textarea
           id={id}
-          className="resize-none border-1 border-gray-500 text-gray-500"
+          className="resize-none border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
           onChange={(e) => onChange(e.target.value)}
           value={value}
         ></textarea>
