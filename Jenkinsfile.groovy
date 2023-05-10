@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('Build Backend') {
       steps {
-        sh "echo build"
-        sh "cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build"
+        sh 'echo build'
+        sh 'cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build'
       }
     }
 
@@ -37,25 +37,24 @@ pipeline {
       }
     }
 
+    dir('FrontEnd') {
       stage('Build React.JS Image') {
         steps {
           script {
-            // sh "cd ${env.WORKSPACE}/FrontEnd"
-            // sh 'npm install'
-            // sh 'CI=false npm run build'
-
             def frontendDir = "${env.WORKSPACE}/FrontEnd"
             def dockerfile = "${frontendDir}/Dockerfile"
+
             docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
           }
         }
       }
-    
+    }
+
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image').run("-d --network ssafystar-network --name springboot -p 8080:8080")
-          docker.image('react-image').run("-d --network ssafystar-network --name react -p 3000:3000")
+          docker.image('springboot-image').run("-v ssafy-star-volume --name springboot -p 8080:8080")
+          docker.image('react-image').run("-v ssafy-star-volume --name react -p 80:80")
         }
       }
     }
