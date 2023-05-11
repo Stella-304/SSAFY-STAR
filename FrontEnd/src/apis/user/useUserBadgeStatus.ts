@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { BADGE_STATUS_URL } from "../../utils/urls";
 import { api } from "../api";
+import { isExpire } from "../error/isExpire";
 
 const fetcher = (type: string) =>
   api
@@ -29,9 +30,12 @@ const useUserBadgeStatus = (
       setStatus(data.value.badgeStatus);
       setImgsrc(data.value.imageUrl);
     },
-    onError: () => {
+    onError: (e: any) => {
       setStatus("");
       setImgsrc("");
+      if (!isExpire(e.response.status)) {
+        alert("잠시후에 시도해주세요");
+      }
     },
   });
 };

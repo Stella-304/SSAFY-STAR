@@ -3,6 +3,7 @@ import { BADGE_SUBMIT_URL } from "../../utils/urls";
 import { BadgeSubmitType } from "../../types/BadgeSubmit";
 import useUserBadgeStatus from "./useUserBadgeStatus";
 import { fileApi } from "../api";
+import { isExpire } from "../error/isExpire";
 
 //이미지 파일을 입력하기
 const fetcher = (payload: BadgeSubmitType) =>
@@ -31,10 +32,12 @@ const useUserBadgeSubmit = (
       //등록 완료
       //상태 업데이트
       statusQuery.refetch();
-      alert("이미지 등록 완료")
+      alert("이미지 등록 완료");
     },
-    onError: () => {
-      alert("이미지 등록 에러");
+    onError: (e: any) => {
+      if (!isExpire(e.response.status)) {
+        alert("이미지 등록 에러");
+      }
     },
   });
 };

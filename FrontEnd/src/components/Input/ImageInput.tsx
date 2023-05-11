@@ -5,6 +5,7 @@ import SmallButton from "../Button/SmallButton";
 import { dataURItoBlob } from "../../utils/util";
 import useUserBadgeStatus from "../../apis/user/useUserBadgeStatus";
 import ModalLayout from "../Layout/ModalLayout";
+import XSmallButton from "../Button/XSmallButton";
 
 interface Props {
   id: string;
@@ -15,6 +16,7 @@ export default function ImageInput({ id }: Props) {
   const [status, setStatus] = useState("");
   const [drag, setDrag] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [readyImg, setReadyImg] = useState(false);
   //query
   const submitMutate = useUserBadgeSubmit(id, setStatus, setImgsrc);
   const statusQuery = useUserBadgeStatus(id, setStatus, setImgsrc);
@@ -32,6 +34,7 @@ export default function ImageInput({ id }: Props) {
       formdata: formData,
     };
     submitMutate.mutate(payload);
+    setReadyImg(false);
   };
   //이미지 첨부 이벤트
   const readImage = (e: any) => {
@@ -40,6 +43,7 @@ export default function ImageInput({ id }: Props) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgsrc(reader.result);
+      setReadyImg(true);
     };
   };
 
@@ -51,6 +55,7 @@ export default function ImageInput({ id }: Props) {
       const reader = new FileReader();
       reader.onload = function () {
         setImgsrc(reader.result);
+        setReadyImg(true);
       };
 
       reader.readAsDataURL(blob);
@@ -87,6 +92,7 @@ export default function ImageInput({ id }: Props) {
       const reader = new FileReader();
       reader.onload = function () {
         setImgsrc(reader.result);
+        setReadyImg(true);
       };
 
       reader.readAsDataURL(file);
@@ -96,7 +102,7 @@ export default function ImageInput({ id }: Props) {
   const getStatus = () => {
     if (status === "IN_PROGRESS") {
       return "현재 인증이 진행중입니다.";
-    } else if (status === "FINISH") {
+    } else if (status === "FINISHED") {
       return "인증이 완료 되었습니다.";
     } else {
       return "인증을 진행해 주세요";
@@ -127,7 +133,7 @@ export default function ImageInput({ id }: Props) {
           </div>
           <div className="flex justify-between">
             <label htmlFor={id}>
-              <SmallButton value="첨부하기" />
+              <XSmallButton value="첨부하기" />
             </label>
             <div>
               <img
@@ -139,7 +145,7 @@ export default function ImageInput({ id }: Props) {
             </div>
           </div>
           <div
-            className="flex h-350 w-400 items-center justify-center bg-gray-200"
+            className="mb-16 mt-16 flex h-350 w-400 items-center justify-center rounded-8 bg-gray-200"
             onPaste={pastImage}
             onDragEnter={dragEnter}
             onDragLeave={dragLeave}
@@ -147,7 +153,7 @@ export default function ImageInput({ id }: Props) {
             onDrop={drop}
           >
             {drag ? (
-              <div className="flex h-full w-full items-center justify-center bg-blue-200">
+              <div className="flex h-full w-full items-center justify-center rounded-8 bg-blue-200">
                 <div className="flex h-5/6  w-5/6 items-center justify-center rounded-8 border-2 border-dashed border-black bg-red-300">
                   Drop해주세요
                 </div>
@@ -167,16 +173,16 @@ export default function ImageInput({ id }: Props) {
         </div>
         {/* 이미지 전송 */}
         <div className="flex justify-end">
-          <SmallButton
+          <XSmallButton
             value="제출하기"
             onClick={submit}
-            disable={status === "IN_PROGRESS"}
+            disable={status === "IN_PROGRESS" || readyImg === false}
           />
         </div>
       </div>
       {modalOpen ? (
         <ModalLayout onClose={() => setModalOpen(false)} modalWidth="600px">
-          <div className="flex h-full flex-col gap-32 overflow-auto p-16">
+          <div className="flex h-full flex-col gap-32 overflow-auto p-16 scrollbar-thin scrollbar-thumb-white">
             <div>
               <span className="text-3xl font-bold">인증을 하는방법 </span>
               <br />

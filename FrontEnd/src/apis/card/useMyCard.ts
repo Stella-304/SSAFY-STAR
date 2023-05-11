@@ -4,6 +4,7 @@ import { api } from "../api";
 import { setCard } from "../../stores/card/cardsubmit";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { isExpire } from "../error/isExpire";
 const fetcher = () =>
   api
     .get(CARD_MYCARD_URL, {
@@ -11,7 +12,7 @@ const fetcher = () =>
     })
     .then(({ data }) => data);
 
-const useMyCard = (setCompany:(params:string)=>void) => {
+const useMyCard = (setCompany: (params: string) => void) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return useQuery("/mycardinfo", fetcher, {
@@ -19,14 +20,17 @@ const useMyCard = (setCompany:(params:string)=>void) => {
     enabled: false,
     onSuccess: (data) => {
       setCompany(data.value.company);
+      console.log(data.value);
       dispatch(setCard(data.value));
     },
     onError: (e: any) => {
-      if (e.response.status === 403) {
-        alert(e.response.data.message);
-        navigate("/");
-      } else {
-        alert("잠시후 시도해 주세요.");
+      if (!isExpire(e.response.status)) {
+        if (e.response.status === 403) {
+          alert(e.response.data.message);
+          navigate("/");
+        } else {
+          alert("잠시후 시도해 주세요.");
+        }
       }
     },
   });

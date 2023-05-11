@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import { api } from "../api";
 import { REPORT_URL } from "../../utils/urls";
+import { isExpire } from "../error/isExpire";
 
 const fetcher = (payload: { article: string; content: string }) =>
   api
@@ -19,8 +20,10 @@ const useReport = () => {
     onSuccess: () => {
       alert("신고가 완료되었습니다.");
     },
-    onError: () => {
-      alert("로그인후 이용해 주세요");
+    onError: (e: any) => {
+      if (!isExpire(e.response.status)) {
+        alert("로그인후 이용해 주세요");
+      }
     },
   });
 };

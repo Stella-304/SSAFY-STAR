@@ -76,13 +76,15 @@ export default function Login() {
   return (
     <FormLayout>
       <div
-        className="flex items-center h-full flex-col gap-24"
+        className="flex h-full flex-col items-center gap-24"
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="mt-80 mb-40 block text-4xl font-bold text-white font-neob">로그인</span>
+          <span className="mb-20 mt-60 block font-neob text-4xl font-bold text-white">
+            로그인
+          </span>
         </div>
-        <div className="w-4/5 block font-bold">
+        <div className="block w-4/5 font-bold">
           <Input
             id="loginId"
             type="textfield"
@@ -99,8 +101,8 @@ export default function Login() {
             placeholder="비밀번호"
           />
         </div>
-        <div className="justify-center items-center flex flex-col">
-          <div className="flex flex-row gap-24 items-center">
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-row items-center gap-24">
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
@@ -122,23 +124,16 @@ export default function Login() {
               />
             </button>
           </div>
-          <button
-              className="flex justify-center mt-48"
-              onClick={submit}
-            >
-              <img
-                className="h-120"
-                src="./background/next.png"
-                alt="로그인"
-              />
-            </button>
+          <button className="mt-48 flex justify-center" onClick={submit}>
+            <img className="h-120" src="./background/next.png" alt="로그인" />
+          </button>
 
-          <div className="flex flex-col py-5 font-bold font-neob">
+          <div className="flex flex-col py-5 font-neob font-bold">
             <LinkButton onClick={() => navigate("/idpwfind")}>
               로그인이 안 되시나요?
             </LinkButton>
           </div>
-          <div className="mb-14 py-10 font-bold font-neob">
+          <div className="mb-14 py-10 font-neob font-bold">
             <LinkButton onClick={() => navigate("/signup")}>
               계정 생성하기
             </LinkButton>

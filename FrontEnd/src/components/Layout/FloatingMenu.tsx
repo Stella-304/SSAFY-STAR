@@ -5,6 +5,8 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import FloatButton from "../Button/FloatButton";
 import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
+import { SERVER_API } from "@/utils/urls";
+import Report from "@/pages/Report";
 
 export default function FloatingMenu() {
   const { email, cardRegistered } = useSelector(
@@ -12,6 +14,8 @@ export default function FloatingMenu() {
   );
   const { path } = useSelector((state: RootState) => state.path);
   const [open, setOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+
   const navigate = useNavigate();
   const logoutMutate = useLogout();
   const logout = () => {
@@ -48,6 +52,11 @@ export default function FloatingMenu() {
                 value="마이페이지"
                 path={path === "mypage"}
               />
+              <FloatButton
+                onClick={() => navigate("/certify")}
+                value="인증하기"
+                path={path === "certify"}
+              />
               {cardRegistered ? (
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/modify")}
@@ -82,19 +91,16 @@ export default function FloatingMenu() {
             path={path === "universe"}
           />
           <FloatButton
-            onClick={() =>
-              window.open(`${process.env.REACT_APP_API}/metaverse`)
-            }
+            onClick={() => window.open(`${SERVER_API}/metaverse`)}
             value="메타버스"
             path={path === "metaverse"}
           />
-          <button className="h-40" onClick={addChannel}>
-            <img
-              className="h-40"
-              src={kakaoPlusFriend}
-              alt="카카오플러스친구"
-            />
-          </button>
+          <FloatButton
+            path={false}
+            value="📢신고"
+            onClick={() => setReportOpen(true)}
+          />
+          <FloatButton path={false} value="카카오+" onClick={addChannel} />
         </div>
       ) : (
         <></>
@@ -106,6 +112,7 @@ export default function FloatingMenu() {
       >
         메뉴
       </div>
+      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
     </>
   );
 }
