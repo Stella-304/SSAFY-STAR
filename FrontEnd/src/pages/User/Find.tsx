@@ -51,7 +51,7 @@ export default function Find() {
     <FormLayout>
       <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold text-white font-neob">비밀번호 찾기</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold text-white font-neob">비밀번호 찾기</span>
         </div>
         <div className="flex h-full flex-col w-4/5">
           <div>

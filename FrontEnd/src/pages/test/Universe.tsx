@@ -153,19 +153,19 @@ export default function Universe() {
         </Canvas>
         <Filter />
         <div
-          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
+          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center hover:brightness-90"
           onClick={() => dispatch(setViewCard(false))}
         >
-          <img src="/icons/star.svg" className="h-30 w-30" />
+          <img src="/icons/star3.png" className="h-40 w-40" />
           <div className="invisible absolute -right-130 top-5 flex h-30 w-120 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
             별자리로 보기
           </div>
         </div>
         <div
-          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
+          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 hover:brightness-90"
           onClick={() => dispatch(setViewCard(true))}
         >
-          <img src="/icons/card.svg" className="h-30 w-30" />
+          <img src="/icons/card3.png" className="h-40 w-40" />
           <div className="invisible absolute -right-110 top-5 flex h-30 w-100 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
             카드로 보기
           </div>

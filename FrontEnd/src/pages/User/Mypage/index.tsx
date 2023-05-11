@@ -15,7 +15,7 @@ export default function Mypage() {
     <FormLayout>
       <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold font-neob text-center">마이페이지</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold font-neob text-center">마이페이지</span>
         </div>
         <InfoModi />
       </div>

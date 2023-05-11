@@ -233,7 +233,7 @@ export default function CardSubmit() {
     <FormLayout>
       <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold">별 등록</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold">별 등록</span>
         </div>
         <div className="mb-8 h-full w-4/5">
           <div>

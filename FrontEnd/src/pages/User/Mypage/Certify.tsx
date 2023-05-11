@@ -19,7 +19,7 @@ export default function Certify() {
       <div className="flex h-full flex-col justify-around text-white font-neob">
         <div>
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold text-center">Certify</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold text-center">Certify</span>
         </div>
           <div className="mt-16 flex justify-around gap-16">
             <MidButton

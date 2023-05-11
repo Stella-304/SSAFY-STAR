@@ -174,7 +174,7 @@ export default function Signup() {
     <FormLayout>
       <div className="flex items-center h-full flex-col gap-24 text-white font-bold">
         <div>
-          <span className="mt-80 mb-40 block text-5xl font-bold font-neob">회원가입</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold font-neob">회원가입</span>
         </div>
         {!openCheck && (
           <div className="w-4/5">
