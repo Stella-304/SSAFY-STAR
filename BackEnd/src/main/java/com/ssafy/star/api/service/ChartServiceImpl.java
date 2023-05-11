@@ -61,7 +61,7 @@ public class ChartServiceImpl implements ChartService {
         List<Object[]> chart = new ArrayList<>();
 
         int totalSize = map.values().stream().mapToInt(List::size).sum();
-        map.forEach((k, v) -> chart.add(new Object[]{k, v.size(), Math.round(((v.size()/(totalSize/100.0)) * 100)) /100.0}));
+        map.forEach((k, v) -> chart.add(new Object[]{k, v.size(), Math.round(((v.size()/(totalSize/100.0)) * 10)) /10.0}));
 
         return new ChartDto(chart);
     }

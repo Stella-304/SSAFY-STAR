@@ -48,7 +48,10 @@ public enum CommonErrorCode implements ErrorCode {
 	FAIL_TO_PARSE(HttpStatus.BAD_REQUEST, "파싱에 실패했습니다."),
 
 	//별자리
-	FAIL_TO_MAKE_CONSTELLATION(HttpStatus.BAD_REQUEST, "주어진 그룹 조건으로는, 별자리를 만들수 없습니다.");
+	FAIL_TO_MAKE_CONSTELLATION(HttpStatus.BAD_REQUEST, "주어진 그룹 조건으로는, 별자리를 만들수 없습니다."),
+
+	// 토큰
+	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;

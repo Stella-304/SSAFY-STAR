@@ -2,6 +2,7 @@ package com.ssafy.star.common.handler;
 
 import com.ssafy.star.common.auth.exception.CustomAuthException;
 import com.ssafy.star.common.auth.exception.CustomOAuth2Exception;
+import com.ssafy.star.common.auth.exception.TokenExpireException;
 import com.ssafy.star.common.exception.CommonApiException;
 import com.ssafy.star.common.exception.CommonParseException;
 import com.ssafy.star.common.util.constant.ErrorCode;
@@ -31,6 +32,11 @@ public class GlobalExceptionHandler extends ResponseStatusExceptionHandler {
 
     @ExceptionHandler(CustomOAuth2Exception.class)
     public ResponseEntity<Object> handleCustomOAuth2Exception(CustomOAuth2Exception e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(TokenExpireException.class)
+    public ResponseEntity<Object> handlerTokenExpireException(TokenExpireException e){
         return handleExceptionInternal(e.getErrorCode());
     }
 
