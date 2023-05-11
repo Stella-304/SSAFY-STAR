@@ -12,7 +12,10 @@ public class FaceCamera : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-        textNickname.text = PlayerPrefs.GetString("Nickname","Guest");
+        if (gameObject.transform.root.tag != "NPC")
+        {
+            textNickname.text = PlayerPrefs.GetString("Nickname", "Guest");
+        }
     }
 
     void Update()
