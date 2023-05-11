@@ -56,7 +56,7 @@ export default function Input({
     width: inputWidth,
   };
   return (
-    <div className="relative flex flex-col">
+    <div className="relative flex flex-col" style={inputStyle}>
       {cardRegist ? (
         <div className="text-bold relative right-0 mt-20 h-8 font-neo text-white">
           {label}

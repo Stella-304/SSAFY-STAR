@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setPath } from "../../../stores/page/path";
 import ImageInput from "../../../components/Input/ImageInput";
 import MidButton from "@/components/Button/MidButton";
+import XSmallButton from "@/components/Button/XSmallButton";
 
 export default function Certify() {
   const [page, setPage] = useState("SSAFY");
@@ -16,27 +17,29 @@ export default function Certify() {
   }, []);
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around text-white font-neob">
+      <div className="flex flex-col justify-around gap-16 font-neob text-white">
         <div>
-        <div>
-          <span className="mt-80 mb-40 block text-4xl font-bold text-center">Certify</span>
-        </div>
-          <div className="mt-16 flex justify-around gap-16">
-            <MidButton
+          <div>
+            <span className="mb-10 mt-40 block text-center text-4xl font-bold">
+              {page} Certify
+            </span>
+          </div>
+          <div className="flex justify-around gap-16">
+            <XSmallButton
               value="싸피인증"
               onClick={() => setPage("SSAFY")}
               disable={page === "SSAFY"}
             />
-            <MidButton
+            <XSmallButton
               value="회사인증"
               onClick={() => setPage("COMPANY")}
               disable={page === "COMPANY"}
             />
           </div>
         </div>
-        <div className="flex h-400 flex-col justify-around">
+        <div className="flex flex-col justify-around">
           <div>
-            <div className="flex justify-center  gap-16">
+            <div className="flex justify-center">
               <ImageInput id={page} />
             </div>
           </div>

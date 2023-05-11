@@ -24,6 +24,9 @@ export default function Report(props: props) {
     <ModalLayout onClose={() => props.onClose(false)}>
       <div className="flex h-full flex-col gap-8 p-4">
         <div>
+          <span className="text-2xl font-bold text-white">신고하기</span>
+        </div>
+        <div>
           <Select
             id="category"
             label="신고항목"
@@ -39,6 +42,7 @@ export default function Report(props: props) {
             onChange={setReportContent}
             textareaHeight="100%"
             inputHeight="100%"
+            cardRegist={true}
           />
         </div>
         <div className="flex justify-center">

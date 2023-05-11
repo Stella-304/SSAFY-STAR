@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import FloatButton from "../Button/FloatButton";
 import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
 import { SERVER_API } from "@/utils/urls";
+import Report from "@/pages/Report";
 
 export default function FloatingMenu() {
   const { email, cardRegistered } = useSelector(
@@ -13,6 +14,8 @@ export default function FloatingMenu() {
   );
   const { path } = useSelector((state: RootState) => state.path);
   const [open, setOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+
   const navigate = useNavigate();
   const logoutMutate = useLogout();
   const logout = () => {
@@ -87,6 +90,11 @@ export default function FloatingMenu() {
             value="메타버스"
             path={path === "metaverse"}
           />
+          <FloatButton
+            path={false}
+            value="📢신고"
+            onClick={() => setReportOpen(true)}
+          />
           <button className="h-40" onClick={addChannel}>
             <img
               className="h-40"
@@ -105,6 +113,7 @@ export default function FloatingMenu() {
       >
         메뉴
       </div>
+      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
     </>
   );
 }
