@@ -5,6 +5,7 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import FloatButton from "../Button/FloatButton";
 import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
+import { SERVER_API } from "@/utils/urls";
 
 export default function FloatingMenu() {
   const { email, cardRegistered } = useSelector(
@@ -82,9 +83,7 @@ export default function FloatingMenu() {
             path={path === "universe"}
           />
           <FloatButton
-            onClick={() =>
-              window.open(`${process.env.REACT_APP_API}/metaverse`)
-            }
+            onClick={() => window.open(`${SERVER_API}/metaverse`)}
             value="메타버스"
             path={path === "metaverse"}
           />

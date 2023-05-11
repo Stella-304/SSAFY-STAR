@@ -121,7 +121,7 @@ export default function Input({
       querySelect !== undefined &&
       queryResult !== undefined ? (
         queryResult?.length !== 0 ? (
-          <div className="absolute top-50 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white">
+          <div className="absolute top-110 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white text-black">
             {queryResult?.map((ele) => (
               <div
                 key={ele}
@@ -133,7 +133,7 @@ export default function Input({
             ))}
           </div>
         ) : queryValue !== value ? (
-          <div className="absolute top-50 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white">
+          <div className="absolute top-110 z-10 flex h-200 w-full flex-col overflow-auto border-1 bg-white text-black">
             <div>검색된 결과가 없습니다.</div>
           </div>
         ) : (
