@@ -12,12 +12,12 @@ export default function SmallButton({ value, disable, onClick }: props) {
   return (
     <>
       {disable ? (
-        <div className="h-24 w-80 cursor-pointer rounded-5 border-solid bg-blue-950 text-center leading-24 text-white">
+        <div className="border-3 rounded-16 w-80 text-darkgray border-darkgray mt-20 bg-black bg-opacity-70 px-16 py-16 text-bold font-neob text-center">
           {value}
         </div>
       ) : (
         <div
-          className="h-24 w-80 cursor-pointer rounded-5 border-solid bg-blue-400 text-center leading-24 text-white"
+          className="border-3 cursor-pointer rounded-16 w-80 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 text-bold font-neob text-center"
           onClick={onClick}
         >
           {value}

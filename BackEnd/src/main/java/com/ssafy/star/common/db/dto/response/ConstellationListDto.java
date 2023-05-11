@@ -9,6 +9,7 @@ public class ConstellationListDto {
 	List<CardDetailDto> cardList;
 	List<EdgeDto> edgeList;
 	List<GroupInfoDto> groupInfoDtoList;
+	String filterName;
 
 	public ConstellationListDto(List<CardDetailDto> cardList, List<EdgeDto> edgeList) {
 		this.cardList = cardList;
@@ -20,4 +21,11 @@ public class ConstellationListDto {
 		this(cardList, edgeList);
 		this.groupInfoDtoList = groupInfoDtoList;
 	}
+
+	public ConstellationListDto(List<CardDetailDto> cardList, List<EdgeDto> edgeList,
+		List<GroupInfoDto> groupInfoDtoLis, String filterName) {
+		this(cardList, edgeList, groupInfoDtoLis);
+		this.filterName = filterName;
+	}
+
 }

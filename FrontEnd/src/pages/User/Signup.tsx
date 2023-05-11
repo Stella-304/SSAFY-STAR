@@ -172,26 +172,23 @@ export default function Signup() {
   }
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div className="flex items-center h-full flex-col gap-24 text-white font-bold">
         <div>
-          <span className="block text-4xl font-bold">Register</span>
-          <span className="block text-sm">
-            SsafyStar를 사용하기 위해 회원가입 해 주세요
-          </span>
+          <span className="mt-80 mb-40 block text-4xl font-bold font-neob">회원가입</span>
         </div>
         {!openCheck && (
-          <div>
+          <div className="w-4/5">
             <div className="flex">
-              <div className="flex-grow">
+              <div className="w-full">
                 <Input
                   inputRef={emailRef}
                   id="email"
                   type="input"
-                  label="이메일"
                   onChange={onEmail}
                   value={user?.email}
                   warning={emailWarning}
                   disable={emailCheck}
+                  placeholder="이메일"
                 />
               </div>
             </div>
@@ -200,39 +197,48 @@ export default function Signup() {
               inputRef={passwordRef}
               id="password1"
               type="password"
-              label="비밀번호"
               onChange={onPassword}
               value={user?.password}
               warning={passwordWarning}
+              placeholder="비밀번호"
             />
             <Input
               inputRef={password2Ref}
               id="password2"
               type="password"
-              label="비밀번호 확인"
               onChange={onPassword2}
               value={user?.password2}
               warning={password2Warning}
+              placeholder="비밀번호 확인"
             />
           </div>
         )}
         {openCheck && (
-          <div>
-            <div className="flex">
-              <div className="flex-grow">
+          <div className="w-4/5">
+            <div className="flex flex-col w-full">
+              <div className="w-full">
                 <Input
                   id="email_check"
                   type="input"
-                  label="인증코드 입력"
                   onChange={(code) => setEmailCheckCode(code)}
                   warning={codeWarning}
                   confirm={codeConfirm}
                   disable={emailCheck}
+                  placeholder="인증코드"
                 />
               </div>
-              <div className="flex items-end">
-                <SmallButton value="인증" onClick={checkEmail}></SmallButton>
-              </div>
+              {emailCheck?<></>: <button
+              className="flex justify-center mt-48"
+              onClick={checkEmail}
+            >
+              <img
+                className="h-120"
+                src="./background/next.png"
+                alt="인증"
+              />
+            </button>}
+             
+
             </div>
           </div>
         )}
@@ -240,12 +246,35 @@ export default function Signup() {
           <div className="flex justify-center">
             {openCheck ? (
               emailCheck ? (
-                <BigButton value="회원가입" onClick={submit} />
+                <button
+              className="flex justify-center mt-48"
+              onClick={submit}
+            >
+              <img
+                className="h-120"
+                src="./background/next.png"
+                alt="인증"
+              />
+            </button>
               ) : (
-                <BigButton value="이전" onClick={() => setOpenCheck(false)} />
+                <button
+                className="flex justify-center mt-48 font-neo text-white text-16"
+                onClick={() => setOpenCheck(false)}
+              >
+                이전으로
+              </button>
               )
             ) : (
-              <BigButton value="다음" onClick={sendEmail} />
+              <button
+              className="flex justify-center mt-48"
+              onClick={sendEmail}
+            >
+              <img
+                className="h-120"
+                src="./background/next.png"
+                alt="로그인"
+              />
+            </button>
             )}
           </div>
         </div>

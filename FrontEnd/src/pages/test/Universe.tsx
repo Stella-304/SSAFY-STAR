@@ -19,10 +19,10 @@ import FloatingMenu from "../../components/Layout/FloatingMenu";
 import { setViewCard } from "../../stores/star/starInfo";
 import { setPath } from "../../stores/page/path";
 import bubbleChat from "../../assets/icons/bubble-chat.png";
-import useCommentListQuery from "../../apis/comment/useCommentListQuery";
-import reply from "@/assets/icons/reply.svg";
-import write from "@/assets/icons/writing.png";
-import useCommentSubmit from "@/apis/comment/useCommentSubmit";
+import Comment from "@/components/Comment/Comment";
+import ReactPlayer from "react-player";
+import playIcon from "@/assets/icons/play.png";
+import pauseIcon from "@/assets/icons/pause.png";
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
@@ -30,8 +30,9 @@ export default function Universe() {
   const [isCardFront, setCardFront] = useState<boolean>(true);
   const [selectedUserInfo, setSelectedUserInfo] = useState<User>();
   const [openReply, setOpenReply] = useState<boolean>(false);
-  const [writeReply, setWriteReply] = useState<boolean>(false);
-  const [replyContent, setReplyContent] = useState<string>("");
+  const [preventAuto, setPreventAuto] = useState<boolean>(false);
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [clickOnce, setClickOnce] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -53,29 +54,23 @@ export default function Universe() {
     (state: RootState) => state.starInfo.filterOpen,
   );
 
-  // 카드 코멘트 리스트 불러오기
-  const comment = useCommentListQuery(selectedUserInfo?.cardId);
-
-  const submitComment = useCommentSubmit();
-  // 엔터 클릭 변환
-  const handleSubmit = () => {
-    selectedUserInfo &&
-      submitComment.mutate({
-        cardId: selectedUserInfo.cardId,
-        content: replyContent,
-      });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setReplyContent(e.target.value);
-  };
-
   useEffect(() => {
     dispatch(setPath("universe")); //현위치 지정
+    dispatch(setViewCard(false));
     return () => {
       setPath(""); //나올땐 리셋
     };
   }, []);
+
+  useEffect(() => {
+    if (preventAuto) {
+      return;
+    }
+    if (clickOnce) {
+      setPlaying(true);
+      setPreventAuto(true);
+    }
+  }, [clickOnce]);
 
   const controls = useCallback(
     (node: any) => {
@@ -90,7 +85,10 @@ export default function Universe() {
 
   return (
     <>
-      <div className="relative h-screen w-full overflow-hidden bg-black perspective-9">
+      <div
+        className="relative h-screen w-full overflow-hidden bg-black perspective-9"
+        onClick={() => setClickOnce(true)}
+      >
         <Canvas
           dpr={[1, 2]}
           camera={{
@@ -151,21 +149,33 @@ export default function Universe() {
             starFilterEdgeList={starFilterEdgeList}
           />
         </Canvas>
+        <img
+          src={playing ? pauseIcon : playIcon}
+          className="absolute right-15 top-15 h-30 w-30 cursor-pointer"
+          onClick={() => setPlaying(!playing)}
+        />
+        <ReactPlayer
+          url="https://www.youtube.com/watch?v=hvnRr7lPpH0"
+          playing={playing}
+          controls={true}
+          muted={false}
+          className="invisible"
+        />
         <Filter />
         <div
-          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
+          className="group fixed left-0 top-125 flex h-40 w-40 cursor-pointer items-center justify-center hover:brightness-90"
           onClick={() => dispatch(setViewCard(false))}
         >
-          <img src="/icons/star.svg" className="h-30 w-30" />
+          <img src="/icons/star3.png" className="h-40 w-40" />
           <div className="invisible absolute -right-130 top-5 flex h-30 w-120 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
             별자리로 보기
           </div>
         </div>
         <div
-          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 bg-white hover:brightness-90"
+          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 hover:brightness-90"
           onClick={() => dispatch(setViewCard(true))}
         >
-          <img src="/icons/card.svg" className="h-30 w-30" />
+          <img src="/icons/card3.png" className="h-40 w-40" />
           <div className="invisible absolute -right-110 top-5 flex h-30 w-100 items-center justify-center border-1 border-white bg-black text-16 text-white group-hover:visible">
             카드로 보기
           </div>
@@ -178,6 +188,7 @@ export default function Universe() {
               onClick={() => {
                 setEndAnim(false);
                 setSelectedUserInfo(undefined);
+                setOpenReply(false);
               }}
             ></div>
 
@@ -216,39 +227,7 @@ export default function Universe() {
                 className="absolute -right-50 -top-30 h-40 w-40 cursor-pointer"
                 onClick={() => setOpenReply(!openReply)}
               />
-              {openReply && (
-                <div className="absolute -right-[320px] top-20 h-500 w-300 rounded-10 border-3 border-white bg-gradient-to-b from-[#0C1445] to-[#471E54] text-18 text-white ">
-                  {comment?.data.map((item: any, index: number) => (
-                    <div
-                      className="m-10 w-[calc(100%-20px)] rounded-10 border-3 border-white p-10"
-                      key={index}
-                    >
-                      <div className="h-30">{item.writer}</div>
-                      <div>{item.content}</div>
-                      {item.reply && (
-                        <div className="mt-5 flex gap-8">
-                          <img src={reply} className="h-20 w-20" />
-                          <div>{item.reply}</div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                  {writeReply && (
-                    <div>
-                      <textarea
-                        className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-black"
-                        onChange={handleChange}
-                      ></textarea>
-                      <button onClick={handleSubmit}>댓글달기</button>
-                    </div>
-                  )}
-                  <img
-                    src={write}
-                    className="absolute -right-5 -top-50 h-40 w-40 cursor-pointer"
-                    onClick={() => setWriteReply(!writeReply)}
-                  />
-                </div>
-              )}
+              {openReply && <Comment selectedUserInfo={selectedUserInfo} />}
             </div>
           </>
         )}
