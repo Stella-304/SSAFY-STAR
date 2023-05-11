@@ -18,7 +18,7 @@ import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
-import { githubIdReg, isNumber } from "../../utils/regex";
+import { githubIdReg, isNumber, nameReg } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
 import useMyCard from "../../apis/card/useMyCard";
@@ -51,6 +51,7 @@ export default function CardSubmit() {
   //경고
   const [banWarning, setBanWaring] = useState("");
   const [githubWarning, setGithubWarning] = useState("");
+  const [nameWarning, setNameWarning] = useState("");
 
   //리셋
   useEffect(() => {
@@ -93,6 +94,11 @@ export default function CardSubmit() {
 
   //input
   function onName(input: string) {
+    if (!input.match(nameReg)) {
+      setNameWarning("5글자 이내");
+    } else {
+      setNameWarning("");
+    }
     dispatch(setCard({ ...card, name: input }));
   }
 
@@ -197,6 +203,11 @@ export default function CardSubmit() {
       alert("백준 티어 확인해주세요");
       return;
     }
+
+    if (!card.name.match(nameReg)) {
+      return alert("이름을 확인해주세요");
+    }
+
     const cardsubmit: CardSubmitType = {
       name: card.name,
       ban: card.ban,
@@ -232,7 +243,15 @@ export default function CardSubmit() {
     <FormLayout>
       <div className="flex h-full w-full flex-col items-center gap-24 font-neob font-bold text-white">
         <div>
-          <span className="mb-20 mt-60 block text-4xl font-bold">별 등록</span>
+          {type === "modify" ? (
+            <span className="mb-20 mt-60 block text-4xl font-bold">
+              별 수정
+            </span>
+          ) : (
+            <span className="mb-20 mt-60 block text-4xl font-bold">
+              별 등록
+            </span>
+          )}
         </div>
         <div className="mb-8 h-full w-4/5">
           <div>

@@ -11,7 +11,7 @@ const fetcher = () =>
     })
     .then(({ data }) => data);
 
-const useMyCard = (setCompany:(params:string)=>void) => {
+const useMyCard = (setCompany: (params: string) => void) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return useQuery("/mycardinfo", fetcher, {
@@ -19,6 +19,7 @@ const useMyCard = (setCompany:(params:string)=>void) => {
     enabled: false,
     onSuccess: (data) => {
       setCompany(data.value.company);
+      console.log(data.value);
       dispatch(setCard(data.value));
     },
     onError: (e: any) => {
