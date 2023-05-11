@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class FaceCamera : MonoBehaviour
 {
     Camera cam;
+    [SerializeField]
+    private TMP_Text textNickname;
 
     private void Start()
     {
         cam = Camera.main;
+        textNickname.text = PlayerPrefs.GetString("Nickname","Guest");
     }
 
     void Update()

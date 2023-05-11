@@ -32,6 +32,7 @@ public class Request : MonoBehaviour
                 if (type.Equals("nickname"))
                 {
                     Debug.Log("nickname 설정 성공");
+                    PlayerPrefs.SetString("Nickname", input);
                     SceneManager.LoadScene("Lobby");
                 }
 

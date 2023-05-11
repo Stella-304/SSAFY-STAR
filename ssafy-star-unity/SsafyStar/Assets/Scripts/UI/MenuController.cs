@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Windows;
 
 public class MenuController : MonoBehaviour
 {
@@ -110,6 +111,7 @@ public class MenuController : MonoBehaviour
         {
             Debug.Log("´Ð³×ÀÓ:" + nickname);
             _nickname = nickname;
+            PlayerPrefs.SetString("Nickname", _nickname);
             SceneManager.LoadScene("Lobby");
         }
     }
@@ -163,6 +165,7 @@ public class MenuController : MonoBehaviour
         Debug.Log("SetNickName");
         if (isGuest)
         {
+            PlayerPrefs.SetString("Nickname",_nickname);
             SceneManager.LoadScene("Lobby");
         }
         else
