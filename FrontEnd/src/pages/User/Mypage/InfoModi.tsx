@@ -1,6 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BigButton from "../../../components/Button/BigButton";
-import MidButton from "../../../components/Button/MidButton";
 import SmallButton from "../../../components/Button/SmallButton";
 import Input from "../../../components/Input/Input";
 import userBojUpdate from "../../../apis/user/useBojUpdate";
@@ -9,13 +8,13 @@ import { passwordReg, nicknameReg } from "../../../utils/regex";
 import useUserModify from "../../../apis/user/useUserModify";
 import useUserPwdModify from "../../../apis/user/useUserPwdModify";
 import { UserModifyType } from "../../../types/UserModifyType";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores/store";
 
 export default function InfoModi() {
-  const navigate = useNavigate();
+  //redux
+  const user = useSelector((state: RootState) => state.user);
 
-  //api
-  const usermodifyMutate = useUserModify();
-  const userpwdmodifyMutate = useUserPwdModify();
   //백준
   const bojCheck = userBojUpdate();
   const [bojTier, setBojTier] = useState("");
@@ -27,9 +26,12 @@ export default function InfoModi() {
   const [password2, setPassword2] = useState("");
   const [password2Warning, setPassword2Warning] = useState("");
   //닉네임
-  const [nickname, setNickname] = useState("");
+  const [newNickname, setNewNickname] = useState(user.nickname);
   const [nicknameWarning, setNicknameWarning] = useState("");
 
+  //api
+  const usermodifyMutate = useUserModify(newNickname);
+  const userpwdmodifyMutate = useUserPwdModify();
   useMemo(() => {
     if (bojCheck.isLoading || bojCheck.error) return null;
 
@@ -95,17 +97,17 @@ export default function InfoModi() {
     } else {
       setNicknameWarning("");
     }
-    setNickname(input);
+    setNewNickname(input);
   }
   function modiNickname() {
-    if (!nickname.match(nicknameReg)) {
+    if (!newNickname.match(nicknameReg)) {
       alert("닉네임을 확인해주세요");
       return;
     }
     //닉네임 수정 진행
     const modifyinfo: UserModifyType = {
       name: "",
-      nickname: nickname,
+      nickname: newNickname,
     };
     usermodifyMutate.mutate(modifyinfo);
   }
@@ -113,7 +115,7 @@ export default function InfoModi() {
   return (
     <div className="w-4/5">
       {/* 비밀번호 변경 */}
-      <div>
+      <div className="mb-16">
         <div>
           <span className="block text-2xl font-bold">비밀번호 수정</span>
         </div>
@@ -135,10 +137,12 @@ export default function InfoModi() {
             placeholder="비밀번호 확인"
           />
         </div>
-        <div className="flex justify-end">
-          <MidButton value="수정" onClick={modiPassword}></MidButton>
+        <div className="flex justify-center">
+          <BigButton value="비밀 번호 수정" onClick={modiPassword}></BigButton>
         </div>
       </div>
+      <hr />
+      <br />
       {/* 닉네임 변경 */}
       <div>
         <div>
@@ -150,18 +154,18 @@ export default function InfoModi() {
               id="nickname"
               type="input"
               onChange={onNickname}
-              value={nickname}
+              value={newNickname}
               warning={nicknameWarning}
               placeholder="메타버스 닉네임 수정"
             />
           </div>
-          <div className="flex items-end mb-16">
-            <SmallButton value="수정" onClick={modiNickname}></SmallButton> 
+          <div className="mb-16 flex items-end">
+            <SmallButton value="수정" onClick={modiNickname}></SmallButton>
           </div>
         </div>
       </div>
       {/* 백준업데이트 */}
-      <div className="flex items-center flex-row gap-24">
+      <div className="flex flex-row items-center gap-24">
         <div className="flex-grow">
           <Input
             id="boj"
@@ -169,14 +173,14 @@ export default function InfoModi() {
             onChange={() => {}}
             value={
               bojTier === "Unrated"
-              ? bojTier + " *solved.ac에 등록해주세요"
-              : bojTier
+                ? bojTier + " *solved.ac에 등록해주세요"
+                : bojTier
             }
-            placeholder="백준아이디"
+            placeholder="등록된 백준 아이디로 갱신"
             disable={true}
           />
         </div>
-        <div className="flex items-end mb-16">
+        <div className="mb-16 flex items-end">
           <SmallButton value="갱신" onClick={checkBoj}></SmallButton>
         </div>
       </div>

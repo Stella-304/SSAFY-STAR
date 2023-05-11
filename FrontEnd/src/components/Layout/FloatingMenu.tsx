@@ -52,6 +52,11 @@ export default function FloatingMenu() {
                 value="마이페이지"
                 path={path === "mypage"}
               />
+              <FloatButton
+                onClick={() => navigate("/certify")}
+                value="인증하기"
+                path={path === "certify"}
+              />
               {cardRegistered ? (
                 <FloatButton
                   onClick={() => navigate("/cardsubmit/modify")}
@@ -95,13 +100,7 @@ export default function FloatingMenu() {
             value="📢신고"
             onClick={() => setReportOpen(true)}
           />
-          <button className="h-40" onClick={addChannel}>
-            <img
-              className="h-40"
-              src={kakaoPlusFriend}
-              alt="카카오플러스친구"
-            />
-          </button>
+          <FloatButton path={false} value="카카오+" onClick={addChannel} />
         </div>
       ) : (
         <></>

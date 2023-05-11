@@ -109,7 +109,7 @@ export default function FloatingMenu() {
         className="fixed bottom-16 right-16 h-40 hover:opacity-90"
         onClick={addChannel}
       >
-        <img className="h-40" src={kakaoPlusFriend} alt="카카오플러스친구" />
+        <FloatButton path={false} value="카카오+" onClick={() => {}} />
       </button>
       <Report open={reportOpen} onClose={() => setReportOpen(false)} />
     </>

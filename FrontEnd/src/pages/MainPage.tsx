@@ -4,6 +4,7 @@ import useUserNum from "../apis/main/useUserNumber";
 import { useDispatch } from "react-redux";
 import { setPath } from "../stores/page/path";
 import HeaderMenu from "../components/Layout/HeaderMenu";
+import { SERVER_API } from "@/utils/urls";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ export default function MainPage() {
           <div className="relative -mt-50 flex h-54 w-600 justify-center">
             <div className="group cursor-pointer">
               <button
-                onClick={() => navigate("/metaverse")}
+                onClick={() => window.open(`${SERVER_API}/metaverse`)}
                 className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
               >
                 메타버스
