@@ -4,6 +4,9 @@ import { BadgeSubmitType } from "../../types/BadgeSubmit";
 import useUserBadgeStatus from "./useUserBadgeStatus";
 import { fileApi } from "../api";
 import { isExpire } from "../error/isExpire";
+import { logout } from "@/stores/user/user";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 //이미지 파일을 입력하기
 const fetcher = (payload: BadgeSubmitType) =>
@@ -25,6 +28,8 @@ const useUserBadgeSubmit = (
   setStatus: (params: string) => void,
   setImgsrc: (params: string) => void,
 ) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const statusQuery = useUserBadgeStatus(type, setStatus, setImgsrc);
   return useMutation(fetcher, {
     retry: 0,
@@ -35,9 +40,13 @@ const useUserBadgeSubmit = (
       alert("이미지 등록 완료");
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        alert("이미지 등록 에러");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      alert("이미지 등록 에러");
     },
   });
 };

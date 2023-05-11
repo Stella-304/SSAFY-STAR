@@ -3,7 +3,7 @@ import { USER_URL } from "../../utils/urls";
 import { api } from "../api";
 import { UserModifyType } from "../../types/UserModifyType";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "@/stores/user/user";
+import { logout, setUser } from "@/stores/user/user";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/stores/store";
 import { isExpire } from "../error/isExpire";
@@ -32,13 +32,17 @@ const useUserModify = (nickname: string) => {
       navigate("/mypage");
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        if (e.response.status === 500) {
-          alert("중복된 닉네임 입니다.");
-          return;
-        }
-        alert("잠시후 다시 시도해 주세요");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      if (e.response.status === 500) {
+        alert("중복된 닉네임 입니다.");
+        return;
+      }
+      alert("잠시후 다시 시도해 주세요");
     },
   });
 };

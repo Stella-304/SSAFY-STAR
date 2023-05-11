@@ -3,6 +3,8 @@ import { USER_PWD_MODY_URL } from "../../utils/urls";
 import { api } from "../api";
 import { useNavigate } from "react-router-dom";
 import { isExpire } from "../error/isExpire";
+import { logout } from "@/stores/user/user";
+import { useDispatch } from "react-redux";
 const fetcher = (pwd: string) =>
   api
     .put(
@@ -23,6 +25,8 @@ const fetcher = (pwd: string) =>
  */
 const useUserPwdModify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
@@ -30,9 +34,13 @@ const useUserPwdModify = () => {
       navigate("/mypage");
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        alert("잠시후에 시도해주세요");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      alert("잠시후에 시도해주세요");
     },
   });
 };
