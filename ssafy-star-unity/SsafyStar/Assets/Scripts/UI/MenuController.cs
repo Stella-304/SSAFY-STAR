@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.Windows;
+using JetBrains.Annotations;
 
 public class MenuController : MonoBehaviour
 {
@@ -125,7 +126,7 @@ public class MenuController : MonoBehaviour
     public void CheckDuplicate()
     {
         Debug.Log("CheckDuplicate");
-        _nickname = textNickname.text;
+        _nickname = textNickname.text;  
         if (_nickname == "")
         {
             textResult.gameObject.SetActive(true);
@@ -162,6 +163,31 @@ public class MenuController : MonoBehaviour
     public void SetNickName()
     {
         _nickname = textNickname.text;
+
+        // -- added by hslee0912
+        /*
+        string str = "гого";
+
+        byte[] byteFromStr1 = System.Text.Encoding.Unicode.GetBytes(_nickname);
+        byte[] byteFromStr2 = System.Text.Encoding.Unicode.GetBytes(str);
+
+        string t_str1 = System.Text.Encoding.UTF8.GetString(byteFromStr1);
+        string t_str2 = System.Text.Encoding.UTF8.GetString(byteFromStr2);
+
+        int test1 = t_str1.Length;
+        int test2 = t_str2.Length;       
+        */
+
+
+        /*
+        string[] test = _nickname.Split("");
+        int a = test[0].Length;
+        */
+
+        Debug.Log(textNickname.text.Length);
+        Debug.Log(_nickname.Length);
+
+
         Debug.Log("SetNickName");
         if (isGuest)
         {

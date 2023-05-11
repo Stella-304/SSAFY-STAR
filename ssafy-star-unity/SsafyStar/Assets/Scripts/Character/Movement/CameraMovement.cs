@@ -7,11 +7,16 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [Header("이동")]
+    public bool stop = false;
     public Transform Target;
     public float MouseSensitivity = 10f;
     public Transform listenerTf;
     public Vector3 posOffset;
     public Vector3 lookOffset;
+
+    [Header("기본 카메라 위치")]
+    public Vector3 posOffsetOrigin;
+    public Vector3 lookOffsetOrigin;
 
     [Header("줌인아웃")]
     public float scrollSpeed = 10f;
@@ -26,9 +31,20 @@ public class CameraMovement : MonoBehaviour
     public float minRotateDistanceY = 1.5f;
     public float maxRotateDistanceY = 17f;
 
+    private void Awake()
+    {
+        posOffsetOrigin = posOffset;
+        lookOffsetOrigin = lookOffset;
+    }
+
     void LateUpdate()
     {
         if (Target == null)
+        {
+            return;
+        }
+
+        if(stop)
         {
             return;
         }
@@ -55,13 +71,11 @@ public class CameraMovement : MonoBehaviour
         {
             if(mousePos.y<150)
             {
-                Debug.Log("아래로 보기");
                 lookOffset.y -= rotationSpeed * Time.deltaTime;
                 lookOffset.y = Mathf.Clamp(lookOffset.y, minRotateDistanceY, maxRotateDistanceY);
             }
             else if(mousePos.y>900)
             {
-                Debug.Log("위로 보기");
                 lookOffset.y += rotationSpeed * Time.deltaTime;
                 lookOffset.y = Mathf.Clamp(lookOffset.y, minRotateDistanceY, maxRotateDistanceY);
             }
