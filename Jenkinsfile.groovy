@@ -4,8 +4,8 @@ pipeline {
   stages {
     stage('Build Backend') {
       steps {
-        sh 'echo build'
-        sh 'cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build'
+        sh "echo build"
+        sh "cd ${env.WORKSPACE}/BackEnd && chmod +x ./gradlew && ./gradlew clean build"
       }
     }
 
@@ -15,6 +15,7 @@ pipeline {
         sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
         sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
         sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
+
       }
     }
 
@@ -25,6 +26,17 @@ pipeline {
       }
     }
 
+//    stage('Remove Volume') {
+//      steps {
+//        sh 'docker volume ssafy-star-volume -q | xargs --no-run-if-empty -r docker volume rm'
+//      }
+//    }
+//
+//    stage('Create Volume') {
+//      steps {
+//        sh 'docker volume create --name ssafy-star-volume -d local --opt type=none --opt device=/usr/share/nginx/html --opt o=bind'
+//      }
+//    }
 
     stage('Build Springboot Image') {
       steps {
@@ -37,18 +49,13 @@ pipeline {
       }
     }
 
-    dir('FrontEnd') {
-      stage('Build React.JS Image') {
-        steps {
-          script {
+    stage('Build React.JS Image') {
+      steps {
+        script {
+          def frontendDir = "${env.WORKSPACE}/FrontEnd"
+          def dockerfile = "${frontendDir}/Dockerfile"
 
-            sh 'npm install'
-            sh 'CI=false npm run build'
-
-            // def frontendDir = "${env.WORKSPACE}/FrontEnd"
-            // def dockerfile = "${frontendDir}/Dockerfile"
-            // docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
-          }
+          docker.build("react-image", "-f ${dockerfile} ${frontendDir}")
         }
       }
     }
@@ -56,8 +63,8 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image').run("-d --network ssafystar-network --name springboot -p 8080:8080")
-          docker.image('react-image').run("-d --network ssafystar-network --name react -p 3000:3000")
+          docker.image('springboot-image').run("--name springboot -p 8080:8080")
+          docker.image('react-image').run("--name react -p 3000:80")
         }
       }
     }
