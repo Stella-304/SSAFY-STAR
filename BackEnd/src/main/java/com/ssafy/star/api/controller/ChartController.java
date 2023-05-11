@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @Api(tags = {"차트 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/chart")
-//@RolesAllowed("ROLE_USER")
+@RolesAllowed("ROLE_USER")
 public class ChartController {
 
     private final ChartService chartService;

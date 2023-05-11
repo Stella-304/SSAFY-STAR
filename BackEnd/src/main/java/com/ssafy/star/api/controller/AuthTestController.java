@@ -1,5 +1,7 @@
 //package com.ssafy.star.api.controller;
 //
+//import com.ssafy.star.common.auth.exception.TokenExpireException;
+//import com.ssafy.star.common.util.constant.CommonErrorCode;
 //import com.ssafy.star.common.util.constant.Msg;
 //import com.ssafy.star.common.util.dto.ResponseDto;
 //import lombok.extern.log4j.Log4j2;
@@ -17,12 +19,20 @@
 //@RequestMapping("/test")
 //public class AuthTestController {
 //
+//    @GetMapping("/excep")
+//    public ResponseEntity<ResponseDto> excepTest(){
+//
+//        throw new TokenExpireException(CommonErrorCode.EXPIRED_TOKEN);
+//
+////        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+//    }
+//
 //    @GetMapping("/test")
 //    public ResponseEntity<ResponseDto> test(){
 //        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().toString()));
 //        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()));
 //        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString()));
-//        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getCredentials().toString())));
+//        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getCredentials().toString()));
 //        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getName().toString()));
 //        log.error("{}", String.valueOf(SecurityContextHolder.getContext().getAuthentication().getDetails().toString()));
 //

@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Api(tags = {"데이터 초기화 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/init-data")
-//@RolesAllowed("ROLE_ADMIN")
+@RolesAllowed("ROLE_ADMIN")
 public class InitDataController {
 
 	private final InitDataService initDataService;
