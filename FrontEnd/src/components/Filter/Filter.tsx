@@ -25,6 +25,7 @@ import swTierIcon from "@/assets/icons/swTier.png";
 import bojTierIcon from "@/assets/icons/boj.png";
 import generationIcon from "@/assets/icons/generation.png";
 import campusIcon from "@/assets/icons/map.png";
+import classIcon from "@/assets/icons/classroom.png";
 
 export default function Filter() {
   const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
@@ -110,7 +111,7 @@ export default function Filter() {
       <div
         className={
           (openAnimation
-            ? "translate-x-300 opacity-100 transition duration-700 "
+            ? "opacity-100 transition duration-700 translate-x-300 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
           " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
         }
@@ -155,7 +156,7 @@ export default function Filter() {
           <div className="relative mb-10 flex gap-10 pl-15">
             <div className="group">
               <img
-                src={generationIcon}
+                src={classIcon}
                 className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "DETAIL")}
               />
