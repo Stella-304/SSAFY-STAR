@@ -3,6 +3,7 @@ import { CARD_SUBMIT_URL } from "../../utils/urls";
 import { CardSubmitType } from "../../types/CardSubmit";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
+import { isExpire } from "../error/isExpire";
 const fetcher = (payload: CardSubmitType) =>
   api
     .post(CARD_SUBMIT_URL, payload, {
@@ -25,10 +26,12 @@ const useCardSubmit = () => {
       navigate("/universe");
     },
     onError: (e: any) => {
-      if (e.response.status === 403) {
-        alert("등록하신 카드가 있습니다.");
-      } else {
-        alert("잠시후 시도해 주세요");
+      if (!isExpire(e.response.status)) {
+        if (e.response.status === 403) {
+          alert("등록하신 카드가 있습니다.");
+        } else {
+          alert("잠시후 시도해 주세요");
+        }
       }
     },
   });

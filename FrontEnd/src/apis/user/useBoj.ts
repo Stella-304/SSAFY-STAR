@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { api } from "../api";
 import { BOJ_URL } from "../../utils/urls";
+import { isExpire } from "../error/isExpire";
 
 interface Payload {
   bojid: string;
@@ -17,13 +18,18 @@ const fetcher = (payload: Payload) =>
  * @param payload
  * @returns
  */
-const useBojcheck = (bojid: string,setBojTier:(params:string)=>void) => {
+const useBojcheck = (bojid: string, setBojTier: (params: string) => void) => {
   return useQuery(["/bojcheck", bojid], () => fetcher({ bojid: bojid }), {
     enabled: false,
     retry: 0,
-    onSuccess:(data)=>{
-      setBojTier(data.value)
-    }
+    onSuccess: (data) => {
+      setBojTier(data.value);
+    },
+    onError: (e: any) => {
+      if (!isExpire(e.response.status)) {
+        alert("잠시후에 시도해주세요");
+      }
+    },
   });
 };
 

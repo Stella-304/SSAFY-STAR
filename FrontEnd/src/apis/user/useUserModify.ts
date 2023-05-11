@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "@/stores/user/user";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/stores/store";
+import { isExpire } from "../error/isExpire";
 
 const fetcher = (payload: UserModifyType) =>
   api
@@ -31,10 +32,13 @@ const useUserModify = (nickname: string) => {
       navigate("/mypage");
     },
     onError: (e: any) => {
-      if (e.response.status === 500) {
-        alert("중복된 닉네임 입니다.");
+      if (!isExpire(e.response.status)) {
+        if (e.response.status === 500) {
+          alert("중복된 닉네임 입니다.");
+          return;
+        }
+        alert("잠시후 다시 시도해 주세요");
       }
-      alert("잠시후 다시 시도해 주세요");
     },
   });
 };

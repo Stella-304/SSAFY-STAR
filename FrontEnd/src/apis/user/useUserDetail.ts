@@ -4,6 +4,7 @@ import { api } from "../api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../stores/user/user";
 import { useNavigate } from "react-router-dom";
+import { isExpire } from "../error/isExpire";
 
 const fetcher = () =>
   api
@@ -38,8 +39,11 @@ const useUserDetail = () => {
         navigate("/"); //메인으로 이동
       }
     },
-    onError: () => {
-      navigate("/login");
+    onError: (e: any) => {
+      if (!isExpire(e.response.status)) {
+        alert("토큰이 확인이 안됩니다.");
+        navigate("/login");
+      }
     },
   });
 };
