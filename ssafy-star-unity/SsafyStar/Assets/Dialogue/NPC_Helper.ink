@@ -3,18 +3,20 @@
 안녕하세요 플레이어님 반가워요
 싸피스타의 메타버스 공간에 오신걸 환영해요
 원하시는 질문을 선택해 주세요
-* [조작방법]
++ [조작방법]
 -> control
-* [NPC]
++ [NPC]
 -> npc
-* [끝내기]
++ [끝내기]
 ->endConversation
 
 ===moreQuestion===
 더 궁금하신게 있으신가요?
-* [조작방법]
++ [조작방법]
 -> control
-* [끝내기]
++ [NPC]
+-> npc
++ [끝내기]
 ->endConversation
 
 ===control===
