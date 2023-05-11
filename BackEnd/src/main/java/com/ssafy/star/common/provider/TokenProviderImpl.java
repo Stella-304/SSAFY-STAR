@@ -1,7 +1,9 @@
 package com.ssafy.star.common.provider;
 
+import com.ssafy.star.common.auth.exception.TokenExpireException;
 import com.ssafy.star.common.auth.principal.UserPrincipal;
 import com.ssafy.star.common.auth.property.AppProperties;
+import com.ssafy.star.common.util.constant.CommonErrorCode;
 import io.jsonwebtoken.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,7 @@ public class TokenProviderImpl implements TokenProvider {
             log.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
+            throw new TokenExpireException(CommonErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
