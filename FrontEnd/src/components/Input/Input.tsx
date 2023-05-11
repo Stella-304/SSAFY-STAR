@@ -3,7 +3,7 @@ import { CSSProperties, useState } from "react";
 interface props {
   id: string;
   type: string;
-  label: string;
+  label?: string;
   onChange: (params: string) => void;
   warning?: string;
   confirm?: string;
@@ -13,6 +13,8 @@ interface props {
   queryResult?: string[];
   querySelect?: (params: string) => void;
   queryValue?: string;
+  placeholder?: string;
+  cardRegist?:boolean;
   textareaHeight?: string;
   inputHeight?: string;
   inputWidth?: string;
@@ -31,6 +33,8 @@ export default function Input({
   queryResult,
   querySelect,
   queryValue,
+  placeholder,
+  cardRegist
   textareaHeight,
   inputHeight,
   inputWidth,
@@ -52,16 +56,16 @@ export default function Input({
     width: inputWidth,
   };
   return (
-    <div className="relative flex flex-col" style={inputStyle}>
-      <label htmlFor={id}>
+    <div className="relative flex flex-col">
+      {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo mt-20">
         {label}
-        {warning && <span className="text-12 text-red-500"> *{warning}</span>}
-        {confirm && <span className="text-12 text-blue-500"> *{confirm}</span>}
-      </label>
+        {warning && <span className="text-12 text-red2 "> *{warning}</span>}
+        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+      </div>:<></>}
       {type === "textarea" ? (
         <textarea
           id={id}
-          className="resize-none border-1 border-gray-500 text-gray-500"
+          className="resize-none border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
           onChange={(e) => onChange(e.target.value)}
           value={value}
           style={textAreaStyle}
@@ -70,10 +74,11 @@ export default function Input({
         <>
           <input
             ref={inputRef}
-            className="border-b-1 border-gray-500 text-gray-500"
+            className="border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
             id={id}
             type={inputType}
             onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
             value={value}
             disabled={disable}
           ></input>
@@ -98,6 +103,12 @@ export default function Input({
           )}
         </>
       )}
+      {cardRegist?<></>:<div className="relative h-16 right-0 text-end text-bold font-neo">
+        {label}
+        {warning && <span className="text-12 text-red2"> *{warning}</span>}
+        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+      </div>}
+      
       {value !== "" &&
       querySelect !== undefined &&
       queryResult !== undefined ? (

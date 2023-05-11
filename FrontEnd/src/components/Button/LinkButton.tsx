@@ -5,7 +5,7 @@ interface props {
 
 export default function LinkButton({ children, onClick }: props) {
   return (
-    <span className="cursor-pointer text-gray-900 " onClick={onClick}>
+    <span className="cursor-pointer text-white " onClick={onClick}>
       {children}
     </span>
   );

@@ -76,52 +76,38 @@ export default function Login() {
   return (
     <FormLayout>
       <div
-        className="flex h-full flex-col justify-around"
+        className="flex items-center h-full flex-col gap-24"
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="mb-14 block text-4xl font-bold">LOG-IN</span>
-          <span className="block text-sm font-bold">
-            SSAFY STAR를 사용하기 위해 로그인 해 주세요👀
-          </span>
+          <span className="mt-80 mb-40 block text-4xl font-bold text-white font-neob">로그인</span>
         </div>
-        <div className=" block font-bold">
+        <div className="w-4/5 block font-bold">
           <Input
             id="loginId"
             type="textfield"
-            label="이메일"
             onChange={onLoginid}
             value={loginid}
-            warning={idWarning}
+            placeholder="이메일"
           />
           <Input
             id="password"
             type="password"
-            label="비밀번호"
             onChange={onPassword}
             value={password}
-            warning={passwordWarning}
+            // warning={passwordWarning}
+            placeholder="비밀번호"
           />
-
-          <div className="flex flex-col py-10 text-right">
-            <LinkButton onClick={() => navigate("/idpwfind")}>
-              로그인이 안 되시나요?
-            </LinkButton>
-          </div>
-          <div className="mt-30 flex h-48 justify-center font-bold">
-            <MidButton value="로그인" onClick={submit} />
-          </div>
         </div>
-
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col items-center">
+        <div className="justify-center items-center flex flex-col">
+          <div className="flex flex-row gap-24 items-center">
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
             >
               <img
-                className="h-48"
-                src="./background/login_google.png"
+                className="h-60"
+                src="./background/login_google_2.png"
                 alt="google 로그인"
               />
             </button>
@@ -130,14 +116,29 @@ export default function Login() {
               onClick={() => goOauth("kakao")}
             >
               <img
-                className="h-48"
-                src="./background/login_kakao.png"
+                className="h-60"
+                src="./background/login_kakao_2.png"
                 alt="kakao 로그인"
               />
             </button>
           </div>
-          {/* </div> */}
-          <div className="mb-14 py-10 text-right font-bold">
+          <button
+              className="flex justify-center mt-48"
+              onClick={submit}
+            >
+              <img
+                className="h-120"
+                src="./background/next.png"
+                alt="로그인"
+              />
+            </button>
+
+          <div className="flex flex-col py-5 font-bold font-neob">
+            <LinkButton onClick={() => navigate("/idpwfind")}>
+              로그인이 안 되시나요?
+            </LinkButton>
+          </div>
+          <div className="mb-14 py-10 font-bold font-neob">
             <LinkButton onClick={() => navigate("/signup")}>
               계정 생성하기
             </LinkButton>

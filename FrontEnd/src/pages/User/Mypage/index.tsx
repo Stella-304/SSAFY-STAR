@@ -13,9 +13,9 @@ export default function Mypage() {
   }, []);
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="block text-4xl font-bold">Mypage</span>
+          <span className="mt-80 mb-40 block text-4xl font-bold font-neob text-center">마이페이지</span>
         </div>
         <InfoModi />
       </div>

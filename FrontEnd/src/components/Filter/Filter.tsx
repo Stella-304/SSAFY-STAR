@@ -516,9 +516,10 @@ export default function Filter() {
           </div>
         </div>
       </div>
-      <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer bg-white hover:brightness-90">
+
+      <div className="fixed left-0 top-20 h-92 w-39 cursor-pointer hover:brightness-90">
         <img
-          src="/icons/sidebar-opener.svg"
+          src="/icons/sidebar-opener2.png"
           onClick={() => setOpenAnimation(true)}
         />
       </div>

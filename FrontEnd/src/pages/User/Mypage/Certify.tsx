@@ -3,7 +3,7 @@ import FormLayout from "../../../components/Layout/FormLayout";
 import { useDispatch } from "react-redux";
 import { setPath } from "../../../stores/page/path";
 import ImageInput from "../../../components/Input/ImageInput";
-import SmallButton from "../../../components/Button/SmallButton";
+import MidButton from "@/components/Button/MidButton";
 
 export default function Certify() {
   const [page, setPage] = useState("SSAFY");
@@ -16,16 +16,18 @@ export default function Certify() {
   }, []);
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div className="flex h-full flex-col justify-around text-white font-neob">
         <div>
-          <span className="block text-4xl font-bold">Certify</span>
+        <div>
+          <span className="mt-80 mb-40 block text-4xl font-bold text-center">Certify</span>
+        </div>
           <div className="mt-16 flex justify-around gap-16">
-            <SmallButton
+            <MidButton
               value="싸피인증"
               onClick={() => setPage("SSAFY")}
               disable={page === "SSAFY"}
             />
-            <SmallButton
+            <MidButton
               value="회사인증"
               onClick={() => setPage("COMPANY")}
               disable={page === "COMPANY"}
