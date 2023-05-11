@@ -107,8 +107,7 @@ public class SearchConditionReqDto {
 				.append(']');
 			isFirst = false;
 		}
-		System.out.println(filterName.toString());
-		return filterName.toString();
+		return isFirst ? "전체" : filterName.toString();
 	}
 }
 
