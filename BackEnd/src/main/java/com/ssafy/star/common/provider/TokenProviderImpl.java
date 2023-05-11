@@ -71,7 +71,6 @@ public class TokenProviderImpl implements TokenProvider {
             log.error("BlackListed JWT token");
             return false;
         }
-
         try {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token);
             return true;
@@ -81,7 +80,6 @@ public class TokenProviderImpl implements TokenProvider {
             log.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
-            throw new TokenExpireException(CommonErrorCode.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {

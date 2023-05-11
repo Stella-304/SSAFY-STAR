@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @Api(tags = {"신고 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/report")
-//@RolesAllowed("ROLE_CLIENT")
+@RolesAllowed("ROLE_CLIENT")
 public class ReportController {
 
     private final ReportService reportService;

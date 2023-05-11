@@ -12,16 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @Api(tags = {"카드코멘트 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/comment")
-// @RolesAllowed("ROLE_CLIENT")
+ @RolesAllowed("ROLE_CLIENT")
 public class CardCommentController {
 	private final CardCommentService cardCommentService;
 
 
 	@GetMapping
+	@PermitAll
 	@ApiOperation(value = "카드 코멘트 목록 가져오기")
 	public ResponseEntity<ResponseDto> cardCommentListGet(@RequestParam Long cardId) {
 		return ResponseEntity.ok()
@@ -29,7 +33,6 @@ public class CardCommentController {
 	}
 
 	@PostMapping
-	@Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "코멘트 등록하기")
 	public ResponseEntity<ResponseDto> cardCommentRegist(@RequestBody CardCommentRegistReqDto cardCommentRegistReqDto) {
 		cardCommentService.registCardComment(cardCommentRegistReqDto);
@@ -53,7 +56,6 @@ public class CardCommentController {
 			.body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_DELETE));
 	}
 	@PostMapping("/reply")
-	@Secured({"ROLE_CLIENT"})
 	@ApiOperation(value = "답글 등록하기")
 	public ResponseEntity<ResponseDto> commentReplyRegist(@RequestBody CommentReplyRegistReqDto commentReplyRegistReqDto) {
 		cardCommentService.registCommentReply(commentReplyRegistReqDto);
