@@ -186,7 +186,7 @@ public class PlayerMovement : NetworkBehaviour
         if (other.gameObject.tag.Equals("goMuseum"))
         {
             goMuseum = true;
-        }else if (other.gameObject.tag.Equals("goMuseum"))
+        }else if (other.gameObject.tag.Equals("backMuseum"))
         {
             doRespawn = true;
         }
