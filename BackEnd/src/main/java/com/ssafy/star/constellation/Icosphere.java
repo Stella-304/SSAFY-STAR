@@ -58,7 +58,7 @@ public class Icosphere {
 
 		for(int i=0;i<faceCnt;i++){
 			counter.clear();
-			for(Triangle t : faces[i][5] ){
+			for(Triangle t : faces[i][4] ){
 				counter.put(t.v1,counter.getOrDefault(t.v1,0)+1);
 				counter.put(t.v2,counter.getOrDefault(t.v2,0)+1);
 				counter.put(t.v3,counter.getOrDefault(t.v3,0)+1);
