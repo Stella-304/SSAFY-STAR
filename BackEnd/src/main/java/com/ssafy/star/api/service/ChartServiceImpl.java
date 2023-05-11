@@ -64,5 +64,5 @@ public class ChartServiceImpl implements ChartService {
         return new ChartDto(chart);
     }
 
-    
+
 }
