@@ -190,6 +190,10 @@ public class PlayerMovement : NetworkBehaviour
         {
             doRespawn = true;
         }
+        else if(other.gameObject.layer.Equals("NPC"))
+        {
+
+        }
     }
     private void ResetAnimation()
     {
