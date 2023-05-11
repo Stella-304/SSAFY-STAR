@@ -35,11 +35,12 @@ export default function FloatingMenu() {
   }
   return (
     <>
-      <div className="fixed left-0 top-0 flex h-44 w-full min-w-880 items-center justify-between gap-8 bg-black font-['nemo030']">
+      <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">
         <div
-          className="ml-8 h-44 cursor-pointer select-none text-center font-['RocaOne'] text-4xl leading-38 text-[#02C7FE]"
+          className="flex flex-row ml-8 h-44 cursor-pointer mt-16 select-none text-center font-nemo text-3xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
           onClick={() => navigate("/")}
         >
+          <img src="/icons/logo.svg" className="h-35"></img>
           SSAFY-STAR
         </div>
         <div className="flex justify-end gap-8">
