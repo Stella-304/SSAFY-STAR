@@ -49,36 +49,36 @@ export default function Find() {
   }
   return (
     <FormLayout>
-      <div className="flex h-full flex-col justify-around">
+      <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
         <div>
-          <span className="block text-4xl font-bold">아이디/비밀번호 찾기</span>
+          <span className="mt-80 mb-40 block text-5xl font-bold text-white font-neob">비밀번호 찾기</span>
         </div>
-        <div className="flex h-full flex-col justify-around">
+        <div className="flex h-full flex-col w-4/5">
           <div>
-            <div className="mb-10 text-2xl font-bold">비밀번호 재 발급</div>
-            <div className="mb-8 block font-bold">
+            <div className="text-2xl font-bold">비밀번호 재 발급</div>
+            <div className="block font-bold">
               <Input
                 id="email"
-                label="이메일"
                 onChange={onEmail}
                 type="input"
                 value={email}
                 warning={emailWarning}
+                placeholder="이메일"
               ></Input>
             </div>
+            <div className="flex justify-center">
 
-            <div className="flex justify-end">
-              <MidButton
-                value="비밀번호 재발급"
-                onClick={findPassword}
-              ></MidButton>
+            <button
+              className="mt-120"
+              onClick={findPassword}
+            >
+              <img
+                className="h-120"
+                src="./background/next.png"
+                alt="로그인"
+              />
+            </button>
             </div>
-          </div>
-          <div className="flex justify-center">
-            <BigButton
-              value="로그인 하러 가기"
-              onClick={() => navigate("/login")}
-            />
           </div>
         </div>
       </div>

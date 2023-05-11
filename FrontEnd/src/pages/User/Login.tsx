@@ -99,14 +99,14 @@ export default function Login() {
             placeholder="비밀번호"
           />
         </div>
-        <div className="justify-center items-center flex flex-col gap-4">
+        <div className="justify-center items-center flex flex-col">
           <div className="flex flex-row gap-24 items-center">
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
             >
               <img
-                className="h-72"
+                className="h-60"
                 src="./background/login_google_2.png"
                 alt="google 로그인"
               />
@@ -116,7 +116,7 @@ export default function Login() {
               onClick={() => goOauth("kakao")}
             >
               <img
-                className="h-72"
+                className="h-60"
                 src="./background/login_kakao_2.png"
                 alt="kakao 로그인"
               />
@@ -127,13 +127,13 @@ export default function Login() {
               onClick={submit}
             >
               <img
-                className="h-140"
+                className="h-120"
                 src="./background/next.png"
                 alt="로그인"
               />
             </button>
 
-          <div className="flex flex-col py-10 font-bold font-neob">
+          <div className="flex flex-col py-5 font-bold font-neob">
             <LinkButton onClick={() => navigate("/idpwfind")}>
               로그인이 안 되시나요?
             </LinkButton>

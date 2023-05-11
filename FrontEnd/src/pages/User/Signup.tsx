@@ -232,7 +232,7 @@ export default function Signup() {
               onClick={checkEmail}
             >
               <img
-                className="h-140"
+                className="h-120"
                 src="./background/next.png"
                 alt="인증"
               />
@@ -251,7 +251,7 @@ export default function Signup() {
               onClick={submit}
             >
               <img
-                className="h-140"
+                className="h-120"
                 src="./background/next.png"
                 alt="인증"
               />
@@ -270,7 +270,7 @@ export default function Signup() {
               onClick={sendEmail}
             >
               <img
-                className="h-140"
+                className="h-120"
                 src="./background/next.png"
                 alt="로그인"
               />

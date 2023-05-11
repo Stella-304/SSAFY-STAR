@@ -45,8 +45,10 @@ module.exports = {
         neob:["neob"],
       },
       boxShadow: {
-        neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",
+        neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 20px rgba(70,140,190,0.3)",
         neon2: "0 0 20px 10px rgba(0,21,134,0.7)",
+        neon3: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(70,140,190,0.35)",
+        neon4: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",
         blackcard:
           " 20px 20px 0 0 rgba(0,0,0,0.7), inset 20px 20px 0 0 rgba(0,0,0,0.7), inset",
       },
