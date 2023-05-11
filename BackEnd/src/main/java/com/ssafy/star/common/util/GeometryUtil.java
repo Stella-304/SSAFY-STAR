@@ -68,29 +68,28 @@ public class GeometryUtil {
 	private static long[] parents = new long[5057];
 
 	public static List<EdgeDto> getEdgeList(List<CardDetailDto> cards) {
-		for (int i = 0; i < parents.length; i++) {
+		int N = cards.size();
+		for (int i = 0; i < N; i++) {
 			parents[i] = i;
 		}
 
 		List<EdgeDto> edgeDtoList = new ArrayList<>();
 		List<Edge> edges = new ArrayList<>();
+		List<List<Integer>> adjList = new ArrayList<>();
 
-		int cardCnt = cards.size();
-		for (int i = 0; i < cardCnt - 1; i++) {
-			double length = Math.sqrt(
-				cards.get(i).getX() * cards.get(i).getX() + cards.get(i).getY() * cards.get(i).getY()
-					+ cards.get(i).getZ() * cards.get(i).getZ());
+		for (int i = 0; i < N; i++) {
+			adjList.add(new ArrayList<>());
+		}
 
-			double x1 = cards.get(i).getX() / length;
-			double y1 = cards.get(i).getY() / length;
-			double z1 = cards.get(i).getZ() / length;
+		for (int i = 0; i < N - 1; i++) {
+			double x1 = cards.get(i).getX() ;
+			double y1 = cards.get(i).getY() ;
+			double z1 = cards.get(i).getZ() ;
 
-			for (int j = i + 1; j < cardCnt; j++) {
-				length = Math.sqrt(cards.get(j).getX() * cards.get(j).getX() + cards.get(j).getY() * cards.get(j).getY()
-					+ cards.get(j).getZ() * cards.get(j).getZ());
-				double x2 = cards.get(j).getX() / length;
-				double y2 = cards.get(j).getY() / length;
-				double z2 = cards.get(j).getZ() / length;
+			for (int j = i + 1; j < N; j++) {
+				double x2 = cards.get(j).getX() ;
+				double y2 = cards.get(j).getY() ;
+				double z2 = cards.get(j).getZ() ;
 				double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + Math.pow(z1 - z2, 2));
 				edges.add(new Edge(i, j, distance));
 			}
@@ -105,12 +104,12 @@ public class GeometryUtil {
 			}
 		}
 
-		int removeEdge = cardCnt / maxStar;
-		Random random = new Random();
-		while (removeEdge > 0) {
-			removeEdge--;
-			edgeDtoList.remove(random.nextInt(edgeDtoList.size()));
-		}
+		// int removeEdge = N / maxStar;
+		// Random random = new Random();
+		// while (removeEdge > 0) {
+		// 	removeEdge--;
+		// 	edgeDtoList.remove(random.nextInt(edgeDtoList.size()));
+		// }
 
 		// y좌표의 합 내림차순으로 간선의 쌍 정렬
 		// 가운데에서부터 퍼져나가는 느낌.

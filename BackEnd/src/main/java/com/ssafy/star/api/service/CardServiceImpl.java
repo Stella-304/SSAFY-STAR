@@ -159,7 +159,9 @@ public class CardServiceImpl implements CardService {
 	public TempDto getCardListUsePolygon(List<Card> cardList, GroupFlagEnum groupFlag, long userId) {
 
 		double MULTIPLIER = 0.0;
-		if (cardList.size() > 1000) {
+		if (groupFlag == GroupFlagEnum.DETAIL) {
+			MULTIPLIER = 1.5;
+		} else if (cardList.size() > 1000) {
 			MULTIPLIER = 1.5;
 		} else if (cardList.size() > 500) {
 			MULTIPLIER = 2.5;
@@ -194,7 +196,9 @@ public class CardServiceImpl implements CardService {
 		Map<String, List<Card>> cardGroupMap = cardList.stream()
 			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
 
-		List<String> keyList = cardGroupMap.keySet().stream().collect(Collectors.toList());
+		List<String> keyList = cardGroupMap.keySet().stream()
+			.sorted(Comparator.comparing(x -> cardGroupMap.get(x).size()).reversed())
+			.collect(Collectors.toList());
 		int groupSize = keyList.size();
 
 		Set<Integer> visited = new HashSet<>();
@@ -219,13 +223,15 @@ public class CardServiceImpl implements CardService {
 					.builder()
 					.groupName(key + groupFlag)
 					.x(polygon.getX() * RADIUS)
-					.y(polygon.getY() * RADIUS)
-					.z(polygon.getZ() * RADIUS)
+					.y(polygon.getZ() * RADIUS)
+					.z(polygon.getY() * RADIUS)
 					.build());
 
 			// x,y,z를 중심으로 그룹 내의 모든 카드를 배치
 			List<Card> curGroupCardList = cardGroupMap.get(key);
+
 			int willChooseCardCnt = curGroupCardList.size();
+			System.out.println(willChooseCardCnt);
 			Queue<int[]> queue = new ArrayDeque<>();
 			List<int[]> choosePosList = new ArrayList<>();
 			queue.add(new int[] {startPos / SIZE, startPos % SIZE});
@@ -248,12 +254,16 @@ public class CardServiceImpl implements CardService {
 				}
 			}
 
+			if (choosePosList.size() < curGroupCardList.size()) {
+				System.out.println("Cant batch");
+				// throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
+				continue;
+			}
 			Collections.shuffle(choosePosList);
 
 			List<CardDetailDto> curGroupCardDetailDtoList = new ArrayList<>();
 			List<EdgeDto> curGroupEdgeDtoList;
 			List<EdgeDto> curGropContourList;
-
 			for (int j = 0; j < willChooseCardCnt; j++) {
 				Card card = curGroupCardList.get(j);
 				int[] choocePos = choosePosList.get(j);
@@ -313,6 +323,9 @@ public class CardServiceImpl implements CardService {
 	static CardDetailDto first = null;
 
 	public List<EdgeDto> getContour(List<CardDetailDto> curGroupCardDetailDtoList) {
+		// 일단 컨투어 안나오게 함.
+		if (true)
+			return new ArrayList<>();
 		// 컨벡스헐을 이용해서 볼록껍질을 찾자.
 		// 나머지 점들은 이어주자.
 		// 점들 중, x좌표값이나, y좌표값이 가장 작은 점을 기준점으로 잡는다
@@ -339,8 +352,8 @@ public class CardServiceImpl implements CardService {
 					return -1; // 오름차순
 				else if (ccwR < 0)
 					return 1; // 내림차순
-				double distR1 = Math.round(CalcUtil.dist(first, second)*10000)/10000.0;
-				double distR2 = Math.round(CalcUtil.dist(first, third	)*10000)/10000.0;
+				double distR1 = Math.round(CalcUtil.dist(first, second) * 10000) / 10000.0;
+				double distR2 = Math.round(CalcUtil.dist(first, third) * 10000) / 10000.0;
 
 				if (distR1 >= distR2)
 					return 1;
@@ -399,6 +412,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	public ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto) {
+		// 컨투어 안나오게 함.
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
 
 		GroupFlagEnum groupFlag;
@@ -412,14 +426,14 @@ public class CardServiceImpl implements CardService {
 		long userId = authProvider.getUserIdFromPrincipalDefault();
 
 		TempDto tempDto = null;
-		if (cardList.size() < 300) {
+		if (cardList.size() < 300 && groupFlag != GroupFlagEnum.DETAIL) {
 			tempDto = getCardListUseCoordinate(cardList, groupFlag, userId);
 		} else {
 			tempDto = getCardListUsePolygon(cardList, groupFlag, userId);
 		}
 
 		List<CardDetailDto> cardDetailDtoList = tempDto.getCardDetailDtoList();
-		List<EdgeDto> contourList = tempDto.getContourList();
+
 		List<EdgeDto> edgeDtoList = tempDto.getEdgeDtoList();
 		List<GroupInfoDto> groupInfoDtoList = tempDto.getGroupInfoDtoList();
 
@@ -542,32 +556,23 @@ public class CardServiceImpl implements CardService {
 			int allocatedSectionIdx = allocatedSectionsMap.get(key);
 
 			List<Point3D> shuffledPointList = null;
-			Point3D centerPoint = null;
 
 			// 작은 섹션일때
 			if (allocatedSectionIdx > 0) {
 				allocatedSectionIdx -= 1;
 				shuffledPointList = new ArrayList<>(Icosphere.list_32.get(allocatedSectionIdx));
-				centerPoint = Icosphere.list_32_center.get(allocatedSectionIdx);
 			} else {
 				// 큰 섹션일때
 				allocatedSectionIdx *= -1;
 				shuffledPointList = new ArrayList<>(Icosphere2.list_8.get(allocatedSectionIdx));
-				centerPoint = Icosphere.list_8_center.get(allocatedSectionIdx);
 			}
-
-			groupInfoDtoList.add(
-				GroupInfoDto
-					.builder()
-					.groupName(key + groupFlag)
-					.x(centerPoint.getX() * RADIUS)
-					.y(centerPoint.getZ() * RADIUS)
-					.z(centerPoint.getY() * RADIUS)
-					.build());
 
 			Collections.shuffle(shuffledPointList);
 			List<CardDetailDto> curGroupCardDetailDtoList = new ArrayList<>();
 			List<EdgeDto> curGroupEdgeDtoList = new ArrayList<>();
+			double centerX = 0;
+			double centerY = 0;
+			double centerZ = 0;
 
 			for (int i = 0; i < curCardGroupCnt; i++) {
 				Point3D curPoint = shuffledPointList.get(i);
@@ -576,8 +581,19 @@ public class CardServiceImpl implements CardService {
 					curPoint.getY() * RADIUS,
 					curCard.getUser().getId().longValue() == userId);
 				curGroupCardDetailDtoList.add(dto);
-
+				centerX += curPoint.getX();
+				centerY += curPoint.getY();
+				centerZ += curPoint.getZ();
 			}
+
+			groupInfoDtoList.add(
+				GroupInfoDto
+					.builder()
+					.groupName(key)
+					.x(centerX * RADIUS / curCardGroupCnt)
+					.y(centerZ * RADIUS / curCardGroupCnt)
+					.z(centerY * RADIUS / curCardGroupCnt)
+					.build());
 
 			// 외곽선 따기
 			contour = getContour(curGroupCardDetailDtoList);
