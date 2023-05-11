@@ -52,7 +52,7 @@ export default function InfoModi() {
     if (!input.match(passwordReg)) {
       setPassword1Warning(
         //8~16자 사이 대문자, 특수문자 한개씩 필수 포함 가능한 특수문자 목록 '!', '@', '?', '#'
-        "알파벳 대소문자, 숫자, !@?# 포함 8글자 16글자 사이",
+        "영문 포함 8글자 16글자 사이(특수문자는 # @ ! ? 만 가능)",
       );
     } else {
       setPassword1Warning("");
