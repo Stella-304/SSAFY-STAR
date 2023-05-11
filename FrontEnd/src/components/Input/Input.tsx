@@ -87,18 +87,18 @@ export default function Input({
             disabled={disable}
           ></input>
           {type === "password" && (
-            <div className="absolute bottom-4 right-20 h-16 w-16">
+            <div className="absolute bottom-38 right-26 h-20 w-20">
               {inputType === "password" ? (
                 <img
-                  src="/icons/eye.svg"
-                  className="ml-15 h-16 w-16 cursor-pointer"
+                  src="/icons/eye-white.svg"
+                  className="ml-15 h-20 w-20 cursor-pointer"
                   onClick={convert}
                   alt="비밀번호 보기"
                 />
               ) : (
                 <img
-                  src="/icons/eye-slash.svg"
-                  className="ml-15 h-16 w-16 cursor-pointer"
+                  src="/icons/eye-slash-white.svg"
+                  className="ml-15 h-20 w-20 cursor-pointer"
                   onClick={convert}
                   alt="비밀번호"
                 />

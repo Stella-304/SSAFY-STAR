@@ -27,7 +27,6 @@ import { setUser } from "../../stores/user/user";
 import { setPath } from "../../stores/page/path";
 import { USER_NONAME } from "../../constants/default";
 
-
 export default function CardSubmit() {
   const navigate = useNavigate();
   const { type } = useParams();
@@ -231,9 +230,9 @@ export default function CardSubmit() {
 
   return (
     <FormLayout>
-      <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
+      <div className="flex h-full w-full flex-col items-center gap-24 font-neob font-bold text-white">
         <div>
-          <span className="mt-80 mb-40 block text-4xl font-bold">별 등록</span>
+          <span className="mb-20 mt-60 block text-4xl font-bold">별 등록</span>
         </div>
         <div className="mb-8 h-full w-4/5">
           <div>
@@ -280,7 +279,9 @@ export default function CardSubmit() {
               value={card.content}
               cardRegist={true}
             />
-            <div className="mt-30 border-b-3 font-neob text-white text-24 text-center py-10">선택사항</div>
+            <div className="mt-30 border-b-3 py-10 text-center font-neob text-24 text-white">
+              선택사항
+            </div>
             <>
               <div className="flex flex-row gap-24">
                 <Select
@@ -373,7 +374,7 @@ export default function CardSubmit() {
               />
             </>
           </div>
-          <div className="flex justify-center gap-16 mt-40 mb-80 pb-80">
+          <div className="mb-80 mt-40 flex justify-center gap-16 pb-80">
             {active ? (
               <MidButton
                 value={type === "modify" ? "수정" : "등록"}
