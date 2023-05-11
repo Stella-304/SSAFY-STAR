@@ -36,4 +36,9 @@ public class ChartController {
                 : ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, chartDto));
     }
 
+    @GetMapping("/saying")
+    @ApiOperation(value = "명언 조회")
+    public ResponseEntity<ResponseDto> getSaying() {
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, chartService.sayingGet()));
+    }
 }
