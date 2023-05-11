@@ -35,7 +35,6 @@ public class CardRepositoryImpl implements CardRepositoryCustom {
 	}
 
 	private BooleanExpression searchCondition(SearchConditionReqDto searchConditionReqDto) {
-
 		BooleanExpression predicate = Expressions.asBoolean(true).isTrue();
 		for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
 			List<String> list = searchConditionReqDto.getlists().get(searchColumn);

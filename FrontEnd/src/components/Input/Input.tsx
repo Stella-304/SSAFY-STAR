@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 
 interface props {
   id: string;
@@ -15,6 +15,9 @@ interface props {
   queryValue?: string;
   placeholder?: string;
   cardRegist?:boolean;
+  textareaHeight?: string;
+  inputHeight?: string;
+  inputWidth?: string;
 }
 
 export default function Input({
@@ -32,6 +35,9 @@ export default function Input({
   queryValue,
   placeholder,
   cardRegist
+  textareaHeight,
+  inputHeight,
+  inputWidth,
 }: props) {
   const [inputType, setInputType] = useState(type);
   const convert = () => {
@@ -41,8 +47,15 @@ export default function Input({
       setInputType("password");
     }
   };
+
+  const textAreaStyle: CSSProperties = {
+    height: textareaHeight,
+  };
+  const inputStyle: CSSProperties = {
+    height: inputHeight,
+    width: inputWidth,
+  };
   return (
-    
     <div className="relative flex flex-col">
       {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo mt-20">
         {label}
@@ -55,6 +68,7 @@ export default function Input({
           className="resize-none border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
           onChange={(e) => onChange(e.target.value)}
           value={value}
+          style={textAreaStyle}
         ></textarea>
       ) : (
         <>
