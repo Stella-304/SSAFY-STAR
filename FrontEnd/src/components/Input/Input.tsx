@@ -14,7 +14,7 @@ interface props {
   querySelect?: (params: string) => void;
   queryValue?: string;
   placeholder?: string;
-  cardRegist?:boolean;
+  cardRegist?: boolean;
   textareaHeight?: string;
   inputHeight?: string;
   inputWidth?: string;
@@ -34,7 +34,7 @@ export default function Input({
   querySelect,
   queryValue,
   placeholder,
-  cardRegist
+  cardRegist,
   textareaHeight,
   inputHeight,
   inputWidth,
@@ -57,15 +57,19 @@ export default function Input({
   };
   return (
     <div className="relative flex flex-col">
-      {cardRegist?<div className="relative h-8 right-0 text-white text-bold font-neo mt-20">
-        {label}
-        {warning && <span className="text-12 text-red2 "> *{warning}</span>}
-        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
-      </div>:<></>}
+      {cardRegist ? (
+        <div className="text-bold relative right-0 mt-20 h-8 font-neo text-white">
+          {label}
+          {warning && <span className="text-12 text-red2 "> *{warning}</span>}
+          {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+        </div>
+      ) : (
+        <></>
+      )}
       {type === "textarea" ? (
         <textarea
           id={id}
-          className="resize-none border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
+          className="mt-20 resize-none rounded-16 border-3 border-white bg-black bg-opacity-70 px-16 py-16 font-neo text-white shadow-neon2"
           onChange={(e) => onChange(e.target.value)}
           value={value}
           style={textAreaStyle}
@@ -74,7 +78,7 @@ export default function Input({
         <>
           <input
             ref={inputRef}
-            className="border-3 rounded-16 text-white border-white mt-20 bg-black bg-opacity-70 px-16 py-16 shadow-neon2 font-neo"
+            className="mt-20 rounded-16 border-3 border-white bg-black bg-opacity-70 px-16 py-16 font-neo text-white shadow-neon2"
             id={id}
             type={inputType}
             onChange={(e) => onChange(e.target.value)}
@@ -103,12 +107,16 @@ export default function Input({
           )}
         </>
       )}
-      {cardRegist?<></>:<div className="relative h-16 right-0 text-end text-bold font-neo">
-        {label}
-        {warning && <span className="text-12 text-red2"> *{warning}</span>}
-        {confirm && <span className="text-12 text-white"> *{confirm}</span>}
-      </div>}
-      
+      {cardRegist ? (
+        <></>
+      ) : (
+        <div className="text-bold relative right-0 h-16 text-end font-neo">
+          {label}
+          {warning && <span className="text-12 text-red2"> *{warning}</span>}
+          {confirm && <span className="text-12 text-white"> *{confirm}</span>}
+        </div>
+      )}
+
       {value !== "" &&
       querySelect !== undefined &&
       queryResult !== undefined ? (
