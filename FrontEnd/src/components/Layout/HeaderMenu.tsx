@@ -8,7 +8,7 @@ import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
 import SmallButton from "../Button/SmallButton";
 import Report from "@/pages/Report";
 
-export default function FloatingMenu() {
+export default function HeaderMenu() {
   const { nickname, email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );
