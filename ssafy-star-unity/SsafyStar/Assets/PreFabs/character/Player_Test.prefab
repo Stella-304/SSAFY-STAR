@@ -4926,7 +4926,7 @@ MonoBehaviour:
   museumPos: {fileID: 0}
   interpolationPos: {fileID: 8583504200555873730}
   Camera: {fileID: 0}
-  JumpForce: 5
+  JumpForce: 3
   GravityValue: -3
   anim: {fileID: 2449561562819141560}
   networkAnimator: {fileID: 4344544146227447543}
@@ -4977,7 +4977,7 @@ MonoBehaviour:
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
   gravity: -20
-  jumpImpulse: 15
+  jumpImpulse: 13
   acceleration: 50
   braking: 10
   maxSpeed: 4
