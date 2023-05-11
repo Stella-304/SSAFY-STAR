@@ -19,7 +19,12 @@ public class PlayerMovement : NetworkBehaviour
     private float playerRunSpeed = 6f;
     [SerializeField]
     private bool run = false;
+
+    [Header("Chat")]
     private float chatDistance = 3f;
+    private bool chatActive = false;
+    private GameObject NPC;
+    public bool isChatting = false;
 
     public bool goMuseum = false;
     public bool doRespawn = false;
@@ -80,6 +85,20 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
+            if(chatActive)
+            {
+                if (Vector3.Distance(transform.position, NPC.transform.position) > chatDistance) return;
+
+                NPC.GetComponent<NPC>().player = gameObject;
+                NPC.gameObject.GetComponent<NPC>().doChat = true;
+                cameraControl.NPCPriority(transform);
+
+                stop = true;
+                isChatting = true;
+
+                return;
+            }
+
             if (!controller.IsGrounded) return;
             _jumpPressed = true;
         }
@@ -115,6 +134,7 @@ public class PlayerMovement : NetworkBehaviour
                     cameraControl.NPCPriority(transform);
 
                     stop = true;
+                    isChatting = true;
                 }
             }
         }
@@ -190,11 +210,22 @@ public class PlayerMovement : NetworkBehaviour
         {
             doRespawn = true;
         }
-        else if(other.gameObject.layer.Equals("NPC"))
+        else if(other.gameObject.tag.Equals("NPC"))
         {
-
+            NPC = other.gameObject;
+            chatActive = true;
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("NPC"))
+        {
+            chatActive = false;
+            NPC = null;
+        }
+    }
+
     private void ResetAnimation()
     {
         networkAnimator.Animator.SetBool("Walk", false);

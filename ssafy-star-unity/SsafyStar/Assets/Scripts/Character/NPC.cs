@@ -97,6 +97,7 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         player.GetComponent<PlayerMovement>().stop = false;
+        player.GetComponent<PlayerMovement>().isChatting = false;
     }
 
     private void OnTriggerEnter(Collider other)
