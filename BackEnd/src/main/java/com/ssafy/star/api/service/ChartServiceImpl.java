@@ -7,6 +7,7 @@ import com.ssafy.star.common.db.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,13 +57,12 @@ public class ChartServiceImpl implements ChartService {
         }
         else return null;
 
-        Map<String, Object[]> chart = new HashMap<>();
+
+        List<Object[]> chart = new ArrayList<>();
 
         int totalSize = map.values().stream().mapToInt(List::size).sum();
-        map.forEach((k, v) -> chart.put(k, (new Object[]{v.size(), Math.round(((v.size()/(totalSize/100.0)) * 100)) /100.0})));
+        map.forEach((k, v) -> chart.add(new Object[]{k, v.size(), Math.round(((v.size()/(totalSize/100.0)) * 100)) /100.0}));
 
         return new ChartDto(chart);
     }
-
-
 }
