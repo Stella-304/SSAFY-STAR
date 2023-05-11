@@ -4,6 +4,8 @@ import { CardSubmitType } from "../../types/CardSubmit";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { isExpire } from "../error/isExpire";
+import { useDispatch } from "react-redux";
+import { logout } from "@/stores/user/user";
 const fetcher = (payload: CardSubmitType) =>
   api
     .put(CARD_SUBMIT_URL, payload, {
@@ -18,18 +20,23 @@ const fetcher = (payload: CardSubmitType) =>
  */
 const useCardModify = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
       navigate("/universe");
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        if (e.response.status === 403) {
-          alert("로그인 해주세요.");
-        } else {
-          alert("잠시후 시도해 주세요");
-        }
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
+      }
+      if (e.response.status === 403) {
+        alert("로그인 해주세요.");
+      } else {
+        alert("잠시후 시도해 주세요");
       }
     },
   });

@@ -3,6 +3,8 @@ import { api } from "../api";
 import { ROLE_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 import { isExpire } from "../error/isExpire";
+import { useDispatch } from "react-redux";
+import { logout } from "@/stores/user/user";
 
 const fetcher = () =>
   api
@@ -17,6 +19,7 @@ const fetcher = () =>
  */
 const useUserRole = (setAdminCheck: (params: any) => void) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useQuery("/userrole", () => fetcher(), {
     enabled: false,
     retry: 0,
@@ -28,9 +31,13 @@ const useUserRole = (setAdminCheck: (params: any) => void) => {
       }
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        alert("잠시후에 시도해주세요");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      alert("잠시후에 시도해주세요");
     },
   });
 };

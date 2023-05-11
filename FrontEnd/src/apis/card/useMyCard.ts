@@ -5,6 +5,7 @@ import { setCard } from "../../stores/card/cardsubmit";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isExpire } from "../error/isExpire";
+import { logout } from "@/stores/user/user";
 const fetcher = () =>
   api
     .get(CARD_MYCARD_URL, {
@@ -24,13 +25,17 @@ const useMyCard = (setCompany: (params: string) => void) => {
       dispatch(setCard(data.value));
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        if (e.response.status === 403) {
-          alert(e.response.data.message);
-          navigate("/");
-        } else {
-          alert("잠시후 시도해 주세요.");
-        }
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
+      }
+      if (e.response.status === 403) {
+        alert(e.response.data.message);
+        navigate("/");
+      } else {
+        alert("잠시후 시도해 주세요.");
       }
     },
   });

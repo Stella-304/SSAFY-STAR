@@ -2,6 +2,9 @@ import { useQuery } from "react-query";
 import { BADGE_STATUS_URL } from "../../utils/urls";
 import { api } from "../api";
 import { isExpire } from "../error/isExpire";
+import { logout } from "@/stores/user/user";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const fetcher = (type: string) =>
   api
@@ -23,6 +26,8 @@ const useUserBadgeStatus = (
   setStatus: (params: any) => void,
   setImgsrc: (params: string) => void,
 ) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useQuery(["/userbadgestatus", type], () => fetcher(type), {
     enabled: false,
     retry: 0,
@@ -33,9 +38,13 @@ const useUserBadgeStatus = (
     onError: (e: any) => {
       setStatus("");
       setImgsrc("");
-      if (!isExpire(e.response.status)) {
-        alert("잠시후에 시도해주세요");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      alert("잠시후에 시도해주세요");
     },
   });
 };

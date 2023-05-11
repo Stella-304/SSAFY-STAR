@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { USER_URL } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../../stores/user/user";
+import { logout, setUser } from "../../stores/user/user";
 import { useDispatch } from "react-redux";
 import { api } from "../api";
 import { isExpire } from "../error/isExpire";
@@ -30,10 +30,14 @@ const useUserCheck = () => {
       navigate("/");
     },
     onError: (e: any) => {
-      if (!isExpire(e.response.status)) {
-        alert("토큰이 확인이 안됩니다.");
-        navigate("/login");
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
       }
+      alert("토큰이 확인이 안됩니다.");
+      navigate("/login");
     },
   });
 };
