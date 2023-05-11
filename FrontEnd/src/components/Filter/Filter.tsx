@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilterTabOpen,
+  setGroupInfoList,
   setStarEdgeList,
   setStarInfo,
   setViewCard,
@@ -90,6 +91,7 @@ export default function Filter() {
     if (data) {
       dispatch(setStarInfo(data.cardList));
       dispatch(setStarEdgeList(data.edgeList));
+      dispatch(setGroupInfoList(data.groupInfoDtoList));
     }
   }, [data]);
 
@@ -150,23 +152,57 @@ export default function Filter() {
           <div className="mt-10 flex">
             <div className="ml-16 text-12 text-[#84919A]">그룹화</div>
           </div>
-          <div className="mb-10 flex gap-15 pl-25">
-            <img
-              src={generationIcon}
-              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
-            />
-            <img
-              src={campusIcon}
-              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
-            />
-            <img
-              src={swTierIcon}
-              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
-            />
-            <img
-              src={bojTierIcon}
-              className="h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
-            />
+          <div className="relative mb-10 flex gap-10 pl-15">
+            <div className="group">
+              <img
+                src={generationIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "DETAIL")}
+              />
+              <div className="invisible absolute left-0 top-50 h-30 w-100 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                기수/지역/반
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={generationIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "GENERATION")}
+              />
+              <div className="invisible absolute left-60 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                기수
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={campusIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "CAMPUS")}
+              />
+              <div className="invisible absolute left-110 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                캠퍼스
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={swTierIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "SWTIER")}
+              />
+              <div className="invisible absolute left-140 top-50 h-30 w-80 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                역량테스트
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={bojTierIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "BOJTIER")}
+              />
+              <div className="invisible absolute left-190 top-50 h-30 w-70 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                백준티어
+              </div>
+            </div>
           </div>
           <div className="flex">
             <div className="ml-16 text-12 text-[#84919A]">기본 검색</div>
@@ -183,7 +219,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[0] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">기수</div>
@@ -221,7 +257,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[1] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">지역</div>
@@ -258,7 +294,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[2] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">반(1학기)</div>
@@ -298,7 +334,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[3] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">회사</div>
@@ -341,7 +377,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[4] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">전공</div>
@@ -378,7 +414,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[5] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">FE/BE</div>
@@ -415,7 +451,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[6] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">트랙</div>
@@ -452,7 +488,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[7] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">역량테스트 등급</div>
@@ -489,7 +525,7 @@ export default function Filter() {
               src="icons/right-vector-gray.svg"
               className={
                 (tabOpen[8] ? "rotate-90" : "") +
-                " h-12 w-12 transition duration-500"
+                " duration-250 h-12 w-12 transition"
               }
             />
             <div className="ml-5 text-14 font-semibold">백준 티어</div>
