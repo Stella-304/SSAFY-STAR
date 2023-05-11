@@ -39,7 +39,7 @@ export default function HeaderMenu() {
     <>
       <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">
         <div
-          className="flex flex-row ml-8 h-44 cursor-pointer mt-16 select-none text-center font-nemo text-3xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
+          className="ml-8 mt-16 flex h-44 cursor-pointer select-none flex-row text-center font-nemo text-3xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
           onClick={() => navigate("/")}
         >
           <img src="/icons/logo.svg" className="h-35"></img>
@@ -55,6 +55,11 @@ export default function HeaderMenu() {
             onClick={() => window.open(`${SERVER_API}/metaverse`)}
             value="메타버스"
             path={path === "metaverse"}
+          />
+          <HeaderButton
+            onClick={() => navigate("/statistics")}
+            value="싸피통계"
+            path={path === "statistics"}
           />
           {email ? (
             <>
