@@ -20,7 +20,7 @@ import javax.annotation.security.RolesAllowed;
 @Api(tags = {"차트 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/chart")
-@RolesAllowed("ROLE_USER")
+//@RolesAllowed("ROLE_USER")
 public class ChartController {
 
     private final ChartService chartService;
