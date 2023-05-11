@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useCallback, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { Html, OrbitControls, Stars, Text } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -44,6 +44,11 @@ export default function Universe() {
   // 별자리 선 리스트
   const starFilterEdgeList = useSelector(
     (state: RootState) => state.starInfo.starEdgeList,
+  );
+
+  // 별자리 그룹 리스트
+  const starGroupInfoList = useSelector(
+    (state: RootState) => state.starInfo.groupInfoList,
   );
 
   // 카드 보기 / 닫기
@@ -134,6 +139,16 @@ export default function Universe() {
               key={item.cardId}
             />
           ))}
+          {starGroupInfoList?.map((item: any) => (
+            <Html
+              position={new THREE.Vector3(item.x, item.y, item.z)}
+              zIndexRange={[0, 0]}
+              className="pointer-events-none text-20 text-yellow-300 text-opacity-80"
+            >
+              {item.groupName}
+            </Html>
+          ))}
+
           <Stars
             radius={130}
             depth={30}

@@ -26,6 +26,7 @@ import Universe from "./pages/test/Universe";
 import Metaverse from "./pages/test/Metaverse";
 import MainPage from "./pages/MainPage";
 import Certify from "./pages/User/Mypage/Certify";
+import Statistics from "./pages/Statistics/Statistics";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 declare global {
@@ -94,10 +95,13 @@ const router = createBrowserRouter([
         path: "metaverse",
         element: <Metaverse />,
       },
+      {
+        path: "statistics",
+        element: <Statistics />,
+      },
     ],
   },
   { path: "*", element: <Notfound /> },
-  // 테스트 페이지
 ]);
 createRoot(container).render(
   <QueryClientProvider client={queryClient}>

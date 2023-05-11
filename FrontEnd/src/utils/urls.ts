@@ -78,3 +78,6 @@ export const REPLY_URL = SERVER_API + "/app/comment/reply";
 
 //신고
 export const REPORT_URL = SERVER_API + "/app/report";
+
+//차트
+export const CHART_URL = SERVER_API + "/app/chart";

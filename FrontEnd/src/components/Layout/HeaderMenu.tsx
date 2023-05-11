@@ -10,7 +10,7 @@ import Report from "@/pages/Report";
 import { SERVER_API } from "@/utils/urls";
 import FloatButton from "../Button/FloatButton";
 
-export default function FloatingMenu() {
+export default function HeaderMenu() {
   const { nickname, email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );

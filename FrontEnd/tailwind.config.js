@@ -126,6 +126,7 @@ module.exports = {
         shine: "shine 3s ease-in-out",
         dropdownSlideIn: "dropdownSlideIn 1s ease-in-out",
         dropdownSlideOut: "dropdownSlideOut 1s ease-in-out",
+        spinOnce: "spin 0.5s ease-in-out",
       },
     },
   },

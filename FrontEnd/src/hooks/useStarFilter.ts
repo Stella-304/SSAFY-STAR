@@ -121,6 +121,8 @@ export default function useStarFilter(
               bojTier: [...state.bojTier, item],
             }));
         break;
+      case "groupFlag":
+        setFilter((state) => ({ ...state, groupFlag: item }));
     }
   }, [filterChange]);
 
