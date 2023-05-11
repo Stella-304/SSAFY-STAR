@@ -43,6 +43,7 @@ module.exports = {
         nemo:["nemo030"],
         neo:["neo"],
         neob:["neob"],
+        gothic:["gothic"],
       },
       boxShadow: {
         neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 20px rgba(70,140,190,0.3)",

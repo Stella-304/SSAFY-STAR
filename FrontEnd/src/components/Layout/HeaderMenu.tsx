@@ -34,11 +34,16 @@ export default function FloatingMenu() {
     <>
       <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">
         <div
-          className="flex flex-row ml-8 h-44 cursor-pointer mt-16 select-none text-center font-nemo text-3xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
+          className="flex flex-row gap-10 justify-center ml-16 h-44 cursor-pointer mt-13 select-none text-center font-gothic text-2xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
           onClick={() => navigate("/")}
         >
-          <img src="/icons/logo.svg" className="h-35"></img>
-          SSAFY-STAR
+          <div>
+          <img src="/icons/logo.png" className="h-35"></img>
+
+          </div>
+          <div className="flex justify-center items-center mb-13">
+            SSAFY-STAR
+          </div>
         </div>
         <div className="flex justify-end gap-8">
           <HeaderButton
