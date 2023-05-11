@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Report {
 
     @Id @GeneratedValue
-    private String id;
+    private Long id;
 
     @Column(length = 10)
     private String article;
