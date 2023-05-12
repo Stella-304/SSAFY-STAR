@@ -115,11 +115,7 @@ export default function HeaderMenu() {
         </div>
       </div>
       <div className="fixed bottom-66 right-16 z-10 h-40 hover:opacity-90">
-        <FloatButton
-          path={false}
-          value="📢신고"
-          onClick={() => setReportOpen(true)}
-        />
+        <FloatButton path={false} value="📢신고" onClick={openReport} />
       </div>
       <div
         className="fixed bottom-16 right-16 z-10 h-40 hover:opacity-90"
@@ -127,7 +123,9 @@ export default function HeaderMenu() {
       >
         <FloatButton path={false} value="카카오+" onClick={() => {}} />
       </div>
-      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      {reportOpen && (
+        <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      )}
     </>
   );
 }
