@@ -9,6 +9,7 @@ interface starInfoState {
   filterOpen: boolean;
   hoverStarPosition: THREE.Vector3 | null;
   groupInfoList: any[];
+  filterName: string;
 }
 
 const initialState: starInfoState = {
@@ -19,6 +20,7 @@ const initialState: starInfoState = {
   filterOpen: false,
   hoverStarPosition: null,
   groupInfoList: [],
+  filterName: "",
 };
 
 const starInfoSlice = createSlice({
@@ -46,6 +48,9 @@ const starInfoSlice = createSlice({
     setGroupInfoList(state, action) {
       state.groupInfoList = action.payload;
     },
+    setFilterName(state, action) {
+      state.filterName = action.payload;
+    },
   },
 });
 
@@ -57,6 +62,7 @@ export const {
   setFilterTabOpen,
   setHoverStarPosition,
   setGroupInfoList,
+  setFilterName,
 } = starInfoSlice.actions;
 
 export default starInfoSlice.reducer;

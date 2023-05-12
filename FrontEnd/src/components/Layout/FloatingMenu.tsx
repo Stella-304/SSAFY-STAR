@@ -102,6 +102,11 @@ export default function FloatingMenu() {
             value="메타버스"
             path={path === "metaverse"}
           />
+          <FloatButton
+            onClick={() => navigate("/statistics")}
+            value="싸피통계"
+            path={path === "statistics"}
+          />
           <FloatButton path={false} value="📢신고" onClick={openReport} />
           <FloatButton path={false} value="카카오+" onClick={addChannel} />
         </div>
