@@ -55,8 +55,6 @@ export default function Universe() {
     (state: RootState) => state.starInfo.filterName,
   );
 
-  console.log(filterName);
-
   // 카드 보기 / 닫기
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
@@ -145,11 +143,12 @@ export default function Universe() {
               key={item.cardId}
             />
           ))}
-          {starGroupInfoList?.map((item: any) => (
+          {starGroupInfoList?.map((item: any, index: number) => (
             <Html
               position={new THREE.Vector3(item.x, item.y, item.z)}
               zIndexRange={[0, 0]}
               className="pointer-events-none text-20 text-yellow-300 text-opacity-80"
+              key={index}
             >
               {item.groupName}
             </Html>

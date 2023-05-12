@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
-import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
-import SmallButton from "../Button/SmallButton";
 import Report from "@/pages/Report";
 import { SERVER_API } from "@/utils/urls";
 import FloatButton from "../Button/FloatButton";
@@ -116,19 +114,17 @@ export default function HeaderMenu() {
           )}
         </div>
       </div>
-      <button className="fixed bottom-66 right-16 h-40 hover:opacity-90">
+      <div className="fixed bottom-66 right-16 z-10 h-40 hover:opacity-90">
         <FloatButton path={false} value="📢신고" onClick={openReport} />
-      </button>
-      <button
-        className="fixed bottom-16 right-16 h-40 hover:opacity-90"
+      </div>
+      <div
+        className="fixed bottom-16 right-16 z-10 h-40 hover:opacity-90"
         onClick={addChannel}
       >
         <FloatButton path={false} value="카카오+" onClick={() => {}} />
-      </button>
-      {reportOpen ? (
+      </div>
+      {reportOpen && (
         <Report open={reportOpen} onClose={() => setReportOpen(false)} />
-      ) : (
-        <></>
       )}
     </>
   );

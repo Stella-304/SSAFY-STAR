@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import BigButton from "../../../components/Button/BigButton";
 import SmallButton from "../../../components/Button/SmallButton";
 import Input from "../../../components/Input/Input";
 import userBojUpdate from "../../../apis/user/useBojUpdate";
-import { useNavigate } from "react-router-dom";
 import { passwordReg, nicknameReg } from "../../../utils/regex";
 import useUserModify from "../../../apis/user/useUserModify";
 import useUserPwdModify from "../../../apis/user/useUserPwdModify";

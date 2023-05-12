@@ -8,14 +8,14 @@ export default function HeaderButton({ value, onClick, path }: props) {
     <>
       {path ? (
         <button
-          className="h-32 w-100 rounded-4 bg-black text-[#2f81f7] font-neob"
+          className="h-32 w-100 rounded-4 bg-black font-neob text-[#2f81f7]"
           onClick={onClick}
         >
           {value}
         </button>
       ) : (
         <button
-          className="h-32 w-100 rounded-4 bg-black text-white hover:text-[#2f81f7] font-neo"
+          className="h-32 w-100 rounded-4 bg-black font-neo text-white hover:text-[#2f81f7]"
           onClick={onClick}
         >
           {value}

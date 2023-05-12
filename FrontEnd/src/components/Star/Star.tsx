@@ -16,7 +16,6 @@ export default function Star(props: any) {
     let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
       if (props.item.mine) {
-        console.log("mine!");
         c = "red";
       } else if (hovered) {
         c = "yellow";
@@ -63,20 +62,6 @@ export default function Star(props: any) {
       };
     }
   }, [props.starPos]);
-
-  // useLayoutEffect(() => {
-  //   if (hovered) {
-  //     starRef.current.scale.x = 1.2;
-  //     starRef.current.scale.y = 1.2;
-  //     starRef.current.scale.z = 1.2;
-  //     dispatch(setStarInfoPreview(props.item));
-  //   } else {
-  //     starRef.current.scale.x = 0.5;
-  //     starRef.current.scale.y = 0.5;
-  //     starRef.current.scale.z = 0.5;
-  //     dispatch(setStarInfoPreview(null));
-  //   }
-  // }, [hovered]);
 
   return (
     <>
