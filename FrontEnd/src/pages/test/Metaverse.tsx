@@ -90,7 +90,7 @@ export default function Metaverse() {
       )}
       <Unity
         unityProvider={unityProvider}
-        style={{ width: "100%", height: "95%" }}
+        style={{ width: "100%", height: "100%" }}
       />
       <FloatingMenu />
     </>
