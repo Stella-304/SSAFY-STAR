@@ -8,6 +8,7 @@ using TMPro;
 using System.Security.Cryptography;
 using WebGLSupport;
 using System.Text;
+using Newtonsoft.Json.Serialization;
 
 public enum ChatType { Normal = 0, Party, Guild, Whisper, System, Count }
 public class ChatController : NetworkBehaviour
@@ -130,7 +131,7 @@ public class ChatController : NetworkBehaviour
     public void SendMessage()
     {
         Debug.Log(inputChat.text);
-        RPCSendMessage(username, inputChat.text, currentInputType);
+        RPCSendMessage(PlayerPrefs.GetString("Nickname"), inputChat.text, currentInputType);
         if (currentInputType == ChatType.Normal)
         {
             ActiveSpeechBubble(inputChat.text);
@@ -194,28 +195,20 @@ public class ChatController : NetworkBehaviour
             //명령어, 귓말대상, 내용
             string[] whisper = message.Split(' ', 3);
 
-            //모든 유저의 아이디를 검색에 동일한 아이디가 있는지 검사 후
-            //대상이 있으면 보내고 없으면 시스템 메세지 출력
-            //if (whisper[1] == friendID)
-            //{
-            lastWhisperID = whisper[1];
-            string mynick = PlayerPrefs.GetString("Nickname");
+            lastWhisperID = whisper[1]; // 귓말 대상
+            string mynick = PlayerPrefs.GetString("Nickname"); // 내 아이디
+            mynick = mynick.Substring(0, mynick.Length - 1); // 마지막 글자를 뺀다(값 비교를 위함)
+            username = username.Substring(0, username.Length - 1); // 마지막 글자를 뺀다(값 비교를 위함)
 
-            mynick = mynick.Substring(0, mynick.Length - 1);
+            bool isVisible = false;
+            if (lastWhisperID == mynick || username == mynick)
+            {
+                isVisible = true;
+            }
 
-            int test1 = whisper.Length;
-            int test2 = mynick.Length;
+            PrintChatData(username, $"[to {whisper[1]}] {whisper[2]}", ChatType.Whisper, ChatTypeToColor(ChatType.Whisper), isVisible);
 
-
-            bool isVisible = lastWhisperID == mynick;
-
-            Debug.Log("======== me:" + mynick + "/ you:" + lastWhisperID + "/ visible:" + isVisible);
-            PrintChatData(username, $"[to {whisper[1]}] {whisper[2]}", ChatType.Whisper, ChatTypeToColor(ChatType.Whisper), lastWhisperID == mynick);
-            //}
-            //else
-            //{
             //    PrintChatData("[system]", $"[{whisper[1]}]님을 찾지 못했습니다", ChatType.System, ChatTypeToColor(ChatType.System));
-            //}
         }
         //마지막에 귓말을 보낸 대상에게 다시 귓말 보내기
         else if (message.StartsWith("/r"))
