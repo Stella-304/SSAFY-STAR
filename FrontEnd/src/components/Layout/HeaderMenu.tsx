@@ -35,18 +35,25 @@ export default function HeaderMenu() {
       channelPublicId: "_xgZYxkxj",
     });
   }
+
+  const openReport = () => {
+    if (!email) {
+      alert("로그인후 이용해주세요");
+      return;
+    }
+    setReportOpen(true);
+  };
   return (
     <>
       <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">
         <div
-          className="flex flex-row gap-10 justify-center ml-16 h-44 cursor-pointer mt-13 select-none text-center font-gothic text-2xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
+          className="ml-16 mt-13 flex h-44 cursor-pointer select-none flex-row justify-center gap-10 text-center font-gothic text-2xl leading-38 text-[#ffffff] hover:text-[#2f81f7]"
           onClick={() => navigate("/")}
         >
           <div>
-          <img src="/icons/logo.png" className="h-35"></img>
-
+            <img src="/icons/logo.png" className="h-35"></img>
           </div>
-          <div className="flex justify-center items-center mb-13">
+          <div className="mb-13 flex items-center justify-center">
             SSAFY-STAR
           </div>
         </div>
@@ -110,11 +117,7 @@ export default function HeaderMenu() {
         </div>
       </div>
       <button className="fixed bottom-66 right-16 h-40 hover:opacity-90">
-        <FloatButton
-          path={false}
-          value="📢신고"
-          onClick={() => setReportOpen(true)}
-        />
+        <FloatButton path={false} value="📢신고" onClick={openReport} />
       </button>
       <button
         className="fixed bottom-16 right-16 h-40 hover:opacity-90"
@@ -122,7 +125,11 @@ export default function HeaderMenu() {
       >
         <FloatButton path={false} value="카카오+" onClick={() => {}} />
       </button>
-      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      {reportOpen ? (
+        <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

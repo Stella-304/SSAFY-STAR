@@ -30,9 +30,9 @@ const useReport = () => {
         alert("다시 로그인 해주세요");
         dispatch(logout());
         navigate("/");
-      } else {
-        alert("로그인후 이용해 주세요");
+        return;
       }
+      alert("로그인후 이용해 주세요");
     },
   });
 };
