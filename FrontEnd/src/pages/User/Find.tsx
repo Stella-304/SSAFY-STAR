@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
 import FormLayout from "../../components/Layout/FormLayout";
 import { setEmail, resetFind } from "../../stores/user/find";
@@ -7,7 +6,6 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import { emailReg } from "../../utils/regex";
 import useFindPwd from "../../apis/user/useFindPwd";
-import BigButton from "../../components/Button/BigButton";
 import { useNavigate } from "react-router-dom";
 
 export default function Find() {

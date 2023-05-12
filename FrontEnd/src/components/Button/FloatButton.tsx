@@ -8,7 +8,7 @@ export default function FloatButton({ value, onClick, path }: props) {
     <>
       {path ? (
         <button
-          className="h-44 w-100 cursor-pointer rounded-16 border-3 border-white bg-black bg-white text-center font-neob text-16 text-black"
+          className="h-44 w-100 cursor-pointer rounded-16 border-3 border-white bg-black text-center font-neob text-16 text-black"
           onClick={onClick}
         >
           {value}

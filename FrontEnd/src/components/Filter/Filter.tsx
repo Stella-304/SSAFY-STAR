@@ -87,7 +87,6 @@ export default function Filter() {
       track: filter.track,
       groupFlag: filter.groupFlag,
     });
-    console.log(filter);
   }, [filter]);
 
   useEffect(() => {
@@ -114,7 +113,7 @@ export default function Filter() {
       <div
         className={
           (openAnimation
-            ? "translate-x-300 opacity-100 transition duration-700 "
+            ? "opacity-100 transition duration-700 translate-x-300 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
           " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
         }
