@@ -73,3 +73,7 @@ ProjectSettings.asset
 ProjectVersion.txt
 
 .vs/
+
+./Logs/*
+Logs/
+*.log

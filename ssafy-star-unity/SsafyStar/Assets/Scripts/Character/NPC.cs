@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class NPC : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class NPC : MonoBehaviour
     private GameObject chatUI;
     public bool doChat = false;
     public GameObject player;
+    [SerializeField]
+    private GameObject helperUI;
+    [SerializeField]
+    private TMP_Text texthelper;
 
     [Header("Ink Json")]
     [SerializeField]
@@ -92,5 +97,28 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         player.GetComponent<PlayerMovement>().stop = false;
+        player.GetComponent<PlayerMovement>().isChatting = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            helperUI.SetActive(true);
+            texthelper.text = "SPACE";
+        }
+        else if(other.gameObject.tag.Equals("NPC"))
+        {
+            helperUI.SetActive(true);
+            texthelper.text = "æ»≥Á«œººø‰";
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            helperUI.SetActive(false);
+        }
     }
 }
