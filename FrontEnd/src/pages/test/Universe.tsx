@@ -51,6 +51,12 @@ export default function Universe() {
     (state: RootState) => state.starInfo.groupInfoList,
   );
 
+  const filterName = useSelector(
+    (state: RootState) => state.starInfo.filterName,
+  );
+
+  console.log(filterName);
+
   // 카드 보기 / 닫기
   const viewCard = useSelector((state: RootState) => state.starInfo.viewCard);
 
@@ -195,7 +201,14 @@ export default function Universe() {
             카드로 보기
           </div>
         </div>
-
+        <div
+          className={
+            (isFilterOpen ? "left-[340px]" : "left-70") +
+            " absolute top-20 text-25 font-bold text-white"
+          }
+        >
+          {filterName}
+        </div>
         {selectedUserInfo && (
           <>
             <div
@@ -252,7 +265,7 @@ export default function Universe() {
               (isFilterOpen
                 ? "left-300 w-[calc(100%-300px)]"
                 : "left-30 w-full") +
-              " absolute top-0 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+              " absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
             }
           >
             {starFilterInfo?.map((item: User, index: number) => (

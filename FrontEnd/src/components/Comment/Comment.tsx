@@ -48,10 +48,15 @@ export default function Comment({ selectedUserInfo }: Iprops) {
       id: modifyCommentId,
     });
     setModifyReply(false);
+    setModifyCommentId(undefined);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReplyContent(e.target.value);
+  };
+
+  const handleModifyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setModifyContent(e.target.value);
   };
 
   useEffect(() => {
@@ -123,7 +128,7 @@ export default function Comment({ selectedUserInfo }: Iprops) {
                 <textarea
                   className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-black"
                   value={modifyContent}
-                  onChange={handleChange}
+                  onChange={handleModifyChange}
                 ></textarea>
                 <button
                   onClick={handleModify}

@@ -39,7 +39,7 @@ export default function Statistics() {
           src={refreshIcon}
           className={
             (refresh ? "animate-spinOnce" : "") +
-            " absolute right-20 top-10 h-50 w-50 cursor-pointer"
+            " absolute right-20 top-10 h-40 w-40 cursor-pointer"
           }
           onClick={() => setRefresh(true)}
         />

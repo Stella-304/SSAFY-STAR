@@ -2,7 +2,12 @@ import { useQuery } from "react-query";
 import { api } from "../api";
 import { REPORT_URL } from "../../utils/urls";
 
-const fetcher = () => api.get(REPORT_URL, {}).then(({ data }) => data);
+const fetcher = () =>
+  api
+    .get(REPORT_URL, {
+      headers: { Authorization: sessionStorage.getItem("accessToken") },
+    })
+    .then(({ data }) => data);
 
 const useReportCategory = (setReportCategoryList: (params: any) => void) => {
   return useQuery("/reportlist", fetcher, {
