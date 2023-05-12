@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setFilterName,
   setFilterTabOpen,
   setGroupInfoList,
   setStarEdgeList,
@@ -26,6 +27,7 @@ import bojTierIcon from "@/assets/icons/boj.png";
 import generationIcon from "@/assets/icons/generation.png";
 import campusIcon from "@/assets/icons/map.png";
 import classIcon from "@/assets/icons/classroom.png";
+import deleteIcon from "@/assets/icons/exit.png";
 
 export default function Filter() {
   const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
@@ -93,6 +95,7 @@ export default function Filter() {
       dispatch(setStarInfo(data.cardList));
       dispatch(setStarEdgeList(data.edgeList));
       dispatch(setGroupInfoList(data.groupInfoDtoList));
+      dispatch(setFilterName(data.filterName));
     }
   }, [data]);
 
@@ -111,7 +114,7 @@ export default function Filter() {
       <div
         className={
           (openAnimation
-            ? "opacity-100 transition duration-700 translate-x-300 "
+            ? "translate-x-300 opacity-100 transition duration-700 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
           " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
         }
@@ -153,7 +156,7 @@ export default function Filter() {
           <div className="mt-10 flex">
             <div className="ml-16 text-12 text-[#84919A]">그룹화</div>
           </div>
-          <div className="relative mb-10 flex gap-10 pl-15">
+          <div className="relative mb-10 flex w-250 flex-wrap gap-20 pl-15">
             <div className="group">
               <img
                 src={classIcon}
@@ -170,7 +173,7 @@ export default function Filter() {
                 className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "GENERATION")}
               />
-              <div className="invisible absolute left-60 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-70 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
                 기수
               </div>
             </div>
@@ -180,7 +183,7 @@ export default function Filter() {
                 className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "CAMPUS")}
               />
-              <div className="invisible absolute left-110 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-130 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
                 캠퍼스
               </div>
             </div>
@@ -190,7 +193,7 @@ export default function Filter() {
                 className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "SWTIER")}
               />
-              <div className="invisible absolute left-140 top-50 h-30 w-80 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-170 top-50 h-30 w-80 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
                 역량테스트
               </div>
             </div>
@@ -200,8 +203,18 @@ export default function Filter() {
                 className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "BOJTIER")}
               />
-              <div className="invisible absolute left-190 top-50 h-30 w-70 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-0 top-110 h-30 w-70 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
                 백준티어
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={deleteIcon}
+                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                onClick={() => handleClick("groupFlag", "")}
+              />
+              <div className="invisible absolute left-50 top-110 h-30 w-90 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+                그룹화제거
               </div>
             </div>
           </div>
