@@ -5,11 +5,16 @@ import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
 import kakaoPlusFriend from "../../assets/icons/channel_add_small_3X.png";
+import SmallButton from "../Button/SmallButton";
+import Report from "@/pages/Report";
+import { SERVER_API } from "@/utils/urls";
+import FloatButton from "../Button/FloatButton";
 
-export default function FloatingMenu() {
+export default function HeaderMenu() {
   const { nickname, email, cardRegistered } = useSelector(
     (state: RootState) => state.user,
   );
+  const [reportOpen, setReportOpen] = useState(false);
   const { path } = useSelector((state: RootState) => state.path);
   const navigate = useNavigate();
   const logoutMutate = useLogout();
@@ -52,11 +57,14 @@ export default function FloatingMenu() {
             path={path === "universe"}
           />
           <HeaderButton
-            onClick={() =>
-              window.open(`${process.env.REACT_APP_API}/metaverse`)
-            }
+            onClick={() => window.open(`${SERVER_API}/metaverse`)}
             value="메타버스"
             path={path === "metaverse"}
+          />
+          <HeaderButton
+            onClick={() => navigate("/statistics")}
+            value="싸피통계"
+            path={path === "statistics"}
           />
           {email ? (
             <>
@@ -101,9 +109,20 @@ export default function FloatingMenu() {
           )}
         </div>
       </div>
-      <button className="fixed bottom-16 right-16 h-40" onClick={addChannel}>
-        <img className="h-40" src={kakaoPlusFriend} alt="카카오플러스친구" />
+      <button className="fixed bottom-66 right-16 h-40 hover:opacity-90">
+        <FloatButton
+          path={false}
+          value="📢신고"
+          onClick={() => setReportOpen(true)}
+        />
       </button>
+      <button
+        className="fixed bottom-16 right-16 h-40 hover:opacity-90"
+        onClick={addChannel}
+      >
+        <FloatButton path={false} value="카카오+" onClick={() => {}} />
+      </button>
+      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
     </>
   );
 }

@@ -5,7 +5,12 @@ interface Iprops {
   name: string;
 }
 
-export default function CardPreviewFront({ generation, campus, ban, name }: Iprops) {
+export default function CardPreviewFront({
+  generation,
+  campus,
+  ban,
+  name,
+}: Iprops) {
   return (
     <div className="box-border px-10 py-10 w-full h-full bg-opacity-70 bg-black border-3 border-white shadow-neon rounded-20">
       <div className="relative h-full w-full bg-gradient-to-b from-opacity-70 to-opacity-38 from-black to-darkblue border-3 border-white shadow-neon3 rounded-15">

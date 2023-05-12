@@ -1,7 +1,11 @@
 import { StarFilterType } from "@/types/StarFilterType";
 import { useEffect, useState } from "react";
 
-export default function useStarFilter(type: string, item: string) {
+export default function useStarFilter(
+  type: string,
+  item: string,
+  filterChange: boolean,
+) {
   const [filter, setFilter] = useState<StarFilterType>({
     ban: [],
     bojTier: [],
@@ -16,6 +20,7 @@ export default function useStarFilter(type: string, item: string) {
   });
 
   useEffect(() => {
+    if (!filterChange) return;
     switch (type) {
       case "generation":
         filter.generation.includes(item)
@@ -50,8 +55,76 @@ export default function useStarFilter(type: string, item: string) {
               ban: [...state.ban, item],
             }));
         break;
+      case "company":
+        filter.company.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              company: filter.company.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              company: [...state.company, item],
+            }));
+        break;
+      case "major":
+        filter.major.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              major: filter.major.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              major: [...state.major, item],
+            }));
+        break;
+      case "role":
+        filter.role.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              role: filter.role.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              role: [...state.role, item],
+            }));
+        break;
+      case "track":
+        filter.track.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              track: filter.track.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              track: [...state.track, item],
+            }));
+        break;
+      case "swTier":
+        filter.swTier.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              swTier: filter.swTier.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              swTier: [...state.swTier, item],
+            }));
+        break;
+      case "bojTier":
+        filter.bojTier.includes(item)
+          ? setFilter((state) => ({
+              ...state,
+              bojTier: filter.bojTier.filter((e: string) => e !== item),
+            }))
+          : setFilter((state) => ({
+              ...state,
+              bojTier: [...state.bojTier, item],
+            }));
+        break;
+      case "groupFlag":
+        setFilter((state) => ({ ...state, groupFlag: item }));
     }
-  }, [type, item]);
+  }, [filterChange]);
 
   return { filter };
 }

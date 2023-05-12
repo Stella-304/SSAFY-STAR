@@ -1,34 +1,26 @@
 package com.ssafy.star.constellation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.models.auth.In;
-
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 
 public class Icosphere {
 	static int faceCnt=32;
 	private static List<Point3D> vertices = new ArrayList<>();
 	private static List<Triangle>[][] faces = new ArrayList[32][6];
-	private static List<Triangle>[][] faces_8=new ArrayList[8][6];
 	private static List<Triangle>[] tmpFaces = new ArrayList[2];
 	private static int index;
 
 	private static Map<Long, Integer> middlePointIndexCache = new HashMap<>();
 	private static Map<Integer, Integer> counter = new HashMap<>();
-	public static void convert(List list, String fileName) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File(fileName), list);
-    }
-	public static void convert(List[] list, String fileName) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.writeValue(new File(fileName), list);
-	}
 	public static List<List<Point3D>> list_32 =new ArrayList<>();
 
 	public static List<Point3D> list_8_center=new ArrayList<>();
 	public static List<Point3D> list_32_center=new ArrayList<>();
+
 	static {
 		for(int i=0;i<2;i++){
 			tmpFaces[i]=new ArrayList<>();
@@ -66,7 +58,7 @@ public class Icosphere {
 
 		for(int i=0;i<faceCnt;i++){
 			counter.clear();
-			for(Triangle t : faces[i][5] ){
+			for(Triangle t : faces[i][4] ){
 				counter.put(t.v1,counter.getOrDefault(t.v1,0)+1);
 				counter.put(t.v2,counter.getOrDefault(t.v2,0)+1);
 				counter.put(t.v3,counter.getOrDefault(t.v3,0)+1);
@@ -77,7 +69,7 @@ public class Icosphere {
 					stk.add(vertices.get(key));
 				}
 			}
-			System.out.println(stk.size());
+			// System.out.println(stk.size());
 			while(!stk.isEmpty()){
 				list_32.get(i).add(stk.pop());
 			}
@@ -106,7 +98,7 @@ public class Icosphere {
 		//구 위에 점으로 바꾸는과정
 		double length = Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY() + p.getZ() * p.getZ());
 		vertices.add(new Point3D(p.getX() / length, p.getY() / length, p.getZ() / length));
-//		vertices.add(p);
+		//        vertices.add(p);
 		return index++;
 	}
 
@@ -127,7 +119,7 @@ public class Icosphere {
 		Point3D point1 = vertices.get(p1);
 		Point3D point2 = vertices.get(p2);
 		Point3D middle = new Point3D((point1.getX() + point2.getX()) / 2.0, (point1.getY() + point2.getY()) / 2.0,
-				(point1.getZ() + point2.getZ()) / 2.0);
+			(point1.getZ() + point2.getZ()) / 2.0);
 
 		// add vertex makes sure point is on unit sphere
 		int i = addVertex(middle);
@@ -143,7 +135,7 @@ public class Icosphere {
 		Point3D point2 = vertices.get(p2);
 		Point3D point3 = vertices.get(p3);
 		Point3D middle = new Point3D((point1.getX() + point2.getX()) + point3.getX() / 3.0, (point1.getY() + point2.getY() + point3.getY()) / 3.0,
-				(point1.getZ() + point2.getZ() + point3.getZ()) / 3.0);
+			(point1.getZ() + point2.getZ() + point3.getZ()) / 3.0);
 		double length = Math.sqrt(middle.getX() * middle.getX() + middle.getY() * middle.getY() + middle.getZ() * middle.getZ());
 		Point3D realMiddle =new Point3D(middle.getX() / length, middle.getY() / length, middle.getZ() / length);
 		return realMiddle;
@@ -151,28 +143,28 @@ public class Icosphere {
 
 	private static void makeIcosahedron() {
 		double t = (1.0 + Math.sqrt(5.0)) / 2.0;
-		addVertex(new Point3D(t, 0, 1));
-		addVertex(new Point3D(-t, 0, 1));
-
-		addVertex(new Point3D(-1, t, 0));
-		addVertex(new Point3D(1, t, 0));
-		addVertex(new Point3D(-1, -t, 0));
-		addVertex(new Point3D(1, -t, 0));
-
 		addVertex(new Point3D(0, -1, t));
 		addVertex(new Point3D(0, 1, t));
 
+		addVertex(new Point3D(-1, -t, 0));
+		addVertex(new Point3D(1, -t, 0));
+		addVertex(new Point3D(-1, t, 0));
+		addVertex(new Point3D(1, t, 0));
 
-		tmpFaces[0].add(new Triangle(0, 4, 5));
-		tmpFaces[0].add(new Triangle(0, 5, 6));
+		addVertex(new Point3D(-t, 0, 1));
+		addVertex(new Point3D(t, 0, 1));
+
+
+		tmpFaces[0].add(new Triangle(0, 2, 3));
+		tmpFaces[0].add(new Triangle(0, 3, 7));
+		tmpFaces[0].add(new Triangle(0, 7, 1));
 		tmpFaces[0].add(new Triangle(0, 1, 6));
-		tmpFaces[0].add(new Triangle(0, 1, 7));
-		tmpFaces[0].add(new Triangle(0, 7, 4));
+		tmpFaces[0].add(new Triangle(0, 6, 2));
 
 		// 3 adjacent faces point1
-		tmpFaces[0].add(new Triangle(1, 6, 3));
-		tmpFaces[0].add(new Triangle(1, 2, 3));
-		tmpFaces[0].add(new Triangle(1, 2, 7));
+		tmpFaces[0].add(new Triangle(1, 7, 5));
+		tmpFaces[0].add(new Triangle(1, 5, 4));
+		tmpFaces[0].add(new Triangle(1, 4, 6));
 
 	}
 

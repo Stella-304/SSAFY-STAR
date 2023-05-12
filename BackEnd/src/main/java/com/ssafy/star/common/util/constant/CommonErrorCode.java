@@ -2,6 +2,7 @@ package com.ssafy.star.common.util.constant;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 /*
@@ -33,7 +34,7 @@ public enum CommonErrorCode implements ErrorCode {
 	// 카드
 	NO_CARD_PROVIDED(HttpStatus.FORBIDDEN, "카드를 제공받지 못했습니다."),
 	NO_BOJ_ID_PROVIDED(HttpStatus.FORBIDDEN, "백준 아이디를 제공받지 못했습니다."),
-	ALEADY_EXIST_CARD(HttpStatus.FORBIDDEN,"이미 등록된 카드가 존재합니다."),
+	ALEADY_EXIST_CARD(HttpStatus.FORBIDDEN, "이미 등록된 카드가 존재합니다."),
 	// 코멘트
 	NO_COMMENT_PROVIDED(HttpStatus.FORBIDDEN, "카드 코멘트를 제공받지 못했습니다."),
 
@@ -44,8 +45,13 @@ public enum CommonErrorCode implements ErrorCode {
 	INSANE_USER(HttpStatus.BAD_REQUEST, "로또 당첨자입니다."),
 
 	//파싱
-	FAIL_TO_PARSE(HttpStatus.BAD_REQUEST, "파싱에 실패했습니다.");
-	;
+	FAIL_TO_PARSE(HttpStatus.BAD_REQUEST, "파싱에 실패했습니다."),
+
+	//별자리
+	FAIL_TO_MAKE_CONSTELLATION(HttpStatus.BAD_REQUEST, "주어진 그룹 조건으로는, 별자리를 만들수 없습니다."),
+
+	// 토큰
+	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;

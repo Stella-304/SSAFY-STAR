@@ -1,22 +1,19 @@
 FROM node:18.12.1-alpine AS build
 
-WORKDIR /app_f
+WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
-RUN npm install --force
+RUN npm install
 
-# node_modules 폴더 삭제 (선택 사항, 이미 위에서 강제로 설치했기 때문에 필요하지 않을 수 있음)
-# RUN rm -rf node_modules
-
-COPY . .
-
-ARG REACT_APP_NAME
-ENV REACT_APP_NAME=${REACT_APP_NAME}
-ARG REACT_APP_TITLE
-ENV REACT_APP_TITLE=${REACT_APP_TITLE}
+COPY . .                                                                                                                                                                                                                                                               
 
 RUN npm run build
 
 FROM nginx
-COPY --from=build /app_f/build /usr/share/nginx/html
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/

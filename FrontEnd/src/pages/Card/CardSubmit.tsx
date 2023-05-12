@@ -18,7 +18,7 @@ import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
 import useCardSubmit from "../../apis/card/useCardSubmit";
 import { CardSubmitType } from "../../types/CardSubmit";
-import { githubIdReg, isNumber } from "../../utils/regex";
+import { githubIdReg, isNumber, nameReg } from "../../utils/regex";
 import useCompanySearch from "../../apis/company/useCompanySearch";
 import useCardModify from "../../apis/card/useCardModify";
 import useMyCard from "../../apis/card/useMyCard";
@@ -26,7 +26,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { setUser } from "../../stores/user/user";
 import { setPath } from "../../stores/page/path";
 import { USER_NONAME } from "../../constants/default";
-
 
 export default function CardSubmit() {
   const navigate = useNavigate();
@@ -52,6 +51,7 @@ export default function CardSubmit() {
   //경고
   const [banWarning, setBanWaring] = useState("");
   const [githubWarning, setGithubWarning] = useState("");
+  const [nameWarning, setNameWarning] = useState("");
 
   //리셋
   useEffect(() => {
@@ -94,6 +94,11 @@ export default function CardSubmit() {
 
   //input
   function onName(input: string) {
+    if (!input.match(nameReg)) {
+      setNameWarning("5글자 이내");
+    } else {
+      setNameWarning("");
+    }
     dispatch(setCard({ ...card, name: input }));
   }
 
@@ -198,6 +203,11 @@ export default function CardSubmit() {
       alert("백준 티어 확인해주세요");
       return;
     }
+
+    if (!card.name.match(nameReg)) {
+      return alert("이름을 확인해주세요");
+    }
+
     const cardsubmit: CardSubmitType = {
       name: card.name,
       ban: card.ban,
@@ -212,7 +222,7 @@ export default function CardSubmit() {
       githubId: card.githubId,
       major: card.major,
       role: card.role,
-      swTier: card.swTier,
+      swTier: card.swTier === "미공개" ? "" : card.swTier,
       track: card.track,
     };
 
@@ -231,9 +241,17 @@ export default function CardSubmit() {
 
   return (
     <FormLayout>
-      <div className="flex flex-col items-center h-full gap-24 text-white font-bold font-neob w-full">
+      <div className="flex h-full w-full flex-col items-center gap-24 font-neob font-bold text-white">
         <div>
-          <span className="mt-80 mb-40 block text-4xl font-bold">별 등록</span>
+          {type === "modify" ? (
+            <span className="mb-20 mt-60 block text-4xl font-bold">
+              별 수정
+            </span>
+          ) : (
+            <span className="mb-20 mt-60 block text-4xl font-bold">
+              별 등록
+            </span>
+          )}
         </div>
         <div className="mb-8 h-full w-4/5">
           <div>
@@ -280,7 +298,9 @@ export default function CardSubmit() {
               value={card.content}
               cardRegist={true}
             />
-            <div className="mt-30 border-b-3 font-neob text-white text-24 text-center py-10">선택사항</div>
+            <div className="mt-30 border-b-3 py-10 text-center font-neob text-24 text-white">
+              선택사항
+            </div>
             <>
               <div className="flex flex-row gap-24">
                 <Select
@@ -373,7 +393,7 @@ export default function CardSubmit() {
               />
             </>
           </div>
-          <div className="flex justify-center gap-16 mt-40 mb-80 pb-80">
+          <div className="mb-80 mt-40 flex justify-center gap-16 pb-80">
             {active ? (
               <MidButton
                 value={type === "modify" ? "수정" : "등록"}

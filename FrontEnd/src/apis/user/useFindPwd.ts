@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import { FIND_PWD_URL } from "../../utils/urls";
 import { api } from "../api";
+import { useNavigate } from "react-router-dom";
 
 interface Payload {
   email: string;
@@ -17,10 +18,12 @@ const fetcher = (payload: Payload) =>
  * @returns
  */
 const useFindPwd = () => {
+  const navigate = useNavigate();
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
       alert("이메일을 전송 하였습니다.");
+      navigate("/login");
     },
     onError: (e: any) => {
       if (e.response.status === 404) {

@@ -5,4 +5,6 @@ public enum GroupFlagEnum {
 	GENERATION,
 	SWTIER,
 	BOJTIER,
+	DETAIL,
+	NONE
 }

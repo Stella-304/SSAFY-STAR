@@ -1,4 +1,4 @@
-const SERVER_API = "https://ssafy-star.com";
+export const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
@@ -67,9 +67,17 @@ export const ADMIN_ALL = SERVER_API + "/app/admin/badge/list/all";
 export const ADMIN_YET = SERVER_API + "/app/admin/badge/list/yet";
 //관리자 승인
 export const ADMIN_ACCEPT = SERVER_API + "/app/admin/badge";
+//관리자 신고 내역
+export const ADMIN_REPORT = SERVER_API + "/app/admin/report";
 
 // 카드 코멘트 API
 export const COMMENT_URL = SERVER_API + "/app/comment";
 
 // 카드 코멘트 답글 API
 export const REPLY_URL = SERVER_API + "/app/comment/reply";
+
+//신고
+export const REPORT_URL = SERVER_API + "/app/report";
+
+//차트
+export const CHART_URL = SERVER_API + "/app/chart";

@@ -124,6 +124,10 @@ public class Card {
 		if (flagEnum == GroupFlagEnum.SWTIER) {
 			value = Optional.ofNullable(this.swTier).orElse("NULL");
 		}
+
+		if (flagEnum == GroupFlagEnum.DETAIL) {
+			value = this.generation + "기" + this.campus + "캠퍼스" + this.ban + "반";
+		}
 		return value.isBlank() ? "NULL" : value;
 
 	}

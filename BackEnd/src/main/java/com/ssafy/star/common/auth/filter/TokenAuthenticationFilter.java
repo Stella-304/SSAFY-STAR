@@ -4,8 +4,8 @@ import com.ssafy.star.common.auth.service.CustomUserDetailsService;
 import com.ssafy.star.common.provider.TokenProvider;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -56,7 +56,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("권한을 설정하지 못했습니다.");
-            e.printStackTrace();
         }
 
         filterChain.doFilter(request, response);

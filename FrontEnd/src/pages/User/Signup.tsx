@@ -91,7 +91,7 @@ export default function Signup() {
     if (!input.match(passwordReg)) {
       setPasswordWarning(
         //8~16자 사이 대문자, 특수문자 한개씩 필수 포함 가능한 특수문자 목록 '!', '@', '?', '#'
-        "알파벳 대소문자, 숫자 !@?#로 8글자 16글자 사이",
+        "영문 포함 8글자 16글자 사이(특수문자는 # @ ! ? 만 가능)",
       );
     } else {
       setPasswordWarning("");
@@ -172,9 +172,11 @@ export default function Signup() {
   }
   return (
     <FormLayout>
-      <div className="flex items-center h-full flex-col gap-24 text-white font-bold">
+      <div className="flex h-full flex-col items-center gap-24 font-bold text-white">
         <div>
-          <span className="mt-80 mb-40 block text-4xl font-bold font-neob">회원가입</span>
+          <span className="mb-20 mt-60 block font-neob text-4xl font-bold">
+            회원가입
+          </span>
         </div>
         {!openCheck && (
           <div className="w-4/5">
@@ -215,7 +217,7 @@ export default function Signup() {
         )}
         {openCheck && (
           <div className="w-4/5">
-            <div className="flex flex-col w-full">
+            <div className="flex w-full flex-col">
               <div className="w-full">
                 <Input
                   id="email_check"
@@ -227,18 +229,20 @@ export default function Signup() {
                   placeholder="인증코드"
                 />
               </div>
-              {emailCheck?<></>: <button
-              className="flex justify-center mt-48"
-              onClick={checkEmail}
-            >
-              <img
-                className="h-120"
-                src="./background/next.png"
-                alt="인증"
-              />
-            </button>}
-             
-
+              {emailCheck ? (
+                <></>
+              ) : (
+                <button
+                  className="mt-48 flex justify-center"
+                  onClick={checkEmail}
+                >
+                  <img
+                    className="h-120"
+                    src="./background/next.png"
+                    alt="인증"
+                  />
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -246,35 +250,29 @@ export default function Signup() {
           <div className="flex justify-center">
             {openCheck ? (
               emailCheck ? (
-                <button
-              className="flex justify-center mt-48"
-              onClick={submit}
-            >
-              <img
-                className="h-120"
-                src="./background/next.png"
-                alt="인증"
-              />
-            </button>
+                <button className="mt-48 flex justify-center" onClick={submit}>
+                  <img
+                    className="h-120"
+                    src="./background/next.png"
+                    alt="인증"
+                  />
+                </button>
               ) : (
                 <button
-                className="flex justify-center mt-48 font-neo text-white text-16"
-                onClick={() => setOpenCheck(false)}
-              >
-                이전으로
-              </button>
+                  className="mt-48 flex justify-center font-neo text-16 text-white"
+                  onClick={() => setOpenCheck(false)}
+                >
+                  이전으로
+                </button>
               )
             ) : (
-              <button
-              className="flex justify-center mt-48"
-              onClick={sendEmail}
-            >
-              <img
-                className="h-120"
-                src="./background/next.png"
-                alt="로그인"
-              />
-            </button>
+              <button className="mt-48 flex justify-center" onClick={sendEmail}>
+                <img
+                  className="h-120"
+                  src="./background/next.png"
+                  alt="로그인"
+                />
+              </button>
             )}
           </div>
         </div>

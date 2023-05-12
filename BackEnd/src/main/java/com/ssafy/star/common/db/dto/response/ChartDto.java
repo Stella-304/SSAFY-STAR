@@ -3,16 +3,16 @@ package com.ssafy.star.common.db.dto.response;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
 @ToString
 public class ChartDto {
 
-    Map<String, Integer> chart = new HashMap<>();
+    List<Object[]> chart;
 
-    public ChartDto(Map<String, Integer> chart) {
+    public ChartDto(List<Object[]> chart) {
         this.chart = chart;
     }
 }

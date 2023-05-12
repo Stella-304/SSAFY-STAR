@@ -15,10 +15,28 @@ pipeline {
         sh 'docker ps -f name=react -q | xargs --no-run-if-empty -r docker container stop'
         sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
         sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=springboot -q | xargs --no-run-if-empty -r docker container rm'
-        sh 'docker container ls -a -f name=react -q | xargs --no-run-if-empty -r docker container rm'
+
       }
     }
+
+    stage('Remove Images') {
+      steps {
+        sh 'docker images springboot-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+        sh 'docker images react-image:latest -q | xargs --no-run-if-empty -r docker rmi'
+      }
+    }
+
+//    stage('Remove Volume') {
+//      steps {
+//        sh 'docker volume ssafy-star-volume -q | xargs --no-run-if-empty -r docker volume rm'
+//      }
+//    }
+//
+//    stage('Create Volume') {
+//      steps {
+//        sh 'docker volume create --name ssafy-star-volume -d local --opt type=none --opt device=/usr/share/nginx/html --opt o=bind'
+//      }
+//    }
 
     stage('Build Springboot Image') {
       steps {
@@ -45,8 +63,8 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image').run("-d --network ssafystar-network --name springboot -p 8080:8080")
-          docker.image('react-image').run("-d --network ssafystar-network --name react -p 3000:3000")
+          docker.image('springboot-image').run("--name springboot -p 8080:8080")
+          docker.image('react-image').run("--name react -p 3000:80")
         }
       }
     }

@@ -1,6 +1,10 @@
 import { useQuery } from "react-query";
 import { api } from "../api";
 import { BOJ_URL } from "../../utils/urls";
+import { isExpire } from "../error/isExpire";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "@/stores/user/user";
 
 const fetcher = () =>
   api
@@ -18,15 +22,23 @@ const fetcher = () =>
  * @returns
  */
 const useBojcheck = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return useQuery("/bojupdate", fetcher, {
     enabled: false,
     retry: 0,
     onError: (e: any) => {
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
+      }
       if (e.response.status === 403) {
         alert("카드에서 백준아이디를 등록해주세요.");
-      } else {
-        alert("잠시후에 시도해주세요");
+        return;
       }
+      alert("잠시후에 시도해주세요");
     },
   });
 };

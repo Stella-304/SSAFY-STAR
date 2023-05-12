@@ -2,14 +2,14 @@ package com.ssafy.star.api.service;
 
 import com.ssafy.star.common.auth.enumeration.ChartEnum;
 import com.ssafy.star.common.db.dto.response.ChartDto;
+import com.ssafy.star.common.db.dto.response.SayingDto;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.repository.CardRepository;
+import com.ssafy.star.common.util.SayingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class ChartServiceImpl implements ChartService {
 
     private final CardRepository cardRepository;
+
+    SayingUtil sayingUtil = new SayingUtil();
 
     @Override
     public ChartDto chartGet(String sort) {
@@ -56,7 +58,18 @@ public class ChartServiceImpl implements ChartService {
         }
         else return null;
 
-        return new ChartDto(map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,e->e.getValue().size())));
+
+        List<Object[]> chart = new ArrayList<>();
+
+        int totalSize = map.values().stream().mapToInt(List::size).sum();
+        map.forEach((k, v) -> chart.add(new Object[]{k, v.size(), Math.round(((v.size()/(totalSize/100.0)) * 10)) /10.0}));
+
+        return new ChartDto(chart);
     }
 
+     public SayingDto sayingGet() {
+         List<String[]> sayingList = sayingUtil.getSaying();
+         Collections.shuffle(sayingList);
+        return new SayingDto(sayingList);
+    }
 }
