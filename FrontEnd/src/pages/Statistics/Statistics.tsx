@@ -6,22 +6,40 @@ import HeaderMenu from "@/components/Layout/HeaderMenu";
 import quoteIcon from "@/assets/icons/quote.png";
 import refreshIcon from "@/assets/icons/refresh.png";
 import { useEffect, useState } from "react";
+import useSayingQuery from "@/apis/statistics/useSayingQuery";
 
 ChartJS.register(ArcElement, Tooltip, Legend, plugin);
 
 export default function Statistics() {
   const [filterChart, setFilterChart] = useState<string>("generation");
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>();
+  const [len, setLen] = useState<number>();
 
   const { data } = useStatisticsQuery(filterChart);
+
+  const sayingList = useSayingQuery();
 
   const handleFilterClick = (filter: string) => {
     setFilterChart(filter);
   };
 
   useEffect(() => {
-    if (refresh) {
+    if (sayingList?.data) {
+      setLen(sayingList.data.saying.length);
+    }
+  }, [sayingList?.data]);
+
+  useEffect(() => {
+    if (len) {
+      setIndex(Math.floor(Math.random() * len));
+    }
+  }, [len]);
+
+  useEffect(() => {
+    if (refresh && len) {
       setTimeout(() => {
+        setIndex(Math.floor(Math.random() * len));
         setRefresh(false);
       }, 500);
     }
@@ -30,7 +48,7 @@ export default function Statistics() {
   return (
     <div className="flex flex-col items-center">
       <HeaderMenu />
-      <div className="relative mt-100 flex h-200 w-1000 flex-col justify-center rounded-20 border-t-2 border-gray-200 border-t-red-600 shadow-md">
+      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 border-gray-200 border-t-red-600 shadow-md">
         <img
           src={quoteIcon}
           className="absolute -top-25 left-50 h-50 w-50 shadow-sm"
@@ -39,19 +57,25 @@ export default function Statistics() {
           src={refreshIcon}
           className={
             (refresh ? "animate-spinOnce" : "") +
-            " absolute right-20 top-10 h-40 w-40 cursor-pointer"
+            " absolute right-15 top-15 h-40 w-40 cursor-pointer"
           }
           onClick={() => setRefresh(true)}
         />
+        <div className="text-semibold w-700 text-20">
+          "{index && sayingList?.data?.saying[index][0]}"
+        </div>
+        <div className="text-bold mt-20 w-700 text-22 italic">
+          - {index && sayingList?.data?.saying[index][1]} -
+        </div>
       </div>
-      <div className="relative flex w-1000 flex-col items-center">
-        <div className="absolute left-100 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
+      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-1 border-gray-200 bg-pink-50 bg-opacity-20 shadow-md">
+        <div className="absolute left-150 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
           <button
             className={
               (filterChart === "generation"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("generation")}
           >
@@ -62,7 +86,7 @@ export default function Statistics() {
               (filterChart === "campus"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("campus")}
           >
@@ -73,7 +97,7 @@ export default function Statistics() {
               (filterChart === "major"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("major")}
           >
@@ -84,7 +108,7 @@ export default function Statistics() {
               (filterChart === "role"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("role")}
           >
@@ -95,7 +119,7 @@ export default function Statistics() {
               (filterChart === "track"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("track")}
           >
@@ -106,7 +130,7 @@ export default function Statistics() {
               (filterChart === "swTier"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500  text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("swTier")}
           >
@@ -117,7 +141,7 @@ export default function Statistics() {
               (filterChart === "bojTier"
                 ? "bg-red-500 text-white"
                 : "bg-white text-red-500") +
-              " h-50 w-150 rounded-10 border-3 border-red-500 text-18 font-semibold hover:bg-red-500 hover:text-white"
+              " h-35 w-130 rounded-10 border-3 border-red-500 text-16 font-semibold hover:bg-red-500 hover:text-white"
             }
             onClick={() => handleFilterClick("bojTier")}
           >
@@ -125,7 +149,7 @@ export default function Statistics() {
           </button>
         </div>
         {data && (
-          <div className="ml-200 mt-50 h-300 w-300">
+          <div className="ml-200 mt-30 h-300 w-300">
             <Doughnut
               data={{
                 labels: data?.chart.map((item: any) => item[0]),

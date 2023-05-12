@@ -15,6 +15,11 @@ export default function CardFront({
 }: Iprops) {
   return (
     <div className="group relative box-border h-640 w-480 rounded-2xl border-5 border-white bg-black bg-opacity-70 px-20 py-20 shadow-neon">
+      <div className="invisible absolute left-0 top-0 border-r-45 border-t-45 border-white border-r-transparent group-hover:visible">
+        <div className="absolute -left-100 -top-10 text-24 font-bold text-white">
+          CLICK!!
+        </div>
+      </div>
       <div className="from-opacity-70 to-opacity-38 relative h-full w-full rounded-lg border-5 border-white bg-gradient-to-b from-black to-darkblue shadow-neon">
         <div className="absolute top-1/4 flex w-full flex-col items-center justify-center px-16 text-center font-neob">
           <div className="mt-15 text-48 font-bold text-white">{name}</div>

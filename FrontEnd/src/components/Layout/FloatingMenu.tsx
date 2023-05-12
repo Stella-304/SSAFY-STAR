@@ -96,6 +96,11 @@ export default function FloatingMenu() {
             path={path === "metaverse"}
           />
           <FloatButton
+            onClick={() => navigate("/statistics")}
+            value="싸피통계"
+            path={path === "statistics"}
+          />
+          <FloatButton
             path={false}
             value="📢신고"
             onClick={() => setReportOpen(true)}

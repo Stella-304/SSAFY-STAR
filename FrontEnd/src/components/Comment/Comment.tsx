@@ -64,8 +64,6 @@ export default function Comment({ selectedUserInfo }: Iprops) {
     setModifyCommentId(undefined);
   }, []);
 
-  console.log(modifyCommentId);
-
   return (
     <div className="absolute -right-[320px] top-20 h-500 w-300 rounded-10 border-3 border-white bg-gradient-to-b from-[#0C1445] to-[#471E54] text-18 text-white">
       <div className="h-full w-full overflow-y-scroll scrollbar-none">
