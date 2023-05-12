@@ -128,7 +128,7 @@ public class Card {
 		if (flagEnum == GroupFlagEnum.DETAIL) {
 			value = this.generation + "기" + this.campus + "캠퍼스" + this.ban + "반";
 		}
-		return value.isBlank() ? "NULL" : value;
+		return value.isBlank() ? "unknown" : value;
 
 	}
 
