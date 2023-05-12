@@ -28,6 +28,7 @@ import generationIcon from "@/assets/icons/generation.png";
 import campusIcon from "@/assets/icons/map.png";
 import classIcon from "@/assets/icons/classroom.png";
 import deleteIcon from "@/assets/icons/exit.png";
+import useStarInfoQuery from "@/apis/useStarInfoQuery";
 
 export default function Filter() {
   const [tabOpen, setTabOpen] = useState<boolean[]>(Array(9).fill(false));
@@ -39,6 +40,9 @@ export default function Filter() {
   const [searchCompanyList, setSearchCompanyList] = useState<string[]>();
 
   const dispatch = useDispatch();
+
+  // 필터 없을 때
+  const initialData = useStarInfoQuery();
 
   // 필터에 따른 유저 정보 검색(리스트)
   const { mutate, data } = useStarFilterInfo();
@@ -75,18 +79,27 @@ export default function Filter() {
   }, [searchCompany]);
 
   useEffect(() => {
-    mutate({
-      ban: filter.ban,
-      bojTier: filter.bojTier,
-      campus: filter.campus,
-      company: filter.company,
-      generation: filter.generation,
-      major: filter.major,
-      role: filter.role,
-      swTier: filter.swTier,
-      track: filter.track,
-      groupFlag: filter.groupFlag,
-    });
+    if (!type && !info) {
+      if (initialData?.data) {
+        dispatch(setStarInfo(initialData.data.cardList));
+        dispatch(setStarEdgeList(initialData.data.edgeList));
+        dispatch(setGroupInfoList(initialData.data.groupInfoDtoList));
+        dispatch(setFilterName(initialData.data.filterName));
+      }
+    } else {
+      mutate({
+        ban: filter.ban,
+        bojTier: filter.bojTier,
+        campus: filter.campus,
+        company: filter.company,
+        generation: filter.generation,
+        major: filter.major,
+        role: filter.role,
+        swTier: filter.swTier,
+        track: filter.track,
+        groupFlag: filter.groupFlag,
+      });
+    }
   }, [filter]);
 
   useEffect(() => {
@@ -113,7 +126,7 @@ export default function Filter() {
       <div
         className={
           (openAnimation
-            ? "opacity-100 transition duration-700 translate-x-300 "
+            ? "translate-x-300 opacity-100 transition duration-700 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
           " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
         }

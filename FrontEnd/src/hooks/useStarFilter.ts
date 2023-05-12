@@ -16,7 +16,7 @@ export default function useStarFilter(
     role: [],
     swTier: [],
     track: [],
-    groupFlag: "campus",
+    groupFlag: "",
   });
 
   useEffect(() => {

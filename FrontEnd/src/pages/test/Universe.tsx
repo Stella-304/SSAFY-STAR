@@ -147,7 +147,7 @@ export default function Universe() {
             <Html
               position={new THREE.Vector3(item.x, item.y, item.z)}
               zIndexRange={[0, 0]}
-              className="pointer-events-none text-20 text-yellow-300 text-opacity-80"
+              className="pointer-events-none w-200 text-20 text-yellow-300 text-opacity-80"
               key={index}
             >
               {item.groupName}
@@ -206,7 +206,7 @@ export default function Universe() {
             " absolute top-20 text-25 font-bold text-white"
           }
         >
-          {filterName}
+          {filterName ? filterName : "전체"}
         </div>
         {selectedUserInfo && (
           <>
