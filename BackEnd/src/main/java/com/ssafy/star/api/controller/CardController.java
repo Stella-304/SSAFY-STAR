@@ -80,7 +80,7 @@ public class CardController {
 	// 			cardService.getCardListV1(searchColumn, searchValue, searchValue2, searchValue3)));
 	// }
 
-	@PostMapping("/list")
+	@GetMapping("/list")
 	@PermitAll
 	@ApiOperation(value = "카드 전체 목록 가져오기 NO FILTER!!!")
 	@Transactional
