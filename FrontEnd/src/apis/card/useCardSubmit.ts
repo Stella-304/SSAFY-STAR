@@ -26,7 +26,7 @@ const useCardSubmit = () => {
     retry: 0,
     onSuccess: () => {
       //입력에 성공하면 수정된 이름을 로컬의 user를 업데이트 해준다.
-      navigate("/universe");
+      navigate("/mycard");
     },
     onError: (e: any) => {
       if (isExpire(e.response.status)) {
