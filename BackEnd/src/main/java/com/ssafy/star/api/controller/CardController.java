@@ -24,12 +24,11 @@ import javax.annotation.security.RolesAllowed;
 @Api(tags = {"카드 API"})
 @RequiredArgsConstructor
 @RequestMapping(value = "/card")
- @RolesAllowed("ROLE_CLIENT")
+@RolesAllowed("ROLE_CLIENT")
 public class CardController {
 	private final CardService cardService;
 
 	@PostMapping("/boj")
-	@PermitAll
 	@ApiOperation(value = "BOJ 티어 업데이트")
 	public ResponseEntity<ResponseDto> bojTierUpdate() {
 		return ResponseEntity.ok()
@@ -37,7 +36,6 @@ public class CardController {
 	}
 
 	@GetMapping("/boj/{bojId}")
-	@PermitAll
 	@ApiOperation(value = "BOJ 티어 가져오기")
 	public ResponseEntity<ResponseDto> bojTierGet(@PathVariable("bojId") String bojId) {
 		return ResponseEntity.ok()
