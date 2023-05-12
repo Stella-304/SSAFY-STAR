@@ -21,7 +21,6 @@ const useMyCard = (setCompany: (params: string) => void) => {
     enabled: false,
     onSuccess: (data) => {
       setCompany(data.value.company);
-      console.log(data.value);
       dispatch(setCard(data.value));
     },
     onError: (e: any) => {

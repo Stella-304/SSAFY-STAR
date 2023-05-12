@@ -33,11 +33,7 @@ const useCardModify = () => {
         navigate("/");
         return;
       }
-      if (e.response.status === 403) {
-        alert("로그인 해주세요.");
-      } else {
-        alert("잠시후 시도해 주세요");
-      }
+      alert("잠시후 시도해 주세요");
     },
   });
 };

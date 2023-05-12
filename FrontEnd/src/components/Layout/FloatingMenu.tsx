@@ -35,6 +35,13 @@ export default function FloatingMenu() {
       channelPublicId: "_xgZYxkxj",
     });
   }
+  const openReport = () => {
+    if (!email) {
+      alert("로그인후 이용해주세요");
+      return;
+    }
+    setReportOpen(true);
+  };
   return (
     <>
       {open ? (
@@ -95,11 +102,7 @@ export default function FloatingMenu() {
             value="메타버스"
             path={path === "metaverse"}
           />
-          <FloatButton
-            path={false}
-            value="📢신고"
-            onClick={() => setReportOpen(true)}
-          />
+          <FloatButton path={false} value="📢신고" onClick={openReport} />
           <FloatButton path={false} value="카카오+" onClick={addChannel} />
         </div>
       ) : (
@@ -112,7 +115,11 @@ export default function FloatingMenu() {
       >
         메뉴
       </div>
-      <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      {reportOpen ? (
+        <Report open={reportOpen} onClose={() => setReportOpen(false)} />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

@@ -127,7 +127,20 @@ export default function CardSubmit() {
     setSearchList([]);
     dispatch(setCard({ ...card, company: input }));
   }
+
+  const githubPre = (input: string) => {
+    //https://github.com/을 제거
+    return input.substring(19);
+  };
+  const githubPost = (input: string) => {
+    //https://github.com/을 추가
+    return "https://github.com/" + (input ? input : "");
+  };
+
   function onGithub(input: string) {
+    console.log(input);
+    input = githubPre(input);
+    console.log(input);
     if (!input.match(githubIdReg)) {
       setGithubWarning("영문과 숫자 하이픈으로 20자 이내");
       return;
@@ -263,6 +276,7 @@ export default function CardSubmit() {
               onChange={onName}
               value={card.name}
               cardRegist={true}
+              warning={nameWarning}
             />
             <div className="flex flex-row gap-24">
               <Select
@@ -349,9 +363,9 @@ export default function CardSubmit() {
               <Input
                 id="github"
                 type="text"
-                label="Github아이디"
+                label="Github링크"
                 onChange={onGithub}
-                value={card.githubId}
+                value={githubPost(card.githubId)}
                 warning={githubWarning}
                 cardRegist={true}
               />
