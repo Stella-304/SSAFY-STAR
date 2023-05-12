@@ -110,25 +110,25 @@ public class Card {
 	public String getGroupFlag(GroupFlagEnum flagEnum) {
 		String value = "";
 		if (flagEnum == GroupFlagEnum.CAMPUS) {
-			value = Optional.ofNullable(this.campus).orElse("NULL");
+			value = Optional.ofNullable(this.campus).orElse("Unkown");
 		}
 
 		if (flagEnum == GroupFlagEnum.GENERATION) {
-			value = Optional.ofNullable(this.generation).orElse("NULL");
+			value = Optional.ofNullable(this.generation).orElse("Unkown");
 		}
 
 		if (flagEnum == GroupFlagEnum.BOJTIER) {
-			value = Optional.ofNullable(this.bojTier).orElse("Unrated");
+			value = Optional.ofNullable(this.bojTier).orElse("Unkown");
 		}
 
 		if (flagEnum == GroupFlagEnum.SWTIER) {
-			value = Optional.ofNullable(this.swTier).orElse("NULL");
+			value = Optional.ofNullable(this.swTier).orElse("Unkown");
 		}
 
 		if (flagEnum == GroupFlagEnum.DETAIL) {
 			value = this.generation + "기" + this.campus + "캠퍼스" + this.ban + "반";
 		}
-		return value.isBlank() ? "NULL" : value;
+		return value.isBlank() ? "Unkown" : value;
 
 	}
 
