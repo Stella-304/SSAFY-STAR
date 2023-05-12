@@ -37,7 +37,7 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const [page, setPage] = useState(0);
+  const [backInput, setBackInput] = useState(false);
 
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
@@ -90,7 +90,7 @@ export default function CardSubmit() {
     } else {
       setActive(false);
     }
-  }, [card.campus, card.generation, card.ban, card.content]);
+  }, [card.name, card.campus, card.generation, card.ban, card.content]);
 
   //input
   function onName(input: string) {
@@ -138,9 +138,7 @@ export default function CardSubmit() {
   };
 
   function onGithub(input: string) {
-    console.log(input);
     input = githubPre(input);
-    console.log(input);
     if (!input.match(githubIdReg)) {
       setGithubWarning("영문과 숫자 하이픈으로 20자 이내");
       return;
@@ -149,7 +147,17 @@ export default function CardSubmit() {
     }
     dispatch(setCard({ ...card, githubId: input }));
   }
+
+  const addressPre = (input: string) => {
+    //https://을 제거
+    return input.substring(8);
+  };
+  const addressPost = (input: string) => {
+    //https://을 추가
+    return "https://" + (input ? input : "");
+  };
   function onBlog(input: string) {
+    input = addressPre(input);
     dispatch(setCard({ ...card, blogAddr: input }));
   }
 
@@ -257,174 +265,194 @@ export default function CardSubmit() {
       <div className="flex h-full w-full flex-col items-center gap-24 font-neob font-bold text-white">
         <div>
           {type === "modify" ? (
-            <span className="mb-20 mt-60 block text-4xl font-bold">
+            <span className="mb-10 mt-40 block text-4xl font-bold">
               별 수정
             </span>
           ) : (
-            <span className="mb-20 mt-60 block text-4xl font-bold">
+            <span className="mb-10 mt-40 block text-4xl font-bold">
               별 등록
             </span>
           )}
         </div>
         <div className="mb-8 h-full w-4/5">
           <div>
-            {/* <div className="flex justify-between"> */}
-            <Input
-              id="name"
-              type="text"
-              label="이름*"
-              onChange={onName}
-              value={card.name}
-              cardRegist={true}
-              warning={nameWarning}
-            />
-            <div className="flex flex-row gap-24">
-              <Select
-                id="campus"
-                label="캠퍼스*"
-                options={campusList}
-                onChange={onCampus}
-                value={card.campus}
-              />
-              <Select
-                id="generation"
-                label="기수*"
-                options={generationList}
-                onChange={onCardinal}
-                value={card.generation}
-              />
-            </div>
-            <Input
-              id="ban"
-              type="text"
-              label="1학기 반*"
-              onChange={onBan}
-              value={card.ban}
-              warning={banWarning}
-              cardRegist={true}
-            />
-
-            <Input
-              id="content"
-              type="textarea"
-              label="한마디*"
-              onChange={onContent}
-              value={card.content}
-              cardRegist={true}
-            />
-            <div className="mt-30 border-b-3 py-10 text-center font-neob text-24 text-white">
-              선택사항
-            </div>
             <>
-              <div className="flex flex-row gap-24">
-                <Select
-                  id="track"
-                  label="트랙"
-                  options={trackList}
-                  onChange={onTrack}
-                  value={card.track}
-                />
-                <Select
-                  id="major"
-                  label="전공유무"
-                  options={majorList}
-                  onChange={onMajor}
-                  value={card.major}
-                />
+              <div className="mt-10 border-b-3 py-10 text-center font-neob text-24 text-white">
+                앞면 (필수 사항)
               </div>
-
               <Input
-                id="company"
+                id="name"
                 type="text"
-                label="회사"
-                onChange={onCompany}
-                value={search}
-                queryResult={searchList}
-                querySelect={selectCompany}
-                queryValue={card.company}
+                label="이름*"
+                onChange={onName}
+                value={card.name}
                 cardRegist={true}
+                warning={nameWarning}
               />
               <div className="flex flex-row gap-24">
                 <Select
-                  id="grade"
-                  label="역량테스트등급"
-                  options={gradeList}
-                  onChange={onGrade}
-                  value={card.swTier}
+                  id="campus"
+                  label="캠퍼스*"
+                  options={campusList}
+                  onChange={onCampus}
+                  value={card.campus}
                 />
                 <Select
-                  id="field"
-                  label="분야"
-                  options={fieldList}
-                  onChange={onField}
-                  value={card.role}
+                  id="generation"
+                  label="기수*"
+                  options={generationList}
+                  onChange={onCardinal}
+                  value={card.generation}
                 />
               </div>
               <Input
-                id="github"
+                id="ban"
                 type="text"
-                label="Github링크"
-                onChange={onGithub}
-                value={githubPost(card.githubId)}
-                warning={githubWarning}
-                cardRegist={true}
-              />
-              <div className="flex flex-row gap-24">
-                <div className="flex-grow">
-                  <Input
-                    id="boj"
-                    type="input"
-                    label="백준아이디"
-                    onChange={onBoj}
-                    value={card?.bojId}
-                    confirm={
-                      bojTier === "Unrated"
-                        ? bojTier + " *solved.ac에 등록해주세요"
-                        : bojTier
-                    }
-                    cardRegist={true}
-                  />
-                </div>
-                <div className="flex items-end">
-                  <SmallButton value="확인" onClick={checkBoj}></SmallButton>
-                </div>
-              </div>
-              <Input
-                id="blog"
-                type="text"
-                label="기술 블로그"
-                onChange={onBlog}
-                value={card.blogAddr}
+                label="1학기 반*"
+                onChange={onBan}
+                value={card.ban}
+                warning={banWarning}
                 cardRegist={true}
               />
               <Input
-                id="etc"
+                id="content"
                 type="textarea"
-                label="기타 경력 사항"
-                onChange={onEtc}
-                value={card.etc}
+                label="한마디*"
+                onChange={onContent}
+                value={card.content}
                 cardRegist={true}
               />
             </>
+            {!backInput ? (
+              <div
+                className="text-bold mt-16 cursor-pointer text-center text-24"
+                onClick={() => setBackInput(!backInput)}
+              >
+                ▼뒷면 정보 입력하기
+              </div>
+            ) : (
+              <>
+                <div className="mt-10 border-b-3 py-10 text-center font-neob text-24 text-white">
+                  뒷면(추가 사항)
+                </div>
+                <div className="flex flex-row gap-24">
+                  <Select
+                    id="track"
+                    label="트랙"
+                    options={trackList}
+                    onChange={onTrack}
+                    value={card.track}
+                  />
+                  <Select
+                    id="major"
+                    label="전공유무"
+                    options={majorList}
+                    onChange={onMajor}
+                    value={card.major}
+                  />
+                </div>
+
+                <Input
+                  id="company"
+                  type="text"
+                  label="회사"
+                  onChange={onCompany}
+                  value={search}
+                  queryResult={searchList}
+                  querySelect={selectCompany}
+                  queryValue={card.company}
+                  cardRegist={true}
+                />
+                <div className="flex flex-row gap-24">
+                  <Select
+                    id="grade"
+                    label="역량테스트등급"
+                    options={gradeList}
+                    onChange={onGrade}
+                    value={card.swTier}
+                  />
+                  <Select
+                    id="field"
+                    label="분야"
+                    options={fieldList}
+                    onChange={onField}
+                    value={card.role}
+                  />
+                </div>
+                <Input
+                  id="github"
+                  type="text"
+                  label="Github링크"
+                  onChange={onGithub}
+                  value={githubPost(card.githubId)}
+                  warning={githubWarning}
+                  cardRegist={true}
+                />
+                <div className="flex flex-row gap-24">
+                  <div className="flex-grow">
+                    <Input
+                      id="boj"
+                      type="input"
+                      label="백준아이디"
+                      onChange={onBoj}
+                      value={card?.bojId}
+                      confirm={
+                        bojTier === "Unrated"
+                          ? bojTier + " *solved.ac에 등록해주세요"
+                          : bojTier
+                      }
+                      cardRegist={true}
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <SmallButton value="확인" onClick={checkBoj}></SmallButton>
+                  </div>
+                </div>
+                <Input
+                  id="blog"
+                  type="text"
+                  label="기술 블로그"
+                  onChange={onBlog}
+                  value={addressPost(card.blogAddr)}
+                  cardRegist={true}
+                />
+                <Input
+                  id="etc"
+                  type="textarea"
+                  label="기타 경력 사항"
+                  onChange={onEtc}
+                  value={card.etc}
+                  cardRegist={true}
+                />
+                <div
+                  className="text-bold mt-16 cursor-pointer text-center text-24"
+                  onClick={() => setBackInput(!backInput)}
+                >
+                  ▲뒷면 정보 입력 닫기
+                </div>
+              </>
+            )}
           </div>
+
           <div className="mb-80 mt-40 flex justify-center gap-16 pb-80">
             {active ? (
-              <MidButton
-                value={type === "modify" ? "수정" : "등록"}
-                onClick={submit}
-                disable={false}
-              ></MidButton>
+              <>
+                <MidButton
+                  value={type === "modify" ? "수정" : "등록"}
+                  onClick={submit}
+                  disable={false}
+                ></MidButton>
+              </>
             ) : (
-              <MidButton
-                value={type === "modify" ? "수정" : "등록"}
-                disable={true}
-              ></MidButton>
+              <>
+                <MidButton
+                  value={type === "modify" ? "수정" : "등록"}
+                  disable={true}
+                />
+              </>
             )}
-            {type === "modify" ? (
-              <MidButton value="초기화" onClick={reset}></MidButton>
-            ) : (
-              <></>
-            )}
+
+            <MidButton value="초기화" onClick={reset}></MidButton>
           </div>
         </div>
       </div>

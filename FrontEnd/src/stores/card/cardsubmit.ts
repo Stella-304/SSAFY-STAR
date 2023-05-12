@@ -45,7 +45,7 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     setCard(state, action) {
-      state.card = { ...state.card, ...action.payload };
+      state.card = action.payload;
     },
     resetCard(state) {
       state.card = {
