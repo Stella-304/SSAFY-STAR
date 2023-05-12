@@ -23,9 +23,26 @@ export default function Metaverse() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const [accessNumber, setAccessNumber] = useState(0);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   const { nickname } = useSelector((state: RootState) => state.user);
   const handleNickname = useCallback((accessNumber: number) => {
     setAccessNumber(accessNumber);
+  }, []);
+
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -91,7 +108,7 @@ export default function Metaverse() {
       <div></div>
       <Unity
         unityProvider={unityProvider}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: windowSize.width, height: windowSize.height }}
       />
       <FloatingMenu />
     </>

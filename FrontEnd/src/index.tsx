@@ -27,6 +27,7 @@ import Metaverse from "./pages/test/Metaverse";
 import MainPage from "./pages/MainPage";
 import Certify from "./pages/User/Mypage/Certify";
 import Statistics from "./pages/Statistics/Statistics";
+import Mycard from "./pages/User/Mypage/Mycard";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
 declare global {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       },
       { path: "/mypage", element: <Mypage /> },
       { path: "/certify", element: <Certify /> },
+      { path: "/mycard", element: <Mycard /> }
     ],
   },
   {

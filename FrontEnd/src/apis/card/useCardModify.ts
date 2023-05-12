@@ -24,7 +24,7 @@ const useCardModify = () => {
   return useMutation(fetcher, {
     retry: 0,
     onSuccess: () => {
-      navigate("/universe");
+      navigate("/mycard");
     },
     onError: (e: any) => {
       if (isExpire(e.response.status)) {

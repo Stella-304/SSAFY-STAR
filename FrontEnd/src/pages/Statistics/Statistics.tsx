@@ -3,43 +3,64 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import plugin from "chartjs-plugin-datalabels";
 import useStatisticsQuery from "@/apis/statistics/useStatisticsQuery";
 import HeaderMenu from "@/components/Layout/HeaderMenu";
-import quoteIcon from "@/assets/icons/quote.png";
 import refreshIcon from "@/assets/icons/refresh.png";
 import { useEffect, useState } from "react";
 import useSayingQuery from "@/apis/statistics/useSayingQuery";
+import useCSQuery from "@/apis/statistics/useCSQuery";
 
 ChartJS.register(ArcElement, Tooltip, Legend, plugin);
 
 export default function Statistics() {
   const [filterChart, setFilterChart] = useState<string>("generation");
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [index, setIndex] = useState<number>();
-  const [len, setLen] = useState<number>();
+  const [CSIndex, setCSIndex] = useState<number>();
+  const [sayingIndex, setSayingIndex] = useState<number>();
+  const [CSLen, setCSLen] = useState<number>();
+  const [sayingLen, setSayingLen] = useState<number>();
+  const [CSTab, setCSTab] = useState<boolean>(true);
+  const [showAnswer, setShowAnswer] = useState<boolean>(false);
 
   const { data } = useStatisticsQuery(filterChart);
 
   const sayingList = useSayingQuery();
+
+  const csList = useCSQuery();
 
   const handleFilterClick = (filter: string) => {
     setFilterChart(filter);
   };
 
   useEffect(() => {
+    if (csList?.data) {
+      setCSLen(csList?.data?.cs?.length);
+    }
+  }, [csList?.data]);
+
+  useEffect(() => {
     if (sayingList?.data) {
-      setLen(sayingList.data.saying.length);
+      setSayingLen(sayingList?.data?.saying?.length);
     }
   }, [sayingList?.data]);
 
   useEffect(() => {
-    if (len) {
-      setIndex(Math.floor(Math.random() * len));
+    if (CSLen) {
+      setCSIndex(Math.floor(Math.random() * CSLen));
     }
-  }, [len]);
+    if (sayingLen) {
+      setSayingIndex(Math.floor(Math.random() * sayingLen));
+    }
+  }, [CSTab, CSLen, sayingLen]);
 
   useEffect(() => {
-    if (refresh && len) {
+    if (refresh) {
       setTimeout(() => {
-        setIndex(Math.floor(Math.random() * len));
+        if (CSTab && CSLen) {
+          setCSIndex(Math.floor(Math.random() * (CSLen - 1)));
+        }
+        if (!CSTab && sayingLen) {
+          setSayingIndex(Math.floor(Math.random() * (sayingLen - 1)));
+        }
+        setShowAnswer(false);
         setRefresh(false);
       }, 500);
     }
@@ -48,11 +69,30 @@ export default function Statistics() {
   return (
     <div className="flex flex-col items-center">
       <HeaderMenu />
-      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 border-gray-200 border-t-red-600 shadow-md">
-        <img
-          src={quoteIcon}
-          className="absolute -top-25 left-50 h-50 w-50 shadow-sm"
-        />
+      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 border-gray-200 border-t-red-500 shadow-md">
+        <div className="absolute -top-15 left-30 flex gap-20">
+          <button
+            className={
+              (CSTab ? "bg-red-500 text-white" : "bg-white text-red-500") +
+              " border-red h-40 w-60 rounded-20 border-3 border-red-500  font-bold  hover:bg-red-500 hover:text-white"
+            }
+            onClick={() => setCSTab(true)}
+          >
+            CS
+          </button>
+          <button
+            className={
+              (CSTab ? "bg-white text-red-500" : "bg-red-500 text-white") +
+              " border-red h-40 w-60 rounded-20 border-3 border-red-500  font-bold  hover:bg-red-500 hover:text-white"
+            }
+            onClick={() => {
+              setCSTab(false);
+              setShowAnswer(false);
+            }}
+          >
+            명언
+          </button>
+        </div>
         <img
           src={refreshIcon}
           className={
@@ -61,12 +101,30 @@ export default function Statistics() {
           }
           onClick={() => setRefresh(true)}
         />
-        <div className="text-semibold w-700 text-20">
-          "{index && sayingList?.data?.saying[index][0]}"
-        </div>
-        <div className="text-bold mt-20 w-700 text-22 italic">
-          - {index && sayingList?.data?.saying[index][1]} -
-        </div>
+        {CSIndex !== undefined && sayingIndex !== undefined && (
+          <div className="text-semibold flex h-100 w-700 items-center text-20">
+            "{CSTab && csList?.data?.cs[CSIndex][0]}
+            {!CSTab && sayingList?.data?.saying[sayingIndex][0]}"
+          </div>
+        )}
+        {CSIndex !== undefined && sayingIndex !== undefined && (
+          <div className=" text-bold flex h-50 w-700 items-center text-22 italic">
+            {CSTab && showAnswer && (
+              <div>- {csList?.data?.cs[CSIndex][1]} -</div>
+            )}
+            {CSTab && !showAnswer && (
+              <button
+                className="h-full w-full rounded-20 border-3 border-red-500 font-bold text-red-500 hover:bg-red-500 hover:text-white"
+                onClick={() => setShowAnswer(true)}
+              >
+                정답 보기
+              </button>
+            )}
+            {!CSTab && (
+              <div>- {sayingList?.data?.saying[sayingIndex][1]} -</div>
+            )}
+          </div>
+        )}
       </div>
       <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-1 border-gray-200 bg-pink-50 bg-opacity-20 shadow-md">
         <div className="absolute left-150 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
@@ -212,6 +270,13 @@ export default function Statistics() {
             />
           </div>
         )}
+        <div className="group absolute right-15 top-15 h-40 w-40 cursor-pointer rounded-50 bg-red-500 text-center text-20 font-bold leading-40 text-white">
+          ?
+          <div className="invisible absolute right-0 top-50 flex h-100 w-150 items-center justify-center rounded-10 border-2 border-red-500 text-15 font-semibold leading-20 text-black group-hover:visible">
+            본 통계는 <br /> SSAFY-STAR에 <br /> 등록된 인원만을 <br /> 기준으로
+            합니다.
+          </div>
+        </div>
       </div>
     </div>
   );

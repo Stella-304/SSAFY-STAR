@@ -51,6 +51,18 @@ const starInfoSlice = createSlice({
     setFilterName(state, action) {
       state.filterName = action.payload;
     },
+    clearStarInfo(state) {
+      state.userInfoList = [];
+    },
+    clearStarEdgeList(state) {
+      state.starEdgeList = [];
+    },
+    clearGroupInfoList(state) {
+      state.groupInfoList = [];
+    },
+    clearFilterName(state) {
+      state.filterName = "";
+    },
   },
 });
 
@@ -63,6 +75,10 @@ export const {
   setHoverStarPosition,
   setGroupInfoList,
   setFilterName,
+  clearStarInfo,
+  clearStarEdgeList,
+  clearGroupInfoList,
+  clearFilterName,
 } = starInfoSlice.actions;
 
 export default starInfoSlice.reducer;
