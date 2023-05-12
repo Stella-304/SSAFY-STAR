@@ -24,16 +24,16 @@ export default function Metaverse() {
   const user = useSelector((state: RootState) => state.user);
   const [accessNumber, setAccessNumber] = useState(0);
   const { nickname } = useSelector((state: RootState) => state.user);
-  const handleNickname = useCallback((accessNumber: number) => {
-    setAccessNumber(accessNumber);
-  }, []);
+  // const handleNickname = useCallback((accessNumber: number) => {
+  //   setAccessNumber(accessNumber);
+  // }, []);
 
-  useEffect(() => {
-    addEventListener("GetUser", handleNickname);
-    return () => {
-      removeEventListener("GetUser", handleNickname);
-    };
-  }, [addEventListener, removeEventListener, handleNickname]);
+  // useEffect(() => {
+  //   addEventListener("GetUser", handleNickname);
+  //   return () => {
+  //     removeEventListener("GetUser", handleNickname);
+  //   };
+  // }, [addEventListener, removeEventListener, handleNickname]);
 
   useEffect(() => {
     dispatch(setPath("metaverse"));
@@ -50,24 +50,24 @@ export default function Metaverse() {
     };
   }, [detachAndUnloadImmediate]);
 
-  useEffect(() => {
-    if (accessNumber === 100) {
-      if (sessionStorage.getItem("accessToken")) {
-        sendMessage(
-          "GameController",
-          "GetLogin",
-          sessionStorage.getItem("accessToken"),
-        );
-      } else {
-        sendMessage("GameController", "GetLogin", "");
-      }
-      if (nickname) {
-        sendMessage("GameController", "GetNickname", nickname);
-      }
-    } else {
-      console.log("이상한 값이야...");
-    }
-  }, [accessNumber, sendMessage, nickname]);
+  // useEffect(() => {
+  //   if (accessNumber === 100) {
+  //     if (sessionStorage.getItem("accessToken")) {
+  //       sendMessage(
+  //         "GameController",
+  //         "GetLogin",
+  //         sessionStorage.getItem("accessToken"),
+  //       );
+  //     } else {
+  //       sendMessage("GameController", "GetLogin", "");
+  //     }
+  //     if (nickname) {
+  //       sendMessage("GameController", "GetNickname", nickname);
+  //     }
+  //   } else {
+  //     console.log("이상한 값이야...");
+  //   }
+  // }, [accessNumber, sendMessage, nickname]);
 
   const loadingPercentage = Math.round(loadingProgression * 100);
   const style: CSSProperties = {
