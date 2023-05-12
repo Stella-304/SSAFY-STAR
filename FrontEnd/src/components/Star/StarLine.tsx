@@ -16,21 +16,11 @@ export default function StarLine({
   const color = new THREE.Color();
   const lineRef = useRef<any>(null);
 
-  // useFrame(({ camera }) => {
-  //   // Make text face the camera
-  //   lineRef.current.quaternion.copy(camera.quaternion);
-  //   // Animate font color
-  //   lineRef.current.material.color.lerp(
-  //     color.set(hovered ? "#fa2720" : "white"),
-  //     0.1,
-  //   );
-  // });
   let t = 0;
   useFrame(() => {
     if (t > 10) return;
     t += 0.01;
 
-    //console.log(lineRef.current);
     // for (let i = 0; i < starFilterInfo?.length - 1; i++) {
     //   lineRef.current.setPoints(
     //     [starFilterInfo[i].x, starFilterInfo[i].y, starFilterInfo[i].z],
