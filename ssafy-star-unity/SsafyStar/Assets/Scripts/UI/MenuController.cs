@@ -164,31 +164,6 @@ public class MenuController : MonoBehaviour
     {
         _nickname = textNickname.text;
 
-        // -- added by hslee0912
-        /*
-        string str = "гого";
-
-        byte[] byteFromStr1 = System.Text.Encoding.Unicode.GetBytes(_nickname);
-        byte[] byteFromStr2 = System.Text.Encoding.Unicode.GetBytes(str);
-
-        string t_str1 = System.Text.Encoding.UTF8.GetString(byteFromStr1);
-        string t_str2 = System.Text.Encoding.UTF8.GetString(byteFromStr2);
-
-        int test1 = t_str1.Length;
-        int test2 = t_str2.Length;       
-        */
-
-
-        /*
-        string[] test = _nickname.Split("");
-        int a = test[0].Length;
-        */
-
-        Debug.Log(textNickname.text.Length);
-        Debug.Log(_nickname.Length);
-
-
-        Debug.Log("SetNickName");
         if (isGuest)
         {
             PlayerPrefs.SetString("Nickname",_nickname);

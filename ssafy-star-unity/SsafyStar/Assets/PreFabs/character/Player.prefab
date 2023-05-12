@@ -4927,6 +4927,7 @@ MonoBehaviour:
   museumPos: {fileID: 0}
   interpolationPos: {fileID: 8583504200555873730}
   Camera: {fileID: 0}
+  faceCamera: {fileID: 5104458298911329395}
   JumpForce: 3
   GravityValue: -3
   anim: {fileID: 2449561562819141560}

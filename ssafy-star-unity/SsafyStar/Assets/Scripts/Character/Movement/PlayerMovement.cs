@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using TMPro;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,10 @@ public class PlayerMovement : NetworkBehaviour
     private bool chatActive = false;
     private GameObject NPC;
     public bool isChatting = false;
+    //[Networked(OnChanged = nameof(OnNicknameChanged))]
+    //public NetworkString<_32> nickName { get; set; }
+    [SerializeField]
+    private TMP_Text textPlayerNickname;
 
     public bool goMuseum = false;
     public bool doRespawn = false;
@@ -35,6 +40,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Camera")]
     public Camera Camera;
     private CameraControl cameraControl;
+    public FaceCamera faceCamera;
 
     [Header("Jump")]
     public float JumpForce = 5f;
@@ -67,6 +73,8 @@ public class PlayerMovement : NetworkBehaviour
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
+            faceCamera.SetNickName();
+            //RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -225,6 +233,25 @@ public class PlayerMovement : NetworkBehaviour
             NPC = null;
         }
     }
+
+    //private void OnNicknameChanged(Changed<PlayerMovement> changed)
+    //{
+    //    Debug.Log($"{Time.time} changed value {changed.Behaviour.nickName}");
+    //    changed.Behaviour.OnNicknameChanged();
+    //}
+
+    //private void OnNicknameChanged()
+    //{
+    //    Debug.Log($"{nickName} for player{gameObject.name}");
+    //    textPlayerNickname.text = nickName.ToString();
+    //}
+
+    //[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    //public void RPC_SetNickname(string nickname, RpcInfo info = default)
+    //{
+    //    Debug.Log($"[RPC] SetNickname {nickname}");
+    //    this.nickName = nickname;
+    //}
 
     private void ResetAnimation()
     {
