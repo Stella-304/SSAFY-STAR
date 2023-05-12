@@ -24,6 +24,7 @@ import com.ssafy.star.common.util.GeometryUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.constellation.Icosphere;
 import com.ssafy.star.constellation.Icosphere2;
+import com.ssafy.star.constellation.Icosphere3;
 import com.ssafy.star.constellation.Point3D;
 
 import lombok.Getter;
@@ -110,6 +111,53 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public List<String> searchCompany(String query) {
 		return companyRepository.searchCompanyList(query);
+	}
+
+	@Override
+	public ConstellationListDto getCardList() {
+		List<Card> cardList = cardRepository.getAllCardListWithUser();
+
+		List<CardDetailDto> cardDetailDtoList = setCoordinates(cardList);
+		List<EdgeDto> edgeDtoList= GeometryUtil.getEdgeList2(cardDetailDtoList);
+		ConstellationListDto constellationListDto=new ConstellationListDto(cardDetailDtoList,edgeDtoList);
+		return constellationListDto;
+	}
+
+	private List<CardDetailDto> setCoordinates(List<Card> cardList) {
+
+		int r = 100;
+		List<Point3D> coordinateList= Icosphere3.vertices;
+		int cardCnt=cardList.size();
+		int vertices=coordinateList.size();
+		List<Integer> numbers = new ArrayList<>();
+		for (int i = 0; i < vertices; i++) {
+			numbers.add(i);
+		}
+		List<Integer> result = new ArrayList<>();
+		Random random = new Random();
+		for (int i = 0; i < cardCnt; i++) {
+			int index = random.nextInt(numbers.size());
+			result.add(numbers.remove(index));
+
+		}
+
+		List<CardDetailDto> detailDtoList = new ArrayList<>();
+
+		long userId = -1L;
+
+		try {
+			userId = authProvider.getUserIdFromPrincipal();
+		} catch (Exception e) {}
+
+		for (int i = 0; i < cardCnt; i++) {
+			int selected = result.get(i);
+			Card curCard = cardList.get(i);
+			detailDtoList.add(new CardDetailDto(curCard, r * coordinateList.get(selected).getX()
+					, r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ(),
+					curCard.getUser().getId() == userId
+			));
+		}
+		return detailDtoList;
 	}
 
 	@Override

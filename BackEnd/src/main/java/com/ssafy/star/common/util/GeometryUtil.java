@@ -123,6 +123,53 @@ public class GeometryUtil {
 		return edgeDtoList;
 	}
 
+	public static List<EdgeDto> getEdgeList2(List<CardDetailDto> cards) {
+		int N = cards.size();
+		for (int i = 0; i < N; i++) {
+			parents[i] = i;
+		}
+
+		List<EdgeDto> edgeDtoList = new ArrayList<>();
+		List<Edge> edges = new ArrayList<>();
+		List<List<Integer>> adjList = new ArrayList<>();
+
+		for (int i = 0; i < N; i++) {
+			adjList.add(new ArrayList<>());
+		}
+
+		for (int i = 0; i < N - 1; i++) {
+			double x1 = cards.get(i).getX() ;
+			double y1 = cards.get(i).getY() ;
+			double z1 = cards.get(i).getZ() ;
+
+			for (int j = i + 1; j < N; j++) {
+				double x2 = cards.get(j).getX() ;
+				double y2 = cards.get(j).getY() ;
+				double z2 = cards.get(j).getZ() ;
+				double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + Math.pow(z1 - z2, 2));
+				edges.add(new Edge(i, j, distance));
+			}
+		}
+
+		Collections.sort(edges);
+
+		for (Edge edge : edges) {
+			if (!isSameParents(edge.a, edge.b)) {
+				union(edge.a, edge.b);
+				edgeDtoList.add(new EdgeDto(cards.get(edge.a), cards.get(edge.b)));
+			}
+		}
+
+		 int removeEdge = N / maxStar;
+		 Random random = new Random();
+		 while (removeEdge > 0) {
+		 	removeEdge--;
+		 	edgeDtoList.remove(random.nextInt(edgeDtoList.size()));
+		 }
+
+		return edgeDtoList;
+	}
+
 	private static boolean isSameParents(long a, long b) {
 		return find(a) == find(b);
 	}
