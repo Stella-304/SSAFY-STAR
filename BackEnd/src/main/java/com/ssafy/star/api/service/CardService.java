@@ -18,6 +18,7 @@ public interface CardService {
 
 	// ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
 	// ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3);
+    ConstellationListDto getCardList();
     ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto);
 
 	void registCard(CardRegistReqDto cardRegistReqDto);
