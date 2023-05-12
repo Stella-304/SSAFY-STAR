@@ -221,7 +221,7 @@ public class CardServiceImpl implements CardService {
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
-					.groupName(key)
+					.groupName(key + groupFlag)
 					.x(polygon.getX() * RADIUS)
 					.y(polygon.getZ() * RADIUS)
 					.z(polygon.getY() * RADIUS)
@@ -589,7 +589,7 @@ public class CardServiceImpl implements CardService {
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
-					.groupName(key)
+					.groupName(key + groupFlag)
 					.x(centerX * RADIUS / curCardGroupCnt)
 					.y(centerZ * RADIUS / curCardGroupCnt)
 					.z(centerY * RADIUS / curCardGroupCnt)
