@@ -65,7 +65,7 @@ export default function Metaverse() {
         sendMessage("GameController", "GetNickname", nickname);
       }
     } else {
-      console.log("이상한 값이야...");
+      console.log("잘 찍히나요?");
     }
   }, [accessNumber, sendMessage, nickname]);
 
@@ -88,6 +88,7 @@ export default function Metaverse() {
           </div>
         </div>
       )}
+      <div></div>
       <Unity
         unityProvider={unityProvider}
         style={{ width: "100%", height: "100%" }}

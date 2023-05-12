@@ -26,8 +26,10 @@ public class PlayerMovement : NetworkBehaviour
     private bool chatActive = false;
     private GameObject NPC;
     public bool isChatting = false;
-    //[Networked(OnChanged = nameof(OnNicknameChanged))]
-    //public NetworkString<_32> nickName { get; set; }
+
+    [Networked]
+    public NetworkString<_16> nickName { get; set; }
+
     [SerializeField]
     private TMP_Text textPlayerNickname;
 
