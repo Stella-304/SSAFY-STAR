@@ -53,7 +53,6 @@ export default function Statistics() {
 
   useEffect(() => {
     if (refresh) {
-      console.log("??");
       setTimeout(() => {
         if (CSTab && CSLen) {
           setCSIndex(Math.floor(Math.random() * (CSLen - 1)));

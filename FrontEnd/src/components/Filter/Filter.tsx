@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearFilterName,
+  clearGroupInfoList,
+  clearStarEdgeList,
+  clearStarInfo,
   setFilterName,
   setFilterTabOpen,
   setGroupInfoList,
@@ -69,6 +73,13 @@ export default function Filter() {
   };
 
   useEffect(() => {
+    dispatch(clearStarInfo());
+    dispatch(clearStarEdgeList());
+    dispatch(clearGroupInfoList());
+    dispatch(clearFilterName());
+  }, []);
+
+  useEffect(() => {
     setFilterChange(false);
   }, [filterChange]);
 
@@ -79,14 +90,7 @@ export default function Filter() {
   }, [searchCompany]);
 
   useEffect(() => {
-    if (!type && !info) {
-      if (initialData?.data) {
-        dispatch(setStarInfo(initialData.data.cardList));
-        dispatch(setStarEdgeList(initialData.data.edgeList));
-        dispatch(setGroupInfoList(initialData.data.groupInfoDtoList));
-        dispatch(setFilterName(initialData.data.filterName));
-      }
-    } else {
+    if (type || info) {
       mutate({
         ban: filter.ban,
         bojTier: filter.bojTier,
@@ -101,6 +105,15 @@ export default function Filter() {
       });
     }
   }, [filter]);
+
+  useEffect(() => {
+    if (initialData?.data) {
+      dispatch(setStarInfo(initialData.data.cardList));
+      dispatch(setStarEdgeList(initialData.data.edgeList));
+      dispatch(setGroupInfoList(initialData.data.groupInfoDtoList));
+      dispatch(setFilterName(initialData.data.filterName));
+    }
+  }, [initialData?.data]);
 
   useEffect(() => {
     if (data) {
