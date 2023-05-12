@@ -29,6 +29,12 @@
   font-weight: 100;
   font-style: normal;
 }
+@font-face {
+  font-family: "gothic";
+  src: url("./assets/fonts/NanumGothic.ttf") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
