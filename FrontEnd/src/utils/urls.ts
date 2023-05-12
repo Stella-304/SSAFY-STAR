@@ -84,3 +84,6 @@ export const CHART_URL = SERVER_API + "/app/chart";
 
 //명언
 export const SAYING_URL = SERVER_API + "/app/chart/saying";
+
+//CS
+export const CS_URL = SERVER_API + "/app/chart/cs";
