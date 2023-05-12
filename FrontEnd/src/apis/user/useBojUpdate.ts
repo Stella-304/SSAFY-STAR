@@ -34,7 +34,7 @@ const useBojcheck = () => {
         navigate("/");
         return;
       }
-      if (e.response.status === 403) {
+      if (e.response.status === 400) {
         alert("카드에서 백준아이디를 등록해주세요.");
         return;
       }

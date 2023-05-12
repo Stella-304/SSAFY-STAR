@@ -35,7 +35,7 @@ const useCardSubmit = () => {
         navigate("/");
         return;
       }
-      if (e.response.status === 403) {
+      if (e.response.status === 400) {
         alert("등록하신 카드가 있습니다.");
       } else {
         alert("잠시후 시도해 주세요");

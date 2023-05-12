@@ -36,8 +36,7 @@ const useUserCheck = () => {
         navigate("/");
         return;
       }
-      alert("토큰이 확인이 안됩니다.");
-      navigate("/login");
+      alert("잠시후 다시 시도해 주세요.");
     },
   });
 };
