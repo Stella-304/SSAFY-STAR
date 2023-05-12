@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
-
 @RestController
 @Api(tags = {"차트 API"})
 @RequiredArgsConstructor
@@ -40,5 +38,11 @@ public class ChartController {
     @ApiOperation(value = "명언 조회")
     public ResponseEntity<ResponseDto> getSaying() {
         return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, chartService.sayingGet()));
+    }
+
+    @GetMapping("/cs")
+    @ApiOperation(value = "cs 조회")
+    public ResponseEntity<ResponseDto> getCs() {
+        return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_GET, chartService.csGet()));
     }
 }

@@ -2,10 +2,11 @@ package com.ssafy.star.api.service;
 
 import com.ssafy.star.common.auth.enumeration.ChartEnum;
 import com.ssafy.star.common.db.dto.response.ChartDto;
+import com.ssafy.star.common.db.dto.response.CsDto;
 import com.ssafy.star.common.db.dto.response.SayingDto;
 import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.repository.CardRepository;
-import com.ssafy.star.common.util.SayingUtil;
+import com.ssafy.star.common.util.ChartUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class ChartServiceImpl implements ChartService {
 
     private final CardRepository cardRepository;
 
-    SayingUtil sayingUtil = new SayingUtil();
+    ChartUtil chartUtil = new ChartUtil();
 
     @Override
     public ChartDto chartGet(String sort) {
@@ -67,9 +68,17 @@ public class ChartServiceImpl implements ChartService {
         return new ChartDto(chart);
     }
 
+    @Override
      public SayingDto sayingGet() {
-         List<String[]> sayingList = sayingUtil.getSaying();
+         List<String[]> sayingList = chartUtil.getSaying();
          Collections.shuffle(sayingList);
         return new SayingDto(sayingList);
+    }
+
+    @Override
+    public CsDto csGet() {
+        List<String[]> csList = chartUtil.getCs();
+        Collections.shuffle(csList);
+        return new CsDto(csList);
     }
 }
