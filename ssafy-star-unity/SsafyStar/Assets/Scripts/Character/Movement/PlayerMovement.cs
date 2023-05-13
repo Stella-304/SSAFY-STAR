@@ -66,6 +66,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         Camera = Camera.main;
 
+
         if (HasStateAuthority)
         {
             Debug.Log("spawned");
@@ -75,8 +76,9 @@ public class PlayerMovement : NetworkBehaviour
             cameraControl = GetComponent<CameraControl>();
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
-            faceCamera.SetNickName();
             //RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
+            faceCamera.SetNickName();
+            Debug.Log(PlayerPrefs.GetString("Nickname"));
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -95,7 +97,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if(chatActive)
+            if (chatActive)
             {
                 if (Vector3.Distance(transform.position, NPC.transform.position) > chatDistance) return;
 
@@ -122,7 +124,7 @@ public class PlayerMovement : NetworkBehaviour
             run = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("r ´©¸§");
             doRespawn = true;
@@ -216,11 +218,12 @@ public class PlayerMovement : NetworkBehaviour
         if (other.gameObject.tag.Equals("goMuseum"))
         {
             goMuseum = true;
-        }else if (other.gameObject.tag.Equals("backMuseum"))
+        }
+        else if (other.gameObject.tag.Equals("backMuseum"))
         {
             doRespawn = true;
         }
-        else if(other.gameObject.tag.Equals("NPC"))
+        else if (other.gameObject.tag.Equals("NPC"))
         {
             NPC = other.gameObject;
             chatActive = true;

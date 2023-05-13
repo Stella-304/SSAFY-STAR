@@ -125,25 +125,28 @@ public class MenuController : MonoBehaviour
 
     public void CheckDuplicate()
     {
-        Debug.Log("CheckDuplicate");
-        _nickname = textNickname.text;  
-        if (_nickname == "")
-        {
-            textResult.gameObject.SetActive(true);
-            textResult.text = "닉네임을 입력해주세요";
-        }
-        else if (_nickname.Length > 10)
-        {
-            textResult.gameObject.SetActive(true);
-            textResult.text = "10글자 이내로 입력해주세요";
-            _nickname = "";
-        }
-        else
-        {
-            Debug.Log("10글자 이내");
-            StartCoroutine(Request.Instance.ApiGetRequest($"/app/user/nickname/check-duplicate?nickname={_nickname}",
-                                                          _nickname, "nickname", _token));
-        }
+        PlayerPrefs.SetString("Nickname", textNickname.text);
+        SceneManager.LoadScene("Lobby");
+
+        //Debug.Log("CheckDuplicate");
+        //_nickname = textNickname.text;  
+        //if (_nickname == "")
+        //{
+        //    textResult.gameObject.SetActive(true);
+        //    textResult.text = "닉네임을 입력해주세요";
+        //}
+        //else if (_nickname.Length > 10)
+        //{
+        //    textResult.gameObject.SetActive(true);
+        //    textResult.text = "10글자 이내로 입력해주세요";
+        //    _nickname = "";
+        //}
+        //else
+        //{
+        //    Debug.Log("10글자 이내");
+        //    StartCoroutine(Request.Instance.ApiGetRequest($"/app/user/nickname/check-duplicate?nickname={_nickname}",
+        //                                                  _nickname, "nickname", _token));
+        //}
     }
 
     public void PrintError(string message)

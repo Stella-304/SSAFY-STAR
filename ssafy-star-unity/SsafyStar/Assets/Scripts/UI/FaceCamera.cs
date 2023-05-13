@@ -9,6 +9,7 @@ public class FaceCamera : MonoBehaviour
     Camera cam;
     [SerializeField]
     private TMP_Text textNickname;
+
     [Networked]
     public NetworkString<_16> _nickname { get; set; }
 
@@ -27,6 +28,7 @@ public class FaceCamera : MonoBehaviour
 
     public void SetNickName()
     {
+        Debug.Log("SetNickName");
         SendMyNickName();
     }
 
@@ -34,6 +36,8 @@ public class FaceCamera : MonoBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void SendMyNickName(RpcInfo rpcInfo = default)
     {
+        Debug.Log("SendMyNickName");
+        Debug.Log(PlayerPrefs.GetString("Nickname", "Guest"));
         //textNickname.text = PlayerPrefs.GetString("Nickname", "Guest");
         _nickname = PlayerPrefs.GetString("Nickname", "Guest");
         textNickname.text = _nickname.ToString();
