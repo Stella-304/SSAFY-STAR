@@ -27,8 +27,8 @@ public class PlayerMovement : NetworkBehaviour
     private GameObject NPC;
     public bool isChatting = false;
 
-    [Networked]
-    public NetworkString<_16> nickName { get; set; }
+    //[Networked]
+    //public NetworkString<_16> nickName { get; set; }
 
     [SerializeField]
     private TMP_Text textPlayerNickname;
@@ -77,8 +77,10 @@ public class PlayerMovement : NetworkBehaviour
             cameraControl.InitiateCamera(transform.Find("InterpolationTarget"));
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
             //RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
-            faceCamera.SetNickName();
+            //faceCamera.SetNickName();
             Debug.Log(PlayerPrefs.GetString("Nickname"));
+            //nickName = PlayerPrefs.GetString("Nickname");
+            RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -251,12 +253,12 @@ public class PlayerMovement : NetworkBehaviour
     //    textPlayerNickname.text = nickName.ToString();
     //}
 
-    //[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    //public void RPC_SetNickname(string nickname, RpcInfo info = default)
-    //{
-    //    Debug.Log($"[RPC] SetNickname {nickname}");
-    //    this.nickName = nickname;
-    //}
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SetNickname(string nickname, RpcInfo info = default)
+    {
+        Debug.Log($"[RPC] SetNickname {nickname}");
+        textPlayerNickname.text = nickname;
+    }
 
     private void ResetAnimation()
     {

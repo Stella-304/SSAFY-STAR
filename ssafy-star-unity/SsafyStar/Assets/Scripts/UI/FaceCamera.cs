@@ -10,8 +10,8 @@ public class FaceCamera : MonoBehaviour
     [SerializeField]
     private TMP_Text textNickname;
 
-    [Networked]
-    public NetworkString<_16> _nickname { get; set; }
+    //[Networked]
+    //public NetworkString<_16> _nickname { get; set; }
 
     private void Start()
     {
@@ -26,20 +26,20 @@ public class FaceCamera : MonoBehaviour
     }
 
 
-    public void SetNickName()
-    {
-        Debug.Log("SetNickName");
-        SendMyNickName();
-    }
+    //public void SetNickName()
+    //{
+    //    Debug.Log("SetNickName");
+    //    SendMyNickName();
+    //}
 
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void SendMyNickName(RpcInfo rpcInfo = default)
-    {
-        Debug.Log("SendMyNickName");
-        Debug.Log(PlayerPrefs.GetString("Nickname", "Guest"));
-        //textNickname.text = PlayerPrefs.GetString("Nickname", "Guest");
-        _nickname = PlayerPrefs.GetString("Nickname", "Guest");
-        textNickname.text = _nickname.ToString();
-    }
+    ////[Rpc(RpcSources.All, RpcTargets.All)]
+    //[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    //public void SendMyNickName(RpcInfo rpcInfo = default)
+    //{
+    //    Debug.Log("SendMyNickName");
+    //    Debug.Log(PlayerPrefs.GetString("Nickname", "Guest"));
+    //    //textNickname.text = PlayerPrefs.GetString("Nickname", "Guest");
+    //    //_nickname = PlayerPrefs.GetString("Nickname", "Guest");
+    //    //textNickname.text = _nickname.ToString();
+    //}
 }
