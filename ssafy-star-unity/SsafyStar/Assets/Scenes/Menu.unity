@@ -2153,7 +2153,7 @@ MonoBehaviour:
   unmuteSprite: {fileID: 21300000, guid: c3e824ff3098bef4487235092dba2024, type: 3}
   panelNickname: {fileID: 1360766946}
   textNickname: {fileID: 1721661334}
-  textResult: {fileID: 2066366132}
+  textResult: {fileID: 1143753255}
   panelWarning: {fileID: 1971556627}
 --- !u!114 &1709531330
 MonoBehaviour:

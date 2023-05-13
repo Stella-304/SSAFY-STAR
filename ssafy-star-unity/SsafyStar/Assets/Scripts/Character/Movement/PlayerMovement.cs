@@ -88,6 +88,13 @@ public class PlayerMovement : NetworkBehaviour
             respawnPos = GameObject.Find("SpawnPos").transform;
             museumPos = GameObject.Find("MuseumPos").transform;
         }
+        else
+        {
+            if (textPlayerNickname.text == PlayerPrefs.GetString("Nickname"))
+            {
+                RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
+            }
+        }
     }
 
     void Update()

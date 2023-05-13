@@ -31,7 +31,7 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private TMP_Text textNickname;
     [SerializeField]
-    private TMP_Text textResult;
+    private TMP_InputField textResult;
 
     [Header("Warning")]
     [SerializeField]
