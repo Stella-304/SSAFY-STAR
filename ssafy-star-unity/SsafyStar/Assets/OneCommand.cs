@@ -8,13 +8,25 @@ using UnityEngine.SceneManagement;
 public class OneCommand : MonoBehaviour
 {
     #region 태그에 따른 함수호출
-    void Awake() { if (CompareTag("GameManager")) Awake_GM(); }
+    void Awake() 
+    { 
+        if (CompareTag("GameManager")) Awake_GM();
+    }
 
-    void Update() { if (CompareTag("GameManager")) Update_GM(); }
+    void Update() 
+    { 
+        if (gameStart && CompareTag("GameManager")) Update_GM();
+    }
 
-    void FixedUpdate() { if (CompareTag("GameManager")) FixedUpdate_GM(); }
+    void FixedUpdate() 
+    { 
+        if (gameStart && CompareTag("GameManager")) FixedUpdate_GM();
+    }
 
-    void Start() { if (CompareTag("Ball")) Start_BALL(); }
+    void Start() 
+    { 
+        if (CompareTag("Ball")) Start_BALL();
+    }
 
     void OnCollisionEnter2D(Collision2D col) { if (CompareTag("Ball")) StartCoroutine(OnCollisionEnter2D_BALL(col)); }
 
@@ -25,6 +37,7 @@ public class OneCommand : MonoBehaviour
 
     #region GameManager.Cs
     [Header("GameManagerValue")]
+    public Camera camera;
     public float groundY = -55.489f;
     public GameObject P_Ball, P_GreenOrb, P_Block, P_ParticleBlue, P_ParticleGreen, P_ParticleRed;
     public GameObject BallPreview, Arrow, GameOverPanel, BallCountTextObj, BallPlusTextObj;
@@ -41,7 +54,7 @@ public class OneCommand : MonoBehaviour
 
     Vector3 firstPos, secondPos, gap;
     int score, timerCount, launchIndex;
-    bool timerStart, isDie, isNewRecord, isBlockMoving;
+    bool gameStart, timerStart, isDie, isNewRecord, isBlockMoving;
     float timeDelay;
 
 
@@ -67,7 +80,7 @@ public class OneCommand : MonoBehaviour
         //camera.rect = rect;
 
 
-        // 시작
+        //시작
         BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
     }
@@ -182,7 +195,7 @@ public class OneCommand : MonoBehaviour
                 FinalScoreText.text = "최종점수 : " + score.ToString();
                 if (isNewRecord) NewRecordText.gameObject.SetActive(true);
 
-                Camera.main.GetComponent<Animator>().SetTrigger("shake");
+                camera.GetComponent<Animator>().SetTrigger("shake");
                 S_GameOver.Play();
             }
             else
@@ -229,7 +242,7 @@ public class OneCommand : MonoBehaviour
 
         // 마우스 첫번째 좌표
         if (Input.GetMouseButtonDown(0) && firstPos == Vector3.zero)
-            firstPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
+            firstPos = camera.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
 
 
         // 모든 움직임이 끝나면 쏠 수 있음
@@ -262,7 +275,7 @@ public class OneCommand : MonoBehaviour
         if (isMouse)
         {
             // 차이값
-            secondPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
+            secondPos = camera.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10);
             if ((secondPos - firstPos).magnitude < 1) return;
             gap = (secondPos - firstPos).normalized;
             gap = new Vector3(gap.y >= 0 ? gap.x : gap.x >= 0 ? 1 : -1, Mathf.Clamp(gap.y, 0.2f, 1), 0);

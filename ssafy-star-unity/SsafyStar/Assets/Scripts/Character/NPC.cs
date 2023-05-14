@@ -19,6 +19,7 @@ public class NPC : MonoBehaviour
     private bool isMoving = false;
 
     [Header("Chat")]
+    [SerializeField]
     private GameObject chatUI;
     public bool doChat = false;
     public GameObject player;
@@ -35,14 +36,14 @@ public class NPC : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         targetPosition = GetRandomPosition();
-        chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
+        //chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
     }
 
     private void Update()
     {
         if(doChat)
         {
-            GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
+            GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false;
             chatUI.SetActive(true);
             //Debug.Log(inkJSON.text);
             DialogueManager.GetInstance().NPC = gameObject;

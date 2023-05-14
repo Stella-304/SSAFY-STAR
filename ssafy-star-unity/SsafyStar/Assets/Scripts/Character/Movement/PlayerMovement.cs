@@ -27,8 +27,8 @@ public class PlayerMovement : NetworkBehaviour
     private GameObject NPC;
     public bool isChatting = false;
 
-    //[Networked]
-    //public NetworkString<_16> nickName { get; set; }
+    [Networked]
+    public NetworkString<_16> nickName { get; set; }
 
     [SerializeField]
     private TMP_Text textPlayerNickname;
@@ -66,10 +66,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         Camera = Camera.main;
 
-
         if (HasStateAuthority)
         {
-            Debug.Log("spawned");
+            Debug.Log(gameObject.name+"내가 들어옴");
 
             playerSpeed = playerwalkSpeed;
 
@@ -78,9 +77,12 @@ public class PlayerMovement : NetworkBehaviour
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
             //RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
             //faceCamera.SetNickName();
-            Debug.Log(PlayerPrefs.GetString("Nickname"));
+            Debug.Log(gameObject.name + PlayerPrefs.GetString("Nickname"));
             //nickName = PlayerPrefs.GetString("Nickname");
-            RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
+            Debug.Log(gameObject.name + "내가 들어왔으니 내 이름 처음 설정");
+            nickName = PlayerPrefs.GetString("Nickname");
+            RPC_SetNickname(nickName.ToString());
+            Debug.Log("networkstring"+nickName);
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
@@ -90,9 +92,15 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            if (textPlayerNickname.text == PlayerPrefs.GetString("Nickname"))
+            Debug.Log(gameObject.name + "다른 사람이 들어옴");
+            if (textPlayerNickname.text == "Player")
             {
-                RPC_SetNickname(PlayerPrefs.GetString("Nickname"));
+                Debug.Log(gameObject.name + "나 왜 이름이 player야?");
+                Debug.Log(gameObject.name + "내 이름은 " + nickName);
+                Debug.Log("networkstring" + nickName);
+
+                RPC_SetNickname(nickName.ToString());
+                Debug.Log(gameObject.name + "다른 사람가 들어왔으니 내 이름 다시 설정");
             }
         }
     }
@@ -260,11 +268,15 @@ public class PlayerMovement : NetworkBehaviour
     //    textPlayerNickname.text = nickName.ToString();
     //}
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    //[Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SetNickname(string nickname, RpcInfo info = default)
     {
-        Debug.Log($"[RPC] SetNickname {nickname}");
-        textPlayerNickname.text = nickname;
+        //if (HasStateAuthority)
+        //{
+            Debug.Log($"[RPC] SetNickname {nickname}");
+            textPlayerNickname.text = nickname;
+
+        //}
     }
 
     private void ResetAnimation()
