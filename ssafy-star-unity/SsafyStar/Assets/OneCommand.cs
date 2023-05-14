@@ -2,31 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 
 public class OneCommand : MonoBehaviour
 {
     #region 태그에 따른 함수호출
-    void Awake() 
-    { 
+    void Awake()
+    {
         if (CompareTag("GameManager")) Awake_GM();
     }
 
-    void Update() 
-    { 
+    void Start()
+    {
+        if (CompareTag("Ball")) Start_BALL();
+
+        if (CompareTag("GameManager"))
+        {
+            startButton = doc.rootVisualElement.Q<VisualElement>("BlockGameSlot");
+            startButton.AddManipulator(new Clickable(GameStart));
+            mainCamera = Camera.main;
+        }
+    }
+
+    void Update()
+    {
         if (gameStart && CompareTag("GameManager")) Update_GM();
     }
 
-    void FixedUpdate() 
-    { 
+    void FixedUpdate()
+    {
         if (gameStart && CompareTag("GameManager")) FixedUpdate_GM();
     }
 
-    void Start() 
-    { 
-        if (CompareTag("Ball")) Start_BALL();
-    }
 
     void OnCollisionEnter2D(Collision2D col) { if (CompareTag("Ball")) StartCoroutine(OnCollisionEnter2D_BALL(col)); }
 
@@ -38,6 +47,7 @@ public class OneCommand : MonoBehaviour
     #region GameManager.Cs
     [Header("GameManagerValue")]
     public Camera camera;
+    public Camera mainCamera;
     public bool gameStart;
     public float groundY = -55.489f;
     public GameObject P_Ball, P_GreenOrb, P_Block, P_ParticleBlue, P_ParticleGreen, P_ParticleRed;
@@ -52,6 +62,12 @@ public class OneCommand : MonoBehaviour
     public Quaternion QI = Quaternion.identity;
     public bool shotTrigger, shotable;
     public Vector3 veryFirstPos;
+
+    [SerializeField]
+    private UIDocument doc;
+    private VisualElement startButton;
+    [SerializeField]
+    private GameObject gameCanvas;
 
     Vector3 firstPos, secondPos, gap;
     int score, timerCount, launchIndex;
@@ -81,21 +97,38 @@ public class OneCommand : MonoBehaviour
         //camera.rect = rect;
 
 
+
         //시작
         BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
     }
 
-
     public void GameStart()
     {
+        camera.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
+        gameCanvas.SetActive(true);
         gameStart = true;
+        
     }
 
 
-    public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    public void Restart()
+    {
+        Debug.Log("restart");
+    }
 
 
+    public void GameExit()
+    {
+        Debug.Log("exit");
+        mainCamera.gameObject.SetActive(true);
+        camera.gameObject.SetActive(false);
+        GameOverPanel.SetActive(false);
+        gameCanvas.SetActive(false);
+        Restart();
+        gameStart = false;
+    }
 
     public void VeryFirstPosSet(Vector3 pos) { if (veryFirstPos == Vector3.zero) veryFirstPos = pos; }
     #endregion
