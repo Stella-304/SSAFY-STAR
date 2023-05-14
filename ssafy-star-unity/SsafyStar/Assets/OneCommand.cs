@@ -38,6 +38,7 @@ public class OneCommand : MonoBehaviour
     #region GameManager.Cs
     [Header("GameManagerValue")]
     public Camera camera;
+    public bool gameStart;
     public float groundY = -55.489f;
     public GameObject P_Ball, P_GreenOrb, P_Block, P_ParticleBlue, P_ParticleGreen, P_ParticleRed;
     public GameObject BallPreview, Arrow, GameOverPanel, BallCountTextObj, BallPlusTextObj;
@@ -54,7 +55,7 @@ public class OneCommand : MonoBehaviour
 
     Vector3 firstPos, secondPos, gap;
     int score, timerCount, launchIndex;
-    bool gameStart, timerStart, isDie, isNewRecord, isBlockMoving;
+    bool timerStart, isDie, isNewRecord, isBlockMoving;
     float timeDelay;
 
 
@@ -85,6 +86,11 @@ public class OneCommand : MonoBehaviour
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
     }
 
+
+    public void GameStart()
+    {
+        gameStart = true;
+    }
 
 
     public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
