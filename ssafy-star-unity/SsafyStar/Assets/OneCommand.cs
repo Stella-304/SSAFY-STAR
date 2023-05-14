@@ -79,27 +79,9 @@ public class OneCommand : MonoBehaviour
     #region 시작
     void Awake_GM()
     {
-        //// 9:16 고정해상도 카메라
-        //Camera camera = Camera.main;
-        //Rect rect = camera.rect;
-        //float scaleheight = ((float)Screen.width / Screen.height) / ((float)9 / 16); // (가로 / 세로)
-        //float scalewidth = 1f / scaleheight;
-        //if (scaleheight < 1)
-        //{
-        //    rect.height = scaleheight;
-        //    rect.y = (1f - scaleheight) / 2f;
-        //}
-        //else
-        //{
-        //    rect.width = scalewidth;
-        //    rect.x = (1f - scalewidth) / 2f;
-        //}
-        //camera.rect = rect;
-
-
 
         //시작
-        BlockGenerator();
+        //BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
     }
 
@@ -109,13 +91,37 @@ public class OneCommand : MonoBehaviour
         mainCamera.gameObject.SetActive(false);
         gameCanvas.SetActive(true);
         gameStart = true;
-        
+        //BlockGenerator();
     }
 
 
     public void Restart()
     {
-        Debug.Log("restart");
+        Transform[] childList = BlockGroup.GetComponentsInChildren<Transform>();
+        if (childList != null)
+        {
+            // 0은 부모 오브젝트
+            for (int i = 1; i < childList.Length; i++)
+            {
+                if (childList[i] != transform)
+                {
+                    Destroy(childList[i].gameObject);
+                }
+            }
+        }
+
+        GameOverPanel.SetActive(false);
+        BallCountTextObj.SetActive(true);
+        BallPlusTextObj.SetActive(true);
+        BestScoreText.gameObject.SetActive(true);
+        ScoreText.gameObject.SetActive(true);
+
+        score = 0;
+        isDie = false;
+        BallCountText.text = "";
+        //BlockGenerator();
+        BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
+        ScoreText.text = "현재점수 : "+ score;
     }
 
 
@@ -193,7 +199,7 @@ public class OneCommand : MonoBehaviour
         if (targetPos.y < -50)
         {
             if (TR.CompareTag("Block")) isDie = true;
-            for (int i = 0; i < BallGroup.childCount; i++)
+            for (int i = 1; i < BallGroup.childCount; i++)
                 BallGroup.GetChild(i).GetComponent<CircleCollider2D>().enabled = false;
         }
 
@@ -221,7 +227,7 @@ public class OneCommand : MonoBehaviour
         {
             if (TR.CompareTag("Block"))
             {
-                for (int i = 0; i < BallGroup.childCount; i++)
+                for (int i = 1; i < BallGroup.childCount; i++)
                     Destroy(BallGroup.GetChild(i).gameObject);
                 Destroy(Instantiate(P_ParticleBlue, veryFirstPos, QI), 1);
 
@@ -277,7 +283,6 @@ public class OneCommand : MonoBehaviour
     void Update_GM()
     {
         if (isDie) return;
-
 
         // 마우스 첫번째 좌표
         if (Input.GetMouseButtonDown(0) && firstPos == Vector3.zero)
