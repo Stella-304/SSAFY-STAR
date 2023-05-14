@@ -5,6 +5,6 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
-    public NetworkObject player { get; set; }
+    public GameObject player { get; set; }
     public string NickName { get; set; }
 }

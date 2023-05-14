@@ -8,15 +8,16 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     public Transform SpawnPos;
 
     public GameObject loadingUI;
+    public PlayerData playerData;
 
     public void PlayerJoined(PlayerRef player)
     {
         if (player == Runner.LocalPlayer)
         {
-
             loadingUI.SetActive(false);
-
-            Runner.Spawn(PlayerPrefab, SpawnPos.position, Quaternion.identity, player);
+            GameObject goPlayer = Runner.Spawn(PlayerPrefab, SpawnPos.position, Quaternion.identity, player).gameObject;
+            playerData.NickName = PlayerPrefs.GetString("Nickname");
+            playerData.player = goPlayer;
         }
     }
 
