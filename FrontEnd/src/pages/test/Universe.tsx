@@ -86,15 +86,9 @@ export default function Universe() {
   const controls = useCallback(
     (node: any) => {
       if (node) {
-        if (existMine && myStarPos) {
-          node.object.position.x = myStarPos.x;
-          node.object.position.y = myStarPos.y;
-          node.object.position.z = myStarPos.z;
-        } else {
-          node.object.position.x = 0;
-          node.object.position.y = -10;
-          node.object.position.z = 0;
-        }
+        node.object.position.x = 0;
+        node.object.position.y = -10;
+        node.object.position.z = 0;
       }
     },
     [starFilterInfo],
@@ -283,7 +277,7 @@ export default function Universe() {
               (isFilterOpen
                 ? "left-300 w-[calc(100%-300px)]"
                 : "left-30 w-full") +
-              " absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-white"
+              " scrollbar-white absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin"
             }
           >
             {starFilterInfo?.map((item: User, index: number) => (
