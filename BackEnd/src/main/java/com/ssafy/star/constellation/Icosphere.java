@@ -157,7 +157,7 @@ public class Icosphere {
 
 		tmpFaces[0].add(new Triangle(0, 2, 3));
 		tmpFaces[0].add(new Triangle(0, 3, 7));
-		tmpFaces[0].add(new Triangle(0, 7, 1));
+		tmpFaces[0].add(new Triangle(0, 1, 7));
 		tmpFaces[0].add(new Triangle(0, 1, 6));
 		tmpFaces[0].add(new Triangle(0, 6, 2));
 

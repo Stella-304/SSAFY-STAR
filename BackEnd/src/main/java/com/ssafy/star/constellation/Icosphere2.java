@@ -132,7 +132,7 @@ public class Icosphere2 {
 
 		faces[0][0].add(new Triangle(0, 2, 3));
 		faces[1][0].add(new Triangle(0, 3, 7));
-		faces[2][0].add(new Triangle(0, 7, 1));
+		faces[2][0].add(new Triangle(0, 1, 7));
 		faces[3][0].add(new Triangle(0, 1, 6));
 		faces[4][0].add(new Triangle(0, 6, 2));
 
