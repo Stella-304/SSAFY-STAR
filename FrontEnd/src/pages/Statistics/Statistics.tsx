@@ -15,10 +15,10 @@ ChartJS.register(ArcElement, Tooltip, Legend, plugin);
 export default function Statistics() {
   const [filterChart, setFilterChart] = useState<string>("generation");
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [CSIndex, setCSIndex] = useState<number>();
-  const [sayingIndex, setSayingIndex] = useState<number>();
-  const [CSLen, setCSLen] = useState<number>();
-  const [sayingLen, setSayingLen] = useState<number>();
+  const [CSIndex, setCSIndex] = useState<number>(0);
+  const [sayingIndex, setSayingIndex] = useState<number>(0);
+  const [CSLen, setCSLen] = useState<number>(0);
+  const [sayingLen, setSayingLen] = useState<number>(0);
   const [CSTab, setCSTab] = useState<boolean>(true);
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
 
@@ -50,23 +50,23 @@ export default function Statistics() {
     }
   }, [sayingList?.data]);
 
-  useEffect(() => {
-    if (CSLen) {
-      setCSIndex(Math.floor(Math.random() * CSLen));
-    }
-    if (sayingLen) {
-      setSayingIndex(Math.floor(Math.random() * sayingLen));
-    }
-  }, [CSTab, CSLen, sayingLen]);
+  // useEffect(() => {
+  //   if (CSLen) {
+  //     setCSIndex(CSIndex);
+  //   }
+  //   if (sayingLen) {
+  //     setSayingIndex(sayingIndex);
+  //   }
+  // }, [CSTab, CSLen, sayingLen]);
 
   useEffect(() => {
     if (refresh) {
       setTimeout(() => {
         if (CSTab && CSLen) {
-          setCSIndex(Math.floor(Math.random() * (CSLen - 1)));
+          setCSIndex((CSIndex + 1) % CSLen);
         }
         if (!CSTab && sayingLen) {
-          setSayingIndex(Math.floor(Math.random() * (sayingLen - 1)));
+          setSayingIndex((sayingIndex + 1) % sayingLen);
         }
         setShowAnswer(false);
         setRefresh(false);
@@ -75,9 +75,9 @@ export default function Statistics() {
   }, [refresh]);
 
   return (
-    <div className="flex flex-col items-center h-full bg-black text-white ">
+    <div className="flex h-full flex-col items-center bg-black text-white ">
       <HeaderMenu />
-      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 shadow-neon6 mb-24 border-gray-200 border-t-white border-b-darkgray border-b-2">
+      <div className="relative mb-24 mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-b-2 border-t-2 border-gray-200 border-b-darkgray border-t-white shadow-neon6">
         <div className="absolute -top-15 left-30 flex gap-20">
           <button
             className={
@@ -134,7 +134,7 @@ export default function Statistics() {
           </div>
         )}
       </div>
-      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-2 border-white text-white bg-black bg-opacity-20 shadow-neon2">
+      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-2 border-white bg-black bg-opacity-20 text-white shadow-neon2">
         <div className="absolute left-150 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
           <button
             className={
@@ -270,8 +270,8 @@ export default function Statistics() {
                             "%"
                         : "name";
                     },
-                    color:"white",
-                    font: { size: 13, weight: "bold"  },
+                    color: "white",
+                    font: { size: 13, weight: "bold" },
                     textAlign: "center",
                   },
                 },
