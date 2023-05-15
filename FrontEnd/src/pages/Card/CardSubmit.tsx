@@ -12,7 +12,7 @@ import {
   generationList,
 } from "../../constants/categories";
 import { RootState } from "../../stores/store";
-import { resetCard, setCard } from "../../stores/card/cardsubmit";
+import { resetCard, setCard, setName } from "../../stores/card/cardsubmit";
 import { useEffect, useState } from "react";
 import SmallButton from "../../components/Button/SmallButton";
 import useBojcheck from "../../apis/user/useBoj";
@@ -37,7 +37,7 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const [backInput, setBackInput] = useState(false);
+  const [backInput, setBackInput] = useState(true);
 
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
@@ -56,6 +56,8 @@ export default function CardSubmit() {
   //리셋
   useEffect(() => {
     dispatch(resetCard());
+  }, []);
+  useEffect(() => {
     if (type === "modify") {
       dispatch(setPath("cardmodify")); //현 위치 표시
       myCardQuery.refetch();
@@ -68,13 +70,13 @@ export default function CardSubmit() {
       //카드 등록하지 않은 경우
       //유저 정보의 이름을 불러서 입력해준다.
       if (user.name !== USER_NONAME) {
-        dispatch(setCard({ name: user.name }));
+        dispatch(setName(user.name));
       }
     }
     return () => {
       dispatch(setPath("")); //나갈땐 리셋
     };
-  }, [type]);
+  }, []);
 
   useEffect(() => {
     if (search !== card.company && search !== "") {
@@ -324,12 +326,7 @@ export default function CardSubmit() {
               />
             </>
             {!backInput ? (
-              <div
-                className="text-bold mt-16 cursor-pointer text-center text-24"
-                onClick={() => setBackInput(!backInput)}
-              >
-                ▼뒷면 정보 입력하기
-              </div>
+              <></>
             ) : (
               <>
                 <div className="mt-10 border-b-3 py-10 text-center font-neob text-24 text-white">
@@ -424,12 +421,6 @@ export default function CardSubmit() {
                   value={card.etc}
                   cardRegist={true}
                 />
-                <div
-                  className="text-bold mt-16 cursor-pointer text-center text-24"
-                  onClick={() => setBackInput(!backInput)}
-                >
-                  ▲뒷면 정보 입력 닫기
-                </div>
               </>
             )}
           </div>

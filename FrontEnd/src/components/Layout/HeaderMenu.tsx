@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useLogout from "../../apis/user/useLogout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useEffect, useState } from "react";
 import HeaderButton from "../Button/HeaderButton";
 import Report from "@/pages/Report";
 import { SERVER_API } from "@/utils/urls";
 import FloatButton from "../Button/FloatButton";
+import { setPath } from "@/stores/page/path";
 
 export default function HeaderMenu() {
   const { nickname, email, cardRegistered } = useSelector(
@@ -14,6 +15,7 @@ export default function HeaderMenu() {
   );
   const [reportOpen, setReportOpen] = useState(false);
   const { path } = useSelector((state: RootState) => state.path);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutMutate = useLogout();
   const logout = () => {
@@ -27,7 +29,13 @@ export default function HeaderMenu() {
         window.Kakao.init(process.env.REACT_APP_KAKAP_API);
       }
     } catch (e) {}
+
+    dispatch(setPath("statistics"));
+    return () => {
+      setPath("");
+    };
   }, []);
+
   function addChannel() {
     Kakao.Channel.addChannel({
       channelPublicId: "_xgZYxkxj",
@@ -41,6 +49,7 @@ export default function HeaderMenu() {
     }
     setReportOpen(true);
   };
+
   return (
     <>
       <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">

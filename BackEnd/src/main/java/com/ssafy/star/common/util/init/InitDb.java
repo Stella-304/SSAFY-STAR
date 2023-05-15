@@ -2,8 +2,6 @@ package com.ssafy.star.common.util.init;
 
 import com.ssafy.star.api.service.InitDataService;
 import com.ssafy.star.common.db.entity.Company;
-import com.ssafy.star.common.db.entity.CompanyGroup;
-import com.ssafy.star.common.db.repository.CompanyGroupRepository;
 import com.ssafy.star.common.db.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,7 +20,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class InitDb {
 	final CompanyRepository companyRepository;
-	final CompanyGroupRepository companyGroupRepository;
 	final InitDataService initDataService;
 
 	@PostConstruct
@@ -51,7 +48,7 @@ public class InitDb {
 		samsung.add("삼성전자");
 		samsung.add("삼성SDS");
 		samsung.add("삼성전기");
-		companyGroupRepository.save(CompanyGroup.builder().name("삼성(전계열사)").compnayList(samsung).build());
+		// companyGroupRepository.save(CompanyGroup.builder().name("삼성(전계열사)").compnayList(samsung).build());
 
 		Set<String> neCaraCuBae = new HashSet<>();
 		neCaraCuBae.add("네이버");
@@ -59,7 +56,7 @@ public class InitDb {
 		neCaraCuBae.add("라인");
 		neCaraCuBae.add("쿠팡");
 		neCaraCuBae.add("배달의민족");
-		companyGroupRepository.save(CompanyGroup.builder().name("네카라쿠배").compnayList(neCaraCuBae).build());
+		// companyGroupRepository.save(CompanyGroup.builder().name("네카라쿠배").compnayList(neCaraCuBae).build());
 
 	}
 }

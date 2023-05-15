@@ -14,12 +14,9 @@ const useCommentReplyDelete = () => {
   const queryClient = useQueryClient();
   return useMutation(fetcher, {
     onSuccess: (data) => {
-      console.log("카드 코멘트 삭제 완료!", data);
       return queryClient.invalidateQueries(COMMENT_LIST);
     },
-    onError: (e: any) => {
-      console.log("카드 코멘트 삭제 에러!", e);
-    },
+    onError: (e: any) => {},
   });
 };
 

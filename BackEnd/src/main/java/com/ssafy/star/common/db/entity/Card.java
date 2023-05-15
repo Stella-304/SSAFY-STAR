@@ -20,9 +20,6 @@ import static com.ssafy.star.common.db.entity.QCard.card;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SecondaryTables({
-	@SecondaryTable(name = "card_view_cnt", pkJoinColumns = @PrimaryKeyJoinColumn(name = "card_id"))
-})
 public class Card {
 
 	@Id
@@ -73,10 +70,6 @@ public class Card {
 	@Column(length = 20)
 	private String track;
 
-	@Column(columnDefinition = "int(11) unsigned", table = "card_view_cnt")
-	@ColumnDefault("0")
-	private int hit;
-
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -110,25 +103,30 @@ public class Card {
 	public String getGroupFlag(GroupFlagEnum flagEnum) {
 		String value = "";
 		if (flagEnum == GroupFlagEnum.CAMPUS) {
-			value = Optional.ofNullable(this.campus).orElse("Unkown");
+			value = Optional.ofNullable(this.campus).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.GENERATION) {
-			value = Optional.ofNullable(this.generation).orElse("Unkown");
+			value = Optional.ofNullable(this.generation).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.BOJTIER) {
-			value = Optional.ofNullable(this.bojTier).orElse("Unkown");
+			value = Optional.ofNullable(this.bojTier).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.SWTIER) {
-			value = Optional.ofNullable(this.swTier).orElse("Unkown");
+			value = Optional.ofNullable(this.swTier).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.DETAIL) {
 			value = this.generation + "기" + this.campus + "캠퍼스" + this.ban + "반";
 		}
-		return value.isBlank() ? "Unkown" : value;
+
+		if (flagEnum == GroupFlagEnum.NONE) {
+			value = "SSAFY";
+		}
+
+		return value.isBlank() ? "Unknown" : value;
 
 	}
 

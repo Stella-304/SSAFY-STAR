@@ -132,10 +132,13 @@ public class ChatController : NetworkBehaviour
     {
         Debug.Log(inputChat.text);
         RPCSendMessage(PlayerPrefs.GetString("Nickname"), inputChat.text, currentInputType);
-        if (currentInputType == ChatType.Normal)
+
+        if (currentInputType == ChatType.Normal && !inputChat.text.StartsWith('/'))
         {
+            Debug.Log("말풍선 활성호아");
             ActiveSpeechBubble(inputChat.text);
         }
+
         inputChat.Select();
         inputChat.text = "";
 

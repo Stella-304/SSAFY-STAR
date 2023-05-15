@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public boolean duplicateNickNameCheck(String nickName) {
-		return userRepository.existsByEmail(nickName);
+		return userRepository.existsByNickname(nickName);
 	}
 
 	@Override
