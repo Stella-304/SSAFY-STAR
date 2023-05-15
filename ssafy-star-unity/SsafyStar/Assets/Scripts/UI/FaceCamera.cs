@@ -15,6 +15,9 @@ public class FaceCamera : MonoBehaviour
 
     void Update()
     {
+
+        if (!cam.gameObject.activeSelf) return;
+        
         Transform cameraTransform = cam.transform;
 
         transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);

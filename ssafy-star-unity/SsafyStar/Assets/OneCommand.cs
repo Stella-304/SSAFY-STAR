@@ -114,6 +114,10 @@ public class OneCommand : MonoBehaviour
         //{
         //    BallGroup.GetChild(i).GetComponent<CircleCollider2D>().enabled = false;
         //}
+        for (int i = 1; i < BallGroup.childCount; i++)
+        {
+            Destroy(BallGroup.GetChild(i).gameObject);
+        }
 
         GameOverPanel.SetActive(false);
         BallCountTextObj.SetActive(true);
