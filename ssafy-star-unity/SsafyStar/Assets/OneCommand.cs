@@ -115,6 +115,7 @@ public class OneCommand : MonoBehaviour
         BallPlusTextObj.SetActive(true);
         BestScoreText.gameObject.SetActive(true);
         ScoreText.gameObject.SetActive(true);
+        NewRecordText.gameObject.SetActive(false);
 
         score = 0;
         isDie = false;
