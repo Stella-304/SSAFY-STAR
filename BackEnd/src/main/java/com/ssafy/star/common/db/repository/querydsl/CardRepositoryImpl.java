@@ -37,7 +37,7 @@ public class CardRepositoryImpl implements CardRepositoryCustom {
 	private BooleanExpression searchCondition(SearchConditionReqDto searchConditionReqDto) {
 		BooleanExpression predicate = Expressions.asBoolean(true).isTrue();
 		//인증된 사람만 받게 ( 추가 요청 )
-		predicate=predicate.and(card.user.isAuthorized.isTrue());
+//		predicate=predicate.and(card.user.isAuthorized.isTrue());
 		//필터
 		for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
 			List<String> list = searchConditionReqDto.getlists().get(searchColumn);

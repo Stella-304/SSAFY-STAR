@@ -62,7 +62,7 @@ public class User extends BaseTime {
 //    @CollectionTable() -> 테이블명 지정 가능
     Set<String> authoritySet = new LinkedHashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "card_id")
     Card card;
 
