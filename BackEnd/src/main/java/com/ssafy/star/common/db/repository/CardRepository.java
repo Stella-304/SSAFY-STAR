@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long>, CardRepositoryCustom {
 
-    @Query("select cd From Card cd join fetch cd.user")
+    @Query("select cd From Card cd join fetch cd.user where cd.user.isAuthorized=true")
     List<Card> getAllCardListWithUser();
 
     @Query("select cd From Card cd join fetch cd.user where cd.company = :searchValue")
