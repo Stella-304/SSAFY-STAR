@@ -30,12 +30,12 @@
                     <ui:VisualElement name="Item" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/slingshot.png?fileID=2800000&amp;guid=ba59b6c2d202c6d499277bad24392d25&amp;type=3#slingshot&apos;); width: 42px; height: 42px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Slot" tooltip="미완성" class="inven-slot">
+            <ui:VisualElement name="FisingGameSlot" tooltip="미완성" class="inven-slot">
                 <ui:VisualElement name="SlotBlank" class="inven-slot-blank" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); width: 49px; height: 47px; align-items: center; justify-content: center; margin-top: 7px;">
                     <ui:VisualElement name="Item" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/fishing-tool.png?fileID=2800000&amp;guid=92e7e7b9bcdba1140a01a7b50da036cf&amp;type=3#fishing-tool&apos;); width: 42px; height: 42px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="Slot" tooltip="미완성" class="inven-slot" style="align-items: center; justify-content: flex-start;">
+            <ui:VisualElement name="OtherGameSlot" tooltip="미완성" class="inven-slot" style="align-items: center; justify-content: flex-start;">
                 <ui:VisualElement name="SlotBlank" class="inven-slot-blank" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/InvenInnerBox.png?fileID=2800000&amp;guid=f82834a60728794489fc552fbecca151&amp;type=3#InvenInnerBox&apos;); width: 49px; height: 47px; align-items: center; justify-content: center; margin-top: 7px;">
                     <ui:VisualElement name="Item" style="background-image: url(&apos;project://database/Assets/Sprites/UI/Inventory/game-controller.png?fileID=2800000&amp;guid=0bb39a1463bf47f4baf2765d5431ca5e&amp;type=3#game-controller&apos;); width: 42px; height: 42px;" />
                 </ui:VisualElement>

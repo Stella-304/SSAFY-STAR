@@ -28,11 +28,11 @@ public class ChangeCharacter : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            if (characterList.Count <= 0) return;
-            DoChange(testChangeNum);
-        }
+        //if(Input.GetKeyDown(KeyCode.C))
+        //{
+        //    if (characterList.Count <= 0) return;
+        //    DoChange(testChangeNum);
+        //}
     }
 
     public void DoChange(int playerNum)
