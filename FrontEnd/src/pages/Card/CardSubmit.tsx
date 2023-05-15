@@ -37,7 +37,7 @@ export default function CardSubmit() {
   const [search, setSearch] = useState(""); //회사명 검색시 사용
   const [active, setActive] = useState(false);
   const [searchList, setSearchList] = useState([]); //회사명 검색결과
-  const [backInput, setBackInput] = useState(false);
+  const [backInput, setBackInput] = useState(true);
 
   //react query
   const bojCheckquery = useBojcheck(card.bojId, setBojTier);
@@ -326,12 +326,7 @@ export default function CardSubmit() {
               />
             </>
             {!backInput ? (
-              <div
-                className="text-bold mt-16 cursor-pointer text-center text-24"
-                onClick={() => setBackInput(!backInput)}
-              >
-                ▼뒷면 정보 입력하기
-              </div>
+              <></>
             ) : (
               <>
                 <div className="mt-10 border-b-3 py-10 text-center font-neob text-24 text-white">
@@ -426,12 +421,6 @@ export default function CardSubmit() {
                   value={card.etc}
                   cardRegist={true}
                 />
-                <div
-                  className="text-bold mt-16 cursor-pointer text-center text-24"
-                  onClick={() => setBackInput(!backInput)}
-                >
-                  ▲뒷면 정보 입력 닫기
-                </div>
               </>
             )}
           </div>
