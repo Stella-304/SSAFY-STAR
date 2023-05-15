@@ -52,7 +52,7 @@ public class InitDataServiceImpl implements InitDataService {
 			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/user-data.json");
 			Random random = new Random();
 			for (LinkedHashMap row : json) {
-				if (!((BigInteger)row.get("generation")).toString().equals("8") || !((BigInteger)row.get(
+				if (!((BigInteger)row.get("generation")).toString().equals("8") && !((BigInteger)row.get(
 					"generation")).toString().equals("9")
 				)
 					continue;
