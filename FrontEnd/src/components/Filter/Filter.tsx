@@ -141,26 +141,26 @@ export default function Filter() {
           (openAnimation
             ? "translate-x-300 opacity-100 transition duration-700 "
             : "opacity-0 transition duration-700 -translate-x-300 ") +
-          " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-white py-10 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400 "
+          " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll text-white bg-black py-10 scrollbar-thin scrollbar-thumb-white "
         }
       >
         <div className="flex h-48 w-full items-center pb-10 shadow-sm ">
           <img src="/icons/blue-star.svg" className="ml-28 h-16 w-16" />
           <div className="ml-12 text-18 font-bold">SSAFY STAR</div>
-          <div className="ml-30 h-24 w-56 rounded-6 bg-[#E5E9EB] text-center leading-24">
+          <div className="ml-30 h-24 w-56 rounded-6 bg-black border-2 border-white font-bold  text-center leading-24">
             v1.0.1
           </div>
           <img
-            src="/icons/exit.svg"
+            src="/icons/exit-white.svg"
             className="ml-15 h-16 w-16 cursor-pointer"
             onClick={() => setOpenAnimation(false)}
           />
         </div>
-        <div className="mt-23 flex h-32 w-224 cursor-pointer bg-[#EEF0F2]">
+        <div className="mt-23 flex h-32 w-224 cursor-pointer bg-black">
           <div
             className={
-              (!viewCard && "bg-[#DDE2E4] font-bold") +
-              " h-32 w-112 text-center leading-32 hover:opacity-70"
+              (!viewCard && "bg-black font-bold border-2") +
+              " h-32 w-112 text-center leading-32 border-white rounded-8 hover:opacity-70 hover:border-1"
             }
             onClick={() => dispatch(setViewCard(false))}
           >
@@ -168,8 +168,8 @@ export default function Filter() {
           </div>
           <div
             className={
-              (viewCard && "bg-[#DDE2E4] font-bold") +
-              " h-32 w-112 text-center leading-32 hover:opacity-70 "
+              (viewCard && "bg-black font-bold border-2") +
+              " h-32 w-112 text-center leading-32 border-white rounded-8 hover:opacity-70 hover:border-1 "
             }
             onClick={() => dispatch(setViewCard(true))}
           >
@@ -185,60 +185,60 @@ export default function Filter() {
             <div className="group">
               <img
                 src={classIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "DETAIL")}
               />
-              <div className="invisible absolute left-0 top-50 h-30 w-100 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-0 top-50 h-30 w-100 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 기수/지역/반
               </div>
             </div>
             <div className="group">
               <img
                 src={generationIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "GENERATION")}
               />
-              <div className="invisible absolute left-70 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-70 top-50 h-30 w-50 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 기수
               </div>
             </div>
             <div className="group">
               <img
                 src={campusIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "CAMPUS")}
               />
-              <div className="invisible absolute left-130 top-50 h-30 w-50 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-130 top-50 h-30 w-50 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 캠퍼스
               </div>
             </div>
             <div className="group">
               <img
                 src={swTierIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "SWTIER")}
               />
-              <div className="invisible absolute left-170 top-50 h-30 w-80 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-170 top-50 h-30 w-80 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 역량테스트
               </div>
             </div>
             <div className="group">
               <img
                 src={bojTierIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "BOJTIER")}
               />
-              <div className="invisible absolute left-0 top-110 h-30 w-70 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-0 top-110 h-30 w-70 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 백준티어
               </div>
             </div>
             <div className="group">
               <img
                 src={deleteIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-1 border-gray-500 hover:opacity-80"
+                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 onClick={() => handleClick("groupFlag", "")}
               />
-              <div className="invisible absolute left-50 top-110 h-30 w-90 border-1 border-black bg-white text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-50 top-110 h-30 w-90 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 그룹화제거
               </div>
             </div>
