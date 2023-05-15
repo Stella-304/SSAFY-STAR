@@ -103,19 +103,19 @@ public class Card {
 	public String getGroupFlag(GroupFlagEnum flagEnum) {
 		String value = "";
 		if (flagEnum == GroupFlagEnum.CAMPUS) {
-			value = Optional.ofNullable(this.campus).orElse("Unkown");
+			value = Optional.ofNullable(this.campus).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.GENERATION) {
-			value = Optional.ofNullable(this.generation).orElse("Unkown");
+			value = Optional.ofNullable(this.generation).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.BOJTIER) {
-			value = Optional.ofNullable(this.bojTier).orElse("Unkown");
+			value = Optional.ofNullable(this.bojTier).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.SWTIER) {
-			value = Optional.ofNullable(this.swTier).orElse("Unkown");
+			value = Optional.ofNullable(this.swTier).orElse("Unknown");
 		}
 
 		if (flagEnum == GroupFlagEnum.DETAIL) {
@@ -126,7 +126,7 @@ public class Card {
 			value = "SSAFY";
 		}
 
-		return value.isBlank() ? "Unkown" : value;
+		return value.isBlank() ? "Unknown" : value;
 
 	}
 
