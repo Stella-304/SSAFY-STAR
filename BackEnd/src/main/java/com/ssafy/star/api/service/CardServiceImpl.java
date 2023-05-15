@@ -141,7 +141,6 @@ public class CardServiceImpl implements CardService {
 		List<EdgeDto> edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
 		ConstellationListDto constellationListDto = new ConstellationListDto(cardDetailDtoList, edgeDtoList);
 
-
 		return constellationListDto;
 	}
 
@@ -301,7 +300,7 @@ public class CardServiceImpl implements CardService {
 			List<Card> curGroupCardList = cardGroupMap.get(key);
 
 			int willChooseCardCnt = curGroupCardList.size();
-			System.out.println(willChooseCardCnt);
+			// System.out.println(willChooseCardCnt);
 			Queue<int[]> queue = new ArrayDeque<>();
 			List<int[]> choosePosList = new ArrayList<>();
 			queue.add(new int[] {startPos / SIZE, startPos % SIZE});
@@ -325,7 +324,7 @@ public class CardServiceImpl implements CardService {
 			}
 
 			if (choosePosList.size() < curGroupCardList.size()) {
-				System.out.println("Cant batch");
+				// System.out.println("Cant batch");
 				// throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
 				continue;
 			}
