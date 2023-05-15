@@ -114,11 +114,6 @@ export default function HeaderMenu() {
                 value="로그인"
                 path={path === "login"}
               />
-              <HeaderButton
-                onClick={() => navigate("/signup")}
-                value="회원가입"
-                path={path === "signup"}
-              />
             </>
           )}
         </div>
