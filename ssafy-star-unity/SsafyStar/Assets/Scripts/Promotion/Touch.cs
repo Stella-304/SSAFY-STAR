@@ -43,11 +43,15 @@ public class Touch : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (button != null)
+        {
         //button listener reset
         button.onClick.RemoveAllListeners();
         //button event
         button.onClick.AddListener(goPage);
 
+        }
+        
         //panel title input
         titleObject.text = title;
         //panel content input
@@ -61,11 +65,13 @@ public class Touch : MonoBehaviour
 
     private void OnMouseOver()
     {
-        hover.SetActive(true);
+        if (hover != null)
+            hover.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        hover.SetActive(false);
+        if (hover != null)
+            hover.SetActive(false);
     }
 }
