@@ -21,6 +21,7 @@ import com.ssafy.star.common.provider.AuthProvider;
 import com.ssafy.star.common.util.CalcUtil;
 import com.ssafy.star.common.util.CallAPIUtil;
 import com.ssafy.star.common.util.GeometryUtil;
+import com.ssafy.star.common.util.ParsingUtil;
 import com.ssafy.star.common.util.constant.CommonErrorCode;
 import com.ssafy.star.constellation.Icosphere;
 import com.ssafy.star.constellation.Icosphere2;
@@ -118,17 +119,17 @@ public class CardServiceImpl implements CardService {
 		List<Card> cardList = cardRepository.getAllCardListWithUser();
 
 		List<CardDetailDto> cardDetailDtoList = setCoordinates(cardList);
-		List<EdgeDto> edgeDtoList= GeometryUtil.getEdgeList2(cardDetailDtoList);
-		ConstellationListDto constellationListDto=new ConstellationListDto(cardDetailDtoList,edgeDtoList);
+		List<EdgeDto> edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
+		ConstellationListDto constellationListDto = new ConstellationListDto(cardDetailDtoList, edgeDtoList);
 		return constellationListDto;
 	}
 
 	private List<CardDetailDto> setCoordinates(List<Card> cardList) {
 
 		int r = 100;
-		List<Point3D> coordinateList= Icosphere3.vertices;
-		int cardCnt=cardList.size();
-		int vertices=coordinateList.size();
+		List<Point3D> coordinateList = Icosphere3.vertices;
+		int cardCnt = cardList.size();
+		int vertices = coordinateList.size();
 		List<Integer> numbers = new ArrayList<>();
 		for (int i = 0; i < vertices; i++) {
 			numbers.add(i);
@@ -147,14 +148,15 @@ public class CardServiceImpl implements CardService {
 
 		try {
 			userId = authProvider.getUserIdFromPrincipal();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		for (int i = 0; i < cardCnt; i++) {
 			int selected = result.get(i);
 			Card curCard = cardList.get(i);
 			detailDtoList.add(new CardDetailDto(curCard, r * coordinateList.get(selected).getX()
-					, r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ(),
-					curCard.getUser().getId() == userId
+				, r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ(),
+				curCard.getUser().getId() == userId
 			));
 		}
 		return detailDtoList;
@@ -204,7 +206,8 @@ public class CardServiceImpl implements CardService {
 
 	// 찐 최종본. 모듈화 생략하고 여기에 일단 다 담을거임. ㅅㄱ
 	// @Override
-	public TempDto getCardListUsePolygon(List<Card> cardList, GroupFlagEnum groupFlag, long userId) {
+	public TempDto getCardListUsePolygon(List<Card> cardList, GroupFlagEnum groupFlag, long userId,
+		Map<String, List<Card>> cardGroupMap) {
 
 		double MULTIPLIER = 0.0;
 		if (groupFlag == GroupFlagEnum.DETAIL) {
@@ -241,8 +244,6 @@ public class CardServiceImpl implements CardService {
 		}
 
 		Collections.shuffle(temp);
-		Map<String, List<Card>> cardGroupMap = cardList.stream()
-			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
 
 		List<String> keyList = cardGroupMap.keySet().stream()
 			.sorted(Comparator.comparing(x -> cardGroupMap.get(x).size()).reversed())
@@ -269,7 +270,7 @@ public class CardServiceImpl implements CardService {
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
-					.groupName(key)
+					.groupName(ParsingUtil.getGroupName(groupFlag, key))
 					.x(polygon.getX() * RADIUS)
 					.y(polygon.getZ() * RADIUS)
 					.z(polygon.getY() * RADIUS)
@@ -464,20 +465,33 @@ public class CardServiceImpl implements CardService {
 		List<Card> cardList = cardRepository.searchBySearchCondition(searchConditionReqDto);
 
 		GroupFlagEnum groupFlag;
-		try {
-			groupFlag = GroupFlagEnum.valueOf(searchConditionReqDto.getGroupFlag().toUpperCase());
-		} catch (Exception e) {
-			throw new CommonApiException(CommonErrorCode.FAIL_TO_PARSE);
+		if (searchConditionReqDto.getGroupFlag().equals("")) {
+			groupFlag = GroupFlagEnum.NONE;
+		} else {
+			try {
+				groupFlag = GroupFlagEnum.valueOf(searchConditionReqDto.getGroupFlag().toUpperCase());
+			} catch (Exception e) {
+				throw new CommonApiException(CommonErrorCode.FAIL_TO_PARSE);
+			}
 		}
 
 		// 로그인한 유저의 아이디.
 		long userId = authProvider.getUserIdFromPrincipalDefault();
+		Map<String, List<Card>> cardGroupMap = cardList.stream()
+			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
 
 		TempDto tempDto = null;
-		if (cardList.size() < 300 && groupFlag != GroupFlagEnum.DETAIL) {
-			tempDto = getCardListUseCoordinate(cardList, groupFlag, userId);
-		} else {
-			tempDto = getCardListUsePolygon(cardList, groupFlag, userId);
+		// 먼저 coordinate로 시도
+		if (cardGroupMap.keySet().size() < 32 && groupFlag != GroupFlagEnum.DETAIL) {
+			try {
+				tempDto = getCardListUseCoordinate(cardList, groupFlag, userId, cardGroupMap);
+			} catch (CommonApiException e) {
+			}
+		}
+
+		// 안되면 polygon으로 변경
+		if (tempDto == null) {
+			tempDto = getCardListUsePolygon(cardList, groupFlag, userId, cardGroupMap);
 		}
 
 		List<CardDetailDto> cardDetailDtoList = tempDto.getCardDetailDtoList();
@@ -506,7 +520,8 @@ public class CardServiceImpl implements CardService {
 			searchConditionReqDto.ofFilterName());
 	}
 
-	public TempDto getCardListUseCoordinate(List<Card> cardList, GroupFlagEnum groupFlag, long userId) {
+	public TempDto getCardListUseCoordinate(List<Card> cardList, GroupFlagEnum groupFlag, long userId,
+		Map<String, List<Card>> cardGroupMap) {
 
 		// TempDto를 만들기 위해 필요한 친구들.
 		List<CardDetailDto> cardDetailDtoList = new ArrayList<>();
@@ -515,9 +530,6 @@ public class CardServiceImpl implements CardService {
 		List<EdgeDto> contourList = new ArrayList<>();
 
 		////////////////////////////////////////////////////////////////////////////
-
-		Map<String, List<Card>> cardGroupMap = cardList.stream()
-			.collect(Collectors.groupingBy(x -> x.getGroupFlag(groupFlag)));
 
 		int totalGroupSize = cardGroupMap.keySet().size();
 
@@ -638,7 +650,7 @@ public class CardServiceImpl implements CardService {
 			groupInfoDtoList.add(
 				GroupInfoDto
 					.builder()
-					.groupName(key)
+					.groupName(ParsingUtil.getGroupName(groupFlag, key))
 					.x(centerX * RADIUS / curCardGroupCnt)
 					.y(centerZ * RADIUS / curCardGroupCnt)
 					.z(centerY * RADIUS / curCardGroupCnt)
