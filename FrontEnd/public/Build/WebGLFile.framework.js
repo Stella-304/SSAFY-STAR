@@ -856,13 +856,13 @@ function unityFramework(Module) {
   var tempDouble;
   var tempI64;
   var ASM_CONSTS = {
-    4135720: function () {
+    4135880: function () {
       return Module.webglContextAttributes.premultipliedAlpha;
     },
-    4135781: function () {
+    4135941: function () {
       return Module.webglContextAttributes.preserveDrawingBuffer;
     },
-    4135845: function () {
+    4136005: function () {
       return Module.webglContextAttributes.powerPreference;
     },
   };
