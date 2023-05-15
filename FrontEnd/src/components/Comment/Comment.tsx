@@ -1,7 +1,7 @@
 import useCommentListQuery from "@/apis/comment/useCommentListQuery";
 import useCommentSubmit from "@/apis/comment/useCommentSubmit";
 import reply from "@/assets/icons/reply.svg";
-import write from "@/assets/icons/writing.png";
+import write from "@/assets/icons/writing2.png";
 import trash from "@/assets/icons/trash.png";
 import erase from "@/assets/icons/eraser.png";
 import { User } from "@/types/User";
@@ -65,12 +65,12 @@ export default function Comment({ selectedUserInfo }: Iprops) {
   }, []);
 
   return (
-    <div className="absolute -right-[320px] top-20 h-500 w-300 rounded-10 border-3 border-white bg-gradient-to-b from-[#0C1445] to-[#471E54] text-18 text-white">
+    <div className="absolute -right-[320px] top-50 h-500 w-300 rounded-10 border-3 border-white from-opacity-70 to-opacity-70 shadow-neon3  bg-gradient-to-b  from-black to-darkblue2 text-18 text-white">
       <div className="h-full w-full overflow-y-scroll scrollbar-none">
         {writeReply && (
           <div className="h-150">
             <textarea
-              className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-black"
+              className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-white border-white bg-black2 border-2"
               onChange={handleChange}
             ></textarea>
             <button
@@ -124,13 +124,13 @@ export default function Comment({ selectedUserInfo }: Iprops) {
             {modifyReply && modifyCommentId === item.id && (
               <div className="h-150">
                 <textarea
-                  className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-black"
+                  className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-white  bg-black2 border-white border-2"
                   value={modifyContent}
                   onChange={handleModifyChange}
                 ></textarea>
                 <button
                   onClick={handleModify}
-                  className="float-right  mr-10 h-35 w-85 rounded-5 border-2 border-white bg-black font-semibold hover:bg-gray-800"
+                  className="float-right  mr-10 h-35 w-85 rounded-5 border-2 border-white bg-black2 font-semibold hover:bg-gray-800"
                 >
                   댓글수정
                 </button>
@@ -147,7 +147,7 @@ export default function Comment({ selectedUserInfo }: Iprops) {
       </div>
       <img
         src={write}
-        className="absolute -right-5 -top-50 h-40 w-40 cursor-pointer"
+        className="absolute -right-0 -top-36 h-24 w-24 cursor-pointer"
         onClick={() => setWriteReply(!writeReply)}
       />
     </div>

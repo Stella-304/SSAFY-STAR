@@ -82,7 +82,6 @@ export default function Metaverse() {
         sendMessage("GameController", "GetNickname", nickname);
       }
     } else {
-      console.log("잘 찍히나요?");
     }
   }, [accessNumber, sendMessage, nickname]);
 
