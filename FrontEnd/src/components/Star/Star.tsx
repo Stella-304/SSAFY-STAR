@@ -30,9 +30,16 @@ export default function Star(props: any) {
         starRef.current.scale.z = 1.2;
         dispatch(setStarInfoPreview(props.item));
       } else {
-        starRef.current.scale.x = 0.5;
-        starRef.current.scale.y = 0.5;
-        starRef.current.scale.z = 0.5;
+        if (props.item.mine) {
+          starRef.current.scale.x = 0.9;
+          starRef.current.scale.y = 0.9;
+          starRef.current.scale.z = 0.9;
+        } else {
+          starRef.current.scale.x = 0.5;
+          starRef.current.scale.y = 0.5;
+          starRef.current.scale.z = 0.5;
+        }
+
         dispatch(setStarInfoPreview(null));
       }
     }
