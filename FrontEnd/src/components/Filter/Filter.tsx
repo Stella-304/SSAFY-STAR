@@ -390,7 +390,7 @@ export default function Filter() {
             }
           >
             <input
-              className="h-30 w-200 border-1 border-black p-10"
+              className="h-30 w-200 border-1 text-black border-black p-10"
               placeholder="회사명을 검색하세요."
               onChange={handleChange}
             ></input>
