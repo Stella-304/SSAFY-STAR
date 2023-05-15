@@ -32,9 +32,7 @@ export default function useStarFilterInfoQuery(
     () => fetcher(searchColumn, searchValue, searchValue2, searchValue3),
     {
       refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        console.log("별자리 필터 검색 불러오기 성공", data);
-      },
+      onSuccess: (data) => {},
     },
   );
 }

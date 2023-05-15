@@ -14,12 +14,9 @@ const useCommentReplySubmit = () => {
   const queryClient = useQueryClient();
   return useMutation(fetcher, {
     onSuccess: (data) => {
-      console.log("카드 코멘트 답글 등록 성공!", data);
       return queryClient.invalidateQueries(COMMENT_LIST);
     },
-    onError: (e: any) => {
-      console.log("카드 코멘트 답글 등록 에러!", e);
-    },
+    onError: (e: any) => {},
   });
 };
 
