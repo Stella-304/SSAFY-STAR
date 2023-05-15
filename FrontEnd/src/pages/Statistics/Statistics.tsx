@@ -5,6 +5,8 @@ import useStatisticsQuery from "@/apis/statistics/useStatisticsQuery";
 import HeaderMenu from "@/components/Layout/HeaderMenu";
 import refreshIcon from "@/assets/icons/refresh.png";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPath } from "@/stores/page/path";
 import useSayingQuery from "@/apis/statistics/useSayingQuery";
 import useCSQuery from "@/apis/statistics/useCSQuery";
 
@@ -25,10 +27,16 @@ export default function Statistics() {
   const sayingList = useSayingQuery();
 
   const csList = useCSQuery();
-
+  const dispatch = useDispatch();
   const handleFilterClick = (filter: string) => {
     setFilterChart(filter);
   };
+  useEffect(() => {
+    dispatch(setPath("statistics")); //현위치 지정
+    return () => {
+      setPath(""); //나올땐 리셋
+    };
+  }, []);
 
   useEffect(() => {
     if (csList?.data) {
@@ -67,14 +75,14 @@ export default function Statistics() {
   }, [refresh]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-full bg-black text-white ">
       <HeaderMenu />
-      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 border-gray-200 border-t-red-500 shadow-md">
+      <div className="relative mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-t-2 shadow-neon6 mb-24 border-gray-200 border-t-white border-b-darkgray border-b-2">
         <div className="absolute -top-15 left-30 flex gap-20">
           <button
             className={
-              (CSTab ? "bg-red-500 text-white" : "bg-white text-red-500") +
-              " border-red h-40 w-60 rounded-20 border-3 border-red-500  font-bold  hover:bg-red-500 hover:text-white"
+              (CSTab ? "bg-blue-500 text-white" : "bg-black text-blue-500") +
+              " border-blue h-40 w-60 rounded-20 border-3 border-blue-500  font-bold  hover:bg-blue-500 hover:text-white"
             }
             onClick={() => setCSTab(true)}
           >
@@ -82,8 +90,8 @@ export default function Statistics() {
           </button>
           <button
             className={
-              (CSTab ? "bg-white text-red-500" : "bg-red-500 text-white") +
-              " border-red h-40 w-60 rounded-20 border-3 border-red-500  font-bold  hover:bg-red-500 hover:text-white"
+              (CSTab ? "bg-black text-blue-500" : "bg-blue-500 text-white") +
+              " border-blue h-40 w-60 rounded-20 border-3 border-blue-500  font-bold  hover:bg-blue-500 hover:text-white"
             }
             onClick={() => {
               setCSTab(false);
@@ -114,7 +122,7 @@ export default function Statistics() {
             )}
             {CSTab && !showAnswer && (
               <button
-                className="h-full w-full rounded-20 border-3 border-red-500 font-bold text-red-500 hover:bg-red-500 hover:text-white"
+                className="h-full w-full rounded-20 border-3 border-blue-500 font-bold text-blue-500 hover:bg-blue-500 hover:text-white"
                 onClick={() => setShowAnswer(true)}
               >
                 정답 보기
@@ -126,14 +134,14 @@ export default function Statistics() {
           </div>
         )}
       </div>
-      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-1 border-gray-200 bg-pink-50 bg-opacity-20 shadow-md">
+      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-2 border-white text-white bg-black bg-opacity-20 shadow-neon2">
         <div className="absolute left-150 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
           <button
             className={
               (filterChart === "generation"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("generation")}
           >
@@ -142,9 +150,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "campus"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("campus")}
           >
@@ -153,9 +161,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "major"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("major")}
           >
@@ -164,9 +172,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "role"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("role")}
           >
@@ -175,9 +183,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "track"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("track")}
           >
@@ -186,9 +194,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "swTier"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500  text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500  text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("swTier")}
           >
@@ -197,9 +205,9 @@ export default function Statistics() {
           <button
             className={
               (filterChart === "bojTier"
-                ? "bg-red-500 text-white"
-                : "bg-white text-red-500") +
-              " h-35 w-130 rounded-10 border-3 border-red-500 text-16 font-semibold hover:bg-red-500 hover:text-white"
+                ? "bg-blue-500 text-white"
+                : "bg-black text-blue-500") +
+              " h-35 w-130 rounded-10 border-3 border-blue-500 text-16 font-semibold hover:bg-blue-500 hover:text-white"
             }
             onClick={() => handleFilterClick("bojTier")}
           >
@@ -215,15 +223,15 @@ export default function Statistics() {
                   {
                     data: data?.chart.map((item: any) => item[1]),
                     backgroundColor: [
-                      "rgba(255, 99, 132, 0.2)",
-                      "rgba(54, 162, 235, 0.2)",
-                      "rgba(255, 206, 86, 0.2)",
-                      "rgba(75, 192, 192, 0.2)",
-                      "rgba(153, 102, 255, 0.2)",
-                      "rgba(255, 159, 64, 0.2)",
-                      "rgba(255, 153, 255, 0.2)",
-                      "rgba(102, 255, 102, 0.2)",
-                      "rgba(51, 102, 153, 0.2)",
+                      "rgba(255, 99, 132, 0.95)",
+                      "rgba(54, 162, 235, 0.95)",
+                      "rgba(255, 206, 86, 0.95)",
+                      "rgba(75, 192, 192, 0.95)",
+                      "rgba(153, 102, 255, 0.95)",
+                      "rgba(255, 159, 64, 0.95)",
+                      "rgba(255, 153, 255, 0.95)",
+                      "rgba(102, 255, 102, 0.95)",
+                      "rgba(51, 102, 153, 0.95)",
                     ],
                     borderColor: [
                       "rgba(255, 99, 132, 1)",
@@ -262,7 +270,8 @@ export default function Statistics() {
                             "%"
                         : "name";
                     },
-                    font: { size: 13, weight: "bold" },
+                    color:"white",
+                    font: { size: 13, weight: "bold"  },
                     textAlign: "center",
                   },
                 },
@@ -270,9 +279,9 @@ export default function Statistics() {
             />
           </div>
         )}
-        <div className="group absolute right-15 top-15 h-40 w-40 cursor-pointer rounded-50 bg-red-500 text-center text-20 font-bold leading-40 text-white">
+        <div className="group absolute right-15 top-15 h-40 w-40 cursor-pointer rounded-50 bg-blue-500 text-center text-20 font-bold leading-40 text-white">
           ?
-          <div className="invisible absolute right-0 top-50 flex h-100 w-150 items-center justify-center rounded-10 border-2 border-red-500 text-15 font-semibold leading-20 text-black group-hover:visible">
+          <div className="invisible absolute right-0 top-50 flex h-100 w-150 items-center justify-center rounded-10 border-2 border-white text-15 font-semibold leading-20 text-white group-hover:visible">
             본 통계는 <br /> SSAFY-STAR에 <br /> 등록된 인원만을 <br /> 기준으로
             합니다.
           </div>

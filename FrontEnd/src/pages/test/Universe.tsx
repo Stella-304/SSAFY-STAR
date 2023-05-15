@@ -18,7 +18,7 @@ import StarLine from "../../components/Star/StarLine";
 import FloatingMenu from "../../components/Layout/FloatingMenu";
 import { setViewCard } from "../../stores/star/starInfo";
 import { setPath } from "../../stores/page/path";
-import bubbleChat from "../../assets/icons/bubble-chat.png";
+import bubbleChat from "../../assets/icons/bubble-chat2.png";
 import Comment from "@/components/Comment/Comment";
 import ReactPlayer from "react-player";
 import playIcon from "@/assets/icons/play.png";
@@ -270,7 +270,7 @@ export default function Universe() {
               </div>
               <img
                 src={bubbleChat}
-                className="absolute -right-50 -top-30 h-40 w-40 cursor-pointer"
+                className="absolute -right-50 -top-0 h-40 w-40 cursor-pointer"
                 onClick={() => setOpenReply(!openReply)}
               />
               {openReply && <Comment selectedUserInfo={selectedUserInfo} />}
@@ -283,7 +283,7 @@ export default function Universe() {
               (isFilterOpen
                 ? "left-300 w-[calc(100%-300px)]"
                 : "left-30 w-full") +
-              " absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400"
+              " absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin scrollbar-white"
             }
           >
             {starFilterInfo?.map((item: User, index: number) => (

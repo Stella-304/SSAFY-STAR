@@ -6,7 +6,7 @@ import { RootState } from "@/stores/store";
 import { User } from "@/types/User";
 import CardFront from "@/components/Card/CardFront";
 import CardBack from "@/components/Card/CardBack";
-import bubbleChat from "../../../assets/icons/bubble-chat.png";
+import bubbleChat from "../../../assets/icons/bubble-chat2.png";
 import Comment from "@/components/Comment/Comment";
 
 export default function Mycard() {
@@ -88,7 +88,7 @@ export default function Mycard() {
         </div>
         <img
           src={bubbleChat}
-          className="absolute -right-50 -top-30 h-40 w-40 cursor-pointer"
+          className="absolute -right-50 -top-0 h-40 w-40 cursor-pointer"
           onClick={() => setOpenReply(!openReply)}
         />
         {openReply && <Comment selectedUserInfo={userDetail} />}
