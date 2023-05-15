@@ -110,6 +110,11 @@ public class OneCommand : MonoBehaviour
             }
         }
 
+        //for (int i = 1; i < BallGroup.childCount; i++)
+        //{
+        //    BallGroup.GetChild(i).GetComponent<CircleCollider2D>().enabled = false;
+        //}
+
         GameOverPanel.SetActive(false);
         BallCountTextObj.SetActive(true);
         BallPlusTextObj.SetActive(true);
