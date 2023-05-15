@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Touch : MonoBehaviour
 {
@@ -10,11 +11,24 @@ public class Touch : MonoBehaviour
     [Tooltip("페이지 url")]
     public string url;
 
+    [Tooltip("제목")]
+    public string title;
+
     [Tooltip("내용")]
+    [TextArea]
     public string content;
 
+    [Tooltip("이미지")]
+    public Sprite image;
+
+    [Tooltip("hover이름")]
+    public GameObject hover;
+
+    [Tooltip("제목 object")]
+    public TMP_Text titleObject;
+
     [Tooltip("버튼 object")]
-    public GameObject button;
+    public Button button;
 
     [Tooltip("텍스트 object")]
     public TMP_Text textcontent;
@@ -22,8 +36,36 @@ public class Touch : MonoBehaviour
     [Tooltip("이미지 object")]
     public GameObject img;
 
+    private void goPage()
+    {
+        Application.OpenURL(url);
+    }
+
     private void OnMouseDown()
     {
+        //button listener reset
+        button.onClick.RemoveAllListeners();
+        //button event
+        button.onClick.AddListener(goPage);
+
+        //panel title input
+        titleObject.text = title;
+        //panel content input
+        textcontent.text = content;
+
+        //panel content image
+        img.GetComponent<Image>().sprite = image;
+
         panel.SetActive(true);
+    }
+
+    private void OnMouseOver()
+    {
+        hover.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        hover.SetActive(false);
     }
 }
