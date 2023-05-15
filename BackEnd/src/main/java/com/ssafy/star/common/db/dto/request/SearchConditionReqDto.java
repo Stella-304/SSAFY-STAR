@@ -84,7 +84,6 @@ public class SearchConditionReqDto {
 		}
 
 		if (company.size() > 0) {
-			System.out.println("company");
 			if (!isFirst)
 				filterName.append(" & ");
 			Collections.sort(company);
@@ -97,7 +96,6 @@ public class SearchConditionReqDto {
 		}
 
 		if (major.size() == 1) {
-			System.out.println("major");
 			if (!isFirst)
 				filterName.append(" & ");
 			Collections.sort(major);

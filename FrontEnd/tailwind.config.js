@@ -29,6 +29,7 @@ module.exports = {
         current: "currentColor",
         black: "#000000",
         white: "#ffffff",
+        black2: "rgba(0,0,0,0.7)",
         darkblue: "rgba(0, 21, 134, 0.54)",
         darkblue2: "rgba(0, 18, 110, 0.4)",
         dblue: "rgba(0, 21, 134, 1)",
@@ -36,14 +37,16 @@ module.exports = {
         cardBottom: "#EFF6EE",
         red2: "rgba(207,62,149,1)",
         darkgray: "rgba(80,80,80,1)",
+        unselect:"rgba(0,28,44,1)",
+        blue2:"#2f81f7",
         comment:
           "linear-gradient(89.7deg, rgb(0, 0, 0) -10.7%, rgb(53, 92, 125) 88.8%)",
       },
-      fontFamily:{
-        nemo:["nemo030"],
-        neo:["neo"],
-        neob:["neob"],
-        gothic:["gothic"],
+      fontFamily: {
+        nemo: ["nemo030"],
+        neo: ["neo"],
+        neob: ["neob"],
+        gothic: ["gothic"],
       },
       boxShadow: {
         neon: "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 20px rgba(70,140,190,0.3)",
@@ -54,6 +57,8 @@ module.exports = {
           "0 0 20px 10px rgba(0,21,134,0.7), inset 0 0 20px 10px rgba(110,181,233,0.5)",
         neon5:
           "0 0 10px 10px rgba(0,50,180,0.8), inset 0 0 20px 10px rgba(110,181,233,0.5)",
+        neon6: "0 0 10px 7px rgba(0,21,134,0.4)",
+        selected: "0 0 10px 3px rgba(255,255,255,1)",
         blackcard:
           " 20px 20px 0 0 rgba(0,0,0,0.7), inset 20px 20px 0 0 rgba(0,0,0,0.7), inset",
       },
@@ -134,5 +139,8 @@ module.exports = {
   plugins: [
     require("@kamona/tailwindcss-perspective"),
     require("tailwind-scrollbar"),
+    require("tailwindcss-scoped-groups")({
+      groups: ["one", "two"],
+    }),
   ],
 };

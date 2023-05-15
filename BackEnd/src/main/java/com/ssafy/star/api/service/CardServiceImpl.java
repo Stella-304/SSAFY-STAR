@@ -141,7 +141,6 @@ public class CardServiceImpl implements CardService {
 		List<EdgeDto> edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
 		ConstellationListDto constellationListDto = new ConstellationListDto(cardDetailDtoList, edgeDtoList);
 
-
 		return constellationListDto;
 	}
 
@@ -241,7 +240,7 @@ public class CardServiceImpl implements CardService {
 			MULTIPLIER = 4.5;
 		} else if (cardList.size() > 150) {
 			MULTIPLIER = 6.0;
-		} else if (cardList.size() > 50) {
+		} else {
 			MULTIPLIER = 10.0;
 		}
 
@@ -259,12 +258,15 @@ public class CardServiceImpl implements CardService {
 			for (int j = 0; j < SIZE; j++) {
 				if (polygonList.get(i * SIZE + j).getX() != null && polygonList.get(i * SIZE + j).getZ() >= 0.03) {
 					polygonMatrix[i][j] = polygonList.get(i * SIZE + j);
+					if (i == 45 && j == 45)
+						continue;
 					temp.add(i * SIZE + j);
 				}
 			}
 		}
 
 		Collections.shuffle(temp);
+		temp.add(0, 45 * 91 + 45);
 
 		List<String> keyList = cardGroupMap.keySet().stream()
 			.sorted(Comparator.comparing(x -> cardGroupMap.get(x).size()).reversed())
@@ -275,6 +277,8 @@ public class CardServiceImpl implements CardService {
 		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
 		for (int i = 0; i < groupSize; i++) {
 			String key = keyList.remove(0);
+			if (key.equals("Unknown"))
+				continue;
 			int startPos = -1;
 			while (!temp.isEmpty()) {
 				startPos = temp.remove(0);
@@ -301,7 +305,7 @@ public class CardServiceImpl implements CardService {
 			List<Card> curGroupCardList = cardGroupMap.get(key);
 
 			int willChooseCardCnt = curGroupCardList.size();
-			System.out.println(willChooseCardCnt);
+			// System.out.println(willChooseCardCnt);
 			Queue<int[]> queue = new ArrayDeque<>();
 			List<int[]> choosePosList = new ArrayList<>();
 			queue.add(new int[] {startPos / SIZE, startPos % SIZE});
@@ -325,7 +329,7 @@ public class CardServiceImpl implements CardService {
 			}
 
 			if (choosePosList.size() < curGroupCardList.size()) {
-				System.out.println("Cant batch");
+				// System.out.println("Cant batch");
 				// throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
 				continue;
 			}
@@ -503,7 +507,7 @@ public class CardServiceImpl implements CardService {
 
 		TempDto tempDto = null;
 		// 먼저 coordinate로 시도
-		if (cardGroupMap.keySet().size() < 32 && groupFlag != GroupFlagEnum.DETAIL) {
+		if (cardList.size() < 200 && cardGroupMap.keySet().size() < 32 && groupFlag != GroupFlagEnum.DETAIL) {
 			try {
 				tempDto = getCardListUseCoordinate(cardList, groupFlag, userId, cardGroupMap);
 			} catch (CommonApiException e) {
@@ -583,11 +587,13 @@ public class CardServiceImpl implements CardService {
 		List<Integer> randomIdxList = new ArrayList<>();
 		randomIdxList.addAll(firstIdx);
 		randomIdxList.addAll(willShuffleList);
-
+		System.out.println(randomIdxList);
 		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
 		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
 
 		for (String key : cardGroupMap.keySet()) {
+			if (key.equals("Unknown"))
+				continue;
 			List<Card> curGroupList = cardGroupMap.get(key);
 			int curGroupListCnt = curGroupList.size();
 

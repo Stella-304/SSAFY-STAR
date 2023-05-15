@@ -16,7 +16,10 @@ export default function Star(props: any) {
     let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
       if (props.item.mine) {
-        c = "red";
+        c = "rgb(0,143,255,1)";
+        starRef.current.scale.x = 0.9;
+        starRef.current.scale.y = 0.9;
+        starRef.current.scale.z = 0.9;
       } else if (hovered) {
         c = "yellow";
       }
