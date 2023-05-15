@@ -119,8 +119,29 @@ public class CardServiceImpl implements CardService {
 		List<Card> cardList = cardRepository.getAllCardListWithUser();
 
 		List<CardDetailDto> cardDetailDtoList = setCoordinates(cardList);
+		cardDetailDtoList.sort(new Comparator<CardDetailDto>() {
+			@Override
+			public int compare(CardDetailDto o1, CardDetailDto o2) {
+				if (!o1.getGeneration().equals(o2.getGeneration()))
+					return o1.getGeneration().compareTo(o2.getGeneration());
+				if (!o1.getCampus().equals(o2.getCampus())) {
+					List<String> temp = Arrays.asList(new String[] {"서울", "대전", "광주", "구미", "부울경"});
+					int i1 = temp.indexOf(o1.getCampus());
+					int i2 = temp.indexOf(o2.getCampus());
+					return i1 - i2;
+				}
+				if (!o1.getName().equals(o2.getName()))
+					return o1.getName().compareTo(o2.getName());
+				// if (!o1.getBan().equals(o2.getBan()))
+				// 	return o1.getBan().compareTo(o2.getBan());
+				return o1.getBan().compareTo(o2.getBan());
+
+			}
+		});
 		List<EdgeDto> edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
 		ConstellationListDto constellationListDto = new ConstellationListDto(cardDetailDtoList, edgeDtoList);
+
+
 		return constellationListDto;
 	}
 
@@ -502,12 +523,18 @@ public class CardServiceImpl implements CardService {
 		cardDetailDtoList.sort(new Comparator<CardDetailDto>() {
 			@Override
 			public int compare(CardDetailDto o1, CardDetailDto o2) {
-				if (!o1.getName().equals(o2.getName()))
-					return o1.getName().compareTo(o2.getName());
 				if (!o1.getGeneration().equals(o2.getGeneration()))
 					return o1.getGeneration().compareTo(o2.getGeneration());
-				if (!o1.getCampus().equals(o2.getCampus()))
-					return o1.getGeneration().compareTo(o2.getGeneration());
+				if (!o1.getCampus().equals(o2.getCampus())) {
+					List<String> temp = Arrays.asList(new String[] {"서울", "대전", "광주", "구미", "부울경"});
+					int i1 = temp.indexOf(o1.getCampus());
+					int i2 = temp.indexOf(o2.getCampus());
+					return i1 - i2;
+				}
+				if (!o1.getName().equals(o2.getName()))
+					return o1.getName().compareTo(o2.getName());
+				// if (!o1.getBan().equals(o2.getBan()))
+				// 	return o1.getBan().compareTo(o2.getBan());
 				return o1.getBan().compareTo(o2.getBan());
 
 			}
@@ -538,11 +565,24 @@ public class CardServiceImpl implements CardService {
 			throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
 
 		boolean[] visited = new boolean[SECTION_SIZE];
+		//
+		// List<Integer> randomIdxList = IntStream.rangeClosed(0, SECTION_SIZE - 1)
+		// 	.boxed()
+		// 	.collect(Collectors.toList());
 
-		List<Integer> randomIdxList = IntStream.rangeClosed(0, SECTION_SIZE - 1)
-			.boxed()
-			.collect(Collectors.toList());
-		Collections.shuffle(randomIdxList);
+		List<Integer> willShuffleList = new ArrayList<>();
+		List<Integer> firstIdx = new ArrayList<>();
+		for (int i = 0; i < 32; i++) {
+			if (i >= 8 && i <= 15)
+				firstIdx.add(i);
+			else
+				willShuffleList.add(i);
+		}
+
+		Collections.shuffle(willShuffleList);
+		List<Integer> randomIdxList = new ArrayList<>();
+		randomIdxList.addAll(firstIdx);
+		randomIdxList.addAll(willShuffleList);
 
 		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
 		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
