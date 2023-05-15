@@ -81,6 +81,7 @@ export default function Metaverse() {
       if (nickname) {
         sendMessage("GameController", "GetNickname", nickname);
       }
+      setAccessNumber(0);
     } else {
     }
   }, [accessNumber, sendMessage, nickname]);
