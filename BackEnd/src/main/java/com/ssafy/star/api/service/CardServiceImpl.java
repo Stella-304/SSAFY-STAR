@@ -277,6 +277,8 @@ public class CardServiceImpl implements CardService {
 		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
 		for (int i = 0; i < groupSize; i++) {
 			String key = keyList.remove(0);
+			if (key.equals("Unknown"))
+				continue;
 			int startPos = -1;
 			while (!temp.isEmpty()) {
 				startPos = temp.remove(0);
@@ -585,11 +587,13 @@ public class CardServiceImpl implements CardService {
 		List<Integer> randomIdxList = new ArrayList<>();
 		randomIdxList.addAll(firstIdx);
 		randomIdxList.addAll(willShuffleList);
-
+		System.out.println(randomIdxList);
 		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
 		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
 
 		for (String key : cardGroupMap.keySet()) {
+			if (key.equals("Unknown"))
+				continue;
 			List<Card> curGroupList = cardGroupMap.get(key);
 			int curGroupListCnt = curGroupList.size();
 
