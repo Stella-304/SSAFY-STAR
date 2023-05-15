@@ -28,9 +28,9 @@ public class SearchConditionReqDto {
 
 	public Map<String, List<String>> getlists() {
 		HashMap<String, List<String>> map = new HashMap<>();
-		map.put("ban", ban);
 		map.put("generation", generation);
 		map.put("campus", campus);
+		map.put("ban", ban);
 		map.put("company", company);
 		map.put("bojTier", bojTier);
 		map.put("track", track);
@@ -53,7 +53,6 @@ public class SearchConditionReqDto {
 				.append("기");
 			isFirst = false;
 		}
-
 		if (campus.size() > 0 && campus.size() < 5) {
 			if (!isFirst)
 				filterName.append(" & ");
@@ -95,7 +94,6 @@ public class SearchConditionReqDto {
 				.append("트랙");
 			isFirst = false;
 		}
-
 		if (major.size() == 1) {
 			if (!isFirst)
 				filterName.append(" & ");
@@ -106,6 +104,57 @@ public class SearchConditionReqDto {
 				.append(String.join(",", majorArray))
 				.append(']');
 			isFirst = false;
+		}
+		if (role.size() == 1) {
+			if (!isFirst)
+				filterName.append(" & ");
+			Collections.sort(major);
+			String[] roleArray = role.toArray(new String[0]);
+			filterName.
+				append('[')
+				.append(String.join(",", roleArray))
+				.append(']');
+			isFirst = false;
+		}
+		if (swTier.size()>0) {
+			if (!isFirst)
+				filterName.append(" & ");
+			Collections.sort(major);
+			String[] swTierArray = swTier.toArray(new String[0]);
+			filterName.
+				append('[')
+				.append(String.join(",", swTierArray))
+				.append(']');
+			isFirst = false;
+		}
+
+		if (company.size()>0) {
+			if (!isFirst)
+				filterName.append(" & ");
+			Collections.sort(company);
+			String[] companyArray = company.toArray(new String[0]);
+			filterName.
+				append('[')
+				.append(String.join(",", companyArray))
+				.append(']');
+			isFirst = false;
+		}
+
+		if (bojTier.size()>0) {
+			if (!isFirst)
+				filterName.append(" & ");
+
+			int i = 0;
+			String[] bojTierArray = new String[campus.size()];
+			for (String boj : new String[] {"IM", "A", "A+", "B", "C"}) {
+				if (bojTier.contains(boj))
+					bojTierArray[i++] = boj;
+			}
+			filterName
+				.append('[')
+				.append(String.join(",", bojTierArray))
+				.append(']')
+				.append("캠퍼스");
 		}
 		return isFirst ? "전체" : filterName.toString();
 	}

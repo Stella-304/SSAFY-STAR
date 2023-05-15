@@ -52,6 +52,11 @@ public class InitDataServiceImpl implements InitDataService {
 			List<LinkedHashMap> json = JSONParsingUtil.getListFromJson("/user-data.json");
 			Random random = new Random();
 			for (LinkedHashMap row : json) {
+				if (!((BigInteger)row.get("generation")).toString().equals("8") || !((BigInteger)row.get(
+					"generation")).toString().equals("9")
+				)
+					continue;
+
 				User user = User
 					.builder()
 					.name((String)row.get("name"))
@@ -133,6 +138,7 @@ public class InitDataServiceImpl implements InitDataService {
 	public void initAll() {
 		initUser();
 		initCompany();
+		initCompanyAdditional();
 		initCoordinate();
 		initPolygon();
 	}
