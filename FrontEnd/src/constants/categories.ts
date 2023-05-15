@@ -35,7 +35,7 @@ export const banList = [
 ];
 export const bojTierList = [
   "Bronze",
-  "Sliver",
+  "Silver",
   "Gold",
   "Platinum",
   "Diamond",

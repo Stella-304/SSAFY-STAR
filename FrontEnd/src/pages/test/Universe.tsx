@@ -33,6 +33,8 @@ export default function Universe() {
   const [preventAuto, setPreventAuto] = useState<boolean>(false);
   const [playing, setPlaying] = useState<boolean>(false);
   const [clickOnce, setClickOnce] = useState<boolean>(false);
+  const [existMine, setExistMine] = useState<boolean>(false);
+  const [myStarPos, setMyStarPos] = useState<THREE.Vector3>();
 
   const dispatch = useDispatch();
 
@@ -84,13 +86,32 @@ export default function Universe() {
   const controls = useCallback(
     (node: any) => {
       if (node) {
-        node.object.position.x = 0;
-        node.object.position.y = -10;
-        node.object.position.z = 0;
+        if (existMine && myStarPos) {
+          node.object.position.x = myStarPos.x;
+          node.object.position.y = myStarPos.y;
+          node.object.position.z = myStarPos.z;
+          console.log("hi");
+        } else {
+          node.object.position.x = 0;
+          node.object.position.y = -10;
+          node.object.position.z = 0;
+          console.log("hello");
+        }
       }
     },
     [starFilterInfo],
   );
+
+  useEffect(() => {
+    if (starFilterInfo) {
+      starFilterInfo.map((item) => {
+        if (item.mine) {
+          setExistMine(true);
+          setMyStarPos(new THREE.Vector3(item.x, item.y, item.z));
+        }
+      });
+    }
+  }, [starFilterInfo]);
 
   return (
     <>
@@ -242,7 +263,7 @@ export default function Universe() {
                     generation={selectedUserInfo.generation}
                     name={selectedUserInfo.name}
                     text={selectedUserInfo.content}
-                    isSsafyVerified={selectedUserInfo.authorized}
+                    isCompanyVerified={selectedUserInfo.companyIsAuthorized}
                   />
                 </div>
                 <div className="absolute h-full w-full backface-hidden rotate-y-180">
