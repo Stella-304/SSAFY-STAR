@@ -20,9 +20,6 @@ import static com.ssafy.star.common.db.entity.QCard.card;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SecondaryTables({
-	@SecondaryTable(name = "card_view_cnt", pkJoinColumns = @PrimaryKeyJoinColumn(name = "card_id"))
-})
 public class Card {
 
 	@Id
@@ -72,10 +69,6 @@ public class Card {
 
 	@Column(length = 20)
 	private String track;
-
-	@Column(columnDefinition = "int(11) unsigned", table = "card_view_cnt")
-	@ColumnDefault("0")
-	private int hit;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
