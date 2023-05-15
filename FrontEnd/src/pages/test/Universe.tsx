@@ -90,12 +90,10 @@ export default function Universe() {
           node.object.position.x = myStarPos.x;
           node.object.position.y = myStarPos.y;
           node.object.position.z = myStarPos.z;
-          console.log("hi");
         } else {
           node.object.position.x = 0;
           node.object.position.y = -10;
           node.object.position.z = 0;
-          console.log("hello");
         }
       }
     },
