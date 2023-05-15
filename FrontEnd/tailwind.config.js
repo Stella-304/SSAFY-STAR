@@ -38,6 +38,7 @@ module.exports = {
         red2: "rgba(207,62,149,1)",
         darkgray: "rgba(80,80,80,1)",
         unselect:"rgba(0,28,44,1)",
+        blue2:"#2f81f7",
         comment:
           "linear-gradient(89.7deg, rgb(0, 0, 0) -10.7%, rgb(53, 92, 125) 88.8%)",
       },

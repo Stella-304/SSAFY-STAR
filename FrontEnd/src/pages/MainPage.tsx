@@ -71,7 +71,7 @@ export default function MainPage() {
             <div className="group cursor-pointer">
               <button
                 onClick={() => window.open(`${SERVER_API}/metaverse`)}
-                className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-black px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
+                className=" mx-50 rounded-[10px] border border-blue2 bg-black px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-blue2 hover:text-white"
               >
                 메타버스
               </button>
@@ -85,7 +85,7 @@ export default function MainPage() {
             <div className="group cursor-pointer">
               <button
                 onClick={() => navigate("/universe")}
-                className="rounded-[10px] bg-[#02C7FE] px-70 py-15 font-['nemo030'] text-white hover:bg-blue-100 hover:text-black"
+                className="rounded-[10px] bg-blue2 px-70 py-15 font-['nemo030'] text-white hover:bg-blue2 hover:text-black"
               >
                 별 보러가기
               </button>
