@@ -137,7 +137,7 @@ export default function ImageInput({ id }: Props) {
             </label>
             <div>
               <img
-                src="/icons/question-mark-circle.svg"
+                src="/icons/question-mark-circle-white.svg"
                 className="h-24 w-24 cursor-pointer"
                 onClick={help}
                 alt="도움말"
