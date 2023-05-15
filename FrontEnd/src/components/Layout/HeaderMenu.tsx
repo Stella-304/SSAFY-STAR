@@ -50,7 +50,6 @@ export default function HeaderMenu() {
     setReportOpen(true);
   };
 
-  console.log(path);
   return (
     <>
       <div className="fixed left-0 top-0 flex h-50 w-full min-w-880 items-center justify-between gap-8 bg-black font-neob">
