@@ -57,6 +57,7 @@ module.exports = {
         neon5:
           "0 0 10px 10px rgba(0,50,180,0.8), inset 0 0 20px 10px rgba(110,181,233,0.5)",
         neon6: "0 0 10px 7px rgba(0,21,134,0.4)",
+        selected: "0 0 10px 3px rgba(255,255,255,1)",
         blackcard:
           " 20px 20px 0 0 rgba(0,0,0,0.7), inset 20px 20px 0 0 rgba(0,0,0,0.7), inset",
       },

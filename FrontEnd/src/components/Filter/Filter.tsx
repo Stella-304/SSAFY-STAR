@@ -42,6 +42,7 @@ export default function Filter() {
   const [filterChange, setFilterChange] = useState<boolean>(false);
   const [searchCompany, setSearchCompany] = useState<string>("");
   const [searchCompanyList, setSearchCompanyList] = useState<string[]>();
+  const [viewGroup,setViewGroup]=useState<Number>(6);
 
   const dispatch = useDispatch();
 
@@ -71,6 +72,9 @@ export default function Filter() {
     setInfo(info);
     setFilterChange(true);
   };
+  const gruopClick = (group: Number)=>{
+    setViewGroup(group);
+  }
 
   useEffect(() => {
     dispatch(clearStarInfo());
@@ -185,8 +189,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={classIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "DETAIL")}
+                className={(viewGroup===1 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "DETAIL"); gruopClick(1);}}
               />
               <div className="invisible absolute left-0 top-50 h-30 w-100 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 기수/지역/반
@@ -195,8 +199,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={generationIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "GENERATION")}
+                className={(viewGroup===2 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "GENERATION");gruopClick(2);}}
               />
               <div className="invisible absolute left-70 top-50 h-30 w-50 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 기수
@@ -205,8 +209,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={campusIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "CAMPUS")}
+                className={(viewGroup===3 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "CAMPUS");gruopClick(3);}}
               />
               <div className="invisible absolute left-130 top-50 h-30 w-50 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 캠퍼스
@@ -215,8 +219,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={swTierIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "SWTIER")}
+                className={(viewGroup===4 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "SWTIER");gruopClick(4);}}
               />
               <div className="invisible absolute left-170 top-50 h-30 w-80 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 역량테스트
@@ -225,8 +229,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={bojTierIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "BOJTIER")}
+                className={(viewGroup===5 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "BOJTIER");gruopClick(5);}}
               />
               <div className="invisible absolute left-0 top-110 h-30 w-70 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 백준티어
@@ -235,8 +239,8 @@ export default function Filter() {
             <div className="group">
               <img
                 src={deleteIcon}
-                className=" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
-                onClick={() => handleClick("groupFlag", "")}
+                className={(viewGroup===6 && "shadow-selected")+" h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"}
+                onClick={() => {handleClick("groupFlag", "");gruopClick(6);}}
               />
               <div className="invisible absolute left-50 top-110 h-30 w-90 border-2 rounded-8 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 그룹화제거
