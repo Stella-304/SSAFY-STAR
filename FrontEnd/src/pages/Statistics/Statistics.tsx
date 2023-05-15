@@ -5,6 +5,8 @@ import useStatisticsQuery from "@/apis/statistics/useStatisticsQuery";
 import HeaderMenu from "@/components/Layout/HeaderMenu";
 import refreshIcon from "@/assets/icons/refresh.png";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPath } from "@/stores/page/path";
 import useSayingQuery from "@/apis/statistics/useSayingQuery";
 import useCSQuery from "@/apis/statistics/useCSQuery";
 
@@ -25,10 +27,16 @@ export default function Statistics() {
   const sayingList = useSayingQuery();
 
   const csList = useCSQuery();
-
+  const dispatch = useDispatch();
   const handleFilterClick = (filter: string) => {
     setFilterChart(filter);
   };
+  useEffect(() => {
+    dispatch(setPath("statistics")); //현위치 지정
+    return () => {
+      setPath(""); //나올땐 리셋
+    };
+  }, []);
 
   useEffect(() => {
     if (csList?.data) {
