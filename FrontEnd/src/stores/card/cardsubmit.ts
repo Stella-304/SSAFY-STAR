@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface cardState {
   card: {
-    cardId: string,//카드아이디
+    cardId: string; //카드아이디
     name: string; //이름
     ban: string; //1학기 기준 반
     blogAddr: string; //블로그
@@ -23,7 +23,7 @@ interface cardState {
 
 const initialState: cardState = {
   card: {
-    cardId: "",//카드아이디
+    cardId: "", //카드아이디
     name: "", //이름
     ban: "", //1학기 기준 반
     blogAddr: "", //블로그
@@ -49,9 +49,12 @@ const cardSlice = createSlice({
     setCard(state, action) {
       state.card = action.payload;
     },
+    setName(state, action) {
+      state.card.name = action.payload;
+    },
     resetCard(state) {
       state.card = {
-        cardId: "",//카드아이디
+        cardId: "", //카드아이디
         name: "", //이름
         ban: "", //1학기 기준 반
         blogAddr: "", //블로그
@@ -72,6 +75,6 @@ const cardSlice = createSlice({
   },
 });
 
-export const { setCard, resetCard } = cardSlice.actions;
+export const { setCard, setName, resetCard } = cardSlice.actions;
 
 export default cardSlice.reducer;
