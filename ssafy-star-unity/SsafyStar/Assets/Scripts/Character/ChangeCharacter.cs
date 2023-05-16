@@ -54,4 +54,5 @@ public class ChangeCharacter : NetworkBehaviour
         Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
         beforeCharacterNum = playerNum;
     }
+
 }
