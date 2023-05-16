@@ -114,7 +114,14 @@ export default function HeaderMenu() {
                 value="마이페이지"
                 path={path === "mypage"}
               />
-              <HeaderButton onClick={logout} value="로그아웃" path={false} />
+              <HeaderButton
+                onClick={() => {
+                  logout();
+                  setIsLogin(false);
+                }}
+                value="로그아웃"
+                path={false}
+              />
             </>
           ) : (
             <>

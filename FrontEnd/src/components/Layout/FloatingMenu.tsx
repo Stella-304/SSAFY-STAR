@@ -62,7 +62,14 @@ export default function FloatingMenu() {
           />
           {isLogIn ? (
             <>
-              <FloatButton onClick={logout} value="로그아웃" path={false} />
+              <FloatButton
+                onClick={() => {
+                  logout();
+                  setIsLogin(false);
+                }}
+                value="로그아웃"
+                path={false}
+              />
               <FloatButton
                 onClick={() => navigate("/mypage")}
                 value="마이페이지"
