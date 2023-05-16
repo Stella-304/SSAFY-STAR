@@ -13,9 +13,17 @@ export default function MainPage() {
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
+  const [isLogIn, setIsLogin] = useState<boolean>(false);
 
-  const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   //react query
   const userNumCheckquery = useUserNum();
@@ -87,7 +95,9 @@ export default function MainPage() {
             <div className="group cursor-pointer">
               <button
                 onClick={
-                  email ? () => navigate("/universe") : () => navigate("/login")
+                  isLogIn
+                    ? () => navigate("/universe")
+                    : () => navigate("/login")
                 }
                 className="rounded-[10px] bg-blue2 px-70 py-15 font-['nemo030'] text-white hover:bg-blue2 hover:text-black"
               >
