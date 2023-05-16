@@ -1,13 +1,7 @@
 import * as THREE from "three";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  Html,
-  OrbitControls,
-  PerspectiveCamera,
-  Stars,
-  Text,
-} from "@react-three/drei";
+import { Html, OrbitControls, Stars } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -27,9 +21,8 @@ import { setPath } from "../../stores/page/path";
 import bubbleChat from "../../assets/icons/bubble-chat2.png";
 import Comment from "@/components/Comment/Comment";
 import ReactPlayer from "react-player";
-import playIcon from "@/assets/icons/play.png";
-import pauseIcon from "@/assets/icons/pause.png";
-import { Vector3 } from "three";
+import playIcon from "@/assets/icons/volume.png";
+import pauseIcon from "@/assets/icons/mute.png";
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
