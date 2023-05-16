@@ -126,7 +126,7 @@ export default function FloatingMenu() {
       )}
 
       <div
-        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center font-semibold leading-50 text-white hover:bg-white hover:text-black"
+        className="fixed bottom-18 right-18 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center font-semibold leading-50 text-white hover:bg-white hover:text-black"
         onClick={() => setOpen(!open)}
       >
         메뉴
