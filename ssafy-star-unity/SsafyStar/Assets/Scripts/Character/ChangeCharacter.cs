@@ -28,7 +28,7 @@ public class ChangeCharacter : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPCDoChange(int playerNum, RpcInfo info = default)
     {
-        if (!HasStateAuthority) return;
+        //if (!HasStateAuthority) return;
 
         Transform transform = characterList[playerNum].model.transform;
         Animator anim = characterList[playerNum].anim;
