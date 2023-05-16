@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.UIElements;
-using UnityEngine.UI;
 using TMPro;
-using System.Security.Cryptography;
-using WebGLSupport;
-using System.Text;
-using Newtonsoft.Json.Serialization;
+
 
 public enum ChatType { Normal = 0, Party, Guild, Whisper, System, Count }
 public class ChatController : NetworkBehaviour
@@ -17,6 +13,7 @@ public class ChatController : NetworkBehaviour
     private UIDocument doc;
     private VisualElement chat;
     public PlayerMovement player;
+    public PlayerData playerData;
 
     public string username = "Guest";
 
@@ -35,7 +32,9 @@ public class ChatController : NetworkBehaviour
     private Transform parentContent;
     private bool chatboxVisibility = false;
     private GameObject speechBubble;
+    //private GameObject speechBubbleOrigin;
     private TMP_Text speechBubbleText;
+    private GameObject sender;
 
     [Header("chat type")]
     [SerializeField]
@@ -130,18 +129,18 @@ public class ChatController : NetworkBehaviour
 
     public void SendMessage()
     {
-        Debug.Log(inputChat.text);
-        RPCSendMessage(PlayerPrefs.GetString("Nickname"), inputChat.text, currentInputType);
+        Debug.Log("playerprefs" + PlayerPrefs.GetString("Nickname"));
+        Debug.Log("networkstring" + PlayerPrefs.GetString("Nickname"));
 
         if (currentInputType == ChatType.Normal && !inputChat.text.StartsWith('/'))
         {
-            Debug.Log("말풍선 활성호아");
-            ActiveSpeechBubble(inputChat.text);
+            RPCActiveSpeechBubble(PlayerPrefs.GetString("Nickname"), inputChat.text);
         }
+
+        RPCSendMessage(PlayerPrefs.GetString("Nickname"), inputChat.text, currentInputType);
 
         inputChat.Select();
         inputChat.text = "";
-
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -153,19 +152,30 @@ public class ChatController : NetworkBehaviour
         UpdateChatWithCommand(username, message, senderInputType);
     }
 
-    public void ActiveSpeechBubble(string message)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCActiveSpeechBubble(string nickname, string message, RpcInfo rpcInfo = default)
     {
-        if (!speechBubble)
-        {
-            speechBubble = player.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
-            speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
-        }
+        GameObject sender = GameObject.Find("Player_" + nickname);
+
+        //if (!speechBubble)
+        //{
+        speechBubble = sender.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
+        speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
+        //}
+
+        
 
         speechBubble.SetActive(true);
         speechBubbleText.text = message;
 
         Invoke("UnActiveSpeechBubble", 1f);
     }
+
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void RPCSetSpeechBubble(GameObject bubble, RpcInfo rpcInfo = default)
+    //{
+    //    speechBubble = bubble;
+    //}
 
     void UnActiveSpeechBubble()
     {

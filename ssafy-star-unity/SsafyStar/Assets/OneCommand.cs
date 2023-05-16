@@ -68,6 +68,8 @@ public class OneCommand : MonoBehaviour
     private VisualElement startButton;
     [SerializeField]
     private GameObject gameCanvas;
+    [SerializeField]
+    private GameObject alert;
 
     Vector3 firstPos, secondPos, gap;
     int score, timerCount, launchIndex;
@@ -79,7 +81,6 @@ public class OneCommand : MonoBehaviour
     #region 시작
     void Awake_GM()
     {
-
         //시작
         //BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
@@ -87,14 +88,22 @@ public class OneCommand : MonoBehaviour
 
     public void GameStart()
     {
+        alert.SetActive(true);
+
+#if UNITY_WEBGL == false
         camera.gameObject.SetActive(true);
         mainCamera.gameObject.SetActive(false);
         gameCanvas.SetActive(true);
         gameStart = true;
         //BlockGenerator();
+#endif
     }
 
-
+    public void CloseAlert()
+    {
+        alert.SetActive(false);
+    }
+    
     public void Restart()
     {
         Transform[] childList = BlockGroup.GetComponentsInChildren<Transform>();
@@ -110,10 +119,10 @@ public class OneCommand : MonoBehaviour
             }
         }
 
-        //for (int i = 1; i < BallGroup.childCount; i++)
-        //{
-        //    BallGroup.GetChild(i).GetComponent<CircleCollider2D>().enabled = false;
-        //}
+        for (int i = 1; i < BallGroup.childCount; i++)
+        {
+            Destroy(BallGroup.GetChild(i).gameObject);
+        }
 
         GameOverPanel.SetActive(false);
         BallCountTextObj.SetActive(true);

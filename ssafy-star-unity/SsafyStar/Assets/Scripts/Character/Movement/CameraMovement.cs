@@ -49,6 +49,11 @@ public class CameraMovement : MonoBehaviour
             return;
         }
 
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            ResetCamera();
+        }
+
         mousePos = Input.mousePosition;
 
         //Debug.Log(mousePos);
@@ -91,5 +96,11 @@ public class CameraMovement : MonoBehaviour
         transform.position = Target.position + posOffset;
         transform.LookAt(Target.transform.position + lookOffset);
         listenerTf.position = Target.transform.position + lookOffset;
+    }
+
+    public void ResetCamera()
+    {
+        posOffset = posOffsetOrigin;
+        lookOffset = lookOffsetOrigin;
     }
 }

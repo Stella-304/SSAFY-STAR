@@ -18,6 +18,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             GameObject goPlayer = Runner.Spawn(PlayerPrefab, SpawnPos.position, Quaternion.identity, player).gameObject;
             playerData.NickName = PlayerPrefs.GetString("Nickname");
             playerData.player = goPlayer;
+            goPlayer.gameObject.name = "Player_"+ PlayerPrefs.GetString("Nickname");
         }
     }
 

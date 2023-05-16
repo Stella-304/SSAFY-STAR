@@ -77,6 +77,7 @@ public class PlayerMovement : NetworkBehaviour
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
 
             nickName = PlayerPrefs.GetString("Nickname");
+            //gameObject.name = "Player_"+PlayerPrefs.GetString("Nickname");
             RPC_SetNickname(nickName.ToString());
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
@@ -93,6 +94,7 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
+    //다른 플레이엉 ㅣ름 바꾸기
 
     void Update()
     {
@@ -250,6 +252,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         Debug.Log($"[RPC] SetNickname {nickname}");
         textPlayerNickname.text = nickname;
+        gameObject.name = "Player_" + nickname;
     }
 
     private void ResetAnimation()

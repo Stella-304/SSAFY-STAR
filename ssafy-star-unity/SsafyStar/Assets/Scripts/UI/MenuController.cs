@@ -89,12 +89,12 @@ public class MenuController : MonoBehaviour
     {
         if (token != "")
         {
-            Debug.Log("로그인 함 email:" + token);
+            //Debug.Log("로그인 함 email:" + token);
             _token = token;
         }
         else
         {
-            Debug.Log("로그인 하지 않음");
+            //Debug.Log("로그인 하지 않음");
             panelWarning.SetActive(true);
             _token = "";
         }
@@ -105,12 +105,12 @@ public class MenuController : MonoBehaviour
     {
         if (nickname == "")
         {
-            Debug.Log("닉네임이 없음");
+            //Debug.Log("닉네임이 없음");
             OpenNickNamePanel();
         }
         else
         {
-            Debug.Log("닉네임:" + nickname);
+            //Debug.Log("닉네임:" + nickname);
             _nickname = nickname;
             PlayerPrefs.SetString("Nickname", _nickname);
             SceneManager.LoadScene("Lobby");
@@ -119,7 +119,6 @@ public class MenuController : MonoBehaviour
 
     public void OpenNickNamePanel()
     {
-        Debug.Log("OpenNickNamePanel");
         panelNickname.SetActive(true);
     }
 

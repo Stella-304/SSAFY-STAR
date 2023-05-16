@@ -15,15 +15,8 @@ public class UIMinimap : MonoBehaviour
     [SerializeField]
     private float zoomOneStep = 1;
     [SerializeField]
-    private TextMeshProUGUI textMapName;
-    [SerializeField]
     private GameObject fullMap;
     private bool isFullMap = false;
-
-    private void Awake()
-    {
-        textMapName.text = SceneManager.GetActiveScene().name;
-    }
 
     private void Update()
     {

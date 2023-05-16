@@ -11,7 +11,7 @@ public class Character
     public GameObject model;
 }
 
-public class ChangeCharacter : MonoBehaviour
+public class ChangeCharacter : NetworkBehaviour
 {
     [SerializeField]
     private PlayerMovement playerMovement;
@@ -28,15 +28,18 @@ public class ChangeCharacter : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            if (characterList.Count <= 0) return;
-            DoChange(testChangeNum);
-        }
+        //if(Input.GetKeyDown(KeyCode.C))
+        //{
+        //    if (characterList.Count <= 0) return;
+        //    DoChange(testChangeNum);
+        //}
     }
 
-    public void DoChange(int playerNum)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCDoChange(int playerNum)
     {
+        if (!HasStateAuthority) return;
+
         Debug.Log(characterList[playerNum].model.name);
         Transform transform = characterList[playerNum].model.transform;
         Animator anim = characterList[playerNum].anim;
@@ -50,6 +53,5 @@ public class ChangeCharacter : MonoBehaviour
 
         Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
         beforeCharacterNum = playerNum;
-
     }
 }
