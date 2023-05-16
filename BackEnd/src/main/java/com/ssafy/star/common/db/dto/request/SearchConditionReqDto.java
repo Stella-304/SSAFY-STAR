@@ -1,6 +1,7 @@
 package com.ssafy.star.common.db.dto.request;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,126 +42,133 @@ public class SearchConditionReqDto {
 	}
 
 	public String ofFilterName() {
-		StringBuilder filterName = new StringBuilder();
-		boolean isFirst = true;
-		if (generation.size() > 0 && generation.size() < 10) {
+		StringBuilder filterName;
+		List<String> finalResult = new ArrayList<>();
+		if (generation.size() > 0) {
 			Collections.sort(generation);
 			String[] generationArray = generation.toArray(new String[0]);
+			filterName = new StringBuilder();
 			filterName.
 				append('[')
 				.append(String.join(",", generationArray))
 				.append(']')
 				.append("기");
-			isFirst = false;
+			finalResult.add(filterName.toString());
 		}
-		if (campus.size() > 0 && campus.size() < 5) {
-			if (!isFirst)
-				filterName.append(" & ");
+		if (campus.size() > 0) {
 			int i = 0;
 			String[] campusArray = new String[campus.size()];
 			for (String campusName : new String[] {"서울", "대전", "광주", "구미", "부울경"}) {
 				if (campus.contains(campusName))
 					campusArray[i++] = campusName;
 			}
-
+			filterName = new StringBuilder();
 			filterName
 				.append('[')
 				.append(String.join(",", campusArray))
 				.append(']')
 				.append("캠퍼스");
+			finalResult.add(filterName.toString());
 
 		}
 		if (ban.size() > 0) {
-			if (!isFirst)
-				filterName.append(" & ");
 			Collections.sort(ban);
 			String[] banArray = ban.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", banArray))
 				.append(']')
 				.append("반");
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
 		if (company.size() > 0) {
-			if (!isFirst)
-				filterName.append(" & ");
 			Collections.sort(company);
 			String[] companyArray = company.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", companyArray))
 				.append(']');
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
-		if (major.size() == 1) {
-			if (!isFirst)
-				filterName.append(" & ");
+		if (major.size() > 0) {
 			Collections.sort(major);
 			String[] majorArray = major.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", majorArray))
 				.append(']');
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
-		if (role.size() == 1) {
-			if (!isFirst)
-				filterName.append(" & ");
+		if (role.size() > 0) {
 			Collections.sort(major);
 			String[] roleArray = role.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", roleArray))
 				.append(']');
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
-		if (track.size() > 0 && track.size() < 5) {
-			if (!isFirst)
-				filterName.append(" & ");
+		if (track.size() > 0) {
 			Collections.sort(track);
 			String[] trackArray = track.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", trackArray))
 				.append(']')
 				.append("트랙");
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
 		if (swTier.size() > 0) {
-			if (!isFirst)
-				filterName.append(" & ");
 			Collections.sort(major);
 			String[] swTierArray = swTier.toArray(new String[0]);
+			filterName = new StringBuilder();
+
 			filterName.
 				append('[')
 				.append(String.join(",", swTierArray))
 				.append(']');
-			isFirst = false;
+			finalResult.add(filterName.toString());
+
 		}
 
 		if (bojTier.size() > 0) {
-			if (!isFirst)
-				filterName.append(" & ");
-
 			int i = 0;
 			String[] bojTierArray = new String[bojTier.size()];
 			for (String boj : new String[] {"Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"}) {
 				if (bojTier.contains(boj))
 					bojTierArray[i++] = boj;
 			}
+			filterName = new StringBuilder();
+
 			filterName
 				.append('[')
 				.append(String.join(",", bojTierArray))
 				.append(']');
+			finalResult.add(filterName.toString());
+
 		}
 
-		return isFirst ? "전체" : filterName.toString();
+		return finalResult.size() == 0 ? "전체" : String.join(" & ", finalResult);
 	}
 }
 
