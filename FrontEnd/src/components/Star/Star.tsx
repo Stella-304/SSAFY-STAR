@@ -30,40 +30,27 @@ export default function Star(props: any) {
         starRef.current.scale.z = 1.2;
         dispatch(setStarInfoPreview(props.item));
       } else {
-        starRef.current.scale.x = 0.5;
-        starRef.current.scale.y = 0.5;
-        starRef.current.scale.z = 0.5;
+        if (props.item.mine) {
+          starRef.current.scale.x = 0.9;
+          starRef.current.scale.y = 0.9;
+          starRef.current.scale.z = 0.9;
+        } else {
+          starRef.current.scale.x = 0.5;
+          starRef.current.scale.y = 0.5;
+          starRef.current.scale.z = 0.5;
+        }
+
         dispatch(setStarInfoPreview(null));
       }
     }
   });
 
-  let tl = gsap.timeline();
-
   useLayoutEffect(() => {
-    if (
-      props.starPos &&
-      props.starPos.x === starRef.current.position.x &&
-      props.starPos.y === starRef.current.position.y &&
-      props.starPos.z === starRef.current.position.z
-    ) {
-      let ctx = gsap.context(() => {
-        tl.to(starRef.current.scale, {
-          x: 2,
-          y: 2,
-          z: 2,
-          duration: 1,
-          ease: "elastic",
-        }).then(() => {
-          props.setEndAnim(true);
-        });
-      }, starRef);
+    props.setEndAnim(true);
 
-      return () => {
-        ctx.revert();
-        props.setEndAnim(false);
-      };
-    }
+    return () => {
+      props.setEndAnim(false);
+    };
   }, [props.starPos]);
 
   return (

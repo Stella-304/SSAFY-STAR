@@ -65,20 +65,20 @@ export default function Comment({ selectedUserInfo }: Iprops) {
   }, []);
 
   return (
-    <div className="absolute -right-[320px] top-50 h-500 w-300 rounded-10 border-3 border-white from-opacity-70 to-opacity-70 shadow-neon3  bg-gradient-to-b  from-black to-darkblue2 text-18 text-white">
+    <div className="from-opacity-70 to-opacity-70 absolute -right-[320px] top-50 h-500 w-300 rounded-10 border-3 border-white bg-gradient-to-b  from-black  to-darkblue2 text-18 text-white shadow-neon3">
       <div className="h-full w-full overflow-y-scroll scrollbar-none">
         {writeReply && (
           <div className="h-150">
-            <textarea
-              className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-white border-white bg-black2 border-2"
-              onChange={handleChange}
-            ></textarea>
             <button
               onClick={handleSubmit}
-              className="float-right  mr-10 h-35 w-85 rounded-5 border-2 border-white bg-black font-semibold hover:bg-gray-800"
+              className="float-right mr-10 mt-15 h-35 w-85 rounded-5 border-2 border-white bg-black font-semibold hover:bg-gray-800"
             >
               댓글달기
             </button>
+            <textarea
+              className="ml-10 mt-10 h-80 w-[calc(100%-20px)] rounded-10 border-2 border-white bg-black2 p-10 text-white"
+              onChange={handleChange}
+            ></textarea>
           </div>
         )}
         {comment?.data?.map((item: any, index: number) => (
@@ -124,7 +124,7 @@ export default function Comment({ selectedUserInfo }: Iprops) {
             {modifyReply && modifyCommentId === item.id && (
               <div className="h-150">
                 <textarea
-                  className="m-10 h-80 w-[calc(100%-20px)] rounded-10 p-10 text-white  bg-black2 border-white border-2"
+                  className="m-10 h-80 w-[calc(100%-20px)] rounded-10 border-2 border-white  bg-black2 p-10 text-white"
                   value={modifyContent}
                   onChange={handleModifyChange}
                 ></textarea>

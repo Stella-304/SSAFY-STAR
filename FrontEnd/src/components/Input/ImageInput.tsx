@@ -137,7 +137,7 @@ export default function ImageInput({ id }: Props) {
             </label>
             <div>
               <img
-                src="/icons/question-mark-circle.svg"
+                src="/icons/question-mark-circle-white.svg"
                 className="h-24 w-24 cursor-pointer"
                 onClick={help}
                 alt="도움말"
@@ -164,7 +164,7 @@ export default function ImageInput({ id }: Props) {
                 src={
                   imgsrc
                     ? imgsrc
-                    : `https://dummyimage.com/300x150/ffffff/000000.png&text=PRIVIEW`
+                    : `https://dummyimage.com/300x150/ffffff/000000.png&text=PREVIEW`
                 }
                 alt="미리보기"
               />

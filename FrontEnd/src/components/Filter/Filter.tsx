@@ -121,9 +121,7 @@ export default function Filter() {
     if (openAnimation) {
       dispatch(setFilterTabOpen(true));
     } else {
-      setTimeout(() => {
-        dispatch(setFilterTabOpen(false));
-      }, 400);
+      dispatch(setFilterTabOpen(false));
     }
   }, [openAnimation]);
 
@@ -415,7 +413,7 @@ export default function Filter() {
             }
           >
             <input
-              className="h-30 w-200 border-1 border-black p-10"
+              className="h-30 w-200 border-1 border-black p-10 text-black"
               placeholder="회사명을 검색하세요."
               onChange={handleChange}
             ></input>
@@ -498,7 +496,7 @@ export default function Filter() {
                 key={index}
                 onClick={() => handleClick("role", item)}
                 className={
-                  filter.ban.includes(item)
+                  filter.role.includes(item)
                     ? "font-semibold text-blue-400"
                     : "hover:text-blue-400"
                 }

@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Html, OrbitControls, Stars, Text } from "@react-three/drei";
+import { Html, OrbitControls, Stars } from "@react-three/drei";
 import CardFront from "../../components/Card/CardFront";
 import { User } from "../../types/User";
 import CardBack from "../../components/Card/CardBack";
@@ -21,8 +21,10 @@ import { setPath } from "../../stores/page/path";
 import bubbleChat from "../../assets/icons/bubble-chat2.png";
 import Comment from "@/components/Comment/Comment";
 import ReactPlayer from "react-player";
-import playIcon from "@/assets/icons/play.png";
-import pauseIcon from "@/assets/icons/pause.png";
+import playIcon from "@/assets/icons/volume.png";
+import pauseIcon from "@/assets/icons/mute.png";
+import playIcon2 from "@/assets/icons/play.png";
+import pauseIcon2 from "@/assets/icons/pause.png";
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
@@ -34,7 +36,10 @@ export default function Universe() {
   const [playing, setPlaying] = useState<boolean>(false);
   const [clickOnce, setClickOnce] = useState<boolean>(false);
   const [existMine, setExistMine] = useState<boolean>(false);
-  const [myStarPos, setMyStarPos] = useState<THREE.Vector3>();
+  const [myStarPos, setMyStarPos] = useState<THREE.Vector3>(
+    new THREE.Vector3(0, 0, 0),
+  );
+  const [playAutoRotate, setPlayAutoRotate] = useState<boolean>(true);
 
   const dispatch = useDispatch();
 
@@ -91,7 +96,7 @@ export default function Universe() {
         node.object.position.z = 0;
       }
     },
-    [starFilterInfo],
+    [starFilterInfo, myStarPos],
   );
 
   useEffect(() => {
@@ -104,6 +109,8 @@ export default function Universe() {
       });
     }
   }, [starFilterInfo]);
+
+  const cameraRef = useRef();
 
   return (
     <>
@@ -118,12 +125,13 @@ export default function Universe() {
           }}
         >
           <OrbitControls
-            autoRotate={true}
-            autoRotateSpeed={0.15}
+            autoRotate={playAutoRotate}
+            autoRotateSpeed={0.1}
             enableZoom={false}
-            position={[0, -10, 0]}
             reverseOrbit={true}
+            rotateSpeed={0.3}
             ref={controls}
+            position={[0, -10, 0]}
           />
           <ambientLight />
           <EffectComposer multisampling={8}>
@@ -166,7 +174,6 @@ export default function Universe() {
               {item.groupName}
             </Html>
           ))}
-
           <Stars
             radius={130}
             depth={30}
@@ -187,6 +194,11 @@ export default function Universe() {
           className="absolute right-15 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlaying(!playing)}
         />
+        <img
+          src={playAutoRotate ? pauseIcon2 : playIcon2}
+          className="absolute right-55 top-15 h-30 w-30 cursor-pointer"
+          onClick={() => setPlayAutoRotate(!playAutoRotate)}
+        />
         <ReactPlayer
           url="https://www.youtube.com/watch?v=hvnRr7lPpH0"
           playing={playing}
@@ -205,7 +217,7 @@ export default function Universe() {
           </div>
         </div>
         <div
-          className="group  fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 hover:brightness-90"
+          className="group fixed left-0 top-175 flex h-40 w-40 cursor-pointer items-center justify-center rounded-50 hover:brightness-90"
           onClick={() => dispatch(setViewCard(true))}
         >
           <img src="/icons/card3.png" className="h-40 w-40" />
@@ -215,7 +227,9 @@ export default function Universe() {
         </div>
         <div
           className={
-            (isFilterOpen ? "left-[340px]" : "left-70") +
+            (isFilterOpen
+              ? "left-[340px] transition duration-[700ms]"
+              : "left-[340px] transition duration-[700ms] -translate-x-270") +
             " absolute top-20 text-25 font-bold text-white"
           }
         >
@@ -275,9 +289,9 @@ export default function Universe() {
           <div
             className={
               (isFilterOpen
-                ? "left-300 w-[calc(100%-300px)]"
-                : "left-30 w-full") +
-              " scrollbar-white absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 scrollbar-thin"
+                ? "left-300 w-[calc(100%-300px)] transition duration-[700ms]"
+                : "left-300 w-full transition duration-[700ms] -translate-x-270") +
+              " scrollbar-white absolute top-50 flex h-full flex-wrap justify-center gap-15 overflow-y-scroll p-20 pb-100 pr-60 scrollbar-thin"
             }
           >
             {starFilterInfo?.map((item: User, index: number) => (
