@@ -23,18 +23,6 @@ public class ChangeCharacter : NetworkBehaviour
     private List<Character> characterList;
     private int beforeCharacterNum = 0;
 
-
-    public int testChangeNum = 2;
-
-    private void Update()
-    {
-        //if(Input.GetKeyDown(KeyCode.C))
-        //{
-        //    if (characterList.Count <= 0) return;
-        //    DoChange(testChangeNum);
-        //}
-    }
-
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPCDoChange(int playerNum)
     {

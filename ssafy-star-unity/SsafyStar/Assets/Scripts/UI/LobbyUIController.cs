@@ -14,6 +14,9 @@ public class LobbyUIController : MonoBehaviour
     private VisualElement game;
 
     [SerializeField]
+    private GameObject panelChangeCharacter;
+
+    [SerializeField]
     private GameObject alert;
 
     private void Start()
@@ -33,8 +36,12 @@ public class LobbyUIController : MonoBehaviour
 
     private void OpenDictionary()
     {
-        Debug.Log("OpenDictionary");
-        OpenAlert();
+        panelChangeCharacter.SetActive(true);
+    }
+
+    public void  CloseDictionary()
+    {
+        panelChangeCharacter.SetActive(false);
     }
 
     private void OpenEmotion()
