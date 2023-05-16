@@ -51,7 +51,9 @@ public class CardRepositoryImpl implements CardRepositoryCustom {
 				} else if (searchColumn.equals("company")) {
 					predicate = predicate.and(card.company.in(list));
 				} else if (searchColumn.equals("bojTier")) {
-					predicate = predicate.and(card.bojTier.in(list));
+					for(String tier : list){
+						predicate = predicate.and(card.bojTier.contains(tier));
+					}
 				} else if (searchColumn.equals("track")) {
 					predicate = predicate.and(card.track.in(list));
 				} else if (searchColumn.equals("major")) {
