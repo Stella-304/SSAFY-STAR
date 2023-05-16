@@ -94,30 +94,19 @@ export default function Filter() {
   }, [searchCompany]);
 
   useEffect(() => {
-    if (type || info) {
-      mutate({
-        ban: filter.ban,
-        bojTier: filter.bojTier,
-        campus: filter.campus,
-        company: filter.company,
-        generation: filter.generation,
-        major: filter.major,
-        role: filter.role,
-        swTier: filter.swTier,
-        track: filter.track,
-        groupFlag: filter.groupFlag,
-      });
-    }
+    mutate({
+      ban: filter.ban,
+      bojTier: filter.bojTier,
+      campus: filter.campus,
+      company: filter.company,
+      generation: filter.generation,
+      major: filter.major,
+      role: filter.role,
+      swTier: filter.swTier,
+      track: filter.track,
+      groupFlag: filter.groupFlag,
+    });
   }, [filter]);
-
-  useEffect(() => {
-    if (initialData?.data) {
-      dispatch(setStarInfo(initialData.data.cardList));
-      dispatch(setStarEdgeList(initialData.data.edgeList));
-      dispatch(setGroupInfoList(initialData.data.groupInfoDtoList));
-      dispatch(setFilterName(initialData.data.filterName));
-    }
-  }, [initialData?.data]);
 
   useEffect(() => {
     if (data) {

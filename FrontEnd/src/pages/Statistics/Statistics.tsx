@@ -75,9 +75,9 @@ export default function Statistics() {
   }, [refresh]);
 
   return (
-    <div className="flex h-full flex-col items-center bg-black text-white ">
+    <div className="flex h-full flex-col items-center bg-[url('/public/background/main_background.png')] bg-cover bg-center bg-no-repeat text-white ">
       <HeaderMenu />
-      <div className="relative mb-24 mt-100 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-b-2 border-t-2 border-gray-200 border-b-darkgray border-t-white shadow-neon6">
+      <div className="relative mt-160 flex h-200 w-1000 flex-col items-center justify-center bg-black bg-opacity-80 rounded-20 border-t-2 shadow-neon6 mb-40 border-gray-200 border-t-white border-b-darkgray border-b-2">
         <div className="absolute -top-15 left-30 flex gap-20">
           <button
             className={
@@ -134,7 +134,7 @@ export default function Statistics() {
           </div>
         )}
       </div>
-      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-2 border-white bg-black bg-opacity-20 text-white shadow-neon2">
+      <div className="relative mt-10 flex h-360 w-1000 flex-col items-center rounded-20 border-2 border-white bg-black bg-opacity-90 text-white shadow-neon2">
         <div className="absolute left-150 top-30 mb-10 flex h-350 w-100 flex-col gap-10">
           <button
             className={

@@ -43,8 +43,8 @@ export default function MainPage() {
   }, []);
 
   return (
-    <div className="relative h-screen w-full overflow-x-hidden overflow-y-scroll  scrollbar-thin scrollbar-track-blue-100 scrollbar-thumb-blue-400">
-      <div className="h-full w-full items-center bg-[url('/public/background/landing_stars_background.png')] bg-cover bg-local bg-center bg-no-repeat">
+    <div className="relative h-screen w-full overflow-x-hidden overflow-y-scroll  scrollbar-thin scrollbar-track-black scrollbar-thumb-white">
+      <div className="h-full w-full items-center bg-[url('/public/background/main_background.png')] bg-cover bg-local bg-center bg-no-repeat">
         <div className="flex h-screen flex-col items-center justify-around">
           <div>
             <img
@@ -56,7 +56,7 @@ export default function MainPage() {
               STELLA
             </div>
           </div>
-          <div className="mt-20 select-none text-center font-['RocaOne'] text-9xl text-[#02C7FE]">
+          <div className="mt-20 select-none text-center font-neo text-9xl text-white">
             SSAFY-STAR
           </div>
           <div className="-mt-80">
@@ -74,7 +74,7 @@ export default function MainPage() {
             <div className="group cursor-pointer">
               <button
                 onClick={() => window.open(`${SERVER_API}/metaverse`)}
-                className=" mx-50 rounded-[10px] border border-[#02C7FE] bg-transparent px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-[#02C7FE] hover:text-white"
+                className=" mx-50 rounded-[10px] border border-blue2 bg-black px-70 py-15 font-['nemo030'] text-white hover:border-transparent hover:bg-blue2 hover:text-white"
               >
                 메타버스
               </button>
@@ -90,7 +90,7 @@ export default function MainPage() {
                 onClick={
                   email ? () => navigate("/universe") : () => navigate("/login")
                 }
-                className="bg-blue2 hover:bg-blue2 rounded-[10px] px-70 py-15 font-['nemo030'] text-white hover:text-black"
+                className="rounded-[10px] bg-blue2 px-70 py-15 font-['nemo030'] text-white hover:bg-blue2 hover:text-black"
               >
                 별 보러가기
               </button>
