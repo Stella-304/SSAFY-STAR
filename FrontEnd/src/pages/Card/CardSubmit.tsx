@@ -357,7 +357,7 @@ export default function CardSubmit() {
                 <Input
                   id="company"
                   type="text"
-                  label="회사"
+                  label="회사(없으면 공란)"
                   onChange={onCompany}
                   value={search}
                   queryResult={searchList}

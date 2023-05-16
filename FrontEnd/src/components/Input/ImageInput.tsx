@@ -164,7 +164,7 @@ export default function ImageInput({ id }: Props) {
                 src={
                   imgsrc
                     ? imgsrc
-                    : `https://dummyimage.com/300x150/ffffff/000000.png&text=PRIVIEW`
+                    : `https://dummyimage.com/300x150/ffffff/000000.png&text=PREVIEW`
                 }
                 alt="미리보기"
               />

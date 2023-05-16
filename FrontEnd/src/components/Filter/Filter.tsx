@@ -132,9 +132,7 @@ export default function Filter() {
     if (openAnimation) {
       dispatch(setFilterTabOpen(true));
     } else {
-      setTimeout(() => {
-        dispatch(setFilterTabOpen(false));
-      }, 400);
+      dispatch(setFilterTabOpen(false));
     }
   }, [openAnimation]);
 
