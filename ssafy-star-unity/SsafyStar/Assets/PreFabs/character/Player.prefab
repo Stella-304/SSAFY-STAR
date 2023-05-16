@@ -5116,7 +5116,7 @@ MonoBehaviour:
     model: {fileID: 971654017712838377}
   - anim: {fileID: 2068414868602224577}
     model: {fileID: 4692610233898794753}
-  testChangeNum: 2
+  nickname: {fileID: 2166279859697786328}
 --- !u!1 &7466376786025179652
 GameObject:
   m_ObjectHideFlags: 0

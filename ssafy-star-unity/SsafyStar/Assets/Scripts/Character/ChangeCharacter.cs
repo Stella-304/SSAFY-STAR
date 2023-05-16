@@ -22,13 +22,14 @@ public class ChangeCharacter : NetworkBehaviour
     [SerializeField]
     private List<Character> characterList;
     private int beforeCharacterNum = 0;
+    [SerializeField]
+    private GameObject nickname;
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPCDoChange(int playerNum)
+    public void RPCDoChange(int playerNum, RpcInfo info = default)
     {
         if (!HasStateAuthority) return;
 
-        Debug.Log(characterList[playerNum].model.name);
         Transform transform = characterList[playerNum].model.transform;
         Animator anim = characterList[playerNum].anim;
 
@@ -38,6 +39,7 @@ public class ChangeCharacter : NetworkBehaviour
 
         characterList[beforeCharacterNum].model.SetActive(false);
         characterList[playerNum].model.SetActive(true);
+        nickname.transform.parent = characterList[playerNum].model.transform;
 
         Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
         beforeCharacterNum = playerNum;
