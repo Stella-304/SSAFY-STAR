@@ -267,8 +267,8 @@ public class CardServiceImpl implements CardService {
 
 		Collections.shuffle(temp);
 		temp.add(0, 45 * 91 + 45);
-		System.out.println("polygon!!");
-		System.out.println(temp);
+		// System.out.println("polygon!!");
+		// System.out.println(temp);
 
 		List<String> keyList = cardGroupMap.keySet().stream()
 			.sorted(Comparator.comparing(x -> cardGroupMap.get(x).size()).reversed())
@@ -579,7 +579,7 @@ public class CardServiceImpl implements CardService {
 		List<Integer> willShuffleList = new ArrayList<>();
 		List<Integer> firstIdx = new ArrayList<>();
 		for (int i = 0; i < 32; i++) {
-			if (i >= 8 && i <= 15)
+			if (i >= 12 && i <=15)
 				firstIdx.add(i);
 			else
 				willShuffleList.add(i);
@@ -589,8 +589,8 @@ public class CardServiceImpl implements CardService {
 		List<Integer> randomIdxList = new ArrayList<>();
 		randomIdxList.addAll(firstIdx);
 		randomIdxList.addAll(willShuffleList);
-		System.out.println("coordinate!!");
-		System.out.println(randomIdxList);
+		// System.out.println("coordinate!!");
+		// System.out.println(randomIdxList);
 		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
 		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
 
@@ -654,7 +654,7 @@ public class CardServiceImpl implements CardService {
 					// 방문 안한 원소를 뽑을때까지 무!한!반!복!
 					if (!visited[peek]) {
 						visited[peek] = true;
-						allocatedSectionsMap.put(key, peek);
+						allocatedSectionsMap.put(key, peek + 1);
 						break;
 					}
 				}
@@ -664,7 +664,8 @@ public class CardServiceImpl implements CardService {
 		// {대전=6, 서울=8, 부울경=7, 구미=27, 광주=30}
 		// {Unrated=-16, Gold1=1}
 		// 여기까지 왔으면 위와 같은 데이터들이 allocatedSectionMap에 들어있다.
-
+		System.out.println(allocatedSectionsMap);
+		
 		List<EdgeDto> contour = new ArrayList<>();
 		for (String key : allocatedSectionsMap.keySet()) {
 			List<Card> curCardGroupList = cardGroupMap.get(key);
