@@ -157,25 +157,17 @@ public class ChatController : NetworkBehaviour
     {
         GameObject sender = GameObject.Find("Player_" + nickname);
 
-        //if (!speechBubble)
-        //{
-        speechBubble = sender.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
-        speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
-        //}
+        //speechBubble = sender.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
+        //speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
 
-        
+        speechBubble = sender.GetComponent<ChangeCharacter>().nickname.transform.GetChild(1).gameObject;
+        speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
 
         speechBubble.SetActive(true);
         speechBubbleText.text = message;
 
         Invoke("UnActiveSpeechBubble", 1f);
     }
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    //public void RPCSetSpeechBubble(GameObject bubble, RpcInfo rpcInfo = default)
-    //{
-    //    speechBubble = bubble;
-    //}
 
     void UnActiveSpeechBubble()
     {

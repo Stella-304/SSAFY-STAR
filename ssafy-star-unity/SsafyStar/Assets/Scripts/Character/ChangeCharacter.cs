@@ -22,8 +22,7 @@ public class ChangeCharacter : NetworkBehaviour
     [SerializeField]
     private List<Character> characterList;
     private int beforeCharacterNum = 0;
-    [SerializeField]
-    private GameObject nickname;
+    public GameObject nickname;
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPCDoChange(int playerNum, RpcInfo info = default)
