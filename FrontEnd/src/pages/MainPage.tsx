@@ -3,7 +3,6 @@ import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
 import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
-import { logout } from "../stores/user/user";
 import HeaderMenu from "../components/Layout/HeaderMenu";
 import { SERVER_API } from "@/utils/urls";
 import { RootState } from "@/stores/store";

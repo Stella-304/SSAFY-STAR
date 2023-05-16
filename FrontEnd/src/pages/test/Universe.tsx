@@ -122,7 +122,6 @@ export default function Universe() {
           }}
         >
           <OrbitControls
-            camera={cameraRef.current}
             autoRotate={true}
             autoRotateSpeed={0.1}
             enableZoom={false}
