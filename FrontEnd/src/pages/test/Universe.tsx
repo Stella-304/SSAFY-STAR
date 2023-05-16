@@ -23,6 +23,8 @@ import Comment from "@/components/Comment/Comment";
 import ReactPlayer from "react-player";
 import playIcon from "@/assets/icons/volume.png";
 import pauseIcon from "@/assets/icons/mute.png";
+import playIcon2 from "@/assets/icons/play.png";
+import pauseIcon2 from "@/assets/icons/pause.png";
 
 export default function Universe() {
   const [starPos, setStarPos] = useState<THREE.Vector3>();
@@ -37,6 +39,7 @@ export default function Universe() {
   const [myStarPos, setMyStarPos] = useState<THREE.Vector3>(
     new THREE.Vector3(0, 0, 0),
   );
+  const [playAutoRotate, setPlayAutoRotate] = useState<boolean>(true);
 
   const dispatch = useDispatch();
 
@@ -122,7 +125,7 @@ export default function Universe() {
           }}
         >
           <OrbitControls
-            autoRotate={true}
+            autoRotate={playAutoRotate}
             autoRotateSpeed={0.1}
             enableZoom={false}
             reverseOrbit={true}
@@ -171,7 +174,6 @@ export default function Universe() {
               {item.groupName}
             </Html>
           ))}
-
           <Stars
             radius={130}
             depth={30}
@@ -191,6 +193,11 @@ export default function Universe() {
           src={playing ? pauseIcon : playIcon}
           className="absolute right-15 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlaying(!playing)}
+        />
+        <img
+          src={playAutoRotate ? pauseIcon2 : playIcon2}
+          className="absolute right-55 top-15 h-30 w-30 cursor-pointer"
+          onClick={() => setPlayAutoRotate(!playAutoRotate)}
         />
         <ReactPlayer
           url="https://www.youtube.com/watch?v=hvnRr7lPpH0"
