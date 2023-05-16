@@ -267,6 +267,8 @@ public class CardServiceImpl implements CardService {
 
 		Collections.shuffle(temp);
 		temp.add(0, 45 * 91 + 45);
+		System.out.println("polygon!!");
+		System.out.println(temp);
 
 		List<String> keyList = cardGroupMap.keySet().stream()
 			.sorted(Comparator.comparing(x -> cardGroupMap.get(x).size()).reversed())
@@ -545,7 +547,7 @@ public class CardServiceImpl implements CardService {
 		});
 
 		// 외곽선 포함해도 되고 안해도 됨.
-		// edgeDtoList.addAll(contourList);
+		// edgeDtoList.addAll(tempDto.getContourList());
 
 		return new ConstellationListDto(cardDetailDtoList, edgeDtoList, groupInfoDtoList,
 			searchConditionReqDto.ofFilterName());
@@ -587,6 +589,7 @@ public class CardServiceImpl implements CardService {
 		List<Integer> randomIdxList = new ArrayList<>();
 		randomIdxList.addAll(firstIdx);
 		randomIdxList.addAll(willShuffleList);
+		System.out.println("coordinate!!");
 		System.out.println(randomIdxList);
 		// 작은 섹션이라면 (섹션번호 + 1), 큰 섹션이라면 (-섹션번호) 를 저장해주자.
 		Map<String, Integer> allocatedSectionsMap = new HashMap<>();
@@ -623,10 +626,16 @@ public class CardServiceImpl implements CardService {
 				// 놓을수 있는 공간이 하나도 없으면 에러.
 				if (canPutList.isEmpty())
 					throw new CommonApiException(CommonErrorCode.FAIL_TO_MAKE_CONSTELLATION);
-
+				int canPutStartIdx;
 				// 섞고 나서 첫번째 인덱스 Get.
-				Collections.shuffle(canPutList);
-				int canPutStartIdx = canPutList.get(0);
+				if (canPutList.contains(2)) {
+					canPutStartIdx = 2;
+				} else if (canPutList.contains(3)) {
+					canPutStartIdx = 3;
+				} else {
+					Collections.shuffle(canPutList);
+					canPutStartIdx = canPutList.get(0);
+				}
 
 				// 일단 방문처리 하고 할당한 섹션의 정보들을 넣어주자
 				// List<Integer> allocatedLargeSection = new ArrayList<>();
