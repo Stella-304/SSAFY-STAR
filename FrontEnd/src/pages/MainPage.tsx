@@ -53,19 +53,19 @@ export default function MainPage() {
               STELLA
             </div>
           </div>
-          <div className="mt-20 select-none text-center font-neo text-9xl text-white">
+          <div className="mt-20 select-none text-center font-neo text-8xl text-white">
             SSAFY-STAR
-          </div>
-          <div className="-mt-80">
-            <div className="select-none overflow-hidden whitespace-nowrap text-center font-['nemo030'] text-3xl text-white">
-              전체 싸피생 : {allSsafyCount}
+            <div className="mt-32 italic text-24 font-neo select-none text-center text-opacity-50 text-white">
+              Press `F11` 전체화면을 권장합니다
             </div>
+          </div>
+          <div className="mt-80 bg-black bg-opacity-80 rounded-8 px-8 py-8">
             <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               현재 사용자 : {useSiteAllCount}
             </div>
-            <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
+            {/* <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               인증된 사용자 : {useSiteSsafyCount}
-            </div>
+            </div> */}
           </div>
           <div className="relative -mt-50 flex h-54 w-600 justify-center">
             <div className="group cursor-pointer">
