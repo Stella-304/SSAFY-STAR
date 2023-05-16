@@ -88,6 +88,7 @@ public class NPC : MonoBehaviour
         GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = true;
 
         navMeshAgent.isStopped = false;
+        Camera.main.GetComponent<CameraMovement>().ResetCamera();
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
 

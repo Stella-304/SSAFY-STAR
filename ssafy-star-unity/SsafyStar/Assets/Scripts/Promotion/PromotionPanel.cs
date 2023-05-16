@@ -8,5 +8,6 @@ public class PromotionPanel : MonoBehaviour
     public void ClosePanel()
     {
         panel.SetActive(false);
+        Camera.main.GetComponent<CameraMovement>().stop = false;
     }
 }

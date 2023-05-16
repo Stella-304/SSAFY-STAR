@@ -45,22 +45,32 @@ public class Touch : MonoBehaviour
     {
         if (button != null)
         {
-        //button listener reset
-        button.onClick.RemoveAllListeners();
-        //button event
-        button.onClick.AddListener(goPage);
+            //button listener reset
+            button.onClick.RemoveAllListeners();
+            //button event
+            button.onClick.AddListener(goPage);
 
         }
-        
-        //panel title input
-        titleObject.text = title;
-        //panel content input
-        textcontent.text = content;
+
+        if (titleObject != null)
+        {
+            //panel title input
+            titleObject.text = title;
+        }
+
+        if (textcontent != null)
+        {
+            //panel content input
+            textcontent.text = content;
+
+        }
 
         //panel content image
         img.GetComponent<Image>().sprite = image;
 
         panel.SetActive(true);
+
+        Camera.main.GetComponent<CameraMovement>().stop = true;
     }
 
     private void OnMouseOver()
