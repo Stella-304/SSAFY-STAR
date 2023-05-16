@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ssafy.star.api.service.InitDataService;
@@ -65,6 +66,13 @@ public class InitDataController {
 	@ApiOperation(value = "all data init")
 	public ResponseEntity<ResponseDto> all() {
 		initDataService.initAll();
+		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
+	}
+
+	@GetMapping("/add-company/{companyName}")
+	@ApiOperation(value = "all ")
+	public ResponseEntity<ResponseDto> addCompany(@PathVariable("companyName")String companyName) {
+		initDataService.addCompany(companyName);
 		return ResponseEntity.ok().body(ResponseDto.of(HttpStatus.OK, Msg.SUCCESS_REGIST));
 	}
 }

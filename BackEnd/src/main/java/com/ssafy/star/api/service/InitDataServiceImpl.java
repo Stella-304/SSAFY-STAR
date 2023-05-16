@@ -157,4 +157,19 @@ public class InitDataServiceImpl implements InitDataService {
 			throw new CommonParseException(CommonErrorCode.FAIL_TO_PARSE);
 		}
 	}
+
+	@Override
+	public void addCompany(String companyName) {
+		boolean exist = false;
+		for (Company company : companyRepository.findAll()) {
+			if (company.getName().equals(companyName)) {
+				exist = true;
+				break;
+			}
+		}
+		if (!exist) {
+			companyRepository.save(Company.builder().name(companyName).assetSize("대기업").build());
+		}
+
+	}
 }
