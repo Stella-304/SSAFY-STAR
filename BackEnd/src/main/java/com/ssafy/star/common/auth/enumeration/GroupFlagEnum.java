@@ -6,5 +6,6 @@ public enum GroupFlagEnum {
 	SWTIER,
 	BOJTIER,
 	DETAIL,
+	COMPANY,
 	NONE
 }
