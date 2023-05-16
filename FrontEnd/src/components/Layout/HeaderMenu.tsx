@@ -75,7 +75,9 @@ export default function HeaderMenu() {
         </div>
         <div className="flex justify-end gap-8">
           <HeaderButton
-            onClick={() => navigate("/universe")}
+            onClick={
+              isLogIn ? () => navigate("/universe") : () => navigate("/login")
+            }
             value="유니버스"
             path={path === "universe"}
           />
