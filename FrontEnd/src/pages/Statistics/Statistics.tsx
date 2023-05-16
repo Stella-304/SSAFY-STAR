@@ -77,7 +77,7 @@ export default function Statistics() {
   return (
     <div className="flex h-full flex-col items-center bg-[url('/public/background/main_background.png')] bg-cover bg-center bg-no-repeat text-white ">
       <HeaderMenu />
-      <div className="relative mt-160 flex h-200 w-1000 flex-col items-center justify-center bg-black bg-opacity-80 rounded-20 border-t-2 shadow-neon6 mb-40 border-gray-200 border-t-white border-b-darkgray border-b-2">
+      <div className="relative mb-40 mt-80 flex h-200 w-1000 flex-col items-center justify-center rounded-20 border-b-2 border-t-2 border-gray-200 border-b-darkgray border-t-white bg-black bg-opacity-80 shadow-neon6">
         <div className="absolute -top-15 left-30 flex gap-20">
           <button
             className={
