@@ -55,7 +55,7 @@ export default function MainPage() {
         <div className="flex h-screen flex-col items-center justify-around">
           <div>
             <img
-              className=" mx-auto h-auto max-w-xs select-none font-bold"
+              className=" mx-auto mt-10 h-auto max-w-xs select-none font-bold"
               src="/background/landing_starLogo.png"
               alt="logo"
             ></img>
@@ -65,11 +65,11 @@ export default function MainPage() {
           </div>
           <div className="mt-20 select-none text-center font-neo text-8xl text-white">
             SSAFY-STAR
-            <div className="mt-32 italic text-24 font-neo select-none text-center text-opacity-50 text-white">
+            <div className="mt-32 select-none text-center font-neo text-24 italic text-white text-opacity-50">
               Press `F11` 전체화면을 권장합니다
             </div>
           </div>
-          <div className="mt-80 bg-black bg-opacity-80 rounded-8 px-8 py-8">
+          <div className="mt-80 rounded-8 bg-black bg-opacity-80 px-8 py-8">
             <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               현재 사용자 : {useSiteAllCount}
             </div>
