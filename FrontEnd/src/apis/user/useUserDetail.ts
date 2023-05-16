@@ -27,9 +27,9 @@ const useUserDetail = () => {
     onSuccess: (data) => {
       dispatch(
         setUser({
-          email: data.value.email,
-          name: data.value.name,
-          nickname: data.value.nickname,
+          email: data.value.email ? data.value.email : "",
+          name: data.value.name ? data.value.name : "",
+          nickname: data.value.nickname ? data.value.nickname : "",
           cardRegistered: data.value.cardRegistered,
         }),
       );

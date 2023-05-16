@@ -1,5 +1,7 @@
 package com.ssafy.star.common.util;
 
+import com.ssafy.star.common.auth.enumeration.GroupFlagEnum;
+
 public class ParsingUtil {
 
 	static String[] bojTierTable = {"Bronze", "Silver", "Gold", "Platinum", "Diamond", "Ruby"};
@@ -17,5 +19,20 @@ public class ParsingUtil {
 
 	public static String nullStr2NULL(String str) {
 		return str == null || str.equals("") ? "NULL" : str;
+	}
+
+	public static String getGroupName(GroupFlagEnum groupFlagEnum, String keyName) {
+		String processedGroupName = keyName;
+		if (groupFlagEnum == GroupFlagEnum.DETAIL) {
+			processedGroupName = keyName.replace("기", "기/").replace("캠퍼스", "/");
+		}
+		if (groupFlagEnum == GroupFlagEnum.GENERATION) {
+			processedGroupName += "기";
+		}
+		if (groupFlagEnum == GroupFlagEnum.CAMPUS) {
+			processedGroupName += "캠퍼스";
+		}
+		return processedGroupName;
+
 	}
 }

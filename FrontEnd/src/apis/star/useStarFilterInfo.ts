@@ -27,12 +27,9 @@ const fetcher = (payload: StarFilterType) =>
 
 const useStarFilterInfo = () => {
   return useMutation(fetcher, {
-    onSuccess: (data) => {
-      console.log("별자리 필터 검색 불러오기 성공", data);
-    },
+    onSuccess: (data) => {},
     onError: (e) => {
       alert("표시되는 별의 수가 너무 많아 그룹화가 어렵습니다!");
-      console.log("별자리 필터 검색 불러오기 실패", e);
     },
   });
 };

@@ -85,11 +85,6 @@ export default function FloatingMenu() {
                 value="로그인"
                 path={path === "login"}
               />
-              <FloatButton
-                onClick={() => navigate("/signup")}
-                value="회원가입"
-                path={path === "signup"}
-              />
             </>
           )}
           <FloatButton

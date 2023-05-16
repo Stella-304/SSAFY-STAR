@@ -45,7 +45,7 @@ export default function Mycard() {
     x: 0.0,
     y: 0.0,
     z: 0.0,
-  }
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -56,11 +56,14 @@ export default function Mycard() {
   }, []);
   return (
     <div className="flex h-screen items-center bg-[url('/public/background/main_background.png')] bg-cover bg-center">
-      <div className={
+      <div
+        className={
           (endAnim
             ? "opacity-100 transition duration-[1200ms]"
             : "invisible opacity-0") +
-          " group absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"}>
+          " group absolute left-[calc(50%-240px)] top-[calc(50%-320px)] z-25 h-640 w-480"
+        }
+      >
         <div
           className={
             (isCardFront ? "" : "rotate-y-180") +
@@ -76,7 +79,7 @@ export default function Mycard() {
               generation={userDetail.generation}
               name={userDetail.name}
               text={userDetail.content}
-              isSsafyVerified={userDetail.authorized}
+              isCompanyVerified={userDetail.companyIsAuthorized}
             />
           </div>
           <div className="absolute h-full w-full backface-hidden rotate-y-180">

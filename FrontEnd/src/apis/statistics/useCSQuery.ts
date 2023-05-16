@@ -8,11 +8,7 @@ const fetcher = () => axios.get(CS_URL).then(({ data }) => data.value);
 export default function useCSQuery() {
   return useQuery([CS_LIST], fetcher, {
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      console.log("CS 불러오기 성공", data);
-    },
-    onError: (e) => {
-      console.log("CS 불러오기 실패", e);
-    },
+    onSuccess: (data) => {},
+    onError: (e) => {},
   });
 }

@@ -15,11 +15,7 @@ const fetcher = (sort: string) =>
 export default function useStatisticsQuery(sort: string) {
   return useQuery([STATISTICS_CHART, sort], () => fetcher(sort), {
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      console.log("통계 불러오기 성공", data);
-    },
-    onError: (e) => {
-      console.log("통계 불러오기 실패", e);
-    },
+    onSuccess: (data) => {},
+    onError: (e) => {},
   });
 }
