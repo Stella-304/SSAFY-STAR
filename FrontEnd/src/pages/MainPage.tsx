@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import useUserNum from "../apis/main/useUserNumber";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
+import { logout } from "../stores/user/user";
 import HeaderMenu from "../components/Layout/HeaderMenu";
 import { SERVER_API } from "@/utils/urls";
+import { RootState } from "@/stores/store";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ export default function MainPage() {
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
 
+  const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   //react query
@@ -84,7 +87,9 @@ export default function MainPage() {
 
             <div className="group cursor-pointer">
               <button
-                onClick={() => navigate("/universe")}
+                onClick={
+                  email ? () => navigate("/universe") : () => navigate("/login")
+                }
                 className="rounded-[10px] bg-blue2 px-70 py-15 font-['nemo030'] text-white hover:bg-blue2 hover:text-black"
               >
                 별 보러가기
