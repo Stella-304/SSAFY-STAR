@@ -122,6 +122,10 @@ public class Card {
 			value = this.generation + "기" + this.campus + "캠퍼스" + this.ban + "반";
 		}
 
+		if (flagEnum == GroupFlagEnum.COMPANY) {
+			value = this.company;
+		}
+
 		if (flagEnum == GroupFlagEnum.NONE) {
 			value = "SSAFY";
 		}
