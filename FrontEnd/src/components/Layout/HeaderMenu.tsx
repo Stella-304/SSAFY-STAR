@@ -14,6 +14,7 @@ export default function HeaderMenu() {
     (state: RootState) => state.user,
   );
   const [reportOpen, setReportOpen] = useState(false);
+  const [isLogIn, setIsLogin] = useState<boolean>(false);
   const { path } = useSelector((state: RootState) => state.path);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,14 @@ export default function HeaderMenu() {
   const logout = () => {
     logoutMutate.mutate();
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   useEffect(() => {
     // 에러 처리
@@ -80,7 +89,7 @@ export default function HeaderMenu() {
             value="싸피통계"
             path={path === "statistics"}
           />
-          {email ? (
+          {isLogIn ? (
             <>
               <HeaderButton
                 onClick={() => navigate("/certify")}
