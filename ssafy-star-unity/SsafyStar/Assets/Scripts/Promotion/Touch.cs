@@ -52,23 +52,16 @@ public class Touch : MonoBehaviour
 
         }
 
-        if (titleObject != null)
-        {
-            //panel title input
-            titleObject.text = title;
-        }
+        //panel title input
+        if (titleObject != null) titleObject.text = title;
 
-        if (textcontent != null)
-        {
-            //panel content input
-            textcontent.text = content;
-
-        }
+        //panel content input
+        if (textcontent != null) textcontent.text = content;
 
         //panel content image
-        img.GetComponent<Image>().sprite = image;
+        if (img != null) img.GetComponent<Image>().sprite = image;
 
-        panel.SetActive(true);
+        if (panel != null) panel.SetActive(true);
 
         Camera.main.GetComponent<CameraMovement>().stop = true;
     }

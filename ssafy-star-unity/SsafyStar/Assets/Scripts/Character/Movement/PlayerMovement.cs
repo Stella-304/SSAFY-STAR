@@ -34,9 +34,11 @@ public class PlayerMovement : NetworkBehaviour
     private TMP_Text textPlayerNickname;
 
     public bool goMuseum = false;
+    public bool goCloth = false;
     public bool doRespawn = false;
     public Transform respawnPos;
     public Transform museumPos;
+    public Transform clothPos;
     public Transform interpolationPos;
 
     [Header("Camera")]
@@ -85,6 +87,7 @@ public class PlayerMovement : NetworkBehaviour
 
             respawnPos = GameObject.Find("SpawnPos").transform;
             museumPos = GameObject.Find("MuseumPos").transform;
+            clothPos = GameObject.Find("ClothPos").transform;
         }
         else
         {
@@ -219,6 +222,12 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = museumPos.position;
             goMuseum = false;
         }
+        
+        if (goCloth)
+        {
+            transform.position = clothPos.position;
+            goCloth = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -228,6 +237,14 @@ public class PlayerMovement : NetworkBehaviour
             goMuseum = true;
         }
         else if (other.gameObject.tag.Equals("backMuseum"))
+        {
+            doRespawn = true;
+        }
+        if (other.gameObject.tag.Equals("goCloth"))
+        {
+            goCloth = true;
+        }
+        else if (other.gameObject.tag.Equals("backCloth"))
         {
             doRespawn = true;
         }

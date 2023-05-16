@@ -10,6 +10,7 @@ using TMPro;
 public class NPC : MonoBehaviour
 {
     [Header("Move")]
+    public bool isMovingNPC = true;
     public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
     public Vector3 startPosition = Vector3.zero;
@@ -34,26 +35,29 @@ public class NPC : MonoBehaviour
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        if (isMovingNPC) navMeshAgent = GetComponent<NavMeshAgent>();
         targetPosition = GetRandomPosition();
-        //chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
     }
 
     private void Update()
     {
-        if(doChat)
+        if (doChat)
         {
             GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false;
             chatUI.SetActive(true);
-            //Debug.Log(inkJSON.text);
             DialogueManager.GetInstance().NPC = gameObject;
             DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
 
-            transform.LookAt(player.transform);
-            navMeshAgent.isStopped = true;
+            if (isMovingNPC)
+            {
+                transform.LookAt(player.transform);
+            }
+            if (isMovingNPC) navMeshAgent.isStopped = true;
             doChat = false;
             return;
         }
+
+        if (!isMovingNPC) return;
 
         if (!isMoving)
         {
@@ -87,7 +91,7 @@ public class NPC : MonoBehaviour
         chatUI.SetActive(false);
         GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = true;
 
-        navMeshAgent.isStopped = false;
+        if (isMovingNPC) navMeshAgent.isStopped = false;
         Camera.main.GetComponent<CameraMovement>().ResetCamera();
         player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
@@ -109,7 +113,7 @@ public class NPC : MonoBehaviour
             helperUI.SetActive(true);
             texthelper.text = "SPACE";
         }
-        else if(other.gameObject.tag.Equals("NPC"))
+        else if (other.gameObject.tag.Equals("NPC"))
         {
             helperUI.SetActive(true);
             texthelper.text = "æ»≥Á«œººø‰";

@@ -12,6 +12,8 @@ TagManager:
   - Block
   - GreenOrb
   - Ball
+  - goCloth
+  - backCloth
   layers:
   - Default
   - TransparentFX
