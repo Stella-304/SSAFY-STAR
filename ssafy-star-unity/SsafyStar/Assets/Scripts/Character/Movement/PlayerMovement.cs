@@ -182,6 +182,7 @@ public class PlayerMovement : NetworkBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             networkAnimator.Animator.SetBool("Walk", true);
+            //ResetEmotionAnimation();
         }
         else
         {
@@ -234,7 +235,30 @@ public class PlayerMovement : NetworkBehaviour
 
     private void EmotionAnimation()
     {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            networkAnimator.Animator.SetBool("Dance2", true);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            networkAnimator.Animator.SetBool("Waving", true);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            networkAnimator.Animator.SetBool("Joyful", true);
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            networkAnimator.Animator.SetBool("Praying", true);
+        }
+    }
 
+    private void ResetEmotionAnimation()
+    {
+        networkAnimator.Animator.SetBool("Dance2", false);
+        networkAnimator.Animator.SetBool("Waving", false);
+        networkAnimator.Animator.SetBool("Joyful", false);
+        networkAnimator.Animator.SetBool("Praying", false);
     }
 
     private void OnTriggerEnter(Collider other)
