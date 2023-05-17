@@ -63,10 +63,20 @@ public class MenuController : MonoBehaviour
         btnMute.clicked += BtnMuteOnClicked;
     }
 
+    private void Update()
+    {
+        if(panelNickname.activeSelf)
+        {
+            if(UnityEngine.Input.GetKeyDown(KeyCode.Return))
+            {
+                CheckDuplicate();
+            }
+        }
+    }
+
     //Unity에서 플레이 버튼을 눌렀을때 실행되는 함수
     private void BtnPlayOnClicked()
     {
-
         isGuest = false;
         //webGL에서 react로 값을 보냄
 #if UNITY_WEBGL == true && UNITY_EDITOR == false

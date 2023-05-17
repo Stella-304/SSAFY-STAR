@@ -208,6 +208,8 @@ public class PlayerMovement : NetworkBehaviour
             _jumpPressed = false;
         }
 
+        EmotionAnimation();
+
         controller.maxSpeed = playerSpeed;
         controller.Move(move + velocity * Runner.DeltaTime);
 
@@ -228,6 +230,11 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = clothPos.position;
             goCloth = false;
         }
+    }
+
+    private void EmotionAnimation()
+    {
+
     }
 
     private void OnTriggerEnter(Collider other)
