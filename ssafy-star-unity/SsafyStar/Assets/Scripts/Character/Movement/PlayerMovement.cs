@@ -85,6 +85,7 @@ public class PlayerMovement : NetworkBehaviour
             RPC_SetNickname(nickName.ToString());
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
+            GameObject.Find("UIMenu").GetComponent<EmotionAnimation>().networkAnimator = GetComponent<NetworkMecanimAnimator>();
             GameObject.Find("ChatRPC").GetComponent<ChatController>().player = this.gameObject.GetComponent<PlayerMovement>();
 
             respawnPos = GameObject.Find("SpawnPos").transform;
@@ -214,8 +215,6 @@ public class PlayerMovement : NetworkBehaviour
             _jumpPressed = false;
         }
 
-        EmotionAnimation();
-
         controller.maxSpeed = playerSpeed;
         controller.Move(move + velocity * Runner.DeltaTime);
 
@@ -244,33 +243,33 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    private void EmotionAnimation()
-    {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            networkAnimator.Animator.SetBool("Dance2", true);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            networkAnimator.Animator.SetBool("Waving", true);
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            networkAnimator.Animator.SetBool("Joyful", true);
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            networkAnimator.Animator.SetBool("Praying", true);
-        }
-    }
+    //private void EmotionAnimation()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.F))
+    //    {
+    //        networkAnimator.Animator.SetBool("Dance2", true);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.H))
+    //    {
+    //        networkAnimator.Animator.SetBool("Waving", true);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //    {
+    //        networkAnimator.Animator.SetBool("Joyful", true);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.J))
+    //    {
+    //        networkAnimator.Animator.SetBool("Praying", true);
+    //    }
+    //}
 
-    private void ResetEmotionAnimation()
-    {
-        networkAnimator.Animator.SetBool("Dance2", false);
-        networkAnimator.Animator.SetBool("Waving", false);
-        networkAnimator.Animator.SetBool("Joyful", false);
-        networkAnimator.Animator.SetBool("Praying", false);
-    }
+    //private void ResetEmotionAnimation()
+    //{
+    //    networkAnimator.Animator.SetBool("Dance2", false);
+    //    networkAnimator.Animator.SetBool("Waving", false);
+    //    networkAnimator.Animator.SetBool("Joyful", false);
+    //    networkAnimator.Animator.SetBool("Praying", false);
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

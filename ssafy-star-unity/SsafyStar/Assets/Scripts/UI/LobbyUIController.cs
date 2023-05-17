@@ -21,6 +21,7 @@ public class LobbyUIController : MonoBehaviour
 
     [SerializeField]
     private GameObject alert;
+    private CameraMovement cameraMovement;
 
     private void Start()
     {
@@ -38,6 +39,8 @@ public class LobbyUIController : MonoBehaviour
 
         game = doc.rootVisualElement.Q<VisualElement>("OtherGameSlot");
         game.AddManipulator(new Clickable(OpenOtherGame));
+
+        cameraMovement = Camera.main.GetComponent<CameraMovement>();
     }
 
     public void OpenDictionary()
@@ -52,38 +55,45 @@ public class LobbyUIController : MonoBehaviour
 
     public void OpenEmotion()
     {
+        cameraMovement.stop = true;
         panelEmotion.SetActive(true);
     }
     public void CloseEmotion()
     {
+        cameraMovement.stop = false;
         panelEmotion.SetActive(false);
     }
 
     public void OpenBlockGame()
     {
+        cameraMovement.stop = true;
         Debug.Log("OpenBlockGame");
         OpenAlert();
     }
 
     public void OpenFisingGame()
     {
+        cameraMovement.stop = true;
         Debug.Log("OpenDictionary");
         OpenAlert();
     }
 
     public void OpenOtherGame()
     {
+        cameraMovement.stop = true;
         Debug.Log("OpenDictionary");
         OpenAlert();
     }
 
     public void OpenAlert()
     {
+        cameraMovement.stop = true;
         alert.SetActive(true);
     }
 
     public void CloseAlert()
     {
+        cameraMovement.stop = false;
         alert.SetActive(false);
     }
 }
