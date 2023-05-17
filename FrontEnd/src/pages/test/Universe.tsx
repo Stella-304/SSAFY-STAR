@@ -40,6 +40,7 @@ export default function Universe() {
     new THREE.Vector3(0, 0, 0),
   );
   const [playAutoRotate, setPlayAutoRotate] = useState<boolean>(true);
+  const [selectedStars, setSelectedStars] = useState<number[]>([]);
 
   const dispatch = useDispatch();
 
@@ -160,7 +161,9 @@ export default function Universe() {
                 setSelectedUserInfo(item);
                 setCardFront(true);
                 setEndAnim(false);
+                setSelectedStars([...selectedStars, item.cardId]);
               }}
+              selectedStars={selectedStars}
               key={item.cardId}
             />
           ))}
