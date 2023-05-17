@@ -133,7 +133,6 @@ public class MenuController : MonoBehaviour
 
     public void CheckDuplicate()
     {
-        Debug.Log("CheckDuplicate");
         _nickname = textNickname.text;
         if (_nickname == "")
         {
@@ -148,7 +147,6 @@ public class MenuController : MonoBehaviour
         }
         else
         {
-            Debug.Log("10글자 이내");
             StartCoroutine(Request.Instance.ApiGetRequest($"/app/user/nickname/check-duplicate?nickname={_nickname}",
                                                           _nickname, "nickname", _token));
         }

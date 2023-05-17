@@ -13,8 +13,6 @@ public class ChangeCharacterSlot : MonoBehaviour
 
     public void SelectCharacter()
     {
-        Debug.Log("클릭했다"+CharacterNum);
-
         playerData.player.GetComponent<ChangeCharacter>().RPCDoChange(CharacterNum);
         panel.SetActive(false);
     }

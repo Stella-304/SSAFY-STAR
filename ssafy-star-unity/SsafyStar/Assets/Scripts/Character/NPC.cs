@@ -93,7 +93,7 @@ public class NPC : MonoBehaviour
 
         if (isMovingNPC) navMeshAgent.isStopped = false;
         Camera.main.GetComponent<CameraMovement>().ResetCamera();
-        player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
+        if(player) player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
 
         doChat = false;
