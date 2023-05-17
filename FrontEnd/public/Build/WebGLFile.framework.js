@@ -1,5 +1,12 @@
 function unityFramework(Module) {
   var Module = typeof Module !== "undefined" ? Module : {};
+  function Pointer_stringify(s, len) {
+    warnOnce(
+      "The JavaScript function 'Pointer_stringify(ptrToSomeCString)' is obsoleted and will be removed in a future Unity version. Please call 'UTF8ToString(ptrToSomeCString)' instead.",
+    );
+    return UTF8ToString(s, len);
+  }
+  Module["Pointer_stringify"] = Pointer_stringify;
   var stackTraceReference =
     "(^|\\n)(\\s+at\\s+|)jsStackTrace(\\s+\\(|@)([^\\n]+):\\d+:\\d+(\\)|)(\\n|$)";
   var stackTraceReferenceMatch = jsStackTrace().match(
@@ -228,13 +235,6 @@ function unityFramework(Module) {
       );
   }
   Module["SendMessage"] = SendMessage;
-  function Pointer_stringify(s, len) {
-    warnOnce(
-      "The JavaScript function 'Pointer_stringify(ptrToSomeCString)' is obsoleted and will be removed in a future Unity version. Please call 'UTF8ToString(ptrToSomeCString)' instead.",
-    );
-    return UTF8ToString(s, len);
-  }
-  Module["Pointer_stringify"] = Pointer_stringify;
   var moduleOverrides = {};
   var key;
   for (key in Module) {
@@ -856,13 +856,13 @@ function unityFramework(Module) {
   var tempDouble;
   var tempI64;
   var ASM_CONSTS = {
-    4136024: function () {
+    4136376: function () {
       return Module.webglContextAttributes.premultipliedAlpha;
     },
-    4136085: function () {
+    4136437: function () {
       return Module.webglContextAttributes.preserveDrawingBuffer;
     },
-    4136149: function () {
+    4136501: function () {
       return Module.webglContextAttributes.powerPreference;
     },
   };
@@ -15550,7 +15550,7 @@ function unityFramework(Module) {
     Mg: _glLinkProgram,
     bg: _glMapBufferRange,
     Ng: _glPixelStorei,
-    pc: _glPolygonOffset,
+    oc: _glPolygonOffset,
     _b: _glProgramBinary,
     Mf: _glProgramParameteri,
     Xf: _glReadBuffer,
@@ -15631,9 +15631,9 @@ function unityFramework(Module) {
     Sd: invoke_iiiiijiii,
     vd: invoke_iiiijii,
     be: invoke_iiiijjii,
-    le: invoke_iiij,
-    me: invoke_iiijiii,
-    ne: invoke_iij,
+    oe: invoke_iiij,
+    le: invoke_iiijiii,
+    me: invoke_iij,
     ce: invoke_iiji,
     ge: invoke_iijii,
     _d: invoke_iijiii,
@@ -15642,7 +15642,7 @@ function unityFramework(Module) {
     Zd: invoke_iijjiiiiii,
     ee: invoke_iji,
     Nd: invoke_ijji,
-    oe: invoke_j,
+    ne: invoke_j,
     Od: invoke_jdi,
     ke: invoke_ji,
     je: invoke_jii,
@@ -15667,7 +15667,7 @@ function unityFramework(Module) {
     mi: invoke_viiddi,
     Aa: invoke_viidi,
     li: invoke_viidii,
-    oc: invoke_viif,
+    pc: invoke_viif,
     O: invoke_viiff,
     oi: invoke_viiffi,
     F: invoke_viifi,
@@ -15899,34 +15899,34 @@ function unityFramework(Module) {
     return (dynCall_iiiiii = Module["dynCall_iiiiii"] =
       Module["asm"]["fj"]).apply(null, arguments);
   });
+  var dynCall_iiij = (Module["dynCall_iiij"] = function () {
+    return (dynCall_iiij = Module["dynCall_iiij"] = Module["asm"]["gj"]).apply(
+      null,
+      arguments,
+    );
+  });
   var dynCall_v = (Module["dynCall_v"] = function () {
-    return (dynCall_v = Module["dynCall_v"] = Module["asm"]["gj"]).apply(
+    return (dynCall_v = Module["dynCall_v"] = Module["asm"]["hj"]).apply(
       null,
       arguments,
     );
   });
   var dynCall_i = (Module["dynCall_i"] = function () {
-    return (dynCall_i = Module["dynCall_i"] = Module["asm"]["hj"]).apply(
+    return (dynCall_i = Module["dynCall_i"] = Module["asm"]["ij"]).apply(
       null,
       arguments,
     );
   });
   var dynCall_iiiiiiii = (Module["dynCall_iiiiiiii"] = function () {
     return (dynCall_iiiiiiii = Module["dynCall_iiiiiiii"] =
-      Module["asm"]["ij"]).apply(null, arguments);
+      Module["asm"]["jj"]).apply(null, arguments);
   });
   var dynCall_iiijiii = (Module["dynCall_iiijiii"] = function () {
     return (dynCall_iiijiii = Module["dynCall_iiijiii"] =
-      Module["asm"]["jj"]).apply(null, arguments);
+      Module["asm"]["kj"]).apply(null, arguments);
   });
   var dynCall_iij = (Module["dynCall_iij"] = function () {
-    return (dynCall_iij = Module["dynCall_iij"] = Module["asm"]["kj"]).apply(
-      null,
-      arguments,
-    );
-  });
-  var dynCall_iiij = (Module["dynCall_iiij"] = function () {
-    return (dynCall_iiij = Module["dynCall_iiij"] = Module["asm"]["lj"]).apply(
+    return (dynCall_iij = Module["dynCall_iij"] = Module["asm"]["lj"]).apply(
       null,
       arguments,
     );
@@ -17868,16 +17868,6 @@ function unityFramework(Module) {
     return (dynCall_viiiiiiiijiii = Module["dynCall_viiiiiiiijiii"] =
       Module["asm"]["sr"]).apply(null, arguments);
   });
-  function invoke_vi(index, a1) {
-    var sp = stackSave();
-    try {
-      dynCall_vi(index, a1);
-    } catch (e) {
-      stackRestore(sp);
-      if (e !== e + 0 && e !== "longjmp") throw e;
-      _setThrew(1, 0);
-    }
-  }
   function invoke_iii(index, a1, a2) {
     var sp = stackSave();
     try {
@@ -17962,6 +17952,16 @@ function unityFramework(Module) {
     var sp = stackSave();
     try {
       dynCall_vii(index, a1, a2);
+    } catch (e) {
+      stackRestore(sp);
+      if (e !== e + 0 && e !== "longjmp") throw e;
+      _setThrew(1, 0);
+    }
+  }
+  function invoke_vi(index, a1) {
+    var sp = stackSave();
+    try {
+      dynCall_vi(index, a1);
     } catch (e) {
       stackRestore(sp);
       if (e !== e + 0 && e !== "longjmp") throw e;
@@ -18481,6 +18481,16 @@ function unityFramework(Module) {
       _setThrew(1, 0);
     }
   }
+  function invoke_iiij(index, a1, a2, a3, a4) {
+    var sp = stackSave();
+    try {
+      return dynCall_iiij(index, a1, a2, a3, a4);
+    } catch (e) {
+      stackRestore(sp);
+      if (e !== e + 0 && e !== "longjmp") throw e;
+      _setThrew(1, 0);
+    }
+  }
   function invoke_j(index) {
     var sp = stackSave();
     try {
@@ -18505,16 +18515,6 @@ function unityFramework(Module) {
     var sp = stackSave();
     try {
       return dynCall_iiijiii(index, a1, a2, a3, a4, a5, a6, a7);
-    } catch (e) {
-      stackRestore(sp);
-      if (e !== e + 0 && e !== "longjmp") throw e;
-      _setThrew(1, 0);
-    }
-  }
-  function invoke_iiij(index, a1, a2, a3, a4) {
-    var sp = stackSave();
-    try {
-      return dynCall_iiij(index, a1, a2, a3, a4);
     } catch (e) {
       stackRestore(sp);
       if (e !== e + 0 && e !== "longjmp") throw e;

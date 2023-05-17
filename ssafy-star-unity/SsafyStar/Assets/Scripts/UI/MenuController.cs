@@ -105,12 +105,10 @@ public class MenuController : MonoBehaviour
     {
         if (nickname == "")
         {
-            //Debug.Log("닉네임이 없음");
             OpenNickNamePanel();
         }
         else
         {
-            //Debug.Log("닉네임:" + nickname);
             _nickname = nickname;
             PlayerPrefs.SetString("Nickname", _nickname);
             SceneManager.LoadScene("Lobby");

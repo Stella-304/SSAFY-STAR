@@ -11,12 +11,12 @@ public class OneCommand : MonoBehaviour
     #region 태그에 따른 함수호출
     void Awake()
     {
-        if (CompareTag("GameManager")) Awake_GM();
+        //if (CompareTag("GameManager")) Awake_GM();
     }
 
     void Start()
     {
-        if (CompareTag("Ball")) Start_BALL();
+        //if (CompareTag("Ball")) Start_BALL();
 
         if (CompareTag("GameManager"))
         {

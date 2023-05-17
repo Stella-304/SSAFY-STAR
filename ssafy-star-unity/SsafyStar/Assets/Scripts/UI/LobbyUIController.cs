@@ -34,7 +34,7 @@ public class LobbyUIController : MonoBehaviour
         game.AddManipulator(new Clickable(OpenOtherGame));
     }
 
-    private void OpenDictionary()
+    public void OpenDictionary()
     {
         panelChangeCharacter.SetActive(true);
     }
@@ -44,19 +44,19 @@ public class LobbyUIController : MonoBehaviour
         panelChangeCharacter.SetActive(false);
     }
 
-    private void OpenEmotion()
+    public void OpenEmotion()
     {
         Debug.Log("OpenDictionary");
         OpenAlert();
     }
 
-    private void OpenFisingGame()
+    public void OpenFisingGame()
     {
         Debug.Log("OpenDictionary");
         OpenAlert();
     }
 
-    private void OpenOtherGame()
+    public void OpenOtherGame()
     {
         Debug.Log("OpenDictionary");
         OpenAlert();
