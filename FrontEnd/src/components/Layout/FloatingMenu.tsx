@@ -15,12 +15,21 @@ export default function FloatingMenu() {
   const { path } = useSelector((state: RootState) => state.path);
   const [open, setOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
+  const [isLogIn, setIsLogin] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const logoutMutate = useLogout();
   const logout = () => {
     logoutMutate.mutate();
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   useEffect(() => {
     // 에러 처리
@@ -51,9 +60,16 @@ export default function FloatingMenu() {
             path={path === "home"}
             value="홈으로"
           />
-          {email ? (
+          {isLogIn ? (
             <>
-              <FloatButton onClick={logout} value="로그아웃" path={false} />
+              <FloatButton
+                onClick={() => {
+                  logout();
+                  setIsLogin(false);
+                }}
+                value="로그아웃"
+                path={false}
+              />
               <FloatButton
                 onClick={() => navigate("/mypage")}
                 value="마이페이지"
@@ -110,7 +126,7 @@ export default function FloatingMenu() {
       )}
 
       <div
-        className="fixed bottom-8 right-32 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center font-semibold leading-50 text-white hover:bg-white hover:text-black"
+        className="fixed bottom-18 right-18 h-50 w-50 cursor-pointer rounded-full border-2 border-white bg-black text-center font-semibold leading-50 text-white hover:bg-white hover:text-black"
         onClick={() => setOpen(!open)}
       >
         메뉴

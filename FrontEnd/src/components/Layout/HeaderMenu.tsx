@@ -14,6 +14,7 @@ export default function HeaderMenu() {
     (state: RootState) => state.user,
   );
   const [reportOpen, setReportOpen] = useState(false);
+  const [isLogIn, setIsLogin] = useState<boolean>(false);
   const { path } = useSelector((state: RootState) => state.path);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,14 @@ export default function HeaderMenu() {
   const logout = () => {
     logoutMutate.mutate();
   };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   useEffect(() => {
     // 에러 처리
@@ -66,7 +75,9 @@ export default function HeaderMenu() {
         </div>
         <div className="flex justify-end gap-8">
           <HeaderButton
-            onClick={() => navigate("/universe")}
+            onClick={
+              isLogIn ? () => navigate("/universe") : () => navigate("/login")
+            }
             value="유니버스"
             path={path === "universe"}
           />
@@ -80,7 +91,7 @@ export default function HeaderMenu() {
             value="싸피통계"
             path={path === "statistics"}
           />
-          {email ? (
+          {isLogIn ? (
             <>
               <HeaderButton
                 onClick={() => navigate("/certify")}
@@ -105,7 +116,14 @@ export default function HeaderMenu() {
                 value="마이페이지"
                 path={path === "mypage"}
               />
-              <HeaderButton onClick={logout} value="로그아웃" path={false} />
+              <HeaderButton
+                onClick={() => {
+                  logout();
+                  setIsLogin(false);
+                }}
+                value="로그아웃"
+                path={false}
+              />
             </>
           ) : (
             <>

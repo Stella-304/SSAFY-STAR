@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
 import HeaderMenu from "../components/Layout/HeaderMenu";
 import { SERVER_API } from "@/utils/urls";
-import { RootState } from "@/stores/store";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -13,9 +12,17 @@ export default function MainPage() {
   const [allSsafyCount, setallSsafyCount] = useState("");
   const [useSiteSsafyCount, setuseSiteSsafyCount] = useState("");
   const [useSiteAllCount, setuseSiteAllCount] = useState("");
+  const [isLogIn, setIsLogin] = useState<boolean>(false);
 
-  const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   //react query
   const userNumCheckquery = useUserNum();
@@ -47,7 +54,7 @@ export default function MainPage() {
         <div className="flex h-screen flex-col items-center justify-around">
           <div>
             <img
-              className=" mx-auto h-auto max-w-xs select-none font-bold"
+              className=" mx-auto mt-10 h-auto max-w-xs select-none font-bold"
               src="/background/landing_starLogo.png"
               alt="logo"
             ></img>
@@ -55,19 +62,19 @@ export default function MainPage() {
               STELLA
             </div>
           </div>
-          <div className="mt-20 select-none text-center font-neo text-9xl text-white">
+          <div className="mt-20 select-none text-center font-neo text-8xl text-white">
             SSAFY-STAR
-          </div>
-          <div className="-mt-80">
-            <div className="select-none overflow-hidden whitespace-nowrap text-center font-['nemo030'] text-3xl text-white">
-              전체 싸피생 : {allSsafyCount}
+            <div className="mt-32 select-none text-center font-neo text-24 italic text-white text-opacity-50">
+              Press `F11` 전체화면을 권장합니다
             </div>
+          </div>
+          <div className="mt-80 rounded-8 bg-black bg-opacity-80 px-8 py-8">
             <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               현재 사용자 : {useSiteAllCount}
             </div>
-            <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
+            {/* <div className="mt-10 select-none text-center font-['nemo030'] text-3xl text-white">
               인증된 사용자 : {useSiteSsafyCount}
-            </div>
+            </div> */}
           </div>
           <div className="relative -mt-50 flex h-54 w-600 justify-center">
             <div className="group cursor-pointer">
@@ -87,7 +94,9 @@ export default function MainPage() {
             <div className="group cursor-pointer">
               <button
                 onClick={
-                  email ? () => navigate("/universe") : () => navigate("/login")
+                  isLogIn
+                    ? () => navigate("/universe")
+                    : () => navigate("/login")
                 }
                 className="rounded-[10px] bg-blue2 px-70 py-15 font-['nemo030'] text-white hover:bg-blue2 hover:text-black"
               >

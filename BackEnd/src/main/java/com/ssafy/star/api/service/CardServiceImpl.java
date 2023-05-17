@@ -176,7 +176,7 @@ public class CardServiceImpl implements CardService {
 			Card curCard = cardList.get(i);
 			detailDtoList.add(new CardDetailDto(curCard, r * coordinateList.get(selected).getX()
 				, r * coordinateList.get(selected).getY(), r * coordinateList.get(selected).getZ(),
-				curCard.getUser().getId() == userId
+				curCard.getUser().getId().longValue() == userId
 			));
 		}
 		return detailDtoList;
@@ -396,6 +396,37 @@ public class CardServiceImpl implements CardService {
 
 	}
 
+	public TempDto getCardListForFirst(GroupFlagEnum groupFlag, long userId,
+		Map<String, List<Card>> cardGroupMap) {
+
+		List<Card> cardList = cardGroupMap.get("ssafy");
+
+		List<CardDetailDto> cardDetailDtoList = setCoordinates(cardList);
+		cardDetailDtoList.sort(new Comparator<CardDetailDto>() {
+			@Override
+			public int compare(CardDetailDto o1, CardDetailDto o2) {
+				if (!o1.getGeneration().equals(o2.getGeneration()))
+					return o1.getGeneration().compareTo(o2.getGeneration());
+				if (!o1.getCampus().equals(o2.getCampus())) {
+					List<String> temp = Arrays.asList(new String[] {"서울", "대전", "광주", "구미", "부울경"});
+					int i1 = temp.indexOf(o1.getCampus());
+					int i2 = temp.indexOf(o2.getCampus());
+					return i1 - i2;
+				}
+				if (!o1.getName().equals(o2.getName()))
+					return o1.getName().compareTo(o2.getName());
+				return o1.getBan().compareTo(o2.getBan());
+
+			}
+		});
+		List<EdgeDto> edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
+		List<GroupInfoDto> groupInfoDtoList = new ArrayList<>();
+		groupInfoDtoList.add(GroupInfoDto.builder().x(0).y(0).z(0).groupName("").build());
+		System.out.println("FIRST!!!");
+		return new TempDto(cardDetailDtoList, new ArrayList<>(), edgeDtoList, groupInfoDtoList);
+
+	}
+
 	static CardDetailDto first = null;
 
 	public List<EdgeDto> getContour(List<CardDetailDto> curGroupCardDetailDtoList) {
@@ -509,22 +540,27 @@ public class CardServiceImpl implements CardService {
 
 		TempDto tempDto = null;
 		// 먼저 coordinate로 시도
+
 		if (cardList.size() < 200 && cardGroupMap.keySet().size() < 32 && groupFlag != GroupFlagEnum.DETAIL) {
 			try {
 				tempDto = getCardListUseCoordinate(cardList, groupFlag, userId, cardGroupMap);
 			} catch (CommonApiException e) {
 			}
 		}
-
 		// 안되면 polygon으로 변경
 		if (tempDto == null) {
 			tempDto = getCardListUsePolygon(cardList, groupFlag, userId, cardGroupMap);
 		}
 
 		List<CardDetailDto> cardDetailDtoList = tempDto.getCardDetailDtoList();
-
 		List<EdgeDto> edgeDtoList = tempDto.getEdgeDtoList();
 		List<GroupInfoDto> groupInfoDtoList = tempDto.getGroupInfoDtoList();
+
+		if (groupFlag == GroupFlagEnum.NONE && searchConditionReqDto.ofFilterName().equals("전체")) {
+			// cardDetailDtoList = setCoordinates(cardList);
+			edgeDtoList = GeometryUtil.getEdgeList2(cardDetailDtoList);
+			groupInfoDtoList = new ArrayList<>();
+		}
 
 		cardDetailDtoList.sort(new Comparator<CardDetailDto>() {
 			@Override
@@ -579,7 +615,7 @@ public class CardServiceImpl implements CardService {
 		List<Integer> willShuffleList = new ArrayList<>();
 		List<Integer> firstIdx = new ArrayList<>();
 		for (int i = 0; i < 32; i++) {
-			if (i >= 12 && i <=15)
+			if (i >= 12 && i <= 15)
 				firstIdx.add(i);
 			else
 				willShuffleList.add(i);
@@ -664,8 +700,7 @@ public class CardServiceImpl implements CardService {
 		// {대전=6, 서울=8, 부울경=7, 구미=27, 광주=30}
 		// {Unrated=-16, Gold1=1}
 		// 여기까지 왔으면 위와 같은 데이터들이 allocatedSectionMap에 들어있다.
-		System.out.println(allocatedSectionsMap);
-		
+
 		List<EdgeDto> contour = new ArrayList<>();
 		for (String key : allocatedSectionsMap.keySet()) {
 			List<Card> curCardGroupList = cardGroupMap.get(key);

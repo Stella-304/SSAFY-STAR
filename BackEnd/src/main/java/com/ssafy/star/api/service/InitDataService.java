@@ -7,4 +7,6 @@ public interface InitDataService {
 	void initPolygon();
 	void initAll();
     void initCompanyAdditional();
+
+	void addCompany(String companyName);
 }

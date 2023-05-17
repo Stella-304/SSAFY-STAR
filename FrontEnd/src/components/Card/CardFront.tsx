@@ -30,7 +30,7 @@ export default function CardFront({
           </div>
         </div>
       </div>
-      <div className="group-two absolute left-30 top-30">
+      {/* <div className="group-two absolute left-30 top-30">
         <div className={isCompanyVerified ? "" : "opacity-50"}>
           <Verify />
         </div>
@@ -44,7 +44,7 @@ export default function CardFront({
             직장 인증이 완료되지 않은 유저입니다.
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
