@@ -1,4 +1,4 @@
 export interface UserModifyType {
-  name: string;
-  nickname: string;
+  name: any;
+  nickname: any;
 }

@@ -105,7 +105,7 @@ export default function InfoModi() {
     }
     //닉네임 수정 진행
     const modifyinfo: UserModifyType = {
-      name: "",
+      name: null,
       nickname: newNickname,
     };
     usermodifyMutate.mutate(modifyinfo);
