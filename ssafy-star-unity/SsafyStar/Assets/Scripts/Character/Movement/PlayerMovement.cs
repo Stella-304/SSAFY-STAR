@@ -36,7 +36,9 @@ public class PlayerMovement : NetworkBehaviour
     public bool goMuseum = false;
     public bool goCloth = false;
     public bool doRespawn = false;
+    public bool doRespawnCloth = false;
     public Transform respawnPos;
+    public Transform respawnPosCloth;
     public Transform museumPos;
     public Transform clothPos;
     public Transform interpolationPos;
@@ -88,6 +90,8 @@ public class PlayerMovement : NetworkBehaviour
             respawnPos = GameObject.Find("SpawnPos").transform;
             museumPos = GameObject.Find("MuseumPos").transform;
             clothPos = GameObject.Find("ClothPos").transform;
+            respawnPosCloth = GameObject.Find("SpawnPosCloth").transform;
+
         }
         else
         {
@@ -221,6 +225,12 @@ public class PlayerMovement : NetworkBehaviour
             doRespawn = false;
         }
 
+        if (doRespawnCloth)
+        {
+            transform.position = respawnPosCloth.position;
+            doRespawnCloth = false;
+        }
+
         if (goMuseum)
         {
             transform.position = museumPos.position;
@@ -278,7 +288,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else if (other.gameObject.tag.Equals("backCloth"))
         {
-            doRespawn = true;
+            doRespawnCloth = true;
         }
         else if (other.gameObject.tag.Equals("NPC"))
         {

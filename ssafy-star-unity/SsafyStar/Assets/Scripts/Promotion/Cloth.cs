@@ -8,7 +8,7 @@ public class Cloth : MonoBehaviour
     [SerializeField]
     private LobbyUIController lobbyUI;
 
-    private void OnMouseDown()
+    private void OnMouseUpAsButton()
     {
         lobbyUI.OpenDictionary();
     }
