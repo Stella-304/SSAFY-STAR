@@ -98,10 +98,10 @@ public class UserServiceImpl implements UserService {
 		String nickname = userModifyReqDto.getNickname();
 		String name = userModifyReqDto.getName();
 
-		if (nickname != null) {
+		if (nickname != null && !nickname.isBlank()) {
 			user.setNickname(nickname);
 		}
-		if (name != null) {
+		if (name != null && !name.isBlank()) {
 			user.setName(name);
 		}
 	}
