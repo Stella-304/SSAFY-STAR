@@ -75,14 +75,16 @@ export default function Metaverse() {
           "GetLogin",
           sessionStorage.getItem("accessToken"),
         );
+
+        if (nickname) {
+          sendMessage("GameController", "GetNickname", nickname);
+        } else {
+          sendMessage("GameController", "GetNickname", "");
+        }
       } else {
         sendMessage("GameController", "GetLogin", "");
       }
-      if (nickname) {
-        sendMessage("GameController", "GetNickname", nickname);
-      } else {
-        sendMessage("GameController", "GetNickname", "");
-      }
+
       setAccessNumber(0);
     } else {
     }
