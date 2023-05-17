@@ -96,13 +96,9 @@ public class UserServiceImpl implements UserService {
 			.orElseThrow(() -> new CommonApiException(CommonErrorCode.USER_ID_NOT_FOUND));
 
 		String nickname = userModifyReqDto.getNickname();
-		String name = userModifyReqDto.getName();
 
 		if (nickname != null && !nickname.isBlank()) {
 			user.setNickname(nickname);
-		}
-		if (name != null && !name.isBlank()) {
-			user.setName(name);
 		}
 	}
 
