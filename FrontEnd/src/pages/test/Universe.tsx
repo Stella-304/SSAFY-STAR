@@ -190,12 +190,12 @@ export default function Universe() {
           />
         </Canvas>
         <img
-          src={playing ? pauseIcon : playIcon}
+          src={playing ? playIcon : pauseIcon}
           className="absolute right-15 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlaying(!playing)}
         />
         <img
-          src={playAutoRotate ? pauseIcon2 : playIcon2}
+          src={playAutoRotate ? playIcon2 : pauseIcon2}
           className="absolute right-55 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlayAutoRotate(!playAutoRotate)}
         />
