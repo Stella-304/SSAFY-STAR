@@ -130,7 +130,7 @@ export default function Filter() {
       <div
         className={
           (openAnimation
-            ? "translate-x-300 opacity-100 transition duration-700 "
+            ? "opacity-100 transition duration-700 translate-x-300 "
             : "opacity-0 transition duration-700 ") +
           " fixed -left-300 top-0 z-20 flex h-full w-300 flex-col items-center overflow-y-scroll bg-black py-10 text-white scrollbar-thin scrollbar-thumb-white "
         }
@@ -303,7 +303,7 @@ export default function Filter() {
                 className={
                   (filter.generation.includes(item)
                     ? "font-semibold text-blue-400"
-                    : "") + " w-60 text-center hover:text-blue-400"
+                    : "") + " w-60 text-center hover:text-yellow-300"
                 }
               >
                 {item}기
