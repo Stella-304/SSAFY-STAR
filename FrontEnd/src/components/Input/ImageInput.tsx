@@ -187,9 +187,9 @@ export default function ImageInput({ id }: Props) {
               <span className="text-3xl font-bold">인증을 하는방법 </span>
               <br />
               <span className="text-sm font-bold">
-                카드를 등록했는데, 실제 싸피인이라고 알리고 싶나요?
+                별을 등록했는데, 실제 싸피인이라고 알리고 싶나요?
                 <br />
-                그럼 인증을 해서 카드에 뱃지를 달아 봅시다!
+                그럼 인증을 해서 별에 뱃지를 달아 봅시다!
               </span>
               <div>
                 <img src="./help/badgecheck.png" alt="뱃지확인" />
