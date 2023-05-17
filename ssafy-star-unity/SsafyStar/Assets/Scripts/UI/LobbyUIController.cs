@@ -10,6 +10,7 @@ public class LobbyUIController : MonoBehaviour
     private UIDocument doc;
     private VisualElement dictionary;
     private VisualElement emotion;
+    private VisualElement blockGame;
     private VisualElement fishing;
     private VisualElement game;
 
@@ -28,6 +29,9 @@ public class LobbyUIController : MonoBehaviour
 
         emotion = doc.rootVisualElement.Q<VisualElement>("Emotion");
         emotion.AddManipulator(new Clickable(OpenEmotion));
+
+        blockGame = doc.rootVisualElement.Q<VisualElement>("BlockGameSlot");
+        blockGame.AddManipulator(new Clickable(OpenBlockGame));
 
         fishing = doc.rootVisualElement.Q<VisualElement>("FisingGameSlot");
         fishing.AddManipulator(new Clickable(OpenFisingGame));
@@ -53,6 +57,12 @@ public class LobbyUIController : MonoBehaviour
     public void CloseEmotion()
     {
         panelEmotion.SetActive(false);
+    }
+
+    public void OpenBlockGame()
+    {
+        Debug.Log("OpenBlockGame");
+        OpenAlert();
     }
 
     public void OpenFisingGame()

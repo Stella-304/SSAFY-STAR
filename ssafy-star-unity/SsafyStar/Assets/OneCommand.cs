@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
+using Fusion;
 
 
-public class OneCommand : MonoBehaviour
+public class OneCommand : NetworkBehaviour
 {
     #region 태그에 따른 함수호출
     void Awake()
@@ -16,7 +17,7 @@ public class OneCommand : MonoBehaviour
 
     void Start()
     {
-        //if (CompareTag("Ball")) Start_BALL();
+        if (CompareTag("Ball")) Start_BALL();
 
         if (CompareTag("GameManager"))
         {
@@ -26,15 +27,17 @@ public class OneCommand : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (gameStart && CompareTag("GameManager")) Update_GM();
-    }
+    //void Update()
+    //{
+    //    if (HasStateAuthority)
+    //        if (gameStart && CompareTag("GameManager")) Update_GM();
+    //}
 
-    void FixedUpdate()
-    {
-        if (gameStart && CompareTag("GameManager")) FixedUpdate_GM();
-    }
+    //void FixedUpdate()
+    //{
+    //    if (HasStateAuthority)
+    //        if (gameStart && CompareTag("GameManager")) FixedUpdate_GM();
+    //}
 
 
     void OnCollisionEnter2D(Collision2D col) { if (CompareTag("Ball")) StartCoroutine(OnCollisionEnter2D_BALL(col)); }
@@ -91,32 +94,49 @@ public class OneCommand : MonoBehaviour
         alert.SetActive(true);
 
 #if UNITY_WEBGL == false
-        camera.gameObject.SetActive(true);
-        mainCamera.gameObject.SetActive(false);
-        gameCanvas.SetActive(true);
-        gameStart = true;
-        //BlockGenerator();
+                camera.gameObject.SetActive(true);
+                mainCamera.gameObject.SetActive(false);
+                gameCanvas.SetActive(true);
+                gameStart = true;
+                //BlockGenerator();
 #endif
+
+
+        ////camera.gameObject.SetActive(true);
+        ////mainCamera.gameObject.SetActive(false);
+
+        //this.GetComponent<PlayerData>().player.GetComponent<PlayerMovement>().stop = true;
+        //Camera.main.GetComponent<CameraMovement>().stop = true;
+
+        //mainCamera.GetComponent<Camera>().depth = -2;
+        //gameCanvas.SetActive(true);
+        //gameStart = true;
+        ////BlockGenerator();
     }
 
     public void CloseAlert()
     {
         alert.SetActive(false);
     }
-    
+
     public void Restart()
     {
         Transform[] childList = BlockGroup.GetComponentsInChildren<Transform>();
         if (childList != null)
         {
-            // 0은 부모 오브젝트
-            for (int i = 1; i < childList.Length; i++)
+            for (int i = 0; i < BlockGroup.childCount; i++)
             {
-                if (childList[i] != transform)
-                {
-                    Destroy(childList[i].gameObject);
-                }
+                Destroy(BlockGroup.GetChild(i).gameObject);
             }
+
+            // 0은 부모 오브젝트
+            //for (int i = 1; i < childList.Length; i++)
+            //{
+            //    if (childList[i] != transform)
+            //    {
+            //        Destroy(childList[i].gameObject);
+            //    }
+            //}
         }
 
         for (int i = 1; i < BallGroup.childCount; i++)
@@ -136,19 +156,23 @@ public class OneCommand : MonoBehaviour
         BallCountText.text = "";
         //BlockGenerator();
         BestScoreText.text = "최고기록 : " + PlayerPrefs.GetInt("BestScore").ToString();
-        ScoreText.text = "현재점수 : "+ score;
+        ScoreText.text = "현재점수 : " + score;
     }
 
 
     public void GameExit()
     {
         Debug.Log("exit");
-        mainCamera.gameObject.SetActive(true);
-        camera.gameObject.SetActive(false);
+        //mainCamera.gameObject.SetActive(true);
+        //camera.gameObject.SetActive(false);
         GameOverPanel.SetActive(false);
         gameCanvas.SetActive(false);
         Restart();
         gameStart = false;
+        mainCamera.GetComponent<Camera>().depth = 1;
+
+        this.GetComponent<PlayerData>().player.GetComponent<PlayerMovement>().stop = false;
+        Camera.main.GetComponent<CameraMovement>().stop = false;
     }
 
     public void VeryFirstPosSet(Vector3 pos) { if (veryFirstPos == Vector3.zero) veryFirstPos = pos; }

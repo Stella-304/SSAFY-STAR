@@ -16,6 +16,7 @@ public class FaceCamera : MonoBehaviour
     void Update()
     {
 
+        if (cam == null) return;
         if (!cam.gameObject.activeSelf) return;
         
         Transform cameraTransform = cam.transform;

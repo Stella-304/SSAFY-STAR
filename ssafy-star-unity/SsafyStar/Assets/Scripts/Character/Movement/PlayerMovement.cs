@@ -97,7 +97,6 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
     }
-    //다른 플레이엉 ㅣ름 바꾸기
 
     void Update()
     {
@@ -110,6 +109,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (chatActive)
             {
+                if (!HasInputAuthority) return;
                 if (Vector3.Distance(transform.position, NPC.transform.position) > chatDistance) return;
 
                 NPC.GetComponent<NPC>().player = gameObject;
@@ -143,6 +143,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            if (!Camera) return;
             RaycastHit hit;
             Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
 
