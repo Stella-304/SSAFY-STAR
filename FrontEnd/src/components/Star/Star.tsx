@@ -21,6 +21,8 @@ export default function Star(props: any) {
         starRef.current.scale.z = 0.9;
       } else if (hovered) {
         c = "yellow";
+      } else if (props.selectedStars.includes(props.item.cardId)) {
+        c = "yellow";
       }
       starRef.current.material.color.lerp(color.set(c), 0.5);
       if (hovered) {
@@ -34,9 +36,15 @@ export default function Star(props: any) {
           starRef.current.scale.y = 0.9;
           starRef.current.scale.z = 0.9;
         } else {
-          starRef.current.scale.x = 0.5;
-          starRef.current.scale.y = 0.5;
-          starRef.current.scale.z = 0.5;
+          if (props.selectedStars.includes(props.item.cardId)) {
+            starRef.current.scale.x = 0.9;
+            starRef.current.scale.y = 0.9;
+            starRef.current.scale.z = 0.9;
+          } else {
+            starRef.current.scale.x = 0.5;
+            starRef.current.scale.y = 0.5;
+            starRef.current.scale.z = 0.5;
+          }
         }
 
         dispatch(setStarInfoPreview(null));

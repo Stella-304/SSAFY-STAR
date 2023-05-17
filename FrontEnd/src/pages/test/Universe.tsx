@@ -40,6 +40,7 @@ export default function Universe() {
     new THREE.Vector3(0, 0, 0),
   );
   const [playAutoRotate, setPlayAutoRotate] = useState<boolean>(true);
+  const [selectedStars, setSelectedStars] = useState<number[]>([]);
 
   const dispatch = useDispatch();
 
@@ -160,7 +161,9 @@ export default function Universe() {
                 setSelectedUserInfo(item);
                 setCardFront(true);
                 setEndAnim(false);
+                setSelectedStars([...selectedStars, item.cardId]);
               }}
+              selectedStars={selectedStars}
               key={item.cardId}
             />
           ))}
@@ -190,12 +193,12 @@ export default function Universe() {
           />
         </Canvas>
         <img
-          src={playing ? pauseIcon : playIcon}
+          src={playing ? playIcon : pauseIcon}
           className="absolute right-15 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlaying(!playing)}
         />
         <img
-          src={playAutoRotate ? pauseIcon2 : playIcon2}
+          src={playAutoRotate ? playIcon2 : pauseIcon2}
           className="absolute right-55 top-15 h-30 w-30 cursor-pointer"
           onClick={() => setPlayAutoRotate(!playAutoRotate)}
         />
