@@ -104,7 +104,6 @@ public class UserServiceImpl implements UserService {
 		if (name != null && !name.isBlank()) {
 			user.setName(name);
 		}
-		int a = 1;
 	}
 
 	@Override
