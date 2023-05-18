@@ -8,8 +8,8 @@ public class RespawnManager : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("enter");
-        Debug.Log(other.gameObject.name);
+        //Debug.Log("enter");
+        //Debug.Log(other.gameObject.name);
         other.GetComponent<PlayerMovement>().doRespawn = true;
     }
 }

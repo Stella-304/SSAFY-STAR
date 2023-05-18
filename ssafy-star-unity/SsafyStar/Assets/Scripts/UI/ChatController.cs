@@ -83,7 +83,7 @@ public class ChatController : NetworkBehaviour
                     ChatOnClicked();
                     return;
                 }
-                Debug.Log("send Message");
+                //Debug.Log("send Message");
                 SendMessage();
             }
             else
@@ -104,8 +104,6 @@ public class ChatController : NetworkBehaviour
 
     private void ChatOnClicked()
     {
-        Debug.Log("clicked");
-
         if (chatboxVisibility)
         {
             Camera.main.GetComponent<CameraMovement>().stop = false;
@@ -129,8 +127,8 @@ public class ChatController : NetworkBehaviour
 
     public void SendMessage()
     {
-        Debug.Log("playerprefs" + PlayerPrefs.GetString("Nickname"));
-        Debug.Log("networkstring" + PlayerPrefs.GetString("Nickname"));
+        //Debug.Log("playerprefs" + PlayerPrefs.GetString("Nickname"));
+        //Debug.Log("networkstring" + PlayerPrefs.GetString("Nickname"));
 
         if (currentInputType == ChatType.Normal && !inputChat.text.StartsWith('/'))
         {
@@ -146,8 +144,8 @@ public class ChatController : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPCSendMessage(string username, string message, ChatType senderInputType, RpcInfo rpcInfo = default)
     {
-        Debug.Log("<=" + message);
-        Debug.Log("sender input type:" + senderInputType);
+        //Debug.Log("<=" + message);
+        //Debug.Log("sender input type:" + senderInputType);
 
         UpdateChatWithCommand(username, message, senderInputType);
     }

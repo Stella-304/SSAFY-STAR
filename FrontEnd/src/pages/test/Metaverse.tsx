@@ -15,10 +15,10 @@ export default function Metaverse() {
     removeEventListener,
     sendMessage, //오브젝트, 메소드, 파라메터
   } = useUnityContext({
-    loaderUrl: "Build/WebGLFile.loader.js",
-    dataUrl: "Build/WebGLFile.data",
-    frameworkUrl: "Build/WebGLFile.framework.js",
-    codeUrl: "Build/WebGLFile.wasm",
+    loaderUrl: "Build/WebGL.loader.js",
+    dataUrl: "Build/WebGL.data",
+    frameworkUrl: "Build/WebGL.framework.js",
+    codeUrl: "Build/WebGL.wasm",
   });
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -32,17 +32,10 @@ export default function Metaverse() {
     setAccessNumber(accessNumber);
   }, []);
 
-  const handleResize = () => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  };
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+  const [isNicknameChanged, setIsNicknameChanged] = useState(0);
+
+  const handleNicknameChange = useCallback((isNicknameChanged: number) => {
+    setIsNicknameChanged(isNicknameChanged);
   }, []);
 
   useEffect(() => {
@@ -51,6 +44,27 @@ export default function Metaverse() {
       removeEventListener("GetUser", handleNickname);
     };
   }, [addEventListener, removeEventListener, handleNickname]);
+
+  useEffect(() => {
+    addEventListener("NicknameChanged", handleNicknameChange);
+    return () => {
+      removeEventListener("NicknameChanged", handleNicknameChange);
+    };
+  }, [addEventListener, removeEventListener, handleNicknameChange]);
+
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(setPath("metaverse"));
@@ -89,6 +103,10 @@ export default function Metaverse() {
     } else {
     }
   }, [accessNumber, sendMessage, nickname]);
+
+  useEffect(() => {
+    console.log("왔다");
+  }, [isNicknameChanged]);
 
   const loadingPercentage = Math.round(loadingProgression * 100);
   const style: CSSProperties = {

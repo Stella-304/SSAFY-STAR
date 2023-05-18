@@ -11,6 +11,8 @@ using UnityEngine.Windows;
 using JetBrains.Annotations;
 using Unity.VisualScripting.Antlr3.Runtime;
 
+
+
 public class MenuController : MonoBehaviour
 {
     public static MenuController Instance;
@@ -81,7 +83,6 @@ public class MenuController : MonoBehaviour
         //webGL¿¡¼­ react·Î °ªÀ» º¸³¿
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
     GetUser(100);
-    Debug.Log("Unity -> React º¸³¿");
 #endif
 #if UNITY_EDITOR == true
         panelWarning.SetActive(true);

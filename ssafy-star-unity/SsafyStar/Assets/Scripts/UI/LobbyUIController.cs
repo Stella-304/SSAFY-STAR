@@ -10,9 +10,13 @@ public class LobbyUIController : MonoBehaviour
     private UIDocument doc;
     private VisualElement dictionary;
     private VisualElement emotion;
+    private VisualElement Inventory;
     private VisualElement blockGame;
     private VisualElement fishing;
     private VisualElement game;
+
+    private bool dictionaryVisibility = false;
+    private bool emotionVisibility = false;
 
     [SerializeField]
     private GameObject panelChangeCharacter;
@@ -34,6 +38,8 @@ public class LobbyUIController : MonoBehaviour
         blockGame = doc.rootVisualElement.Q<VisualElement>("BlockGameSlot");
         blockGame.AddManipulator(new Clickable(OpenBlockGame));
 
+        Inventory = doc.rootVisualElement.Q<VisualElement>("Inventory");
+
         fishing = doc.rootVisualElement.Q<VisualElement>("FisingGameSlot");
         fishing.AddManipulator(new Clickable(OpenFisingGame));
 
@@ -41,47 +47,57 @@ public class LobbyUIController : MonoBehaviour
         game.AddManipulator(new Clickable(OpenOtherGame));
 
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        Inventory.visible = false;
     }
 
     public void OpenDictionary()
     {
-        panelChangeCharacter.SetActive(true);
+        if(!dictionaryVisibility) panelChangeCharacter.SetActive(true);
+        else panelChangeCharacter.SetActive(false);
+
+        dictionaryVisibility = !dictionaryVisibility;
     }
 
     public void  CloseDictionary()
     {
-        panelChangeCharacter.SetActive(false);
+        if (dictionaryVisibility) panelChangeCharacter.SetActive(false);
+        dictionaryVisibility = false;
     }
 
     public void OpenEmotion()
     {
         cameraMovement.stop = true;
-        panelEmotion.SetActive(true);
+
+        if (!emotionVisibility) panelEmotion.SetActive(true);
+        else panelEmotion.SetActive(false);
+
+        emotionVisibility = !emotionVisibility;
     }
     public void CloseEmotion()
     {
         cameraMovement.stop = false;
         panelEmotion.SetActive(false);
+        emotionVisibility = false;
     }
 
     public void OpenBlockGame()
     {
         cameraMovement.stop = true;
-        Debug.Log("OpenBlockGame");
+        //Debug.Log("OpenBlockGame");
         OpenAlert();
     }
 
     public void OpenFisingGame()
     {
         cameraMovement.stop = true;
-        Debug.Log("OpenDictionary");
+        //Debug.Log("OpenDictionary");
         OpenAlert();
     }
 
     public void OpenOtherGame()
     {
         cameraMovement.stop = true;
-        Debug.Log("OpenDictionary");
+        //Debug.Log("OpenDictionary");
         OpenAlert();
     }
 

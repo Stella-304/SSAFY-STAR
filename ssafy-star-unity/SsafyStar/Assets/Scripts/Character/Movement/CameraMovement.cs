@@ -56,19 +56,19 @@ public class CameraMovement : MonoBehaviour
 
         mousePos = Input.mousePosition;
 
-        if (mousePos.y < 650 && mousePos.y > 180)
-        {
-            if (mousePos.x < 200)
-            {
-                lookOffset.x -= rotationSpeed * Time.deltaTime;
-                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistanceX, maxRotateDistanceX);
-            }
-            if (mousePos.x > 1500)
-            {
-                lookOffset.x += rotationSpeed * Time.deltaTime;
-                lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistanceX, maxRotateDistanceX);
-            }
-        }
+        //if (mousePos.y < 650 && mousePos.y > 180)
+        //{
+        //    if (mousePos.x < 200)
+        //    {
+        //        lookOffset.x -= rotationSpeed * Time.deltaTime;
+        //        lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistanceX, maxRotateDistanceX);
+        //    }
+        //    if (mousePos.x > 1500)
+        //    {
+        //        lookOffset.x += rotationSpeed * Time.deltaTime;
+        //        lookOffset.x = Mathf.Clamp(lookOffset.x, minRotateDistanceX, maxRotateDistanceX);
+        //    }
+        //}
         
         if(mousePos.x < 1500 && mousePos.x > 300)
         {

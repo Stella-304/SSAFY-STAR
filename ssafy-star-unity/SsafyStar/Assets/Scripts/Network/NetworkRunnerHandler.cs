@@ -26,7 +26,7 @@ public class NetworkRunnerHandler : MonoBehaviour
                                                  NetAddress.Any(),
                                                  SceneManager.GetActiveScene().buildIndex,
                                                  null);
-        Debug.Log($"Server - Network Runner 角青");
+        //Debug.Log($"Server - Network Runner 角青");
     }
 
     public void HostMigrationStart(HostMigrationToken hostMigrationToken)
@@ -35,7 +35,7 @@ public class NetworkRunnerHandler : MonoBehaviour
         networkRunner.name = "Network runner - Migrated";
 
         var clientTask = InitializeNetworkRunnerHostMigration(networkRunner, hostMigrationToken);
-        Debug.Log($"Server - HostMigration 角青");
+        //Debug.Log($"Server - HostMigration 角青");
     }
 
     INetworkSceneManager GetSceneManager(NetworkRunner runner)
@@ -89,7 +89,7 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     void HostMigrationResume(NetworkRunner runner)
     {
-        Debug.Log($"HostMigrationResume started");
+        //Debug.Log($"HostMigrationResume started");
 
         // Get a reference for each Network object from the old Host
         foreach (var resumeNetworkObject in runner.GetResumeSnapshotNetworkObjects())
@@ -105,6 +105,6 @@ public class NetworkRunnerHandler : MonoBehaviour
             }
         }
 
-        Debug.Log($"HostMigrationResume completed");
+        //Debug.Log($"HostMigrationResume completed");
     }
 }

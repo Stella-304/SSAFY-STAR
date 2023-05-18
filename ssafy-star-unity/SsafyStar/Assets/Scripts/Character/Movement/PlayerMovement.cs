@@ -72,7 +72,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (HasStateAuthority)
         {
-            Debug.Log(gameObject.name + "내가 들어옴");
+            //Debug.Log(gameObject.name + "내가 들어옴");
 
             playerSpeed = playerwalkSpeed;
 
@@ -142,7 +142,7 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("r 누름");
+            //Debug.Log("r 누름");
             doRespawn = true;
         }
 
@@ -308,7 +308,7 @@ public class PlayerMovement : NetworkBehaviour
     //[Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SetNickname(string nickname, RpcInfo info = default)
     {
-        Debug.Log($"[RPC] SetNickname {nickname}");
+        //Debug.Log($"[RPC] SetNickname {nickname}");
         textPlayerNickname.text = nickname;
         gameObject.name = "Player_" + nickname;
     }

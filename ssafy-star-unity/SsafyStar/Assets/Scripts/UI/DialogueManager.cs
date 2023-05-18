@@ -37,7 +37,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.Log("싱글턴인데 이미 존재함");
+            //Debug.Log("싱글턴인데 이미 존재함");
         }
         instance = this;
     }
