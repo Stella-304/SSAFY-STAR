@@ -7,6 +7,7 @@ import com.ssafy.star.common.db.dto.request.CardUpdateReqDto;
 import com.ssafy.star.common.db.dto.request.SearchConditionReqDto;
 import com.ssafy.star.common.db.dto.response.BadgeListDto;
 import com.ssafy.star.common.db.dto.response.ConstellationListDto;
+import com.ssafy.star.common.db.dto.response.ReportListDto;
 import com.ssafy.star.common.db.entity.Report;
 
 public interface AdminService {
@@ -14,5 +15,5 @@ public interface AdminService {
 
 	void registBadge(long auth_id, String type);
 
-	List<Report> getReportList();
+	List<ReportListDto> getReportList();
 }

@@ -11,9 +11,9 @@ public class ReportListDto {
 
     String inProgress;
 
-    ReportListDto(String article, String content, boolean isResolved) {
+    public ReportListDto(String article, String content, boolean isResolved) {
         this.article = article;
         this.content = content;
-        inProgress = isResolved? "처리 중" : "처리 완료";
+        inProgress = isResolved? "처리 완료" : "처리 중";
     }
 }
