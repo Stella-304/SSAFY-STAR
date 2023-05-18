@@ -263,16 +263,18 @@ export default function Statistics() {
                   },
                   datalabels: {
                     formatter: function (value, context) {
-                      return context?.chart?.data?.labels
+                      return context?.chart?.data?.labels &&
+                        data?.chart[context.dataIndex][2] > 3
                         ? context.chart.data.labels[context.dataIndex] +
                             "\n" +
                             data?.chart[context.dataIndex][2] +
                             "%"
-                        : "name";
+                        : "";
                     },
                     color: "white",
                     font: { size: 13, weight: "bold" },
                     textAlign: "center",
+                    padding: 100,
                   },
                 },
               }}
