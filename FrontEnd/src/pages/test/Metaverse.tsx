@@ -4,6 +4,7 @@ import { CSSProperties, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../../stores/page/path";
 import { RootState } from "../../stores/store";
+import useUserDetailUpdate from "@/apis/user/useUserDetailUpdate";
 
 export default function Metaverse() {
   const {
@@ -22,6 +23,7 @@ export default function Metaverse() {
   });
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const userUpdateQuery = useUserDetailUpdate();
   const [accessNumber, setAccessNumber] = useState(0);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -108,7 +110,8 @@ export default function Metaverse() {
   }, [accessNumber, sendMessage, nickname]);
 
   useEffect(() => {
-    console.log("왔다");
+    //유저정보 업데이트
+    userUpdateQuery.refetch();
   }, [isNicknameChanged]);
 
   const loadingPercentage = Math.round(loadingProgression * 100);
