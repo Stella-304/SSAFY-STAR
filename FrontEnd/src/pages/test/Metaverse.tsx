@@ -27,6 +27,9 @@ export default function Metaverse() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [tutorial, setTutorial] = useState(true);
+  const [page, setPage] = useState(0);
+
   const { nickname } = useSelector((state: RootState) => state.user);
   const handleNickname = useCallback((accessNumber: number) => {
     setAccessNumber(accessNumber);
@@ -114,16 +117,116 @@ export default function Metaverse() {
   };
   return (
     <>
-      {isLoaded === false && (
+      {tutorial && (
         <div className="fixed left-0 top-0 flex h-screen w-full items-center justify-center bg-blue-500">
-          <div className="flex flex-col ">
-            <span className="mb-8 block text-7xl font-bold">Loading...</span>
-            <div className="h-10 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+          <div className="flex flex-col items-center ">
+            <div className="flex justify-center gap-32">
               <div
-                className="h-10 rounded-full bg-blue-600"
-                style={style}
-              ></div>
+                className="flex h-500 w-50 cursor-pointer items-center justify-center rounded-10 text-center"
+                onClick={() => setPage(page - 1 === -1 ? 7 : page - 1)}
+              >
+                <img src="./help/left.png" alt="이전" />
+              </div>
+              <div className="flex h-500 w-400 flex-col items-center justify-center">
+                {page === 0 && (
+                  <div>
+                    <img src="./help/meta_cache.png" alt="캐시" />
+                    <div className="text-center text-white">
+                      실행이 안되나요?
+                      <br />
+                      F12 - network - 캐시 사용 중지 체크 - 새로고침
+                    </div>
+                  </div>
+                )}
+                {page === 1 && (
+                  <div>
+                    <img src="./help/meta_key.png" alt="조작법" />
+                  </div>
+                )}
+                {page === 2 && (
+                  <div>
+                    <img src="./help/meta_zoom.png" alt="줌인줌아웃" />
+                    <div className="text-center  text-white">
+                      마우스 휠로 줌인 줌아웃이 가능합니다.
+                    </div>
+                  </div>
+                )}
+                {page === 3 && (
+                  <div>
+                    <img src="./help/meta_map.png" alt="지도" />
+                    <div className="text-center text-white">
+                      싸피스타의 지도입니다.
+                      <br />
+                      M으로 확인해보세요
+                    </div>
+                  </div>
+                )}
+                {page === 4 && (
+                  <div>
+                    <img src="./help/meta_chat.png" alt="채팅" />
+                    <div className="text-center text-white">
+                      귓속말은 /w 닉네임 메시지
+                      <br />
+                      귓속말 답장은 /r 메시지
+                    </div>
+                  </div>
+                )}
+                {page === 5 && (
+                  <div>
+                    <img src="./help/meta_charac.png" alt="캐릭터" />
+                    <div className="text-center text-white">
+                      캐릭터는 지도의 옷가게
+                      <br />
+                      좌측하단의 이모티콘에서 변경할 수 있습니다.
+                    </div>
+                  </div>
+                )}
+                {page === 6 && (
+                  <div>
+                    <img src="./help/meta_npc.png" alt="npc" />
+                    <div className="text-center text-white">
+                      지도의 빨간점에 NPC가 있습니다.
+                      <br />
+                      싸피에 도움이 되는 말이 있습니다.
+                    </div>
+                  </div>
+                )}
+                {page === 7 && (
+                  <div>
+                    <img src="./help/meta_pro.png" alt="홍보관" />
+                    <div className="text-center text-white">
+                      지도에 홍보관을 통해 입장
+                      <br />
+                      서비스들을 구경해보세요.
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div
+                className="flex h-500 w-50 cursor-pointer items-center justify-center rounded-10  text-center"
+                onClick={() => setPage((page + 1) % 8)}
+              >
+                <img src="./help/right.png" alt="다음" />
+              </div>
             </div>
+
+            {isLoaded ? (
+              <div className="">
+                <div
+                  className="text-bold flex h-50 w-100 cursor-pointer items-center justify-center rounded-10 bg-yellow-500 text-xl "
+                  onClick={() => setTutorial(false)}
+                >
+                  게임 입장
+                </div>
+              </div>
+            ) : (
+              <div className="h-10 w-300 rounded-full bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-10 rounded-full bg-blue-600"
+                  style={style}
+                ></div>
+              </div>
+            )}
           </div>
         </div>
       )}

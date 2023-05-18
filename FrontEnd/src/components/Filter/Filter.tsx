@@ -42,7 +42,7 @@ export default function Filter() {
   const [filterChange, setFilterChange] = useState<boolean>(false);
   const [searchCompany, setSearchCompany] = useState<string>("");
   const [searchCompanyList, setSearchCompanyList] = useState<string[]>();
-  const [viewGroup, setViewGroup] = useState<Number>(6);
+  const [viewGroup, setViewGroup] = useState<Number>(3);
 
   const dispatch = useDispatch();
 
