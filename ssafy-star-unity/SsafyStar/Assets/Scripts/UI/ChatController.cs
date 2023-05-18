@@ -52,7 +52,6 @@ public class ChatController : NetworkBehaviour
 
     [Header("whisper")]
     private string lastWhisperID = ""; // 마지막 귓말 대상
-    private string friendID = "Friend";//친구 아이디;
 
     private void Awake()
     {

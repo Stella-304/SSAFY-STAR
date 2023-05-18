@@ -60,10 +60,8 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("playing");
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("space");
             ContinueStory();
         }
     }
@@ -90,6 +88,11 @@ public class DialogueManager : MonoBehaviour
 
     public void ContinueStory()
     {
+        if(!currentStory)
+        {
+            ExitDialogueMode();
+        }
+
         if (currentStory.canContinue)
         {
             dialogueText.text = currentStory.Continue();

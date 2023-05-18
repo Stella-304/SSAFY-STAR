@@ -51,8 +51,8 @@ public class NPC : MonoBehaviour
             if (isMovingNPC)
             {
                 transform.LookAt(player.transform);
+                navMeshAgent.isStopped = true;
             }
-            if (isMovingNPC) navMeshAgent.isStopped = true;
             doChat = false;
             return;
         }
@@ -93,7 +93,7 @@ public class NPC : MonoBehaviour
 
         if (isMovingNPC) navMeshAgent.isStopped = false;
         Camera.main.GetComponent<CameraMovement>().ResetCamera();
-        if(player) player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
+        if (player) player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
 
         doChat = false;

@@ -72,8 +72,6 @@ public class PlayerMovement : NetworkBehaviour
 
         if (HasStateAuthority)
         {
-            //Debug.Log(gameObject.name + "³»°¡ µé¾î¿È");
-
             playerSpeed = playerwalkSpeed;
 
             cameraControl = GetComponent<CameraControl>();
@@ -81,7 +79,6 @@ public class PlayerMovement : NetworkBehaviour
             GameObject.Find("MinimapCamera").GetComponent<CopyPosition>().target = transform;
 
             nickName = PlayerPrefs.GetString("Nickname");
-            //gameObject.name = "Player_"+PlayerPrefs.GetString("Nickname");
             RPC_SetNickname(nickName.ToString());
 
             GameObject.Find("UIMenu").GetComponent<UIManager>().SetVisibleTrue();
@@ -92,7 +89,6 @@ public class PlayerMovement : NetworkBehaviour
             museumPos = GameObject.Find("MuseumPos").transform;
             clothPos = GameObject.Find("ClothPos").transform;
             respawnPosCloth = GameObject.Find("SpawnPosCloth").transform;
-
         }
         else
         {
@@ -106,6 +102,11 @@ public class PlayerMovement : NetworkBehaviour
     void Update()
     {
         if (stop)
+        {
+            return;
+        }
+
+        if (HasStateAuthority == false)
         {
             return;
         }
@@ -130,6 +131,24 @@ public class PlayerMovement : NetworkBehaviour
             if (!controller.IsGrounded) return;
             _jumpPressed = true;
         }
+
+        //if(Input.GetKeyDown(KeyCode.E))
+        //{
+        //    if (chatActive)
+        //    {
+        //        if (!HasInputAuthority) return;
+        //        if (Vector3.Distance(transform.position, NPC.transform.position) > chatDistance) return;
+
+        //        NPC.GetComponent<NPC>().player = gameObject;
+        //        NPC.gameObject.GetComponent<NPC>().doChat = true;
+        //        cameraControl.NPCPriority(transform);
+
+        //        stop = true;
+        //        isChatting = true;
+
+        //        return;
+        //    }
+        //}
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -160,7 +179,7 @@ public class PlayerMovement : NetworkBehaviour
 
                     hit.collider.gameObject.GetComponent<NPC>().player = gameObject;
                     hit.collider.gameObject.GetComponent<NPC>().doChat = true;
-                    cameraControl.NPCPriority(transform);
+                    if(cameraControl) cameraControl.NPCPriority(transform);
 
                     stop = true;
                     isChatting = true;
