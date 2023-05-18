@@ -101,13 +101,13 @@ export default function HeaderMenu() {
               {cardRegistered ? (
                 <HeaderButton
                   onClick={() => navigate("/cardsubmit/modify")}
-                  value="카드 수정"
+                  value="별 수정"
                   path={path === "cardmodify"}
                 />
               ) : (
                 <HeaderButton
                   onClick={() => navigate("/cardsubmit/submit")}
-                  value="카드 등록"
+                  value="별 등록"
                   path={path === "cardsubmit"}
                 />
               )}

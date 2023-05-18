@@ -68,7 +68,7 @@ export const ADMIN_YET = SERVER_API + "/app/admin/badge/list/yet";
 //관리자 승인
 export const ADMIN_ACCEPT = SERVER_API + "/app/admin/badge";
 //관리자 신고 내역
-export const ADMIN_REPORT = SERVER_API + "/app/admin/report";
+export const ADMIN_REPORT = SERVER_API + "/app/admin/report/all";
 
 // 카드 코멘트 API
 export const COMMENT_URL = SERVER_API + "/app/comment";

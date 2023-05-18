@@ -20,7 +20,7 @@ public class Request : MonoBehaviour
     {
         using (UnityWebRequest request = UnityWebRequest.Put(apiUrl + api, input))
         {
-            request.method = "PATCH"; // patch로 전송한다고 한다.
+            request.method = "PUT";
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(input);
             request.uploadHandler = new UploadHandlerRaw(jsonToSend);
             request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

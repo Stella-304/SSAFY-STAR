@@ -157,9 +157,6 @@ public class ChatController : NetworkBehaviour
     {
         GameObject sender = GameObject.Find("Player_" + nickname);
 
-        //speechBubble = sender.transform.GetChild(0).GetChild(2).GetChild(1).gameObject;
-        //speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
-
         speechBubble = sender.GetComponent<ChangeCharacter>().nickname.transform.GetChild(1).gameObject;
         speechBubbleText = speechBubble.transform.GetChild(0).GetComponent<TMP_Text>();
 

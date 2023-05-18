@@ -38,8 +38,12 @@ public class ChangeCharacter : NetworkBehaviour
         characterList[playerNum].model.SetActive(true);
         nickname.transform.parent = characterList[playerNum].model.transform;
 
-        Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
         beforeCharacterNum = playerNum;
+
+        if (HasInputAuthority)
+        {
+            Camera.main.GetComponent<CameraMovement>().Target = characterList[playerNum].model.transform;
+        }
     }
 
 }
