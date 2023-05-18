@@ -31,6 +31,7 @@ import bojTierIcon from "@/assets/icons/boj.png";
 import generationIcon from "@/assets/icons/generation.png";
 import campusIcon from "@/assets/icons/map.png";
 import classIcon from "@/assets/icons/classroom.png";
+import buildingIcon from "@/assets/icons/building.png";
 import deleteIcon from "@/assets/icons/exit.png";
 import useStarInfoQuery from "@/apis/useStarInfoQuery";
 
@@ -255,17 +256,33 @@ export default function Filter() {
             </div>
             <div className="group">
               <img
-                src={deleteIcon}
+                src={buildingIcon}
                 className={
                   (viewGroup === 6 && "shadow-selected") +
                   " h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
                 }
                 onClick={() => {
-                  handleClick("groupFlag", "");
+                  handleClick("groupFlag", "company");
                   gruopClick(6);
                 }}
               />
-              <div className="invisible absolute left-50 top-110 h-30 w-90 rounded-8 border-2 border-white bg-black text-center text-16 leading-30 group-hover:visible">
+              <div className="invisible absolute left-70 top-110 h-30 w-50 rounded-8 border-2 border-white bg-black text-center text-16 leading-30 group-hover:visible">
+                회사
+              </div>
+            </div>
+            <div className="group">
+              <img
+                src={deleteIcon}
+                className={
+                  (viewGroup === 7 && "shadow-selected") +
+                  " h-40 w-40 cursor-pointer rounded-50 border-2 border-white hover:opacity-80"
+                }
+                onClick={() => {
+                  handleClick("groupFlag", "");
+                  gruopClick(7);
+                }}
+              />
+              <div className="invisible absolute left-110 top-110 h-30 w-90 rounded-8 border-2 border-white bg-black text-center text-16 leading-30 group-hover:visible">
                 그룹화제거
               </div>
             </div>
