@@ -60,9 +60,10 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("playing");
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("space");
             ContinueStory();
         }
     }
