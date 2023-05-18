@@ -66,12 +66,19 @@ public class LobbyUIController : MonoBehaviour
 
     public void OpenEmotion()
     {
-        cameraMovement.stop = true;
 
-        if (!emotionVisibility) panelEmotion.SetActive(true);
-        else panelEmotion.SetActive(false);
+        if (!emotionVisibility)
+        {
+            panelEmotion.SetActive(true);
+            cameraMovement.stop = true;
+        }
+        else
+        {
+            cameraMovement.stop = false;
+            panelEmotion.SetActive(false);
+        }
 
-        emotionVisibility = !emotionVisibility;
+            emotionVisibility = !emotionVisibility;
     }
     public void CloseEmotion()
     {
