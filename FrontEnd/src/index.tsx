@@ -4,7 +4,6 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./pages/App";
-import Test2 from "./pages/test/Test2";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store from "./stores/store";
@@ -22,8 +21,8 @@ import AuthLayout from "./components/Layout/AuthLayout";
 import NoneAuthLayout from "./components/Layout/NoneAuthLayout";
 import Notfound from "./pages/Error/Notfound";
 import AdminLayout from "./components/Layout/AdminLayout";
-import Universe from "./pages/test/Universe";
-import Metaverse from "./pages/test/Metaverse";
+import Universe from "./pages/Universe/Universe";
+import Metaverse from "./pages/Metaverse/Metaverse";
 import MainPage from "./pages/MainPage";
 import Certify from "./pages/User/Mypage/Certify";
 import Statistics from "./pages/Statistics/Statistics";
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
       },
       { path: "/mypage", element: <Mypage /> },
       { path: "/certify", element: <Certify /> },
-      { path: "/mycard", element: <Mycard /> }
+      { path: "/mycard", element: <Mycard /> },
     ],
   },
   {
@@ -88,10 +87,6 @@ const router = createBrowserRouter([
       {
         path: "universe",
         element: <Universe />,
-      },
-      {
-        path: "test2",
-        element: <Test2 />,
       },
       {
         path: "metaverse",
