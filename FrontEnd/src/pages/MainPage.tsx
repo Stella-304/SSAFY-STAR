@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPath } from "../stores/page/path";
 import HeaderMenu from "../components/Layout/HeaderMenu";
 import { SERVER_API } from "@/utils/urls";
+import ShootingStar from "@/components/ShootingStar";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -52,6 +53,13 @@ export default function MainPage() {
     <div className="relative h-screen w-full overflow-x-hidden overflow-y-scroll  scrollbar-thin scrollbar-track-black scrollbar-thumb-white">
       <div className="h-full w-full items-center bg-[url('/public/background/main_background.png')] bg-cover bg-local bg-center bg-no-repeat">
         <div className="flex h-screen flex-col items-center justify-around">
+          <ShootingStar pos="0px" delay="0s"/>
+          <ShootingStar pos="-100px" delay="3s"/>
+          <ShootingStar pos="-300px" delay="3s"/>
+          <ShootingStar pos="-600px" delay="3s"/>
+          <ShootingStar pos="500px" delay="5s"/>
+          <ShootingStar pos="750px" delay="2s"/>
+          <ShootingStar pos="900px" delay="0s"/>
           <div>
             <img
               className=" mx-auto mt-10 h-auto max-w-xs select-none font-bold"
