@@ -105,7 +105,7 @@ export default function Metaverse() {
             <div className="flex justify-center gap-32">
               <div
                 className="flex h-500 w-50 cursor-pointer items-center justify-center rounded-10 text-center"
-                onClick={() => setPage((page - 1) % 8)}
+                onClick={() => setPage(page - 1 === -1 ? 7 : page - 1)}
               >
                 <img src="./help/left.png" alt="이전" />
               </div>
@@ -116,7 +116,7 @@ export default function Metaverse() {
                     <div className="text-center text-white">
                       실행이 안되나요?
                       <br />
-                      F12 - network - 캐시 사용 중지 - 다시 메타버스 실행
+                      F12 - network - 캐시 사용 중지 체크 - 새로고침
                     </div>
                   </div>
                 )}
