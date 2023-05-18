@@ -285,7 +285,7 @@ export default function CardSubmit() {
               <Input
                 id="name"
                 type="text"
-                label="이름*"
+                label="이름(실명을 입력해주세요)*"
                 onChange={onName}
                 value={card.name}
                 cardRegist={true}
