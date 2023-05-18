@@ -1,0 +1,49 @@
+Windows10 볼륨에 대한 폴더 경로의 목록입니다.
+볼륨 일련 번호는 DC54-A099입니다.
+C:.
+├─apis
+│  ├─admin
+│  ├─card
+│  ├─comment
+│  ├─company
+│  ├─main
+│  ├─report
+│  ├─star
+│  └─user
+├─assets
+│  ├─fonts
+│  └─icons
+├─components
+│  ├─Admin
+│  ├─Button
+│  ├─Card
+│  ├─Comment
+│  ├─Filter
+│  ├─Ground
+│  ├─GroundObjects
+│  ├─Icon
+│  ├─Input
+│  ├─Layout
+│  ├─Star
+│  └─Verify
+├─constants
+├─enum
+├─features
+├─hooks
+├─pages
+│  ├─Admin
+│  ├─Card
+│  ├─Error
+│  ├─Report
+│  ├─test
+│  │  └─webGLBuild
+│  └─User
+│      └─Mypage
+├─stores
+│  ├─card
+│  ├─page
+│  ├─star
+│  └─user
+├─types
+├─utils
+└─_test

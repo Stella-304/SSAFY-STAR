@@ -1,6 +1,7 @@
 package com.ssafy.star.api.service;
 
 import com.ssafy.star.common.db.dto.response.BadgeListDto;
+import com.ssafy.star.common.db.dto.response.ReportListDto;
 import com.ssafy.star.common.db.entity.AuthStatus;
 import com.ssafy.star.common.db.entity.Report;
 import com.ssafy.star.common.db.entity.User;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,7 +68,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Report> getReportList() {
-		return reportRepository.findAll();
+	public List<ReportListDto> getReportList() {
+
+		List<ReportListDto> reportListDtoList = new ArrayList<>();
+
+		reportRepository.findAll().forEach(report ->
+				reportListDtoList.add(new ReportListDto(report.getArticle(), report.getContent(), report.isResolved())));
+
+		return reportListDtoList;
 	}
 }
