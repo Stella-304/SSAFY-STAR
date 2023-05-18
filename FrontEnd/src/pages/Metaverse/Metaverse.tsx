@@ -15,10 +15,10 @@ export default function Metaverse() {
     removeEventListener,
     sendMessage, //오브젝트, 메소드, 파라메터
   } = useUnityContext({
-    loaderUrl: "Build/WebGLFile.loader.js",
-    dataUrl: "Build/WebGLFile.data",
-    frameworkUrl: "Build/WebGLFile.framework.js",
-    codeUrl: "Build/WebGLFile.wasm",
+    loaderUrl: "Build/WebGL.loader.js",
+    dataUrl: "Build/WebGL.data",
+    frameworkUrl: "Build/WebGL.framework.js",
+    codeUrl: "Build/WebGL.wasm",
   });
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
