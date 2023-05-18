@@ -123,6 +123,16 @@ module.exports = {
             height: "0",
           },
         },
+        shooting:{
+          "0%": {
+            transform: "translateY(-200px) rotate(-90deg)",
+            opacity:1
+          },
+          "100%": {
+            transform: "translateY(600px) rotate(-90deg)",
+            opacity:0
+          },
+        }
       },
       animation: {
         wave: "wave 5s ease-in-out infinite",
@@ -133,6 +143,7 @@ module.exports = {
         dropdownSlideIn: "dropdownSlideIn 1s ease-in-out",
         dropdownSlideOut: "dropdownSlideOut 1s ease-in-out",
         spinOnce: "spin 0.5s ease-in-out",
+        shooting: "shooting 2s linear infinite"
       },
     },
   },
