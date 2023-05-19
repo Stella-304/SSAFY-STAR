@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NPC
+  - goMuseum
+  - backMuseum
+  - Ground
+  - GameManager
+  - Block
+  - GreenOrb
+  - Ball
+  - goCloth
+  - backCloth
   layers:
   - Default
   - TransparentFX
@@ -11,11 +21,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - MainCamera
+  - MinimapCamera
+  - MapCamera
+  - Block
+  - Wall
   - 
   - 
   - 

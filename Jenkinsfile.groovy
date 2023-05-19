@@ -26,17 +26,17 @@ pipeline {
       }
     }
 
-    stage('Remove Volume') {
-      steps {
-        sh 'docker volume ssafy-star-volume -q | xargs --no-run-if-empty -r docker volume rm'
-      }
-    }
-
-    stage('Create Volume') {
-      steps {
-        sh 'docker volume create --name ssafy-star-volume -d local --opt type=none --opt device=/usr/share/nginx/html --opt o=bind'
-      }
-    }
+//    stage('Remove Volume') {
+//      steps {
+//        sh 'docker volume ssafy-star-volume -q | xargs --no-run-if-empty -r docker volume rm'
+//      }
+//    }
+//
+//    stage('Create Volume') {
+//      steps {
+//        sh 'docker volume create --name ssafy-star-volume -d local --opt type=none --opt device=/usr/share/nginx/html --opt o=bind'
+//      }
+//    }
 
     stage('Build Springboot Image') {
       steps {
@@ -63,8 +63,8 @@ pipeline {
     stage('Run Containers') {
       steps {
         script {
-          docker.image('springboot-image-master').run("-d --network ssafystar-network-master --name springboot -p 8081:8081")
-          docker.image('react-image-master').run("-d --network ssafystar-network --name react -p 3001:3001")
+          docker.image('springboot-image').run("--name springboot -p 8080:8080")
+          docker.image('react-image').run("--name react -p 3000:80")
         }
       }
     }

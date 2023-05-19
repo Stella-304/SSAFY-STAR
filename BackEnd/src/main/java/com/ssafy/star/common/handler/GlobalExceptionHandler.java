@@ -24,12 +24,13 @@ public class GlobalExceptionHandler extends ResponseStatusExceptionHandler {
         return handleExceptionInternal(e.getErrorCode());
     }
 
+    // 이 아래로는 controller단 exception이 아니므로 적용 안될 듯..
     @ExceptionHandler(CustomAuthException.class)
     public ResponseEntity<Object> handleCustomAuthException(CustomAuthException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
-    @ExceptionHandler(CustomOAuth2Exception.class)
+    @ExceptionHandler(value = CustomOAuth2Exception.class)
     public ResponseEntity<Object> handleCustomOAuth2Exception(CustomOAuth2Exception e) {
         return handleExceptionInternal(e.getErrorCode());
     }

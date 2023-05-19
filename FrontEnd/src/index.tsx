@@ -4,7 +4,6 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./pages/App";
-import Test2 from "./pages/test/Test2";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store from "./stores/store";
@@ -22,11 +21,20 @@ import AuthLayout from "./components/Layout/AuthLayout";
 import NoneAuthLayout from "./components/Layout/NoneAuthLayout";
 import Notfound from "./pages/Error/Notfound";
 import AdminLayout from "./components/Layout/AdminLayout";
-import Universe from "./pages/test/Universe";
-import Metaverse from "./pages/test/Metaverse";
+import Universe from "./pages/Universe/Universe";
+import Metaverse from "./pages/Metaverse/Metaverse";
 import MainPage from "./pages/MainPage";
+import Certify from "./pages/User/Mypage/Certify";
+import Statistics from "./pages/Statistics/Statistics";
+import Mycard from "./pages/User/Mypage/Mycard";
 const container = document.getElementById("root") as HTMLElement;
 const queryClient = new QueryClient();
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+  const Kakao: any;
+}
 const router = createBrowserRouter([
   {
     // 로그인시만 이용가능
@@ -37,6 +45,8 @@ const router = createBrowserRouter([
         element: <CardSubmit />,
       },
       { path: "/mypage", element: <Mypage /> },
+      { path: "/certify", element: <Certify /> },
+      { path: "/mycard", element: <Mycard /> },
     ],
   },
   {
@@ -79,17 +89,16 @@ const router = createBrowserRouter([
         element: <Universe />,
       },
       {
-        path: "test2",
-        element: <Test2 />,
-      },
-      {
         path: "metaverse",
         element: <Metaverse />,
+      },
+      {
+        path: "statistics",
+        element: <Statistics />,
       },
     ],
   },
   { path: "*", element: <Notfound /> },
-  // 테스트 페이지
 ]);
 createRoot(container).render(
   <QueryClientProvider client={queryClient}>

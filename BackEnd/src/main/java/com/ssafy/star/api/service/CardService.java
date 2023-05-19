@@ -16,17 +16,16 @@ public interface CardService {
 
 	List<String> searchCompany(String query);
 
-	ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
-	ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3);
+	// ConstellationListDto getCardList(SearchConditionReqDto searchConditionReqDto);
+	// ConstellationListDto getCardListV1(String searchColumn, String searchValue, String searchValue2, String searchValue3);
+    ConstellationListDto getCardList();
     ConstellationListDto getCardListV2(SearchConditionReqDto searchConditionReqDto);
 
 	void registCard(CardRegistReqDto cardRegistReqDto);
 
 	void updateCard(CardUpdateReqDto cardUpdateReqDto) throws Exception;
 
-	void deleteCard(Long cardId);
-
     CardDetailDto getMyCard();
 
-	void deleteMyCard();
+
 }

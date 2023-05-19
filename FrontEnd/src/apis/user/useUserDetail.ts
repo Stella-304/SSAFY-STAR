@@ -2,8 +2,9 @@ import { useQuery } from "react-query";
 import { USER_DETAIL_URL } from "../../utils/urls";
 import { api } from "../api";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../stores/user/user";
+import { logout, setUser } from "../../stores/user/user";
 import { useNavigate } from "react-router-dom";
+import { isExpire } from "../error/isExpire";
 
 const fetcher = () =>
   api
@@ -24,21 +25,28 @@ const useUserDetail = () => {
     retry: 0,
     enabled: false,
     onSuccess: (data) => {
-      // alert(data.value.email);
       dispatch(
         setUser({
-          email: data.value.email,
-          name: data.value.name,
-          nickname: data.value.nickname,
+          email: data.value.email ? data.value.email : "",
+          name: data.value.name ? data.value.name : "",
+          nickname: data.value.nickname ? data.value.nickname : "",
           cardRegistered: data.value.cardRegistered,
         }),
       );
-      navigate("/"); //메인으로 이동
+      if (!data.value.cardRegistered) {
+        navigate("/cardsubmit/submit");
+      } else {
+        navigate("/"); //메인으로 이동
+      }
     },
-    onError: () => {
-      // alert("뭐지");
-      // alert("토큰이 확인이 안됩니다.");
-      navigate("/login");
+    onError: (e: any) => {
+      if (isExpire(e.response.status)) {
+        alert("다시 로그인 해주세요");
+        dispatch(logout());
+        navigate("/");
+        return;
+      }
+      alert("잠시후 다시 시도해 주세요.");
     },
   });
 };

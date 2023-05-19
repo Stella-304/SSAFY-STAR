@@ -1,20 +1,19 @@
-FROM node:18.12.1-alpine
+FROM node:18.12.1-alpine AS build
 
-WORKDIR /app_f
+WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
-RUN npm install --force
+RUN npm install
 
-# node_modules 폴더 삭제 (선택 사항, 이미 위에서 강제로 설치했기 때문에 필요하지 않을 수 있음)
-# RUN rm -rf node_modules
-
-COPY . .
-
-ENV NODE_ENV=production
+COPY . .                                                                                                                                                                                                                                                     
 
 RUN npm run build
 
-EXPOSE 3000
+FROM nginx
 
-ENTRYPOINT ["npm", "run", "start"]
+COPY --from=build /app/build /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/

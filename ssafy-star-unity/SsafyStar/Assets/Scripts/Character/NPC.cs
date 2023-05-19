@@ -5,10 +5,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class NPC : MonoBehaviour
 {
     [Header("Move")]
+    public bool isMovingNPC = true;
     public float moveSpeed = 5f;
     public float rotationSpeed = 5f;
     public Vector3 startPosition = Vector3.zero;
@@ -18,30 +20,44 @@ public class NPC : MonoBehaviour
     private bool isMoving = false;
 
     [Header("Chat")]
+    [SerializeField]
     private GameObject chatUI;
     public bool doChat = false;
     public GameObject player;
+    [SerializeField]
+    private GameObject helperUI;
+    [SerializeField]
+    private TMP_Text texthelper;
+
+    [Header("Ink Json")]
+    [SerializeField]
+    private TextAsset inkJSON;
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        if (isMovingNPC) navMeshAgent = GetComponent<NavMeshAgent>();
         targetPosition = GetRandomPosition();
-        chatUI = GameObject.Find("Canvas").transform.Find("NPCChat").gameObject;
     }
 
     private void Update()
     {
-        if(doChat)
+        if (doChat)
         {
-            Debug.Log("chat......!");
-            GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false ;
+            GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = false;
             chatUI.SetActive(true);
+            DialogueManager.GetInstance().NPC = gameObject;
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
 
-            transform.LookAt(player.transform);
-            navMeshAgent.isStopped = true;
+            if (isMovingNPC)
+            {
+                transform.LookAt(player.transform);
+                navMeshAgent.isStopped = true;
+            }
             doChat = false;
             return;
         }
+
+        if (!isMovingNPC) return;
 
         if (!isMoving)
         {
@@ -75,8 +91,9 @@ public class NPC : MonoBehaviour
         chatUI.SetActive(false);
         GameObject.Find("UIMenu").GetComponent<UIDocument>().rootVisualElement.visible = true;
 
-        navMeshAgent.isStopped = false;
-        player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
+        if (isMovingNPC) navMeshAgent.isStopped = false;
+        Camera.main.GetComponent<CameraMovement>().ResetCamera();
+        if (player) player.GetComponent<CameraControl>().SetMainCameraPriorityHigh();
         StartCoroutine(ResetPlayer());
 
         doChat = false;
@@ -86,5 +103,28 @@ public class NPC : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         player.GetComponent<PlayerMovement>().stop = false;
+        player.GetComponent<PlayerMovement>().isChatting = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            helperUI.SetActive(true);
+            texthelper.text = "SPACE";
+        }
+        else if (other.gameObject.tag.Equals("NPC"))
+        {
+            helperUI.SetActive(true);
+            texthelper.text = "æ»≥Á«œººø‰";
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            helperUI.SetActive(false);
+        }
     }
 }

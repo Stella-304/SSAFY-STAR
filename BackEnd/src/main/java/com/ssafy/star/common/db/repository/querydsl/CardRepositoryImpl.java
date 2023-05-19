@@ -35,8 +35,10 @@ public class CardRepositoryImpl implements CardRepositoryCustom {
 	}
 
 	private BooleanExpression searchCondition(SearchConditionReqDto searchConditionReqDto) {
-
 		BooleanExpression predicate = Expressions.asBoolean(true).isTrue();
+		//인증된 사람만 받게 ( 추가 요청 )
+//		predicate=predicate.and(card.user.isAuthorized.isTrue());
+		//필터
 		for (String searchColumn : searchConditionReqDto.getlists().keySet()) {
 			List<String> list = searchConditionReqDto.getlists().get(searchColumn);
 			if (list != null && !list.isEmpty()) {
@@ -49,7 +51,9 @@ public class CardRepositoryImpl implements CardRepositoryCustom {
 				} else if (searchColumn.equals("company")) {
 					predicate = predicate.and(card.company.in(list));
 				} else if (searchColumn.equals("bojTier")) {
-					predicate = predicate.and(card.bojTier.in(list));
+					for(String tier : list){
+						predicate = predicate.and(card.bojTier.contains(tier));
+					}
 				} else if (searchColumn.equals("track")) {
 					predicate = predicate.and(card.track.in(list));
 				} else if (searchColumn.equals("major")) {

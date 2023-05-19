@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long>, CardRepositoryCustom {
 
+//    @Query("select cd From Card cd join fetch cd.user where cd.user.isAuthorized=true")
     @Query("select cd From Card cd join fetch cd.user")
     List<Card> getAllCardListWithUser();
 
@@ -34,5 +35,4 @@ public interface CardRepository extends JpaRepository<Card, Long>, CardRepositor
     List<Card> getAllFilteredByCampus(@Param("gen")String gen,@Param("cam")String cam);
     @Query("select cd From Card cd join fetch cd.user where cd.generation = :gen and cd.campus = :cam and cd.ban = :ban")
     List<Card> getAllFilteredByBan(@Param("gen")String gen,@Param("cam")String cam,@Param("ban")String ban);
-
 }

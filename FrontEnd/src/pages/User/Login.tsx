@@ -1,17 +1,17 @@
-import BigButton from "../../components/Button/BigButton";
 import LinkButton from "../../components/Button/LinkButton";
 import MidButton from "../../components/Button/MidButton";
 import Input from "../../components/Input/Input";
-import EarthLayout from "../../components/Layout/EarthLayout";
+import FormLayout from "../../components/Layout/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { setLoginid, setPassword, resetLogin } from "../../stores/user/login";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import goOauth from "../../apis/user/oAuth";
-import { loginidReg } from "../../utils/regex";
+import { emailReg } from "../../utils/regex";
 import { LoginType } from "../../types/LoginType";
 import useLogin from "../../apis/user/useLogin";
+import { setPath } from "../../stores/page/path";
 
 export default function Login() {
   const { loginid, password } = useSelector((state: RootState) => state.login);
@@ -19,13 +19,22 @@ export default function Login() {
   const [passwordWarning, setPasswordWarning] = useState("");
   const loginMutate = useLogin();
   useEffect(() => {
-    dispatch(resetLogin());
+    dispatch(resetLogin()); //로그인 했던 정보 리셋
+    dispatch(setPath("login")); //현 위치 표시
+    return () => {
+      dispatch(setPath("")); //나갈땐 리셋
+    };
   }, []);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   function onLoginid(input: string) {
+    if (!input.match(emailReg)) {
+      setIdWarning("이메일 형식을 맞춰주세요");
+    } else {
+      setIdWarning("");
+    }
     dispatch(setLoginid(input));
   }
   function onPassword(input: string) {
@@ -35,12 +44,12 @@ export default function Login() {
   function submit() {
     // 로그인 진행
     if (loginid === "") {
-      setIdWarning("아이디를 입력해주세요");
+      setIdWarning("이메일을 입력해주세요");
       return;
     } else {
       //아이디 확인
-      if (!loginid.match(loginidReg)) {
-        setIdWarning("아이디 형식을 맞춰주세요");
+      if (!loginid.match(emailReg)) {
+        setIdWarning("이메일 형식을 맞춰주세요");
         return;
       }
       setIdWarning("");
@@ -54,7 +63,7 @@ export default function Login() {
     }
 
     const payload: LoginType = {
-      accountId: loginid,
+      email: loginid,
       accountPwd: password,
     };
     loginMutate.mutate(payload);
@@ -65,83 +74,72 @@ export default function Login() {
     }
   };
   return (
-    <EarthLayout>
+    <FormLayout>
       <div
-        className="flex h-full flex-col justify-around"
+        className="flex h-full flex-col items-center gap-24"
         onKeyDown={handleOnKeyPress}
       >
         <div>
-          <span className="mb-14 block text-4xl font-bold">LOG-IN</span>
-          <span className="block text-sm font-bold">
-            SSAFY STAR를 사용하기 위해 로그인 해 주세요👀
+          <span className="mb-20 mt-60 block font-neob text-4xl font-bold text-white">
+            로그인
           </span>
         </div>
-        <div className=" block font-bold">
+        <div className="block w-4/5 font-bold">
           <Input
             id="loginId"
             type="textfield"
-            label="아이디"
             onChange={onLoginid}
             value={loginid}
-            warning={idWarning}
+            placeholder="이메일"
           />
           <Input
             id="password"
             type="password"
-            label="비밀번호"
             onChange={onPassword}
             value={password}
-            warning={passwordWarning}
+            // warning={passwordWarning}
+            placeholder="비밀번호"
           />
-
-          <div className="flex flex-col py-10 text-right">
-            <LinkButton onClick={() => navigate("/idpwfind")}>
-              로그인이 안 되시나요?
-            </LinkButton>
-          </div>
-          <div className="mt-30 flex h-48 justify-center font-bold">
-            <MidButton value="로그인" onClick={submit} />
-          </div>
         </div>
-
-        <div className="flex flex-col gap-4">
-          {/* oauth */}
-          {/* <div className="flex justify-center gap-16"> */}
-          {/* <MidButton value="구글 로그인" onClick={() => goOauth("google")} /> */}
-          {/* <MidButton value="네이버 로그인" onClick={() => goOauth("naver")} /> */}
-          {/* <MidButton value="kakao 로그인" onClick={() => goOauth("kakao")} /> */}
-
-          <div className="flex flex-col items-center">
-            {/*
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-row items-center gap-24">
             <button
               className="flex justify-center"
               onClick={() => goOauth("google")}
             >
               <img
-                className="h-48"
-                src="./background/login_google.png"
+                className="h-60"
+                src="./background/login_google_2.png"
                 alt="google 로그인"
               />
             </button>
-             <button
+            <button
               className="flex justify-center"
               onClick={() => goOauth("kakao")}
             >
               <img
-                className="h-48"
-                src="./background/login_kakao.png"
+                className="h-60"
+                src="./background/login_kakao_2.png"
                 alt="kakao 로그인"
               />
-            </button> */}
+            </button>
           </div>
-          {/* </div> */}
-          <div className="mb-14 py-10 text-right font-bold">
+          <button className="mt-48 flex justify-center" onClick={submit}>
+            <img className="h-120" src="./background/next.png" alt="로그인" />
+          </button>
+
+          <div className="flex flex-col py-5 font-neob font-bold">
+            <LinkButton onClick={() => navigate("/idpwfind")}>
+              로그인이 안 되시나요?
+            </LinkButton>
+          </div>
+          <div className="mb-14 py-10 font-neob font-bold">
             <LinkButton onClick={() => navigate("/signup")}>
               계정 생성하기
             </LinkButton>
           </div>
         </div>
       </div>
-    </EarthLayout>
+    </FormLayout>
   );
 }

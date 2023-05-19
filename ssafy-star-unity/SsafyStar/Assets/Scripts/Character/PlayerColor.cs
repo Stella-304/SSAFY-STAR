@@ -17,24 +17,14 @@ public class PlayerColor : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("e");
             _cPressed = true;
         }
     }
 
     void FixedUpdate()
     {
-
-        //Debug.Log("---");
-        //if (HasStateAuthority == false)
-        //{
-        //    Debug.Log("false");
-        //    return;
-        //}
-
         if (_cPressed)
         {
-            Debug.Log("change color");
             NetworkedColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
             _cPressed = !_cPressed;
         }

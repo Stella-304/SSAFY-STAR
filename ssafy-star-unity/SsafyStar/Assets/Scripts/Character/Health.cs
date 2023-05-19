@@ -12,13 +12,13 @@ public class Health : NetworkBehaviour
     public void DealDamageRpc(float damage)
     {
         // The code inside here will run on the client which owns this object (has state and input authority).
-        Debug.Log("Received DealDamageRpc on StateAuthority, modifying Networked variable");
+        //Debug.Log("Received DealDamageRpc on StateAuthority, modifying Networked variable");
         NetworkedHealth -= damage;
     }
 
     private static void NetworkedHealthChanged(Changed<Health> changed)
     {
         // Here you would add code to update the player's healthbar.
-        Debug.Log($"Health changed to: {changed.Behaviour.NetworkedHealth}");
+        //Debug.Log($"Health changed to: {changed.Behaviour.NetworkedHealth}");
     }
 }

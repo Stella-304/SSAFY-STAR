@@ -1,10 +1,13 @@
+import companyIcon from "@/assets/icons/company.png";
+import verifyIcon from "@/assets/icons/verified.png";
+
 export default function Verify() {
   return (
-    <div className="relative flex h-90 w-90 items-center justify-center">
-      <img src="/icons/ssafy-logo.png" className="h-60 w-60 rounded-50" />
+    <div className="relative flex h-70 w-70 items-center justify-center">
+      <img src={companyIcon} className="h-70 w-70 rounded-50 " />
       <img
-        src="/icons/verified.png"
-        className="absolute right-7 top-10 h-25 w-25 rounded-50 bg-white"
+        src={verifyIcon}
+        className="absolute right-0 top-5 h-20 w-20 rounded-50 bg-black"
       />
     </div>
   );

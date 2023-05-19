@@ -1,4 +1,4 @@
-const SERVER_API = "https://ssafy-star.com";
+export const SERVER_API = "https://ssafy-star.com";
 
 //로그인
 export const LOGIN_URL = SERVER_API + "/app/user/login";
@@ -39,7 +39,7 @@ export const USER_URL = SERVER_API + "/app/user";
 //비밀번호 수정
 export const USER_PWD_MODY_URL = SERVER_API + "/app/user/pwd";
 //유저의 권한조회
-export const ROLE_URL = SERVER_API+"/app/user/role";
+export const ROLE_URL = SERVER_API + "/app/user/role";
 
 //------------------카드
 //카드 등록, 수정
@@ -56,15 +56,34 @@ export const STAR_INFO_URL = SERVER_API + "/app/card/list";
 
 // 별(유저)정보 필터링 확인
 export const STAR_FILTER_INFO_URL = SERVER_API + "/app/card/list-v1";
+export const STAR_FILTER_INFO_URL2 = SERVER_API + "/app/card/list-v2";
 
 //---------------메인 메이지
 // 유저 숫자 조회
 export const MAIN_USERNUM_URL = SERVER_API + "/app/number/landing";
 
-
-
 //--- 관리자
-export const ADMIN_ALL = SERVER_API+"/app/admin/badge/list/all";
-export const ADMIN_YET = SERVER_API+"/app/admin/badge/list/yet";
+export const ADMIN_ALL = SERVER_API + "/app/admin/badge/list/all";
+export const ADMIN_YET = SERVER_API + "/app/admin/badge/list/yet";
 //관리자 승인
-export const ADMIN_ACCEPT = SERVER_API+"/app/admin/badge"
+export const ADMIN_ACCEPT = SERVER_API + "/app/admin/badge";
+//관리자 신고 내역
+export const ADMIN_REPORT = SERVER_API + "/app/admin/report/all";
+
+// 카드 코멘트 API
+export const COMMENT_URL = SERVER_API + "/app/comment";
+
+// 카드 코멘트 답글 API
+export const REPLY_URL = SERVER_API + "/app/comment/reply";
+
+//신고
+export const REPORT_URL = SERVER_API + "/app/report";
+
+//차트
+export const CHART_URL = SERVER_API + "/app/chart";
+
+//명언
+export const SAYING_URL = SERVER_API + "/app/chart/saying";
+
+//CS
+export const CS_URL = SERVER_API + "/app/chart/cs";

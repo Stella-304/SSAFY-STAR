@@ -4,10 +4,12 @@ import com.ssafy.star.common.db.entity.Card;
 import com.ssafy.star.common.db.entity.Coordinate;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 
 @Getter
+@ToString
 public class CardDetailDto {
 
 	long cardId;
@@ -36,7 +38,7 @@ public class CardDetailDto {
 	boolean isMine;
 
 	public CardDetailDto(Card card, double x, double y, double z, boolean isMine) {
-		System.out.println(card.getUser());
+		// System.out.println(card.getUser());
 		this.cardId = card.getId();
 		this.x = x;
 		this.y = y;

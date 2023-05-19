@@ -8,7 +8,7 @@ import { api } from "../api";
 const fetcher = (payload: LoginType) =>
   api
     .post(LOGIN_URL, {
-      accountId: payload.accountId,
+      email: payload.email,
       accountPwd: payload.accountPwd,
     })
     .then(({ data }) => data);

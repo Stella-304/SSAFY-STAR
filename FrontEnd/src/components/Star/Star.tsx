@@ -1,8 +1,7 @@
 import * as THREE from "three";
-import { Html, Sphere, Text } from "@react-three/drei";
+import { Html, Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
 import { useDispatch } from "react-redux";
 import { setStarInfoPreview } from "../../stores/star/starInfo";
 
@@ -16,55 +15,50 @@ export default function Star(props: any) {
     let c: THREE.ColorRepresentation = "white";
     if (starRef.current) {
       if (props.item.mine) {
-        c = "red";
+        c = "rgb(0,143,255,1)";
+        starRef.current.scale.x = 0.9;
+        starRef.current.scale.y = 0.9;
+        starRef.current.scale.z = 0.9;
       } else if (hovered) {
         c = "yellow";
+      } else if (props.selectedStars.includes(props.item.cardId)) {
+        c = "yellow";
       }
-      starRef.current.material.color.lerp(color.set(c), 0.1);
+      starRef.current.material.color.lerp(color.set(c), 0.5);
+      if (hovered) {
+        starRef.current.scale.x = 1.2;
+        starRef.current.scale.y = 1.2;
+        starRef.current.scale.z = 1.2;
+        dispatch(setStarInfoPreview(props.item));
+      } else {
+        if (props.item.mine) {
+          starRef.current.scale.x = 0.9;
+          starRef.current.scale.y = 0.9;
+          starRef.current.scale.z = 0.9;
+        } else {
+          if (props.selectedStars.includes(props.item.cardId)) {
+            starRef.current.scale.x = 0.9;
+            starRef.current.scale.y = 0.9;
+            starRef.current.scale.z = 0.9;
+          } else {
+            starRef.current.scale.x = 0.5;
+            starRef.current.scale.y = 0.5;
+            starRef.current.scale.z = 0.5;
+          }
+        }
+
+        dispatch(setStarInfoPreview(null));
+      }
     }
   });
 
-  let tl = gsap.timeline();
-
   useLayoutEffect(() => {
-    if (
-      props.starPos &&
-      props.starPos.x === starRef.current.position.x &&
-      props.starPos.y === starRef.current.position.y &&
-      props.starPos.z === starRef.current.position.z
-    ) {
-      let ctx = gsap.context(() => {
-        tl.to(starRef.current.scale, {
-          x: 2,
-          y: 2,
-          z: 2,
-          duration: 1,
-          ease: "elastic",
-        }).then(() => {
-          props.setEndAnim(true);
-        });
-      }, starRef);
+    props.setEndAnim(true);
 
-      return () => {
-        ctx.revert();
-        props.setEndAnim(false);
-      };
-    }
+    return () => {
+      props.setEndAnim(false);
+    };
   }, [props.starPos]);
-
-  useLayoutEffect(() => {
-    if (hovered) {
-      starRef.current.scale.x = 1.2;
-      starRef.current.scale.y = 1.2;
-      starRef.current.scale.z = 1.2;
-      dispatch(setStarInfoPreview(props.item));
-    } else {
-      starRef.current.scale.x = 0.5;
-      starRef.current.scale.y = 0.5;
-      starRef.current.scale.z = 0.5;
-      dispatch(setStarInfoPreview(null));
-    }
-  }, [hovered]);
 
   return (
     <>
@@ -74,7 +68,7 @@ export default function Star(props: any) {
           props.onClick();
         }}
         key={props.item.cardId}
-        scale={2}
+        scale={2.5}
         onPointerOver={() => {
           setHovered(true);
         }}
@@ -89,7 +83,7 @@ export default function Star(props: any) {
       />
       {hovered && (
         <Html position={[props.item.x * 2, props.item.y * 2, props.item.z * 2]}>
-          <div className="h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
+          <div className="ml-8 mt-8 h-30 w-100 border-[0.5px] border-white bg-black text-center leading-30 text-white">
             {props.item.generation}기 {props.item.name}
           </div>
         </Html>

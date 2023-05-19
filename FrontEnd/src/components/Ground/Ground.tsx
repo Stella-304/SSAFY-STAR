@@ -26,7 +26,7 @@ export default function Ground() {
         scale={0.1}
         fbx={"/obj/tree/Tree1.2.fbx"}
       />
-      <Tree2 x={0} y={-10} z={90} scale={0.1} fbx={"/obj/tree/Tree1.1.fbx"} />{" "}
+      <Tree2 x={0} y={-10} z={90} scale={0.1} fbx={"/obj/tree/Tree1.1.fbx"} />
       <Tree2
         x={-150}
         y={-10}
