@@ -89,6 +89,8 @@ public class PlayerMovement : NetworkBehaviour
             museumPos = GameObject.Find("MuseumPos").transform;
             clothPos = GameObject.Find("ClothPos").transform;
             respawnPosCloth = GameObject.Find("SpawnPosCloth").transform;
+
+            GetComponent<ChangeCharacter>().RPCDoChange(Random.Range(1,22));
         }
         else
         {
