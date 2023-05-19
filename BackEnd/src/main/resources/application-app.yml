@@ -35,7 +35,7 @@ oauth2:
     secret: qCnTdYbzL1wUMfCXHC7vU4CHoutFoPKH
 
 cors:
-  allowedOrigins: https://localhost:3000, http://ssafy-star.com:3000, https://ssafy-star.com
+  allowedOrigins: https://localhost:3001, http://ssafy-star.com:3001, https://ssafy-star.com
 
 cloud:
   aws:

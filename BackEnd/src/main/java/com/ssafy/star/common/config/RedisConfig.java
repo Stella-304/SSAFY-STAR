@@ -26,6 +26,7 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);
         redisStandaloneConfiguration.setPassword(pwd);
+        redisStandaloneConfiguration.setDatabase(1); // DB 인덱스 설정
 
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
