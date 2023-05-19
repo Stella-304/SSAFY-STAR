@@ -1,12 +1,12 @@
-# 리드미
+# 🌷 SSAFY-STAR - ssafy 인포메이션 & 커뮤니케이션 사이트
 
-# 🌷 SSAFY-STAR - SSAFY 인포메이션/커뮤니케이션 사이트
+![image](https://github.com/deokisys/deokisys/assets/24247768/69102f47-a4fc-49d3-be5b-8f987728f9e0)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled.png)
+
 
 ## SSAFY-STAR 링크 : [https://ssafy-star.com](https://ssafy-star.com/)
 
-## UCC 보기 : [보러가기](https://youtu.be/Hu_f3-gY1qQ)
+## 소개 영상 보기 : [UCC](https://youtu.be/Hu_f3-gY1qQ)
 
 ## 💜 프로젝트 진행 기간
 
@@ -221,15 +221,20 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 └─test
 ```
 
-## ✔ 팀원 역할 분배 (수정 중)
+## ✔ 팀원 역할 분배
 
 ---
+|박일규|서준배|이경택|이상학|장재욱|홍정원|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|![Image Pasted at 2023-4-20 12-45](https://github.com/deokisys/deokisys/assets/24247768/13486012-66fc-4110-965f-fe1730b7b7e6)|![Image Pasted at 2023-4-20 12-41](https://github.com/deokisys/deokisys/assets/24247768/b3f0c33a-5296-4791-a7ec-6b449fc7e69f)|![KakaoTalk_20230303_133606430-modified](https://github.com/deokisys/deokisys/assets/24247768/751d9b45-1e2b-48e2-950a-7efa09ff19e4)|![3543](https://github.com/deokisys/deokisys/assets/24247768/681f9eb5-3f15-43f2-9aff-c688e6e00fac)|![Ellipse 35](https://user-images.githubusercontent.com/109879750/219442849-9bc4bcb1-5572-434f-be29-051d4cfd875f.png)|![KakaoTalk_20230420_124517665](https://github.com/deokisys/deokisys/assets/24247768/1a35f68c-5064-4f08-a95b-1b74ee1f501d)|
+|<p>팀장</p>백엔드<br> 별자리 알고리즘 |프론트 <br> 메인 플로우 개발| 프론트<br> Three.js <br> 3D 별자리 렌더링 <br> FE 아키텍처  | 인프라 구축 <br> 로그인 및 보안 | 백엔드 <br> 별자리 알고리즘 | 유니티 <br> 메타버스 개발|
+| |[:house: 블로그](https://deokisys.github.io/)<br>[:star: github](https://github.com/deokisys) || 
 
-## ✔ 프로젝트 산출물 (수정 중)
 
----
+## ✔ 프로젝트 결과물 
 
-## ✔ 프로젝트 결과물 (수정 중)
+- [중간발표 PPT](https://www.canva.com/design/DAFgheS11Ds/rX5Ns0z0wEn9wt50fHvM6Q/view?utm_content=DAFgheS11Ds&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
+- [최종발표 PPT](https://www.canva.com/design/DAFjJ2J02a0/sZv3ozkGLrLda7-9YdirJA/view?utm_content=DAFjJ2J02a0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
 
 ## 🎵 ssafy-star 서비스 화면
 
@@ -242,78 +247,90 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 - “별 보러가기” 선택 시 로그인 페이지로 이동합니다.
 - 이 외의 서비는 로그인 없이 사용 가능합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%201.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/6ee5c434-40ec-49f1-819c-431bd3164dc9)
+
+
 
 ### 로그인 페이지
 
 - 일반 로그인과 소셜 로그인이 제공됩니다.
 - 일반 로그인 시 간단한 이메일 인증절차가 필요하며, 비밀번호 재설정 및 발급 기능이 포함됩니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%202.png)
+![로그인](https://hackmd.io/_uploads/ByniPB4H2.png)
+
 
 ### 등록/수정 페이지
 
 - 일반 로그인과 소셜 로그인이 제공됩니다.
 - 일반 로그인 시 간단한 이메일 인증절차가 필요하며, 비밀번호 재설정 및 발급 기능이 포함됩니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%203.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/61719c84-3cf7-4fe7-80ec-35b8d8df51d7)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%204.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/4099639d-80c2-4a05-a245-464947961c7c)
+
 
 ### 유니버스 페이지 - 기본
 
 - 전체 별/별자리가 표시됩니다.
 - 나의 별이 존재한다면, 파란색으로 표시됩니다.
 
-![KakaoTalk_20230504_005443485.gif](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/KakaoTalk_20230504_005443485.gif)
+![image](https://github.com/deokisys/deokisys/assets/24247768/b82c6225-1259-4067-93b2-b985df1cf670)
+
 
 ### 유니버스 페이지 - 별 클릭 이후
 
 - 앞면에는 한마디와 간략한 정보, 뒷면에는 상세 정보가 표시됩니다.
 - 간단한 코멘트를 달 수 있습니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%205.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/092fb3ef-f808-4b4f-808a-1ba13e678d56)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%206.png)
+
+![image](https://github.com/deokisys/deokisys/assets/24247768/72798629-de04-4f51-8033-5119eabe110e)
+
 
 ### 유니버스 페이지 - 필터링
 
 - 필터링 결과에 해당하는 결과만 반환합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%207.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/7fc25501-e555-42de-9df6-3ba6739cf644)
+
 
 ### 유니버스 페이지 - 그룹화
 
 - 그룹화 조건과 필터링 조건을 결합하여 시각화 합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%208.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/99ffc54f-696e-4ca0-8195-778bcf43a5ce)
 
 ### 유니버스 페이지 - 카드보기
 
 - 시각화 이외 정보보기의 편의성을 위해 리스트로 보기를 제공합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%209.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/6c3264f6-29de-405d-b4ce-009724e0dcdb)
+
 
 ### 싸피통계 페이지
 
 - 각 키워드 별 통계를 원 그래프로 제공합니다.
 - 간단한 개발자 명언과 cs퀴즈를 제공합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2010.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/2c3cb037-6c0b-4334-8c3d-519eedeca41f)
+
 
 ### 신고하기
 
 - 부적절한 카드 내용 / 부정적인 언행 / 기타 항목에 대한 신고 기능을 제공합니다.
 - 신고 내용은 개발자만 접근 가능한 어드민 페이지에서 조회 가능합니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2011.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/7c66c4ec-fccb-48c5-992e-f213609e3e26)
+
 
 ### 인증 페이지
 
 - 카드의 신빙성을 더하기 위해, 간단한 이미지로 인증할 수 있습니다.
 - 검토 후, 인증된 사용자의 카드에는 인증 뱃지가 제공됩니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2012.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/ae7ea799-5fd3-491a-9b73-90cf2b3338d6)
+
 
 ### 메타버스 - 접속 페이지
 
@@ -321,32 +338,39 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 - 비 로그인 플레이 시, 닉네임을 설정 후 입장합니다.
 - 닉네임은 중복될 수 없습니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2013.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/fb998286-309d-4c6e-9420-9551ad47fe1a)
+
 
 ### 메타버스 - 접속 이후
 
 - 날짜/미니맵/캐릭터변경/시점변경/채팅 등이 제공됩니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2014.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/86109128-80b6-4371-ab38-b71e2f3e9606)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2015.png)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2016.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/f0860b1b-8fd0-4532-8aff-22dbe5f75c54)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2017.png)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2018.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/8b0e0c8f-f2f1-491b-858e-f811ced66579)
+
+
+![image](https://github.com/deokisys/deokisys/assets/24247768/aa19b869-ce40-454f-bf81-7be68c3cb1f5)
+
+
+![image](https://github.com/deokisys/deokisys/assets/24247768/411c9bd1-2073-4004-a9b6-6dff084bd186)
 
 ### 메타버스 - NPC
 
 - 실제 SSAFY 관계자가 NPC화 되어, 개발자 선배로써의 조언을 받아 볼 수 있습니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2019.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/3cdc4ba0-8f4a-48d6-bfab-d7e2087df0bc)
+
 
 ### 메타버스 - 프로젝트 홍보관
 
 - 자신의 프로젝트를 홍보할 수 있습니다.
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2020.png)
+![image](https://github.com/deokisys/deokisys/assets/24247768/6cedac75-6549-4812-b610-7a365fa6d215)
 
-![Untitled](exec/%E1%84%85%E1%85%B5%E1%84%83%E1%85%B3%E1%84%86%E1%85%B5%20b92f805e977245b08083bc3766baaa3d/Untitled%2021.png)
+
+![image](https://github.com/deokisys/deokisys/assets/24247768/16e08ab0-b34b-4002-8226-03361cb38e80)
