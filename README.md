@@ -1,4 +1,4 @@
-# 🌷 SSAFY-STAR - ssafy 인포메이션 & 커뮤니케이션 사이트
+# ⭐ SSAFY-STAR - ssafy 인포메이션 & 커뮤니케이션 사이트
 
 ![image](https://github.com/deokisys/deokisys/assets/24247768/69102f47-a4fc-49d3-be5b-8f987728f9e0)
 
@@ -8,13 +8,13 @@
 
 ## 소개 영상 보기 : [UCC](https://youtu.be/Hu_f3-gY1qQ)
 
-## 💜 프로젝트 진행 기간
+## 📅 프로젝트 진행 기간
 
 2023.04.10(월) ~ 2022.05.19(금) (39일 소요)
 
 SSAFY 8기 2학기 자율 프로젝트
 
-## 🎵 ssafy-star - 배경
+## 🌜 ssafy-star - 배경
 
 SSAFY 캠퍼스 내에 배치된 선배기수의 한마디가 담긴 롤링페이퍼 판을 보며, “저 분들은 어디에 취직했고, 무엇을 하고 계실까?” 라는 궁금증 에서 이 프로젝트를 시작하게 되었습니다.
 
@@ -22,7 +22,7 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 
 그래서, 현업에 종사하고 계신 선배님들의 정보를 한눈에 모아보고, 곧 수료생이 될 저희를 포함해 졸업기수와 현 기수와의 커뮤니케이션 공간을 제공하면 좋겠다고 생각했습니다.
 
-## 💜 SSAFY-STAR - 개요
+## 🌞 SSAFY-STAR - 개요
 
 - SSAFY-STAR는 SSAFY인들을 위한 “인포메이션&커뮤니케이션 사이트” 입니다.
 
@@ -36,7 +36,7 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 
 “민들렛”이라는 프로젝트를 통해 SSAFY인들과 처음 소통했던 기수로써, 저희 프로젝트도 그런 의미있는 작품이 되길 희망하고 있습니다.
 
-## 💜 주요 기능
+## 🌟 주요 기능
 
 ---
 
@@ -66,7 +66,7 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
     - 제공한 정보의 신빙성을 위해, SSAFY 인증 및 회사 인증 기능을 제공합니다.
     - 앞선 기능들을 제어할 수 있는 관리자 전용 페이지가 존재합니다.
 
-## ✔ 주요 기술
+## 🌠 주요 기술
 
 ---
 
@@ -221,7 +221,7 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 └─test
 ```
 
-## ✔ 팀원 역할 분배
+## ✨ 팀원 역할 분배
 
 ---
 |박일규|서준배|이경택|이상학|장재욱|홍정원|
@@ -231,12 +231,12 @@ SSAFY의 진행 회차가 늘어남에 따라 총 7천명에 육박하는 교육
 | |[:house: 블로그](https://deokisys.github.io/)<br>[:star: github](https://github.com/deokisys) || 
 
 
-## ✔ 프로젝트 결과물 
+## 🌟 프로젝트 결과물 
 
 - [중간발표 PPT](https://www.canva.com/design/DAFgheS11Ds/rX5Ns0z0wEn9wt50fHvM6Q/view?utm_content=DAFgheS11Ds&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
 - [최종발표 PPT](https://www.canva.com/design/DAFjJ2J02a0/sZv3ozkGLrLda7-9YdirJA/view?utm_content=DAFjJ2J02a0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
 
-## 🎵 ssafy-star 서비스 화면
+## 🌟 ssafy-star 서비스 화면
 
 ---
 
