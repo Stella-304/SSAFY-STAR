@@ -94,7 +94,7 @@ public class OneCommand : NetworkBehaviour
         alert.SetActive(true);
 
 #if UNITY_WEBGL == false
-                camera.gameObject.SetActive(true);
+                GetComponent<Camera>().gameObject.SetActive(true);
                 mainCamera.gameObject.SetActive(false);
                 gameCanvas.SetActive(true);
                 gameStart = true;
